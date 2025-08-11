@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elemental Game - New Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F8F6F3;
+            color: #2C2C2C;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 393px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        .header {
+            background: url('resources/Landing.png') center center / cover no-repeat, linear-gradient(135deg, #DAA681 0%, #E0C9B8 100%);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-radius: 0 0 24px 24px;
+            overflow: hidden;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .tagline {
+            background: var(--Gold, linear-gradient(121deg, #D6AA48 20.51%, #FFE9B1 50.38%, #D6AA48 80.86%));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 1.5rem;
+        }
+
+        /* Score Section */
+        .score-section {
+            background: rgba(218, 166, 129, 0.05);
+            border: 1px solid rgba(182, 160, 145, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #B6A091;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-score {
+            text-align: center;
+        }
+
+        .player-name {
+            font-size: 0.75rem;
+            color: #B6A091;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2C2C2C;
+        }
+
+        .vs-divider {
+            font-size: 1rem;
+            color: #B6A091;
+            font-weight: 500;
+        }
+
+        /* Player Selection Cards */
+        .player-card {
+            background: white;
+            border: 1px solid rgba(182, 160, 145, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .player-card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #B6A091;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .element-btn {
+            background: white;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 1rem 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .element-btn:hover {
+            border-color: #DAA681;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(218, 166, 129, 0.2);
+        }
+
+        .element-btn.selected {
+            border-color: #DAA681;
+            background: rgba(218, 166, 129, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(218, 166, 129, 0.3);
+        }
+
+        .element-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .element-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5A5A5A;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Battle Area */
+        .battle-area {
+            background: rgba(218, 166, 129, 0.05);
+            border: 1px solid rgba(182, 160, 145, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .battle-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #B6A091;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .battle-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .battle-choice {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .battle-emoji {
+            font-size: 2.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #E8E8E8;
+        }
+
+        .battle-player {
+            font-size: 0.75rem;
+            color: #B6A091;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .battle-vs {
+            font-size: 1.25rem;
+            color: #B6A091;
+            font-weight: 600;
+        }
+
+        .battle-result {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .battle-result.winner {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .battle-result.tie {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #DAA681, #E0C9B8);
+            color: #2C2C2C;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(218, 166, 129, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #B6A091;
+            border: 2px solid rgba(182, 160, 145, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(182, 160, 145, 0.1);
+            transform: translateY(-2px);
+        }
+        }
+
+        /* Rules Section */
+        .rules-section {
+            background: white;
+            border: 1px solid rgba(182, 160, 145, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .rules-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #B6A091;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .rules-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .rules-list li {
+            font-size: 0.875rem;
+            color: #5A5A5A;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rule-emoji {
+            font-size: 1rem;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .battle-emoji.animate {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        /* Player Stats */
+        .player-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #B6A091;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 0.875rem;
+            color: #2C2C2C;
+            font-weight: 600;
+        }
+
+        /* Elemental Info */
+        .elemental-info {
+            border-top: 1px solid rgba(182, 160, 145, 0.2);
+            padding-top: 1rem;
+        }
+
+        .elemental-rarity {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rarity-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+
+        .rarity-badge.common {
+            background: rgba(158, 158, 158, 0.2);
+            color: #9E9E9E;
+        }
+
+        .rarity-badge.rare {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+        }
+
+        .rarity-badge.legendary {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+        }
+
+        .rarity-badge.immortal {
+            background: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+        }
+
+        .protection-text {
+            font-size: 0.75rem;
+            color: #B6A091;
+        }
+
+        .btn-upgrade {
+            background: white;
+            color: #DAA681;
+            border: 2px solid #DAA681;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-upgrade:hover:not(:disabled) {
+            background: #DAA681;
+            color: white;
+        }
+
+        .btn-upgrade:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: #ccc;
+            color: #ccc;
+        }
+
+        /* Wager Controls */
+        .wager-controls {
+            margin-top: 1rem;
+        }
+
+        .wager-slider {
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+
+        .wager-input {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #E8E8E8;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .wager-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #DAA681;
+            cursor: pointer;
+        }
+
+        .wager-input::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #DAA681;
+            cursor: pointer;
+            border: none;
+        }
+
+        .wager-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #B6A091;
+            margin-top: 0.25rem;
+        }
+
+        .current-wager {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        /* Opponent Card */
+        .opponent-card {
+            background: linear-gradient(135deg, rgba(218, 166, 129, 0.1), rgba(224, 201, 184, 0.1));
+            border: 1px solid rgba(182, 160, 145, 0.3);
+        }
+
+        .opponent-status {
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+
+        .opponent-info {
+            margin-top: 1rem;
+        }
+
+        .opponent-avatar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #DAA681, #E0C9B8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .opponent-details {
+            flex: 1;
+        }
+
+        .opponent-level {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .opponent-rarity {
+            font-size: 0.75rem;
+            color: #B6A091;
+        }
+
+        /* Battle Rewards */
+        .battle-rewards {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reward-label {
+            font-size: 0.875rem;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+
+        .reward-value {
+            font-size: 0.875rem;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        /* Searching Animation */
+        @keyframes searching {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .searching {
+            animation: searching 1.5s ease-in-out infinite;
+        }
+
+        /* Hidden state */
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .element-grid {
+                gap: 0.5rem;
+            }
+            
+            .battle-display {
+                gap: 1rem;
+            }
+            
+            .battle-emoji {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="resources/logo.png" alt="Elemental Arena" class="logo">
+            <p class="tagline">Game with elements of strategy and luck</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Player Stats Section -->
+            <div class="score-section">
+                <div class="score-title">Your Stats</div>
+                <div class="score-display">
+                    <div class="player-score">
+                        <div class="player-name">Wins</div>
+                        <div class="score-value" id="wins">0</div>
+                    </div>
+                    <div class="vs-divider">•</div>
+                    <div class="player-score">
+                        <div class="player-name">Losses</div>
+                        <div class="score-value" id="losses">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your Stats -->
+            <div class="player-card">
+                <div class="player-card-title">Your Character</div>
+                <div class="player-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Mana:</span>
+                        <span class="stat-value" id="p1-mana">500</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Wager:</span>
+                        <span class="stat-value" id="p1-wager">50</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Protected:</span>
+                        <span class="stat-value" id="p1-protected">5</span>
+                    </div>
+                </div>
+                <div class="wager-controls">
+                    <div class="stat-label">Set Wager:</div>
+                    <input type="range" min="10" max="500" value="50" class="wager-input" id="p1-wager-slider" oninput="updateWager(1, this.value)">
+                    <div class="wager-labels">
+                        <span>10</span>
+                        <span class="current-wager" id="p1-wager-display">50 Mana</span>
+                        <span>500</span>
+                    </div>
+                </div>
+                <div class="elemental-info">
+                    <div class="elemental-rarity" id="p1-rarity">
+                        <span class="rarity-badge common">Common</span>
+                        <span class="protection-text">Protects 10% of wagered Mana</span>
+                    </div>
+                    <button class="btn btn-upgrade" id="p1-upgrade" onclick="upgradeElemental(1)">
+                        Upgrade to Rare (100 Mana)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Element Selection -->
+            <div class="player-card">
+                <div class="player-card-title">Choose Your Element</div>
+                <div class="element-grid">
+                    <button class="element-btn" id="p1-earth" onclick="selectElement(1, 'earth')">
+                        <div class="element-emoji">🗿</div>
+                        <div class="element-name">Earth<br>Golem</div>
+                    </button>
+                    <button class="element-btn" id="p1-water" onclick="selectElement(1, 'water')">
+                        <div class="element-emoji">💧</div>
+                        <div class="element-name">Water<br>Nymph</div>
+                    </button>
+                    <button class="element-btn" id="p1-fire" onclick="selectElement(1, 'fire')">
+                        <div class="element-emoji">🔥</div>
+                        <div class="element-name">Fire<br>Sprite</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Opponent Info -->
+            <div class="player-card opponent-card">
+                <div class="player-card-title">
+                    <span id="opponent-name">Searching for opponent...</span>
+                    <span class="opponent-status" id="opponent-status">🔍</span>
+                </div>
+                <div class="opponent-info" id="opponent-info" style="display: none;">
+                    <div class="opponent-avatar">
+                        <div class="avatar-circle" id="opponent-avatar">🤖</div>
+                        <div class="opponent-details">
+                            <div class="opponent-level" id="opponent-level">Level 1</div>
+                            <div class="opponent-rarity" id="opponent-rarity">Common Elemental</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Battle Area -->
+            <div class="battle-area" id="battleArea" style="display: none;">
+                <div class="battle-title">Battle Arena</div>
+                <div class="battle-display">
+                    <div class="battle-choice">
+                        <div class="battle-emoji" id="playerChoice">?</div>
+                        <div class="battle-player">You</div>
+                    </div>
+                    <div class="battle-vs">VS</div>
+                    <div class="battle-choice">
+                        <div class="battle-emoji" id="opponentChoice">?</div>
+                        <div class="battle-player" id="opponentBattleName">Opponent</div>
+                    </div>
+                </div>
+                <div class="battle-result" id="result"></div>
+                <div class="battle-rewards" id="battleRewards" style="display: none;">
+                    <div class="reward-item">
+                        <span class="reward-label">Mana gained:</span>
+                        <span class="reward-value" id="manaGained">+0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn btn-primary" onclick="findMatch()" id="findMatchBtn">
+                    🔍 Find Match
+                </button>
+                <button class="btn btn-primary" onclick="battle()" id="battleBtn" style="display: none;" disabled>
+                    ⚔️ Battle!
+                </button>
+                <button class="btn btn-primary" onclick="nextMatch()" id="nextMatchBtn" style="display: none;">
+                    🎯 Next Match
+                </button>
+                <button class="btn btn-secondary" onclick="reset()">
+                    🔄 Reset Stats
+                </button>
+            </div>
+
+            <!-- Rules Section -->
+            <div class="rules-section">
+                <div class="rules-title">Game Rules</div>
+                <ul class="rules-list">
+                    <li><span class="rule-emoji">🗿</span> Earth defeats Water</li>
+                    <li><span class="rule-emoji">💧</span> Water defeats Fire</li>
+                    <li><span class="rule-emoji">🔥</span> Fire defeats Earth</li>
+                    <li><span class="rule-emoji">🤝</span> Same elements = Tie</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let playerElement = null;
+        let opponentElement = null;
+        let wins = 0;
+        let losses = 0;
+        let currentOpponent = null;
+
+        // Player stats
+        let player = {
+            mana: 500,
+            wager: 50,
+            elementalRarity: 'Common'
+        };
+
+        const elements = {
+            earth: { name: 'Earth Golem', emoji: '🗿' },
+            water: { name: 'Water Nymph', emoji: '💧' },
+            fire: { name: 'Fire Sprite', emoji: '🔥' }
+        };
+
+        const rarities = {
+            Common: { protection: 0.1, upgradeCost: 100, color: '#9E9E9E' },
+            Rare: { protection: 0.2, upgradeCost: 250, color: '#2196F3' },
+            Legendary: { protection: 0.4, upgradeCost: 500, color: '#FF9800' },
+            Immortal: { protection: 0.8, upgradeCost: null, color: '#9C27B0' }
+        };
+
+        const opponentNames = [
+            'DragonSlayer', 'MysticMage', 'ElementMaster', 'StormBringer', 'EarthShaker',
+            'FlameWarden', 'WaterSpirit', 'CrystalGuard', 'ShadowHunter', 'LightBringer',
+            'IronFist', 'WindWalker', 'FireStorm', 'IceQueen', 'ThunderLord'
+        ];
+
+        const opponentAvatars = ['🤖', '👤', '🧙‍♂️', '⚔️', '🛡️', '🔥', '💧', '🗿', '⚡', '🌟'];
+
+        function selectElement(player, element) {
+            console.log(`Player selected ${element}`);
+            
+            // Remove previous selections
+            document.getElementById('p1-earth').classList.remove('selected');
+            document.getElementById('p1-water').classList.remove('selected');
+            document.getElementById('p1-fire').classList.remove('selected');
+            
+            playerElement = element;
+            // Highlight selected button
+            document.getElementById(`p1-${element}`).classList.add('selected');
+
+            console.log(`Player selected: ${playerElement}`);
+
+            // Enable battle button if opponent is found and element is selected
+            const battleBtn = document.getElementById('battleBtn');
+            if (playerElement && currentOpponent) {
+                console.log('Player selected element, enabling battle button');
+                battleBtn.disabled = false;
+            }
+        }
+
+        function generateOpponent() {
+            const name = opponentNames[Math.floor(Math.random() * opponentNames.length)];
+            const avatar = opponentAvatars[Math.floor(Math.random() * opponentAvatars.length)];
+            const level = Math.floor(Math.random() * 10) + 1;
+            const rarityKeys = Object.keys(rarities);
+            const rarity = rarityKeys[Math.floor(Math.random() * rarityKeys.length)];
+            const wager = Math.floor(Math.random() * 200) + 50; // 50-250 mana
+            
+            return {
+                name,
+                avatar,
+                level,
+                rarity,
+                wager,
+                mana: 300 + (level * 50) // Mana based on level
+            };
+        }
+
+        function findMatch() {
+            const findBtn = document.getElementById('findMatchBtn');
+            const opponentName = document.getElementById('opponent-name');
+            const opponentStatus = document.getElementById('opponent-status');
+            const opponentInfo = document.getElementById('opponent-info');
+            
+            // Start searching animation
+            findBtn.disabled = true;
+            findBtn.textContent = '🔍 Searching...';
+            opponentName.textContent = 'Searching for opponent...';
+            opponentStatus.textContent = '🔍';
+            opponentStatus.classList.add('searching');
+            opponentInfo.style.display = 'none';
+            
+            // Simulate matchmaking delay
+            setTimeout(() => {
+                currentOpponent = generateOpponent();
+                
+                // Update opponent display
+                opponentName.textContent = currentOpponent.name;
+                opponentStatus.textContent = '⚔️';
+                opponentStatus.classList.remove('searching');
+                
+                document.getElementById('opponent-avatar').textContent = currentOpponent.avatar;
+                document.getElementById('opponent-level').textContent = `Level ${currentOpponent.level}`;
+                document.getElementById('opponent-rarity').textContent = `${currentOpponent.rarity} Elemental`;
+                
+                opponentInfo.style.display = 'block';
+                
+                // Show battle button, hide find match button
+                findBtn.style.display = 'none';
+                document.getElementById('battleBtn').style.display = 'block';
+                
+                // Enable battle if element is selected
+                if (playerElement) {
+                    document.getElementById('battleBtn').disabled = false;
+                }
+                
+                console.log('Opponent found:', currentOpponent);
+            }, 2000 + Math.random() * 3000); // 2-5 seconds
+        }
+
+        function getWinner(element1, element2) {
+            if (element1 === element2) return 'tie';
+            
+            const winConditions = {
+                earth: 'water',
+                water: 'fire',
+                fire: 'earth'
+            };
+            
+            return winConditions[element1] === element2 ? 'player1' : 'player2';
+        }
+
+        function updateWager(playerNum, value) {
+            const wager = parseInt(value);
+            player.wager = Math.min(wager, player.mana);
+            document.getElementById('p1-wager').textContent = player.wager;
+            document.getElementById('p1-wager-display').textContent = `${player.wager} Mana`;
+            document.getElementById('p1-protected').textContent = Math.floor(player.wager * rarities[player.elementalRarity].protection);
+        }
+
+        function upgradeElemental(playerNum) {
+            const rarityOrder = ['Common', 'Rare', 'Legendary', 'Immortal'];
+            const currentIndex = rarityOrder.indexOf(player.elementalRarity);
+            
+            if (currentIndex >= rarityOrder.length - 1) return; // Already max rarity
+            
+            const nextRarity = rarityOrder[currentIndex + 1];
+            const upgradeCost = rarities[nextRarity].upgradeCost;
+            
+            if (player.mana >= upgradeCost) {
+                player.mana -= upgradeCost;
+                player.elementalRarity = nextRarity;
+                updatePlayerDisplay();
+            }
+        }
+
+        function updatePlayerDisplay() {
+            console.log('Updating player display:', player);
+            
+            // Update mana display
+            const manaElement = document.getElementById('p1-mana');
+            if (manaElement) {
+                manaElement.textContent = player.mana;
+            } else {
+                console.error('p1-mana element not found');
+            }
+            
+            // Update protected mana
+            const protected = Math.floor(player.wager * rarities[player.elementalRarity].protection);
+            const protectedElement = document.getElementById('p1-protected');
+            if (protectedElement) {
+                protectedElement.textContent = protected;
+            }
+            
+            // Update rarity badge
+            const rarityElement = document.getElementById('p1-rarity');
+            const rarity = player.elementalRarity;
+            const rarityClass = rarity.toLowerCase();
+            
+            if (rarityElement) {
+                rarityElement.innerHTML = `
+                    <span class="rarity-badge ${rarityClass}">${rarity}</span>
+                    <span class="protection-text">Protects ${(rarities[rarity].protection * 100).toFixed(0)}% of wagered Mana</span>
+                `;
+            }
+            
+            // Update upgrade button
+            const upgradeBtn = document.getElementById('p1-upgrade');
+            if (upgradeBtn) {
+                const rarityOrder = ['Common', 'Rare', 'Legendary', 'Immortal'];
+                const currentIndex = rarityOrder.indexOf(rarity);
+                
+                if (currentIndex >= rarityOrder.length - 1) {
+                    upgradeBtn.textContent = 'Max Rarity Achieved!';
+                    upgradeBtn.disabled = true;
+                } else {
+                    const nextRarity = rarityOrder[currentIndex + 1];
+                    const cost = rarities[nextRarity].upgradeCost;
+                    upgradeBtn.textContent = `Upgrade to ${nextRarity} (${cost} Mana)`;
+                    upgradeBtn.disabled = player.mana < cost;
+                }
+            }
+            
+            // Update wager slider max
+            const wagerSlider = document.getElementById('p1-wager-slider');
+            if (wagerSlider) {
+                wagerSlider.max = player.mana;
+            }
+        }
+
+        function battle() {
+            console.log('Battle function called!');
+            console.log(`Player: ${playerElement}, Opponent: ${currentOpponent.name}`);
+            
+            if (!playerElement || !currentOpponent) {
+                console.log('Missing selections, returning');
+                return;
+            }
+
+            // Generate opponent's element choice
+            const elementKeys = Object.keys(elements);
+            opponentElement = elementKeys[Math.floor(Math.random() * elementKeys.length)];
+
+            const battleArea = document.getElementById('battleArea');
+            const playerChoice = document.getElementById('playerChoice');
+            const opponentChoice = document.getElementById('opponentChoice');
+            const result = document.getElementById('result');
+            const battleRewards = document.getElementById('battleRewards');
+            const manaGained = document.getElementById('manaGained');
+
+            // Show battle area
+            battleArea.style.display = 'block';
+
+            // Update opponent battle name
+            document.getElementById('opponentBattleName').textContent = currentOpponent.name;
+
+            // Display choices with animation
+            playerChoice.textContent = elements[playerElement].emoji;
+            opponentChoice.textContent = elements[opponentElement].emoji;
+            playerChoice.classList.add('animate');
+            opponentChoice.classList.add('animate');
+
+            // Calculate winner
+            const winner = getWinner(playerElement, opponentElement);
+            
+            let manaChange = 0;
+            
+            // Handle mana transfer
+            if (winner !== 'tie') {
+                if (winner === 'player1') { // Player wins
+                    const opponentProtected = Math.floor(currentOpponent.wager * rarities[currentOpponent.rarity].protection);
+                    const opponentLost = currentOpponent.wager - opponentProtected;
+                    const totalPot = player.wager + currentOpponent.wager;
+                    
+                    manaChange = totalPot - player.wager;
+                    player.mana += manaChange;
+                    wins++;
+                } else { // Player loses
+                    const playerProtected = Math.floor(player.wager * rarities[player.elementalRarity].protection);
+                    const playerLost = player.wager - playerProtected;
+                    
+                    manaChange = -playerLost;
+                    player.mana -= playerLost;
+                    losses++;
+                }
+                
+                updatePlayerDisplay();
+            }
+            
+            // Display result
+            if (winner === 'tie') {
+                result.textContent = "It's a tie! 🤝";
+                result.className = 'battle-result tie';
+                battleRewards.style.display = 'none';
+            } else if (winner === 'player1') {
+                result.textContent = "Victory! 🎉";
+                result.className = 'battle-result winner';
+                manaGained.textContent = `+${manaChange}`;
+                manaGained.style.color = '#4CAF50';
+                battleRewards.style.display = 'block';
+            } else {
+                result.textContent = "Defeat 😔";
+                result.className = 'battle-result tie';
+                manaGained.textContent = `${manaChange}`;
+                manaGained.style.color = '#F44336';
+                battleRewards.style.display = 'block';
+            }
+
+            // Update win/loss display
+            document.getElementById('wins').textContent = wins;
+            document.getElementById('losses').textContent = losses;
+
+            // Hide battle button and show next match button
+            document.getElementById('battleBtn').style.display = 'none';
+            document.getElementById('nextMatchBtn').style.display = 'block';
+
+            // Remove animation classes after animation completes
+            setTimeout(() => {
+                playerChoice.classList.remove('animate');
+                opponentChoice.classList.remove('animate');
+            }, 600);
+        }
+
+        function nextMatch() {
+            console.log('Starting next match');
+            
+            // Clear selections
+            playerElement = null;
+            opponentElement = null;
+            currentOpponent = null;
+            
+            // Remove visual selections
+            ['p1-earth', 'p1-water', 'p1-fire'].forEach(id => {
+                document.getElementById(id).classList.remove('selected');
+            });
+            
+            // Hide battle area and next match button
+            document.getElementById('battleArea').style.display = 'none';
+            document.getElementById('nextMatchBtn').style.display = 'none';
+            
+            // Show find match button
+            document.getElementById('findMatchBtn').style.display = 'block';
+            document.getElementById('findMatchBtn').disabled = false;
+            document.getElementById('findMatchBtn').textContent = '🔍 Find Match';
+            
+            // Reset opponent display
+            document.getElementById('opponent-name').textContent = 'Searching for opponent...';
+            document.getElementById('opponent-status').textContent = '🔍';
+            document.getElementById('opponent-info').style.display = 'none';
+        }
+
+        function reset() {
+            console.log('Resetting game');
+            
+            playerElement = null;
+            opponentElement = null;
+            currentOpponent = null;
+            wins = 0;
+            losses = 0;
+            
+            // Reset player stats
+            player = {
+                mana: 500,
+                wager: 50,
+                elementalRarity: 'Common'
+            };
+            
+            document.getElementById('wins').textContent = '0';
+            document.getElementById('losses').textContent = '0';
+            document.getElementById('battleArea').style.display = 'none';
+            
+            // Reset buttons
+            document.getElementById('findMatchBtn').style.display = 'block';
+            document.getElementById('findMatchBtn').disabled = false;
+            document.getElementById('findMatchBtn').textContent = '🔍 Find Match';
+            document.getElementById('battleBtn').style.display = 'none';
+            document.getElementById('nextMatchBtn').style.display = 'none';
+            
+            // Remove all selections
+            ['p1-earth', 'p1-water', 'p1-fire'].forEach(id => {
+                document.getElementById(id).classList.remove('selected');
+            });
+            
+            // Reset wager slider
+            document.getElementById('p1-wager-slider').value = 50;
+            
+            // Reset opponent display
+            document.getElementById('opponent-name').textContent = 'Searching for opponent...';
+            document.getElementById('opponent-status').textContent = '🔍';
+            document.getElementById('opponent-info').style.display = 'none';
+            
+            // Update display
+            updatePlayerDisplay();
+        }
+
+        // Initialize display on page load
+        window.onload = function() {
+            console.log('Page loaded, initializing...');
+            updatePlayerDisplay();
+            
+            // Test all required elements exist
+            const requiredElements = [
+                'p1-mana', 'p1-wager', 'p1-protected', 'p1-rarity', 'p1-upgrade',
+                'p1-wager-slider', 'p1-wager-display', 'wins', 'losses',
+                'opponent-name', 'opponent-status', 'opponent-info',
+                'findMatchBtn', 'battleBtn', 'nextMatchBtn'
+            ];
+            
+            requiredElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (!element) {
+                    console.error(`Missing element: ${id}`);
+                } else {
+                    console.log(`Found element: ${id}`);
+                }
+            });
+        };
+    </script>
+</body>
+</html>

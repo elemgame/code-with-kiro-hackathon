@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elemental Arena - UX Enhanced</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-gold: #DAA520;
+            --secondary-gold: #FFD700;
+            --accent-gold: #FFA500;
+            --cool-blue: #4FA0AF;
+            --cool-light: #6BB6C4;
+            --cool-bright: #87CEEB;
+            --dark-bg: rgba(15, 20, 35, 0.98);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #F5F5DC;
+            --text-secondary: #E8D5B7;
+            --text-muted: #B8860B;
+            --success: #10B981;
+            --error: #EF4444;
+            --warning: #F59E0B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('resources/Landing.png') center center / cover no-repeat fixed, 
+                        radial-gradient(circle at center, rgba(25, 25, 50, 0.9), rgba(10, 10, 30, 0.95));
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0;
+            background: linear-gradient(145deg, var(--dark-bg), rgba(25, 20, 35, 0.95));
+            backdrop-filter: blur(20px);
+            min-height: 100vh;
+            position: relative;
+        }
+
+
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Modern Card Design */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(218, 165, 32, 0.3);
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary-gold);
+            margin-bottom: 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+        }
+
+        /* Enhanced Profile Card */
+        .profile-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold), var(--accent-gold));
+            background-size: 200% 200%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-avatar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar-ring {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+            padding: 3px;
+            position: relative;
+        }
+
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--secondary-gold);
+        }
+
+        .rank-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, var(--cool-blue), var(--cool-light));
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary-gold);
+            margin-bottom: 0.25rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .player-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .experience-bar {
+            position: relative;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .exp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .exp-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        .exp-text {
+            position: absolute;
+            top: 50%;
+            right: 0.5rem;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Enhanced Stats Grid */
+        .enhanced-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card.primary::before {
+            background: var(--secondary-gold);
+        }
+
+        .stat-card.success::before {
+            background: var(--success);
+        }
+
+        .stat-card.danger::before {
+            background: var(--error);
+        }
+
+        .stat-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-change {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--error);
+        }
+
+        .stat-subtext {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Achievements Section */
+        .achievements-section {
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item.unlocked {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .achievement-item.locked {
+            opacity: 0.6;
+        }
+
+        .achievement-icon {
+            font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .achievement-item.unlocked .achievement-icon {
+            background: var(--success);
+        }
+
+        .achievement-text {
+            flex: 1;
+        }
+
+        .achievement-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.1rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quick-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .quick-stat-value {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Modern Button Design */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+            border: none;
+            color: #1a1a1a;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.1);
+        }
+
+        /* Enhanced Modal System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 1.5rem;
+            max-width: 320px;
+            width: 100%;
+            max-height: calc(100vh - 40px);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, rgba(15, 20, 35, 0.9), rgba(25, 25, 50, 0.8), rgba(35, 30, 45, 0.9), rgba(15, 20, 35, 0.9));
+            background-size: 400% 400%;
+            border-radius: 24px;
+            z-index: -1;
+            animation: borderFlow 6s ease-in-out infinite;
+        }
+
+        @keyframes borderFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-gold);
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Progress Indicators */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--secondary-gold);
+            box-shadow: 0 0 10px var(--secondary-gold);
+        }
+
+        /* Enhanced Loading Animation */
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .loading-spinner::before {
+            content: '⚡';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: var(--secondary-gold);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--cool-blue);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.6; 
+                transform: translate(-50%, -50%) scale(1);
+                text-shadow: 0 0 10px var(--secondary-gold);
+            }
+            50% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.1);
+                text-shadow: 0 0 20px var(--secondary-gold);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Element Selection */
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .element-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .element-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .element-btn:hover::before {
+            left: 100%;
+        }
+
+        .element-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
+        }
+
+        .element-btn.selected {
+            border-color: var(--secondary-gold);
+            background: rgba(218, 165, 32, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+        }
+
+        .element-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .element-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Battle Arena Enhancements */
+        .battle-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .battle-choice {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .battle-emoji {
+            font-size: 3rem;
+            width: 80px;
+            height: 80px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .battle-emoji.animate {
+            animation: battlePulse 1s ease-in-out;
+        }
+
+        @keyframes battlePulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            }
+            50% { 
+                transform: scale(1.15); 
+                box-shadow: 0 12px 35px rgba(218, 165, 32, 0.5);
+            }
+        }
+
+        .battle-vs {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-gold);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--dark-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--success);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            border-color: var(--error);
+        }
+
+        .toast.warning {
+            border-color: var(--warning);
+        }
+
+        /* Responsive Enhancements */
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            
+            .container {
+                width: 100%;
+                margin: 0;
+                border: none;
+                box-shadow: none;
+            }
+            
+            .modal {
+                max-width: calc(100vw - 2rem);
+                margin: 1rem;
+                padding: 1.25rem;
+            }
+            
+            .element-grid {
+                gap: 0.5rem;
+            }
+            
+            .battle-emoji {
+                width: 70px;
+                height: 70px;
+                font-size: 2.5rem;
+            }
+            
+            .profile-card {
+                margin-bottom: 0.75rem;
+                border-radius: 16px;
+            }
+            
+            .card {
+                border-radius: 16px;
+                padding: 1.25rem;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 360px) {
+            .modal {
+                max-width: calc(100vw - 1rem);
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+            
+            .enhanced-stats-grid {
+                gap: 0.5rem;
+            }
+            
+            .stat-card {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Accessibility Enhancements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (prefers-contrast: high) {
+            .card {
+                border-width: 2px;
+            }
+            
+            .element-btn {
+                border-width: 2px;
+            }
+        }
+
+        /* Focus States */
+        .btn-primary:focus,
+        .element-btn:focus {
+            outline: 2px solid var(--secondary-gold);
+            outline-offset: 2px;
+        }
+
+        /* Micro-interactions */
+        .card-title {
+            cursor: default;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Loading States */
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .loading-subtext {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Mobile App Navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 0 calc(0.75rem + env(safe-area-inset-bottom));
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 60px;
+            text-decoration: none;
+            color: var(--text-muted);
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            color: var(--secondary-gold);
+            background: rgba(218, 165, 32, 0.1);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--secondary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--secondary-gold);
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 2px 4px rgba(218, 165, 32, 0.5));
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active .nav-label {
+            font-weight: 600;
+        }
+
+        /* App Content Adjustment */
+        .app-content {
+            padding-bottom: 80px; /* Space for bottom navigation */
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head><bod
+y>
+    <!-- Toast Notification System -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Splash Screen with Enhanced Animation -->
+    <div class="modal-overlay active" id="splashOverlay">
+        <div class="modal" style="text-align: center; border-color: var(--primary-gold);">
+            <img src="resources/logo.png" alt="Elemental Arena" style="max-width: 200px; margin-bottom: 2rem; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">
+            <div style="font-family: 'Cinzel', serif; background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold), var(--accent-gold)); background-size: 200% 200%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.2rem; font-weight: 600; margin-bottom: 2rem; animation: shimmer 3s ease-in-out infinite;">
+                Game with elements of strategy and luck
+            </div>
+            <div class="loading-spinner"></div>
+            <div class="progress-dots">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- App Content with bottom padding for navigation -->
+        <div class="app-content">
+            <!-- Profile Tab Content -->
+            <div id="profileTab" class="tab-content">
+                <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
+            <!-- Enhanced Player Profile Card -->
+            <div class="profile-card">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <div class="avatar-ring">
+                            <div class="avatar-inner" id="playerAvatar">⚔️</div>
+                        </div>
+                        <div class="rank-badge" id="playerRank">Novice</div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="player-name" id="playerName">Warrior</div>
+                        <div class="player-title" id="playerTitle">Elemental Seeker</div>
+                        <div class="experience-bar">
+                            <div class="exp-fill" id="expFill" style="width: 35%;"></div>
+                            <span class="exp-text" id="expText">350 / 1000 XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="enhanced-stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="playerMana">500</div>
+                            <div class="stat-label">Mana</div>
+                            <div class="stat-change" id="manaChange">+0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="playerWins">0</div>
+                            <div class="stat-label">Victories</div>
+                            <div class="stat-subtext" id="winRate">0% Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card danger">
+                        <div class="stat-icon">💀</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="playerLosses">0</div>
+                            <div class="stat-label">Defeats</div>
+                            <div class="stat-subtext" id="currentStreak">0 Streak</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievement Section -->
+                <div class="achievements-section">
+                    <div class="section-title">Recent Achievements</div>
+                    <div class="achievements-list" id="achievementsList">
+                        <div class="achievement-item locked">
+                            <div class="achievement-icon">🔒</div>
+                            <div class="achievement-text">
+                                <div class="achievement-name">First Victory</div>
+                                <div class="achievement-desc">Win your first battle</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <span class="quick-stat-label">Total Battles:</span>
+                        <span class="quick-stat-value" id="totalBattles">0</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-label">Best Streak:</span>
+                        <span class="quick-stat-value" id="bestStreak">0</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-label">Favorite Element:</span>
+                        <span class="quick-stat-value" id="favoriteElement">None</span>
+                    </div>
+                </div>
+            </div>
+            
+
+                </main>
+            </div>
+
+            <!-- Battle Tab Content -->
+            <div id="battleTab" class="tab-content active">
+                <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
+                    <!-- Quick Stats Bar -->
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">💰</span>
+                                <div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Mana</div>
+                                    <div style="font-weight: 600; color: var(--secondary-gold);" id="battleMana">500</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">🏆</span>
+                                <div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Wins</div>
+                                    <div style="font-weight: 600; color: var(--success);" id="battleWins">0</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">⚡</span>
+                                <div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Streak</div>
+                                    <div style="font-weight: 600; color: var(--text-primary);" id="battleStreak">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Battle Arena Card -->
+                    <div class="card" style="flex: 1; display: flex; flex-direction: column;">
+                        <div class="card-title">⚔️ Battle Arena</div>
+                        
+                        <!-- Current Battle State -->
+                        <div id="battleState" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                            <!-- Ready State -->
+                            <div id="readyState" style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.8;">🏟️</div>
+                                <h3 style="color: var(--secondary-gold); margin-bottom: 0.75rem;">Ready for Battle</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
+                                    Choose your element and challenge a worthy opponent
+                                </p>
+                                
+                                <!-- Element Selection -->
+                                <div class="element-grid" style="margin-bottom: 2rem;">
+                                    <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
+                                        <span class="element-emoji">🌍</span>
+                                        <div class="element-name">Earth</div>
+                                    </div>
+                                    <div class="element-btn" onclick="selectElement('water', event)" data-element="water">
+                                        <span class="element-emoji">💧</span>
+                                        <div class="element-name">Water</div>
+                                    </div>
+                                    <div class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
+                                        <span class="element-emoji">🔥</span>
+                                        <div class="element-name">Fire</div>
+                                    </div>
+                                </div>
+
+                                <!-- Action Button -->
+                                <button class="btn-primary" onclick="startMatchmaking()" id="seekButton" disabled>
+                                    🔮 Choose Element First
+                                </button>
+                            </div>
+
+                            <!-- Battle Display (hidden initially) -->
+                            <div id="battleDisplay" style="display: none; text-align: center;">
+                                <div class="battle-display">
+                                    <div class="battle-choice">
+                                        <div class="battle-emoji" id="playerChoice">❓</div>
+                                        <div style="color: var(--text-secondary); font-size: 0.8rem;">You</div>
+                                    </div>
+                                    <div class="battle-vs">VS</div>
+                                    <div class="battle-choice">
+                                        <div class="battle-emoji" id="opponentChoice">❓</div>
+                                        <div style="color: var(--text-secondary); font-size: 0.8rem;">Opponent</div>
+                                    </div>
+                                </div>
+                                
+                                <div id="battleResult" style="margin-top: 2rem;">
+                                    <!-- Battle result will be shown here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- Rules Tab Content -->
+            <div id="rulesTab" class="tab-content">
+                <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column; min-height: calc(100vh - 80px);">
+                    <div class="card">
+                        <div class="card-title">📜 Game Rules</div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🎯 How to Play</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                                Choose your element and challenge opponents in strategic battles. Each element has unique strengths and weaknesses.
+                            </p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">⚡ Elements</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 1.5rem;">🌍</span>
+                                    <div>
+                                        <div style="color: var(--text-primary); font-weight: 600;">Earth</div>
+                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Fire, weak against Water</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 1.5rem;">💧</span>
+                                    <div>
+                                        <div style="color: var(--text-primary); font-weight: 600;">Water</div>
+                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Earth, weak against Fire</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 1.5rem;">🔥</span>
+                                    <div>
+                                        <div style="color: var(--text-primary); font-weight: 600;">Fire</div>
+                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Water, weak against Earth</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">💰 Mana System</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                                Wager mana in battles. Win to gain mana, lose to forfeit your wager. Higher stakes, greater rewards!
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🏆 Progression</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                                Gain experience through battles, unlock achievements, and climb the ranks from Novice to Immortal Master.
+                            </p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <div class="nav-container">
+                <div class="nav-item" onclick="switchTab('profile')" id="profileNav">
+                    <div class="nav-icon">👤</div>
+                    <div class="nav-label">Profile</div>
+                </div>
+                <div class="nav-item active" onclick="switchTab('battle')" id="battleNav">
+                    <div class="nav-icon">⚔️</div>
+                    <div class="nav-label">Battle</div>
+                </div>
+                <div class="nav-item" onclick="switchTab('rules')" id="rulesNav">
+                    <div class="nav-icon">📜</div>
+                    <div class="nav-label">Rules</div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Enhanced Matchmaking Modal -->
+    <div class="modal-overlay" id="matchmakingModal">
+        <div class="modal">
+            <div class="modal-title">🔮 Seeking Opponent</div>
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Consulting the mystical orb...</div>
+            <div class="loading-subtext">Finding a worthy challenger</div>
+            <div class="progress-dots">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opponent Found Modal -->
+    <div class="modal-overlay" id="opponentModal">
+        <div class="modal">
+            <div class="modal-title">⚔️ Challenger Found</div>
+            
+            <!-- Opponent Card -->
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold)); border: 2px solid var(--secondary-gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.75rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);" id="opponentAvatar">🤖</div>
+                <div style="font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--secondary-gold); margin-bottom: 0.25rem; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);" id="opponentName">DragonSlayer</div>
+                <div style="color: var(--text-muted); font-size: 0.8rem;" id="opponentLevel">Level 5 • Rare Elemental</div>
+            </div>
+            
+            <!-- Element Selection -->
+            <div style="margin-bottom: 1.5rem;">
+                <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">Choose Your Element</div>
+                <div class="element-grid">
+                    <button class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
+                        <div class="element-emoji">🗿</div>
+                        <div class="element-name">Earth<br>Golem</div>
+                    </button>
+                    <button class="element-btn" onclick="selectElement('water', event)" data-element="water">
+                        <div class="element-emoji">💧</div>
+                        <div class="element-name">Water<br>Nymph</div>
+                    </button>
+                    <button class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
+                        <div class="element-emoji">🔥</div>
+                        <div class="element-name">Fire<br>Sprite</div>
+                    </button>
+                </div>
+            </div>
+            
+            <button class="btn-primary" id="battleButton" onclick="startBattle()" disabled style="width: 100%;">
+                ⚔️ Enter Battle
+            </button>
+        </div>
+    </div>
+
+    <!-- Battle Modal -->
+    <div class="modal-overlay" id="battleModal">
+        <div class="modal">
+            <div class="modal-title">⚔️ Battle Arena</div>
+            <div class="battle-display">
+                <div class="battle-choice">
+                    <div class="battle-emoji" id="playerBattleChoice">?</div>
+                    <div style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; color: var(--secondary-gold); text-transform: uppercase; letter-spacing: 0.5px;">You</div>
+                </div>
+                <div class="battle-vs">VS</div>
+                <div class="battle-choice">
+                    <div class="battle-emoji" id="opponentBattleChoice">?</div>
+                    <div style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; color: var(--secondary-gold); text-transform: uppercase; letter-spacing: 0.5px;" id="opponentBattleName">Opponent</div>
+                </div>
+            </div>
+            <div class="progress-dots">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;" id="resultIcon">🎉</div>
+                <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);" id="resultTitle">Victory!</div>
+                <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic;" id="resultSubtitle">You defeated DragonSlayer</div>
+                
+                <!-- Result Stats -->
+                <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Mana Change:</span>
+                        <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--success);" id="manaChange">+75</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">New Total:</span>
+                        <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--text-primary);" id="newManaTotal">575</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Victory Streak:</span>
+                        <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--secondary-gold);" id="winStreak">1</span>
+                    </div>
+                </div>
+                
+                <button class="btn-primary" onclick="returnToMenu()" style="width: 100%;">
+                    🏰 Continue
+                </button>
+            </div>
+        </div>
+    </div>    <script>
+        // Tab Navigation System
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Add active class to selected nav item
+            document.getElementById(tabName + 'Nav').classList.add('active');
+            
+            // Add haptic feedback simulation
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // Enhanced Game State Management
+        class GameState {
+            constructor() {
+                this.player = {
+                    name: 'Warrior',
+                    mana: 500,
+                    wins: 0,
+                    losses: 0,
+                    selectedElement: null,
+                    winStreak: 0,
+                    bestStreak: 0,
+                    totalBattles: 0,
+                    experience: 350,
+                    level: 1,
+                    favoriteElement: null,
+                    elementStats: { earth: 0, water: 0, fire: 0 },
+                    achievements: [],
+                    lastManaChange: 0
+                };
+                this.currentOpponent = null;
+                this.opponentElement = null;
+                this.gamePhase = 'splash';
+            }
+
+            updatePlayer(updates) {
+                const oldMana = this.player.mana;
+                this.player = { ...this.player, ...updates };
+                
+                // Calculate mana change
+                if (updates.mana !== undefined) {
+                    this.player.lastManaChange = this.player.mana - oldMana;
+                }
+                
+                // Update total battles
+                if (updates.wins !== undefined || updates.losses !== undefined) {
+                    this.player.totalBattles = this.player.wins + this.player.losses;
+                }
+                
+                // Update best streak
+                if (updates.winStreak !== undefined && updates.winStreak > this.player.bestStreak) {
+                    this.player.bestStreak = updates.winStreak;
+                }
+                
+                // Update experience and level
+                if (updates.wins !== undefined && updates.wins > (this.player.wins || 0)) {
+                    this.player.experience += 100;
+                    this.checkLevelUp();
+                }
+                
+                // Update favorite element
+                this.updateFavoriteElement();
+                
+                // Check achievements
+                this.checkAchievements();
+                
+                this.saveToStorage();
+                this.updateUI();
+            }
+
+            checkLevelUp() {
+                const expNeeded = this.player.level * 1000;
+                if (this.player.experience >= expNeeded) {
+                    this.player.level++;
+                    this.player.experience -= expNeeded;
+
+                }
+            }
+
+            updateFavoriteElement() {
+                if (!this.player.selectedElement) return;
+                
+                this.player.elementStats[this.player.selectedElement]++;
+                
+                const mostUsed = Object.entries(this.player.elementStats)
+                    .reduce((a, b) => a[1] > b[1] ? a : b);
+                
+                if (mostUsed[1] > 0) {
+                    this.player.favoriteElement = elements[mostUsed[0]].name;
+                }
+            }
+
+            checkAchievements() {
+                const achievements = [];
+                
+                if (this.player.wins >= 1 && !this.player.achievements.includes('first_victory')) {
+                    achievements.push('first_victory');
+                }
+                
+                if (this.player.winStreak >= 3 && !this.player.achievements.includes('win_streak_3')) {
+                    achievements.push('win_streak_3');
+                }
+                
+                if (this.player.mana >= 1000 && !this.player.achievements.includes('mana_master')) {
+                    achievements.push('mana_master');
+                }
+                
+                this.player.achievements.push(...achievements);
+            }
+
+            getRank() {
+                if (this.player.level >= 10) return 'Master';
+                if (this.player.level >= 5) return 'Expert';
+                if (this.player.level >= 3) return 'Adept';
+                return 'Novice';
+            }
+
+            getTitle() {
+                if (this.player.winStreak >= 5) return 'Unstoppable Force';
+                if (this.player.wins >= 10) return 'Battle Veteran';
+                if (this.player.wins >= 5) return 'Skilled Warrior';
+                return 'Elemental Seeker';
+            }
+
+            saveToStorage() {
+                localStorage.setItem('elementalGameState', JSON.stringify(this.player));
+            }
+
+            loadFromStorage() {
+                const saved = localStorage.getItem('elementalGameState');
+                if (saved) {
+                    this.player = { ...this.player, ...JSON.parse(saved) };
+                }
+            }
+
+            updateUI() {
+                // Basic stats (Profile tab)
+                document.getElementById('playerMana').textContent = this.player.mana;
+                document.getElementById('playerWins').textContent = this.player.wins;
+                document.getElementById('playerLosses').textContent = this.player.losses;
+                
+                // Battle tab stats sync
+                const battleMana = document.getElementById('battleMana');
+                const battleWins = document.getElementById('battleWins');
+                const battleStreak = document.getElementById('battleStreak');
+                
+                if (battleMana) battleMana.textContent = this.player.mana;
+                if (battleWins) battleWins.textContent = this.player.wins;
+                if (battleStreak) battleStreak.textContent = this.player.currentStreak;
+                
+                // Profile info
+                document.getElementById('playerName').textContent = this.player.name;
+                document.getElementById('playerRank').textContent = this.getRank();
+                document.getElementById('playerTitle').textContent = this.getTitle();
+                
+                // Experience bar
+                const expNeeded = this.player.level * 1000;
+                const expPercent = (this.player.experience / expNeeded) * 100;
+                document.getElementById('expFill').style.width = `${expPercent}%`;
+                document.getElementById('expText').textContent = `${this.player.experience} / ${expNeeded} XP`;
+                
+                // Mana change indicator
+                const manaChangeEl = document.getElementById('manaChange');
+                if (this.player.lastManaChange > 0) {
+                    manaChangeEl.textContent = `+${this.player.lastManaChange}`;
+                    manaChangeEl.className = 'stat-change';
+                } else if (this.player.lastManaChange < 0) {
+                    manaChangeEl.textContent = `${this.player.lastManaChange}`;
+                    manaChangeEl.className = 'stat-change negative';
+                } else {
+                    manaChangeEl.textContent = '+0';
+                    manaChangeEl.className = 'stat-change';
+                }
+                
+                // Win rate
+                const winRate = this.player.totalBattles > 0 ? 
+                    Math.round((this.player.wins / this.player.totalBattles) * 100) : 0;
+                document.getElementById('winRate').textContent = `${winRate}% Win Rate`;
+                
+                // Current streak
+                const streakText = this.player.winStreak > 0 ? 
+                    `${this.player.winStreak} Win Streak` : 
+                    this.player.losses > this.player.wins ? `${this.player.losses - this.player.wins} Loss Streak` : '0 Streak';
+                document.getElementById('currentStreak').textContent = streakText;
+                
+                // Quick stats
+                document.getElementById('totalBattles').textContent = this.player.totalBattles;
+                document.getElementById('bestStreak').textContent = this.player.bestStreak;
+                document.getElementById('favoriteElement').textContent = this.player.favoriteElement || 'None';
+                
+                // Update achievements
+                this.updateAchievementsUI();
+            }
+
+            updateAchievementsUI() {
+                const achievementsList = document.getElementById('achievementsList');
+                const achievements = [
+                    {
+                        id: 'first_victory',
+                        icon: '🏆',
+                        name: 'First Victory',
+                        desc: 'Win your first battle'
+                    },
+                    {
+                        id: 'win_streak_3',
+                        icon: '🔥',
+                        name: 'Triple Threat',
+                        desc: 'Win 3 battles in a row'
+                    },
+                    {
+                        id: 'mana_master',
+                        icon: '💎',
+                        name: 'Mana Master',
+                        desc: 'Accumulate 1000 mana'
+                    }
+                ];
+                
+                achievementsList.innerHTML = achievements.map(achievement => {
+                    const isUnlocked = this.player.achievements.includes(achievement.id);
+                    return `
+                        <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
+                            <div class="achievement-icon">${isUnlocked ? achievement.icon : '🔒'}</div>
+                            <div class="achievement-text">
+                                <div class="achievement-name">${achievement.name}</div>
+                                <div class="achievement-desc">${achievement.desc}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Initialize game state
+        const gameState = new GameState();
+
+        // Game Data
+        const elements = {
+            earth: { name: 'Earth Golem', emoji: '🗿' },
+            water: { name: 'Water Nymph', emoji: '💧' },
+            fire: { name: 'Fire Sprite', emoji: '🔥' }
+        };
+
+        const opponentNames = [
+            'DragonSlayer', 'MysticMage', 'ElementMaster', 'StormBringer', 'EarthShaker',
+            'FlameWarden', 'WaterSpirit', 'CrystalGuard', 'ShadowHunter', 'LightBringer'
+        ];
+
+        const opponentAvatars = ['🐉', '🧙‍♂️', '⚔️', '🛡️', '🔥', '💧', '🗿', '⚡', '🌟', '👑'];
+
+        // Enhanced Toast Notification System
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Enhanced Modal Management with Animation Queue
+        function showModal(modalId, delay = 0) {
+            setTimeout(() => {
+                hideAllModals();
+                setTimeout(() => {
+                    document.getElementById(modalId).classList.add('active');
+                }, 100);
+            }, delay);
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function hideAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+
+        // Enhanced Game Logic
+        function getWinner(element1, element2) {
+            if (element1 === element2) return 'tie';
+            
+            const winConditions = {
+                earth: 'water',
+                water: 'fire',
+                fire: 'earth'
+            };
+            
+            return winConditions[element1] === element2 ? 'player' : 'opponent';
+        }
+
+        function generateOpponent() {
+            const name = opponentNames[Math.floor(Math.random() * opponentNames.length)];
+            const avatar = opponentAvatars[Math.floor(Math.random() * opponentAvatars.length)];
+            const level = Math.floor(Math.random() * 10) + 1;
+            const rarities = ['Common', 'Rare', 'Legendary'];
+            const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+            
+            return {
+                name,
+                avatar,
+                level,
+                rarity,
+                wager: Math.floor(Math.random() * 100) + 50
+            };
+        }
+
+        // Enhanced Game Flow with Better UX
+        function startMatchmaking() {
+            gameState.gamePhase = 'matchmaking';
+            showModal('matchmakingModal');
+            
+            // Simulate realistic matchmaking with progress
+            let progress = 0;
+            const progressDots = document.querySelectorAll('#matchmakingModal .progress-dot');
+            
+            const progressInterval = setInterval(() => {
+                if (progress < progressDots.length) {
+                    progressDots[progress].classList.add('active');
+                    progress++;
+                }
+            }, 1000);
+            
+            // Find opponent after delay
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                gameState.currentOpponent = generateOpponent();
+                
+                // Update opponent display
+                document.getElementById('opponentAvatar').textContent = gameState.currentOpponent.avatar;
+                document.getElementById('opponentName').textContent = gameState.currentOpponent.name;
+                document.getElementById('opponentLevel').textContent = `Level ${gameState.currentOpponent.level} • ${gameState.currentOpponent.rarity} Elemental`;
+                document.getElementById('opponentBattleName').textContent = gameState.currentOpponent.name;
+                
+                showModal('opponentModal', 300);
+                
+                // Enable battle button if element is already selected
+                if (gameState.player.selectedElement) {
+                    const battleButton = document.getElementById('battleButton');
+                    if (battleButton) {
+                        battleButton.disabled = false;
+                    }
+                }
+            }, 3000 + Math.random() * 2000);
+        }
+
+        function selectElement(element, event) {
+            gameState.player.selectedElement = element;
+            
+            // Enhanced visual feedback
+            document.querySelectorAll('.element-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Find the clicked element button
+            const clickedBtn = event ? event.target.closest('.element-btn') : 
+                              document.querySelector(`[data-element="${element}"]`);
+            if (clickedBtn) {
+                clickedBtn.classList.add('selected');
+            }
+            
+            // Haptic feedback simulation
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            
+            // Enable seek button with animation
+            const seekButton = document.getElementById('seekButton');
+            if (seekButton) {
+                seekButton.disabled = false;
+                seekButton.textContent = '🔮 Seek Challenger';
+                seekButton.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    seekButton.style.transform = 'scale(1)';
+                }, 200);
+            }
+            
+            // Enable battle button in modal with animation
+            const battleButton = document.getElementById('battleButton');
+            if (battleButton) {
+                battleButton.disabled = false;
+                battleButton.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    battleButton.style.transform = 'scale(1)';
+                }, 200);
+            }
+            
+
+        }
+
+        function startBattle() {
+            gameState.gamePhase = 'battle';
+            showModal('battleModal');
+            
+            // Generate opponent choice
+            const elementKeys = Object.keys(elements);
+            gameState.opponentElement = elementKeys[Math.floor(Math.random() * elementKeys.length)];
+            
+            // Enhanced battle sequence with better timing
+            setTimeout(() => {
+                document.getElementById('playerBattleChoice').textContent = elements[gameState.player.selectedElement].emoji;
+                document.getElementById('playerBattleChoice').classList.add('animate');
+            }, 800);
+            
+            setTimeout(() => {
+                document.getElementById('opponentBattleChoice').textContent = elements[gameState.opponentElement].emoji;
+                document.getElementById('opponentBattleChoice').classList.add('animate');
+            }, 1600);
+            
+            // Show result with dramatic pause
+            setTimeout(() => {
+                showResult();
+            }, 3000);
+        }
+
+        function showResult() {
+            const winner = getWinner(gameState.player.selectedElement, gameState.opponentElement);
+            let manaChange = 0;
+            
+            // Calculate result with enhanced logic
+            if (winner === 'player') {
+                manaChange = gameState.currentOpponent.wager;
+                gameState.updatePlayer({
+                    mana: gameState.player.mana + manaChange,
+                    wins: gameState.player.wins + 1,
+                    winStreak: gameState.player.winStreak + 1
+                });
+                
+                document.getElementById('resultIcon').textContent = '🏆';
+                document.getElementById('resultTitle').textContent = 'Victory!';
+                document.getElementById('resultTitle').style.color = 'var(--success)';
+                document.getElementById('resultSubtitle').textContent = `You defeated ${gameState.currentOpponent.name}`;
+                document.getElementById('manaChange').textContent = `+${manaChange}`;
+                document.getElementById('manaChange').style.color = 'var(--success)';
+                
+
+            } else if (winner === 'opponent') {
+                manaChange = -Math.floor(gameState.currentOpponent.wager * 0.7);
+                gameState.updatePlayer({
+                    mana: Math.max(0, gameState.player.mana + manaChange),
+                    losses: gameState.player.losses + 1,
+                    winStreak: 0
+                });
+                
+                document.getElementById('resultIcon').textContent = '💀';
+                document.getElementById('resultTitle').textContent = 'Defeat';
+                document.getElementById('resultTitle').style.color = 'var(--error)';
+                document.getElementById('resultSubtitle').textContent = `${gameState.currentOpponent.name} was victorious`;
+                document.getElementById('manaChange').textContent = `${manaChange}`;
+                document.getElementById('manaChange').style.color = 'var(--error)';
+                
+
+            } else {
+                document.getElementById('resultIcon').textContent = '⚖️';
+                document.getElementById('resultTitle').textContent = 'Draw';
+                document.getElementById('resultTitle').style.color = 'var(--warning)';
+                document.getElementById('resultSubtitle').textContent = 'A well-matched battle';
+                document.getElementById('manaChange').textContent = '0';
+                document.getElementById('manaChange').style.color = 'var(--text-muted)';
+                
+
+            }
+            
+            // Update result stats
+            document.getElementById('newManaTotal').textContent = gameState.player.mana;
+            document.getElementById('winStreak').textContent = gameState.player.winStreak;
+            
+            showModal('resultModal', 500);
+        }
+
+        function returnToMenu() {
+            // Reset game state
+            gameState.player.selectedElement = null;
+            gameState.currentOpponent = null;
+            gameState.opponentElement = null;
+            gameState.gamePhase = 'menu';
+            
+            // Reset UI elements
+            document.querySelectorAll('.element-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('battleButton').disabled = true;
+            document.getElementById('playerBattleChoice').classList.remove('animate');
+            document.getElementById('opponentBattleChoice').classList.remove('animate');
+            
+            hideAllModals();
+        }
+
+        // Enhanced Initialization
+        window.addEventListener('load', function() {
+            gameState.loadFromStorage();
+            gameState.updateUI();
+            
+            // Enhanced splash screen with progress
+            let splashProgress = 0;
+            const splashDots = document.querySelectorAll('#splashOverlay .progress-dot');
+            
+            const splashInterval = setInterval(() => {
+                if (splashProgress < splashDots.length) {
+                    splashDots[splashProgress].classList.add('active');
+                    splashProgress++;
+                }
+            }, 800);
+            
+            setTimeout(() => {
+                clearInterval(splashInterval);
+                hideModal('splashOverlay');
+            }, 3500);
+        });
+
+        // Enhanced Error Handling
+        window.addEventListener('error', function(e) {
+            showToast('Something went wrong. Please try again.', 'error');
+            console.error('Game error:', e);
+        });
+
+        // Enhanced Keyboard Support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideAllModals();
+            }
+            
+            // Element selection shortcuts
+            if (gameState.gamePhase === 'selection') {
+                if (e.key === '1') selectElement('earth', null);
+                if (e.key === '2') selectElement('water', null);
+                if (e.key === '3') selectElement('fire', null);
+            }
+        });
+
+        // App Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize UI
+            gameState.updateUI();
+            
+            // Hide splash screen after loading
+            setTimeout(() => {
+                hideModal('splashOverlay');
+            }, 2000);
+            
+            // Set Battle as default active tab
+            switchTab('battle');
+        });
+
+        // Performance Monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    if (perfData.loadEventEnd - perfData.loadEventStart > 3000) {
+                        console.warn('Slow loading detected');
+                    }
+                }, 0);
+            });
+        }
+    </script>
+</body>
+</html>
