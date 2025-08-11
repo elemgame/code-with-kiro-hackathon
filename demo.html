@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elemental Game - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .app-header h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .game-container {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .demo-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .element-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .element-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            border: 3px solid;
+            border-radius: 12px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            font-weight: bold;
+        }
+
+        .element-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .element-button.selected {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .element-emoji {
+            font-size: 2rem;
+        }
+
+        .element-name {
+            font-size: 0.9rem;
+        }
+
+        .earth {
+            border-color: #8B4513;
+            color: #8B4513;
+        }
+
+        .earth.selected {
+            background-color: #8B4513;
+            color: white;
+        }
+
+        .water {
+            border-color: #4169E1;
+            color: #4169E1;
+        }
+
+        .water.selected {
+            background-color: #4169E1;
+            color: white;
+        }
+
+        .fire {
+            border-color: #FF4500;
+            color: #FF4500;
+        }
+
+        .fire.selected {
+            background-color: #FF4500;
+            color: white;
+        }
+
+        .battle-area {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+        }
+
+        .vs-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+
+        .player-choice {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vs {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .winner {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .tie {
+            background: #FF9800;
+            color: white;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #F44336;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #d32f2f;
+            transform: translateY(-1px);
+        }
+
+        .score {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .element-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .vs-display {
+                font-size: 1.5rem;
+                gap: 1rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <h1>⚡ Elemental Game ⚡</h1>
+            <p>Choose your element, wager your mana, and battle for supremacy!</p>
+        </header>
+
+        <main class="game-container">
+            <div class="demo-content">
+                <h2>Game Demo</h2>
+                <p>Выберите элементы для каждого игрока и посмотрите результат битвы!</p>
+
+                <div class="score">
+                    <div>Player 1: <span id="score1">0</span></div>
+                    <div>Player 2: <span id="score2">0</span></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+                    <div id="player1-area">
+                        <h3>Player 1 - Choose Element</h3>
+                        <div class="element-buttons">
+                            <button class="element-button earth" id="p1-earth" onclick="selectElement(1, 'earth')">
+                                <span class="element-emoji">🗿</span>
+                                <span class="element-name">Earth Golem</span>
+                            </button>
+                            <button class="element-button water" id="p1-water" onclick="selectElement(1, 'water')">
+                                <span class="element-emoji">💧</span>
+                                <span class="element-name">Water Nymph</span>
+                            </button>
+                            <button class="element-button fire" id="p1-fire" onclick="selectElement(1, 'fire')">
+                                <span class="element-emoji">🔥</span>
+                                <span class="element-name">Fire Sprite</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="player2-area">
+                        <h3>Player 2 - Choose Element</h3>
+                        <div class="element-buttons">
+                            <button class="element-button earth" id="p2-earth" onclick="selectElement(2, 'earth')">
+                                <span class="element-emoji">🗿</span>
+                                <span class="element-name">Earth Golem</span>
+                            </button>
+                            <button class="element-button water" id="p2-water" onclick="selectElement(2, 'water')">
+                                <span class="element-emoji">💧</span>
+                                <span class="element-name">Water Nymph</span>
+                            </button>
+                            <button class="element-button fire" id="p2-fire" onclick="selectElement(2, 'fire')">
+                                <span class="element-emoji">🔥</span>
+                                <span class="element-name">Fire Sprite</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="battle-area" id="battleArea" style="display: none;">
+                    <h3>Battle Result</h3>
+                    <div class="vs-display">
+                        <div class="player-choice">
+                            <div id="player1Choice">?</div>
+                            <div>Player 1</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="player-choice">
+                            <div id="player2Choice">?</div>
+                            <div>Player 2</div>
+                        </div>
+                    </div>
+                    <div class="result" id="result"></div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="battle()" id="battleBtn" disabled>Battle!</button>
+                    <button class="btn btn-primary" onclick="nextRound()" id="nextRoundBtn" style="display: none;">Next Round</button>
+                    <button class="btn btn-secondary" onclick="reset()">Reset Game</button>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 8px;">
+                    <h4>Правила игры:</h4>
+                    <ul style="text-align: left; margin: 1rem 0;">
+                        <li>🗿 Earth побеждает 💧 Water</li>
+                        <li>💧 Water побеждает 🔥 Fire</li>
+                        <li>🔥 Fire побеждает 🗿 Earth</li>
+                        <li>Одинаковые элементы = ничья</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let player1Element = null;
+        let player2Element = null;
+        let score1 = 0;
+        let score2 = 0;
+
+        const elements = {
+            earth: { name: 'Earth Golem', emoji: '🗿' },
+            water: { name: 'Water Nymph', emoji: '💧' },
+            fire: { name: 'Fire Sprite', emoji: '🔥' }
+        };
+
+        function selectElement(player, element) {
+            console.log(`Player ${player} selected ${element}`);
+            
+            if (player === 1) {
+                // Remove previous selections for player 1
+                document.getElementById('p1-earth').classList.remove('selected');
+                document.getElementById('p1-water').classList.remove('selected');
+                document.getElementById('p1-fire').classList.remove('selected');
+                
+                player1Element = element;
+                // Highlight selected button for player 1
+                document.getElementById(`p1-${element}`).classList.add('selected');
+            } else {
+                // Remove previous selections for player 2
+                document.getElementById('p2-earth').classList.remove('selected');
+                document.getElementById('p2-water').classList.remove('selected');
+                document.getElementById('p2-fire').classList.remove('selected');
+                
+                player2Element = element;
+                // Highlight selected button for player 2
+                document.getElementById(`p2-${element}`).classList.add('selected');
+            }
+
+            console.log(`Player1: ${player1Element}, Player2: ${player2Element}`);
+
+            // Enable battle button if both players selected
+            const battleBtn = document.getElementById('battleBtn');
+            if (player1Element && player2Element) {
+                console.log('Both players selected, enabling battle button');
+                battleBtn.disabled = false;
+                battleBtn.style.opacity = '1';
+                battleBtn.style.cursor = 'pointer';
+            } else {
+                console.log('Not both players selected yet');
+                battleBtn.disabled = true;
+                battleBtn.style.opacity = '0.5';
+                battleBtn.style.cursor = 'not-allowed';
+            }
+        }
+
+        function getWinner(element1, element2) {
+            if (element1 === element2) return 'tie';
+            
+            const winConditions = {
+                earth: 'water',
+                water: 'fire',
+                fire: 'earth'
+            };
+            
+            return winConditions[element1] === element2 ? 'player1' : 'player2';
+        }
+
+        function battle() {
+            console.log('Battle function called!');
+            console.log(`Player1: ${player1Element}, Player2: ${player2Element}`);
+            
+            if (!player1Element || !player2Element) {
+                console.log('Missing player selections, returning');
+                return;
+            }
+
+            const battleArea = document.getElementById('battleArea');
+            const player1Choice = document.getElementById('player1Choice');
+            const player2Choice = document.getElementById('player2Choice');
+            const result = document.getElementById('result');
+
+            // Show battle area
+            battleArea.style.display = 'block';
+
+            // Display choices
+            player1Choice.textContent = elements[player1Element].emoji;
+            player2Choice.textContent = elements[player2Element].emoji;
+
+            // Calculate winner
+            const winner = getWinner(player1Element, player2Element);
+            
+            // Display result
+            if (winner === 'tie') {
+                result.textContent = "It's a tie! 🤝";
+                result.className = 'result tie';
+            } else if (winner === 'player1') {
+                result.textContent = "Player 1 Wins! 🎉";
+                result.className = 'result winner';
+                score1++;
+            } else {
+                result.textContent = "Player 2 Wins! 🎉";
+                result.className = 'result winner';
+                score2++;
+            }
+
+            // Update score
+            document.getElementById('score1').textContent = score1;
+            document.getElementById('score2').textContent = score2;
+
+            // Hide battle button and show next round button
+            document.getElementById('battleBtn').style.display = 'none';
+            document.getElementById('nextRoundBtn').style.display = 'inline-block';
+        }
+
+        function nextRound() {
+            console.log('Starting next round');
+            
+            // Clear selections
+            player1Element = null;
+            player2Element = null;
+            
+            // Remove visual selections
+            ['p1-earth', 'p1-water', 'p1-fire', 'p2-earth', 'p2-water', 'p2-fire'].forEach(id => {
+                document.getElementById(id).classList.remove('selected');
+            });
+            
+            // Hide battle area and next round button
+            document.getElementById('battleArea').style.display = 'none';
+            document.getElementById('nextRoundBtn').style.display = 'none';
+            
+            // Show battle button (disabled until selections made)
+            document.getElementById('battleBtn').style.display = 'inline-block';
+            document.getElementById('battleBtn').disabled = true;
+            document.getElementById('battleBtn').style.opacity = '0.5';
+        }
+
+        function reset() {
+            console.log('Resetting game');
+            
+            player1Element = null;
+            player2Element = null;
+            score1 = 0;
+            score2 = 0;
+            
+            document.getElementById('score1').textContent = '0';
+            document.getElementById('score2').textContent = '0';
+            document.getElementById('battleArea').style.display = 'none';
+            
+            // Reset buttons
+            document.getElementById('battleBtn').style.display = 'inline-block';
+            document.getElementById('battleBtn').disabled = true;
+            document.getElementById('battleBtn').style.opacity = '0.5';
+            document.getElementById('nextRoundBtn').style.display = 'none';
+            
+            // Remove all selections
+            ['p1-earth', 'p1-water', 'p1-fire', 'p2-earth', 'p2-water', 'p2-fire'].forEach(id => {
+                document.getElementById(id).classList.remove('selected');
+            });
+        }
+    </script>
+</body>
+</html>
