@@ -18,14 +18,14 @@ export const ELEMENTALS = {
   [ELEMENTS.FIRE]: { name: 'Fire Sprite', emoji: '🔥', color: '#FF4500' }
 };
 
-// Rock-paper-scissors logic
+// Rock-paper-scissors logic: Fire > Earth > Water > Fire
 export const getWinner = (element1, element2) => {
   if (element1 === element2) return 'tie';
   
   const winConditions = {
-    [ELEMENTS.EARTH]: ELEMENTS.WATER,
-    [ELEMENTS.WATER]: ELEMENTS.FIRE,
-    [ELEMENTS.FIRE]: ELEMENTS.EARTH
+    [ELEMENTS.FIRE]: ELEMENTS.EARTH,    // Fire melts/burns Earth
+    [ELEMENTS.EARTH]: ELEMENTS.WATER,   // Earth absorbs Water
+    [ELEMENTS.WATER]: ELEMENTS.FIRE     // Water extinguishes Fire
   };
   
   return winConditions[element1] === element2 ? 'player1' : 'player2';

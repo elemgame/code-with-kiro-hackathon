@@ -2,13 +2,14 @@ import React from 'react';
 import { RARITIES, getNextRarity } from '../gameLogic';
 
 const ElementalUpgrade = ({ 
-  currentRarity, 
-  currentMana, 
+  currentRarity = RARITIES.COMMON, 
+  currentMana = 0, 
   onUpgrade, 
   playerName = "Player" 
 }) => {
   const nextRarity = getNextRarity(currentRarity);
   const canUpgrade = nextRarity && currentMana >= nextRarity.upgradeCost;
+  const isMaxRarity = !nextRarity;
 
   return (
     <div className="elemental-upgrade">

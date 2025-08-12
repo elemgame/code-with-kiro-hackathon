@@ -1,6 +1,7 @@
 {
-  "name": "elemental-game",
+  "name": "elemental-arena",
   "version": "1.0.0",
+  "description": "A strategic element-based battle game with mana wagering and upgrades",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
@@ -13,6 +14,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -24,5 +31,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "keywords": [
+    "game",
+    "strategy",
+    "elements",
+    "battle",
+    "mana",
+    "elemental",
+    "react"
+  ],
+  "author": "Elemental Arena Team",
+  "license": "MIT"
 }
