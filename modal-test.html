@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Test - Elemental Arena</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Modal Test</h1>
+        <p>Тестирование модальных окон Elemental Arena</p>
+        
+        <div id="status" class="status success">
+            ✅ Модальные окна готовы к тестированию
+        </div>
+
+        <button class="test-button" onclick="showTestModal()">
+            Показать тестовое модальное окно
+        </button>
+
+        <button class="test-button" onclick="testZIndex()">
+            Тест Z-Index
+        </button>
+
+        <button class="test-button" onclick="testAnimation()">
+            Тест анимации
+        </button>
+
+        <div class="modal-overlay" id="testModal">
+            <div class="modal">
+                <h2>🎮 Тестовое модальное окно</h2>
+                <p>Это модальное окно должно появляться поверх всех элементов интерфейса.</p>
+                <p><strong>Z-index:</strong> 1500</p>
+                <p><strong>Анимация:</strong> Fade in + Scale</p>
+                <button class="close-btn" onclick="hideTestModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTestModal() {
+            document.getElementById('testModal').classList.add('active');
+            updateStatus('Модальное окно показано', 'success');
+        }
+
+        function hideTestModal() {
+            document.getElementById('testModal').classList.remove('active');
+            updateStatus('Модальное окно скрыто', 'success');
+        }
+
+        function testZIndex() {
+            const modal = document.getElementById('testModal');
+            const computedStyle = window.getComputedStyle(modal);
+            const zIndex = computedStyle.zIndex;
+            updateStatus(`Z-Index модального окна: ${zIndex}`, 'success');
+        }
+
+        function testAnimation() {
+            showTestModal();
+            setTimeout(() => {
+                hideTestModal();
+                updateStatus('Тест анимации завершен', 'success');
+            }, 2000);
+        }
+
+        function updateStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+
+        // Закрытие по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideTestModal();
+            }
+        });
+
+        // Закрытие по клику на overlay
+        document.getElementById('testModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideTestModal();
+            }
+        });
+    </script>
+</body>
+</html>

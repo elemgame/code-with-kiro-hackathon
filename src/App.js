@@ -40,13 +40,19 @@ const App = () => {
     setPlayer2(prev => ({ ...prev, selectedElement: element }));
   }, []);
 
-  // Wager handlers
+  // Wager handlers with validation
   const handlePlayer1WagerChange = useCallback((wager) => {
-    setPlayer1(prev => ({ ...prev, wager: Math.min(wager, prev.mana) }));
+    setPlayer1(prev => ({ 
+      ...prev, 
+      wager: Math.max(10, Math.min(wager, prev.mana)) 
+    }));
   }, []);
 
   const handlePlayer2WagerChange = useCallback((wager) => {
-    setPlayer2(prev => ({ ...prev, wager: Math.min(wager, prev.mana) }));
+    setPlayer2(prev => ({ 
+      ...prev, 
+      wager: Math.max(10, Math.min(wager, prev.mana)) 
+    }));
   }, []);
 
   // Upgrade handlers
@@ -82,6 +88,10 @@ const App = () => {
 
   const startRound = useCallback(() => {
     if (!player1.selectedElement || !player2.selectedElement) return;
+    if (player1.mana < player1.wager || player2.mana < player2.wager) {
+      console.error('Insufficient mana for wager');
+      return;
+    }
 
     const winner = getWinner(player1.selectedElement, player2.selectedElement);
     

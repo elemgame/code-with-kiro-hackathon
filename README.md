@@ -148,6 +148,22 @@ npm start
 
 The application will run on `http://localhost:3000`
 
+## Recent Improvements
+
+### Bug Fixes
+- ✅ Fixed HTML structure in index.html (missing closing tags)
+- ✅ Added proper .gitignore for React project
+- ✅ Improved game logic (Fire > Earth > Water > Fire cycle)
+- ✅ Added input validation for mana and wager values
+- ✅ Added error handling for insufficient mana scenarios
+
+### Enhanced Features
+- ✅ Visual indicators for low mana and invalid wagers
+- ✅ Better prop validation with default values
+- ✅ Improved accessibility with meta tags and ARIA labels
+- ✅ Added package.json for proper dependency management
+- ✅ Created proper React entry point (index.js)
+
 ## Browser Support
 
 - Chrome 88+

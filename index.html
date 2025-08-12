@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Elemental Arena - A strategic element-based battle game with mana wagering and upgrades">
+    <meta name="keywords" content="game, strategy, elements, battle, mana, elemental">
+    <meta name="author" content="Elemental Arena">
     <title>Elemental Arena - UX Enhanced</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
@@ -32,8 +37,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: url('resources/Landing.png') center center / cover no-repeat fixed, 
-                        radial-gradient(circle at center, rgba(25, 25, 50, 0.9), rgba(10, 10, 30, 0.95));
+            background: url('resources/Landing.png') center center / cover no-repeat fixed,
+                radial-gradient(circle at center, rgba(25, 25, 50, 0.9), rgba(10, 10, 30, 0.95));
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
@@ -54,8 +59,15 @@
 
 
         @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         /* Modern Card Design */
@@ -78,7 +90,7 @@
 
         .card-title {
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
+            font-size: 2rem;
             font-weight: 600;
             color: var(--secondary-gold);
             margin-bottom: 1rem;
@@ -234,7 +246,7 @@
         /* Enhanced Stats Grid */
         .enhanced-stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 0.75rem;
             margin-bottom: 1.5rem;
         }
@@ -248,6 +260,24 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+
+        /* Hide empty stat cards */
+        .stat-card:has(.stat-content:empty) {
+            display: none;
+        }
+
+        /* Fallback for browsers that don't support :has() */
+        .stat-card .stat-content:empty {
+            display: none;
+        }
+
+        .stat-card .stat-content:empty + * {
+            display: none;
+        }
+
+        .stat-card:has(.stat-content:empty) {
+            display: none;
         }
 
         .stat-card::before {
@@ -279,7 +309,7 @@
         }
 
         .stat-icon {
-            font-size: 1.2rem;
+            font-size: 2.4rem;
             margin-bottom: 0.5rem;
             opacity: 0.8;
         }
@@ -388,6 +418,68 @@
             color: var(--text-muted);
         }
 
+        .achievement-progress {
+            font-size: 0.65rem;
+            color: var(--secondary-gold);
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* Achievement Notifications */
+        .achievement-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .achievement-notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .achievement-popup {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: #1a1a1a;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 12px 40px rgba(218, 165, 32, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 300px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .achievement-popup-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .achievement-popup-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+            opacity: 0.8;
+        }
+
+        .achievement-popup-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .achievement-popup-desc {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
         /* Quick Stats */
         .quick-stats {
             display: flex;
@@ -476,7 +568,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1500;
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -523,8 +615,15 @@
         }
 
         @keyframes borderFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .modal-title {
@@ -591,21 +690,29 @@
         }
 
         @keyframes pulse {
-            0%, 100% { 
-                opacity: 0.6; 
+
+            0%,
+            100% {
+                opacity: 0.6;
                 transform: translate(-50%, -50%) scale(1);
                 text-shadow: 0 0 10px var(--secondary-gold);
             }
-            50% { 
-                opacity: 1; 
+
+            50% {
+                opacity: 1;
                 transform: translate(-50%, -50%) scale(1.1);
                 text-shadow: 0 0 20px var(--secondary-gold);
             }
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Enhanced Element Selection */
@@ -708,12 +815,15 @@
         }
 
         @keyframes battlePulse {
-            0%, 100% { 
-                transform: scale(1); 
+
+            0%,
+            100% {
+                transform: scale(1);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             }
-            50% { 
-                transform: scale(1.15); 
+
+            50% {
+                transform: scale(1.15);
                 box-shadow: 0 12px 35px rgba(218, 165, 32, 0.5);
             }
         }
@@ -726,70 +836,42 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
-        /* Toast Notifications */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--dark-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--success);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            color: var(--text-primary);
-            font-weight: 500;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 2000;
-        }
 
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast.error {
-            border-color: var(--error);
-        }
-
-        .toast.warning {
-            border-color: var(--warning);
-        }
 
         /* Responsive Enhancements */
         @media (max-width: 480px) {
             body {
                 padding: 0;
             }
-            
+
             .container {
                 width: 100%;
                 margin: 0;
                 border: none;
                 box-shadow: none;
             }
-            
+
             .modal {
                 max-width: calc(100vw - 2rem);
                 margin: 1rem;
                 padding: 1.25rem;
             }
-            
+
             .element-grid {
                 gap: 0.5rem;
             }
-            
+
             .battle-emoji {
                 width: 70px;
                 height: 70px;
                 font-size: 2.5rem;
             }
-            
+
             .profile-card {
                 margin-bottom: 0.75rem;
                 border-radius: 16px;
             }
-            
+
             .card {
                 border-radius: 16px;
                 padding: 1.25rem;
@@ -803,11 +885,11 @@
                 margin: 0.5rem;
                 padding: 1rem;
             }
-            
+
             .enhanced-stats-grid {
                 gap: 0.5rem;
             }
-            
+
             .stat-card {
                 padding: 0.75rem;
             }
@@ -826,7 +908,7 @@
             .card {
                 border-width: 2px;
             }
-            
+
             .element-btn {
                 border-width: 2px;
             }
@@ -949,7 +1031,8 @@
 
         /* App Content Adjustment */
         .app-content {
-            padding-bottom: 80px; /* Space for bottom navigation */
+            padding-bottom: 80px;
+            /* Space for bottom navigation */
         }
 
         /* Tab Content */
@@ -961,741 +1044,929 @@
             display: block;
         }
     </style>
-</head><bod
-y>
-    <!-- Toast Notification System -->
-    <div id="toast" class="toast"></div>
+</head>
 
-    <!-- Splash Screen with Enhanced Animation -->
-    <div class="modal-overlay active" id="splashOverlay">
-        <div class="modal" style="text-align: center; border-color: var(--primary-gold);">
-            <img src="resources/logo.png" alt="Elemental Arena" style="max-width: 200px; margin-bottom: 2rem; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">
-            <div style="font-family: 'Cinzel', serif; background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold), var(--accent-gold)); background-size: 200% 200%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.2rem; font-weight: 600; margin-bottom: 2rem; animation: shimmer 3s ease-in-out infinite;">
-                Game with elements of strategy and luck
-            </div>
-            <div class="loading-spinner"></div>
-            <div class="progress-dots">
-                <div class="progress-dot active"></div>
-                <div class="progress-dot"></div>
-                <div class="progress-dot"></div>
-            </div>
+<body></body>
+
+
+
+
+<div class="container">
+    <!-- App Content with bottom padding for navigation -->
+    <div class="app-content">
+        <!-- Profile Tab Content -->
+        <div id="profileTab" class="tab-content">
+            <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
+                <!-- Enhanced Player Profile Card -->
+                <div class="profile-card">
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <div class="avatar-ring">
+                                <div class="avatar-inner" id="playerAvatar">⚔️</div>
+                            </div>
+                            <div class="rank-badge" id="playerRank">Novice</div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="player-name" id="playerName">Warrior</div>
+                            <div class="player-title" id="playerTitle">Elemental Seeker</div>
+                            <div class="experience-bar">
+                                <div class="exp-fill" id="expFill" style="width: 35%;"></div>
+                                <span class="exp-text" id="expText">350 / 1000 XP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="enhanced-stats-grid">
+                        <div class="stat-card primary">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="playerMana">500</div>
+                                <div class="stat-label">Mana</div>
+                                <div class="stat-change" id="manaChange">+0</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card success">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="playerWins">0</div>
+                                <div class="stat-label">Victories</div>
+                                <div class="stat-subtext" id="winRate">0% Win Rate</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">🔥</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="playerStreakNew">0</div>
+                                <div class="stat-label">Streak</div>
+                                <div class="stat-subtext" id="streakStatusNew">No streak</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">�</ /div>
+                                <div class="stat-content">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card danger">
+                            <div class="stat-icon">💀</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="playerLosses">0</div>
+                                <div class="stat-label">Defeats</div>
+                                <div class="stat-subtext" id="lossRate">0% Loss Rate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Section -->
+                    <div class="achievements-section">
+                        <div class="section-title">Recent Achievements</div>
+                        <div class="achievements-list" id="achievementsList">
+                            <div class="achievement-item locked">
+                                <div class="achievement-icon">🔒</div>
+                                <div class="achievement-text">
+                                    <div class="achievement-name">First Victory</div>
+                                    <div class="achievement-desc">Win your first battle</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="quick-stats">
+                        <div class="quick-stat">
+                            <span class="quick-stat-label">Total Battles:</span>
+                            <span class="quick-stat-value" id="totalBattles">0</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-label">Best Streak:</span>
+                            <span class="quick-stat-value" id="bestStreak">0</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-label">Favorite Element:</span>
+                            <span class="quick-stat-value" id="favoriteElement">None</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </main>
         </div>
-    </div>
 
-    <div class="container">
-        <!-- App Content with bottom padding for navigation -->
-        <div class="app-content">
-            <!-- Profile Tab Content -->
-            <div id="profileTab" class="tab-content">
-                <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
-            <!-- Enhanced Player Profile Card -->
-            <div class="profile-card">
-                <!-- Profile Header -->
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <div class="avatar-ring">
-                            <div class="avatar-inner" id="playerAvatar">⚔️</div>
+        <!-- Battle Tab Content -->
+        <div id="battleTab" class="tab-content active">
+            <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
+                <!-- Quick Stats Bar -->
+                <div class="card" style="margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.2rem;">💰</span>
+                            <div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">
+                                    Mana</div>
+                                <div style="font-weight: 600; color: var(--secondary-gold);" id="battleMana">500</div>
+                            </div>
                         </div>
-                        <div class="rank-badge" id="playerRank">Novice</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="player-name" id="playerName">Warrior</div>
-                        <div class="player-title" id="playerTitle">Elemental Seeker</div>
-                        <div class="experience-bar">
-                            <div class="exp-fill" id="expFill" style="width: 35%;"></div>
-                            <span class="exp-text" id="expText">350 / 1000 XP</span>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.2rem;">🏆</span>
+                            <div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">
+                                    Wins</div>
+                                <div style="font-weight: 600; color: var(--success);" id="battleWins">0</div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="enhanced-stats-grid">
-                    <div class="stat-card primary">
-                        <div class="stat-icon">💰</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="playerMana">500</div>
-                            <div class="stat-label">Mana</div>
-                            <div class="stat-change" id="manaChange">+0</div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.2rem;">🔥</span>
+                            <div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">
+                                    Streak</div>
+                                <div style="font-weight: 600; color: var(--text-primary);" id="battleStreak">0</div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="stat-card success">
-                        <div class="stat-icon">🏆</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="playerWins">0</div>
-                            <div class="stat-label">Victories</div>
-                            <div class="stat-subtext" id="winRate">0% Win Rate</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card danger">
-                        <div class="stat-icon">💀</div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="playerLosses">0</div>
-                            <div class="stat-label">Defeats</div>
-                            <div class="stat-subtext" id="currentStreak">0 Streak</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Achievement Section -->
-                <div class="achievements-section">
-                    <div class="section-title">Recent Achievements</div>
-                    <div class="achievements-list" id="achievementsList">
-                        <div class="achievement-item locked">
-                            <div class="achievement-icon">🔒</div>
-                            <div class="achievement-text">
-                                <div class="achievement-name">First Victory</div>
-                                <div class="achievement-desc">Win your first battle</div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.2rem;">💀</span>
+                            <div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">
+                                    Defeats</div>
+                                <div style="font-weight: 600; color: var(--error);" id="battleDefeats">0</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Stats -->
-                <div class="quick-stats">
-                    <div class="quick-stat">
-                        <span class="quick-stat-label">Total Battles:</span>
-                        <span class="quick-stat-value" id="totalBattles">0</span>
-                    </div>
-                    <div class="quick-stat">
-                        <span class="quick-stat-label">Best Streak:</span>
-                        <span class="quick-stat-value" id="bestStreak">0</span>
-                    </div>
-                    <div class="quick-stat">
-                        <span class="quick-stat-label">Favorite Element:</span>
-                        <span class="quick-stat-value" id="favoriteElement">None</span>
-                    </div>
-                </div>
-            </div>
-            
+                <!-- Battle Arena Card -->
+                <div class="card" style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="card-title">⚔️ Battle Arena</div>
 
-                </main>
-            </div>
-
-            <!-- Battle Tab Content -->
-            <div id="battleTab" class="tab-content active">
-                <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
-                    <!-- Quick Stats Bar -->
-                    <div class="card" style="margin-bottom: 1rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span style="font-size: 1.2rem;">💰</span>
-                                <div>
-                                    <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Mana</div>
-                                    <div style="font-weight: 600; color: var(--secondary-gold);" id="battleMana">500</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span style="font-size: 1.2rem;">🏆</span>
-                                <div>
-                                    <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Wins</div>
-                                    <div style="font-weight: 600; color: var(--success);" id="battleWins">0</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span style="font-size: 1.2rem;">⚡</span>
-                                <div>
-                                    <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Streak</div>
-                                    <div style="font-weight: 600; color: var(--text-primary);" id="battleStreak">0</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Battle Arena Card -->
-                    <div class="card" style="flex: 1; display: flex; flex-direction: column;">
-                        <div class="card-title">⚔️ Battle Arena</div>
-                        
-                        <!-- Current Battle State -->
-                        <div id="battleState" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                            <!-- Ready State -->
-                            <div id="readyState" style="text-align: center;">
-                                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.8;">🏟️</div>
-                                <h3 style="color: var(--secondary-gold); margin-bottom: 0.75rem;">Ready for Battle</h3>
-                                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
-                                    Choose your element and challenge a worthy opponent
-                                </p>
-                                
-                                <!-- Element Selection -->
-                                <div class="element-grid" style="margin-bottom: 2rem;">
-                                    <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
-                                        <span class="element-emoji">🌍</span>
-                                        <div class="element-name">Earth</div>
-                                    </div>
-                                    <div class="element-btn" onclick="selectElement('water', event)" data-element="water">
-                                        <span class="element-emoji">💧</span>
-                                        <div class="element-name">Water</div>
-                                    </div>
-                                    <div class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
-                                        <span class="element-emoji">🔥</span>
-                                        <div class="element-name">Fire</div>
-                                    </div>
-                                </div>
-
-                                <!-- Action Button -->
-                                <button class="btn-primary" onclick="startMatchmaking()" id="seekButton" disabled>
-                                    🔮 Choose Element First
-                                </button>
-                            </div>
-
-                            <!-- Battle Display (hidden initially) -->
-                            <div id="battleDisplay" style="display: none; text-align: center;">
-                                <div class="battle-display">
-                                    <div class="battle-choice">
-                                        <div class="battle-emoji" id="playerChoice">❓</div>
-                                        <div style="color: var(--text-secondary); font-size: 0.8rem;">You</div>
-                                    </div>
-                                    <div class="battle-vs">VS</div>
-                                    <div class="battle-choice">
-                                        <div class="battle-emoji" id="opponentChoice">❓</div>
-                                        <div style="color: var(--text-secondary); font-size: 0.8rem;">Opponent</div>
-                                    </div>
-                                </div>
-                                
-                                <div id="battleResult" style="margin-top: 2rem;">
-                                    <!-- Battle result will be shown here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-
-            <!-- Rules Tab Content -->
-            <div id="rulesTab" class="tab-content">
-                <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column; min-height: calc(100vh - 80px);">
-                    <div class="card">
-                        <div class="card-title">📜 Game Rules</div>
-                        
-                        <div style="margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🎯 How to Play</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
-                                Choose your element and challenge opponents in strategic battles. Each element has unique strengths and weaknesses.
+                    <!-- Current Battle State -->
+                    <div id="battleState"
+                        style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <!-- Ready State -->
+                        <div id="readyState" style="text-align: center;">
+                            <div style="
+                                display: inline-block;
+                                font-size: 12rem; 
+                                margin-top: 0.25rem; 
+                                margin-bottom: 3rem; 
+                                opacity: 0.8;
+                                padding: 0.1rem;
+                                line-height: 0.8;
+                            ">🏟️</div>
+                            <h3 style="color: var(--secondary-gold); margin-bottom: 0.75rem;">Ready for Battle</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
+                                Choose your element and challenge a worthy opponent
                             </p>
+
+                            <!-- Element Selection -->
+                            <div class="element-grid" style="margin-bottom: 2rem;">
+                                <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
+                                    <span class="element-emoji">🌍</span>
+                                    <div class="element-name">Earth</div>
+                                </div>
+                                <div class="element-btn" onclick="selectElement('water', event)" data-element="water">
+                                    <span class="element-emoji">💧</span>
+                                    <div class="element-name">Water</div>
+                                </div>
+                                <div class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
+                                    <span class="element-emoji">🔥</span>
+                                    <div class="element-name">Fire</div>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="btn-primary" onclick="startMatchmaking()" id="seekButton" disabled>
+                                🔮 Choose Element First
+                            </button>
+                            
+                            <!-- Emergency Reset Button (hidden by default) -->
+                            <button onclick="emergencyReset()" style="
+                                background: var(--error);
+                                color: white;
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 8px;
+                                font-size: 0.8rem;
+                                margin-top: 0.5rem;
+                                cursor: pointer;
+                                display: none;
+                            " id="emergencyButton">
+                                🚨 Reset Battle System
+                            </button>
                         </div>
 
-                        <div style="margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">⚡ Elements</h3>
-                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <span style="font-size: 1.5rem;">🌍</span>
-                                    <div>
-                                        <div style="color: var(--text-primary); font-weight: 600;">Earth</div>
-                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Fire, weak against Water</div>
-                                    </div>
+                        <!-- Battle Display (hidden initially) -->
+                        <div id="battleDisplay" style="display: none; text-align: center;">
+                            <div class="battle-display">
+                                <div class="battle-choice">
+                                    <div class="battle-emoji" id="playerChoice">❓</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.8rem;">You</div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <span style="font-size: 1.5rem;">💧</span>
-                                    <div>
-                                        <div style="color: var(--text-primary); font-weight: 600;">Water</div>
-                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Earth, weak against Fire</div>
-                                    </div>
+                                <div class="battle-vs">VS</div>
+                                <div class="battle-choice">
+                                    <div class="battle-emoji" id="opponentChoice">❓</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.8rem;">Opponent</div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <span style="font-size: 1.5rem;">🔥</span>
-                                    <div>
-                                        <div style="color: var(--text-primary); font-weight: 600;">Fire</div>
-                                        <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Water, weak against Earth</div>
-                                    </div>
+                            </div>
+
+                            <div id="battleResult" style="margin-top: 2rem;">
+                                <!-- Battle result will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Rules Tab Content -->
+        <div id="rulesTab" class="tab-content">
+            <main
+                style="padding: 1rem; flex: 1; display: flex; flex-direction: column; min-height: calc(100vh - 80px);">
+                <div class="card">
+                    <div class="card-title">📜 Game Rules</div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🎯 How to
+                            Play</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                            Choose your element and challenge opponents in strategic battles. Each element has unique
+                            strengths and weaknesses.
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">⚡ Elements
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🌍</span>
+                                <div>
+                                    <div style="color: var(--text-primary); font-weight: 600;">Earth</div>
+                                    <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Fire, weak
+                                        against Water</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.5rem;">💧</span>
+                                <div>
+                                    <div style="color: var(--text-primary); font-weight: 600;">Water</div>
+                                    <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Earth, weak
+                                        against Fire</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🔥</span>
+                                <div>
+                                    <div style="color: var(--text-primary); font-weight: 600;">Fire</div>
+                                    <div style="color: var(--text-muted); font-size: 0.8rem;">Strong against Water, weak
+                                        against Earth</div>
                                 </div>
                             </div>
                         </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">💰 Mana System</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
-                                Wager mana in battles. Win to gain mana, lose to forfeit your wager. Higher stakes, greater rewards!
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🏆 Progression</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
-                                Gain experience through battles, unlock achievements, and climb the ranks from Novice to Immortal Master.
-                            </p>
-                        </div>
                     </div>
-                </main>
-            </div>
-        </div>
 
-        <!-- Mobile Navigation -->
-        <nav class="mobile-nav">
-            <div class="nav-container">
-                <div class="nav-item" onclick="switchTab('profile')" id="profileNav">
-                    <div class="nav-icon">👤</div>
-                    <div class="nav-label">Profile</div>
-                </div>
-                <div class="nav-item active" onclick="switchTab('battle')" id="battleNav">
-                    <div class="nav-icon">⚔️</div>
-                    <div class="nav-label">Battle</div>
-                </div>
-                <div class="nav-item" onclick="switchTab('rules')" id="rulesNav">
-                    <div class="nav-icon">📜</div>
-                    <div class="nav-label">Rules</div>
-                </div>
-            </div>
-        </nav>
-    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">💰 Mana
+                            System</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                            Wager mana in battles. Win to gain mana, lose to forfeit your wager. Higher stakes, greater
+                            rewards!
+                        </p>
+                    </div>
 
-    <!-- Enhanced Matchmaking Modal -->
-    <div class="modal-overlay" id="matchmakingModal">
-        <div class="modal">
-            <div class="modal-title">🔮 Seeking Opponent</div>
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Consulting the mystical orb...</div>
-            <div class="loading-subtext">Finding a worthy challenger</div>
-            <div class="progress-dots">
-                <div class="progress-dot active"></div>
-                <div class="progress-dot active"></div>
-                <div class="progress-dot"></div>
-            </div>
+                    <div>
+                        <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🏆
+                            Progression</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                            Gain experience through battles, unlock achievements, and climb the ranks from Novice to
+                            Immortal Master.
+                        </p>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
-    <!-- Opponent Found Modal -->
-    <div class="modal-overlay" id="opponentModal">
-        <div class="modal">
-            <div class="modal-title">⚔️ Challenger Found</div>
-            
-            <!-- Opponent Card -->
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold)); border: 2px solid var(--secondary-gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.75rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);" id="opponentAvatar">🤖</div>
-                <div style="font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--secondary-gold); margin-bottom: 0.25rem; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);" id="opponentName">DragonSlayer</div>
-                <div style="color: var(--text-muted); font-size: 0.8rem;" id="opponentLevel">Level 5 • Rare Elemental</div>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="nav-container">
+            <div class="nav-item" onclick="switchTab('profile')" id="profileNav">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
             </div>
-            
-            <!-- Element Selection -->
-            <div style="margin-bottom: 1.5rem;">
-                <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">Choose Your Element</div>
-                <div class="element-grid">
-                    <button class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
-                        <div class="element-emoji">🗿</div>
-                        <div class="element-name">Earth<br>Golem</div>
-                    </button>
-                    <button class="element-btn" onclick="selectElement('water', event)" data-element="water">
-                        <div class="element-emoji">💧</div>
-                        <div class="element-name">Water<br>Nymph</div>
-                    </button>
-                    <button class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
-                        <div class="element-emoji">🔥</div>
-                        <div class="element-name">Fire<br>Sprite</div>
-                    </button>
-                </div>
+            <div class="nav-item active" onclick="switchTab('battle')" id="battleNav">
+                <div class="nav-icon">⚔️</div>
+                <div class="nav-label">Battle</div>
             </div>
-            
-            <button class="btn-primary" id="battleButton" onclick="startBattle()" disabled style="width: 100%;">
-                ⚔️ Enter Battle
-            </button>
-        </div>
-    </div>
-
-    <!-- Battle Modal -->
-    <div class="modal-overlay" id="battleModal">
-        <div class="modal">
-            <div class="modal-title">⚔️ Battle Arena</div>
-            <div class="battle-display">
-                <div class="battle-choice">
-                    <div class="battle-emoji" id="playerBattleChoice">?</div>
-                    <div style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; color: var(--secondary-gold); text-transform: uppercase; letter-spacing: 0.5px;">You</div>
-                </div>
-                <div class="battle-vs">VS</div>
-                <div class="battle-choice">
-                    <div class="battle-emoji" id="opponentBattleChoice">?</div>
-                    <div style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; color: var(--secondary-gold); text-transform: uppercase; letter-spacing: 0.5px;" id="opponentBattleName">Opponent</div>
-                </div>
-            </div>
-            <div class="progress-dots">
-                <div class="progress-dot active"></div>
-                <div class="progress-dot active"></div>
-                <div class="progress-dot active"></div>
+            <div class="nav-item" onclick="switchTab('rules')" id="rulesNav">
+                <div class="nav-icon">📜</div>
+                <div class="nav-label">Rules</div>
             </div>
         </div>
-    </div>
+    </nav>
+</div>
 
-    <!-- Result Modal -->
-    <div class="modal-overlay" id="resultModal">
-        <div class="modal">
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;" id="resultIcon">🎉</div>
-                <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);" id="resultTitle">Victory!</div>
-                <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic;" id="resultSubtitle">You defeated DragonSlayer</div>
-                
-                <!-- Result Stats -->
-                <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem;">Mana Change:</span>
-                        <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--success);" id="manaChange">+75</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem;">New Total:</span>
-                        <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--text-primary);" id="newManaTotal">575</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem;">Victory Streak:</span>
-                        <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--secondary-gold);" id="winStreak">1</span>
-                    </div>
-                </div>
-                
-                <button class="btn-primary" onclick="returnToMenu()" style="width: 100%;">
-                    🏰 Continue
+<!-- React App Root -->
+<div id="root"></div>
+
+<!-- Enhanced Matchmaking Modal -->
+<div class="modal-overlay" id="matchmakingModal">
+    <div class="modal">
+        <div class="modal-title">🔮 Seeking Opponent</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Consulting the mystical orb...</div>
+        <div class="loading-subtext">Finding a worthy challenger</div>
+        <div class="progress-dots">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Opponent Found Modal -->
+<div class="modal-overlay" id="opponentModal">
+    <div class="modal">
+        <div class="modal-title">⚔️ Challenger Found</div>
+
+        <!-- Opponent Card -->
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold)); border: 2px solid var(--secondary-gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.75rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);"
+                id="opponentAvatar">🤖</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--secondary-gold); margin-bottom: 0.25rem; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);"
+                id="opponentName">DragonSlayer</div>
+            <div style="color: var(--text-muted); font-size: 0.8rem;" id="opponentLevel">Level 5 • Rare Elemental</div>
+        </div>
+
+        <!-- Element Selection -->
+        <div style="margin-bottom: 1.5rem;">
+            <div
+                style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+                Choose Your Element</div>
+            <div class="element-grid">
+                <button class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
+                    <div class="element-emoji">🗿</div>
+                    <div class="element-name">Earth<br>Golem</div>
+                </button>
+                <button class="element-btn" onclick="selectElement('water', event)" data-element="water">
+                    <div class="element-emoji">💧</div>
+                    <div class="element-name">Water<br>Nymph</div>
+                </button>
+                <button class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
+                    <div class="element-emoji">🔥</div>
+                    <div class="element-name">Fire<br>Sprite</div>
                 </button>
             </div>
         </div>
-    </div>    <script>
-        // Tab Navigation System
-        function switchTab(tabName) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all nav items
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName + 'Tab').classList.add('active');
-            
-            // Add active class to selected nav item
-            document.getElementById(tabName + 'Nav').classList.add('active');
-            
-            // Add haptic feedback simulation
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
+
+        <button class="btn-primary" id="battleButton" onclick="startBattle()" disabled style="width: 100%;">
+            ⚔️ Enter Battle
+        </button>
+    </div>
+</div>
+
+<!-- Battle Modal -->
+<div class="modal-overlay" id="battleModal">
+    <div class="modal">
+        <div class="modal-title">⚔️ Battle</div>
+        <div class="battle-display">
+            <div class="battle-choice">
+                <div class="battle-emoji" id="playerBattleChoice">?</div>
+                <div
+                    style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; color: var(--secondary-gold); text-transform: uppercase; letter-spacing: 0.5px;">
+                    You</div>
+            </div>
+            <div class="battle-vs">VS</div>
+            <div class="battle-choice">
+                <div class="battle-emoji" id="opponentBattleChoice">?</div>
+                <div style="font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; color: var(--secondary-gold); text-transform: uppercase; letter-spacing: 0.5px;"
+                    id="opponentBattleName">Opponent</div>
+            </div>
+        </div>
+        <div class="progress-dots">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot active"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Result Modal -->
+<div class="modal-overlay" id="resultModal">
+    <div class="modal">
+        <div style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;" id="resultIcon">🎉</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);"
+                id="resultTitle">Victory!</div>
+            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic;"
+                id="resultSubtitle">You defeated DragonSlayer</div>
+
+            <!-- Result Stats -->
+            <div
+                style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">Mana Change:</span>
+                    <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--success);"
+                        id="manaChange">+75</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">New Total:</span>
+                    <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--text-primary);"
+                        id="newManaTotal">575</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">Victory Streak:</span>
+                    <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--secondary-gold);"
+                        id="winStreak">1</span>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="returnToMenu()" style="width: 100%;">
+                🏰 Continue
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    // Tab Navigation System
+    function switchTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Remove active class from all nav items
+        document.querySelectorAll('.nav-item').forEach(nav => {
+            nav.classList.remove('active');
+        });
+
+        // Show selected tab content
+        document.getElementById(tabName + 'Tab').classList.add('active');
+
+        // Add active class to selected nav item
+        document.getElementById(tabName + 'Nav').classList.add('active');
+
+        // Add haptic feedback simulation
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+    }
+
+    // Enhanced Game State Management
+    class GameState {
+        constructor() {
+            this.player = {
+                name: 'Warrior',
+                mana: 500,
+                wins: 0,
+                losses: 0,
+                selectedElement: null,
+                winStreak: 0,
+                bestStreak: 0,
+                maxLossStreak: 0,
+                currentLossStreak: 0,
+                totalBattles: 0,
+                experience: 350,
+                level: 1,
+                favoriteElement: null,
+                elementStats: { earth: 0, water: 0, fire: 0 },
+                achievements: [],
+                lastManaChange: 0,
+                maxWager: 0,
+                totalManaWon: 0,
+                totalManaLost: 0
+            };
+            this.currentOpponent = null;
+            this.opponentElement = null;
+            this.gamePhase = 'splash';
+        }
+
+        updatePlayer(updates) {
+            const oldMana = this.player.mana;
+            this.player = { ...this.player, ...updates };
+
+            // Calculate mana change
+            if (updates.mana !== undefined) {
+                this.player.lastManaChange = this.player.mana - oldMana;
+            }
+
+            // Update total battles
+            if (updates.wins !== undefined || updates.losses !== undefined) {
+                this.player.totalBattles = this.player.wins + this.player.losses;
+            }
+
+            // Update best streak
+            if (updates.winStreak !== undefined && updates.winStreak > this.player.bestStreak) {
+                this.player.bestStreak = updates.winStreak;
+            }
+
+            // Update experience and level
+            if (updates.wins !== undefined && updates.wins > (this.player.wins || 0)) {
+                this.player.experience += 100;
+                this.checkLevelUp();
+            }
+
+            // Update favorite element
+            this.updateFavoriteElement();
+
+            // Check achievements
+            this.checkAchievements();
+
+            this.saveToStorage();
+            this.updateUI();
+        }
+
+        checkLevelUp() {
+            const expNeeded = this.player.level * 1000;
+            if (this.player.experience >= expNeeded) {
+                this.player.level++;
+                this.player.experience -= expNeeded;
+
             }
         }
 
-        // Enhanced Game State Management
-        class GameState {
-            constructor() {
-                this.player = {
-                    name: 'Warrior',
-                    mana: 500,
-                    wins: 0,
-                    losses: 0,
-                    selectedElement: null,
-                    winStreak: 0,
-                    bestStreak: 0,
-                    totalBattles: 0,
-                    experience: 350,
-                    level: 1,
-                    favoriteElement: null,
-                    elementStats: { earth: 0, water: 0, fire: 0 },
-                    achievements: [],
-                    lastManaChange: 0
-                };
-                this.currentOpponent = null;
-                this.opponentElement = null;
-                this.gamePhase = 'splash';
+        updateFavoriteElement() {
+            if (!this.player.selectedElement) return;
+
+            this.player.elementStats[this.player.selectedElement]++;
+
+            const mostUsed = Object.entries(this.player.elementStats)
+                .reduce((a, b) => a[1] > b[1] ? a : b);
+
+            if (mostUsed[1] > 0) {
+                this.player.favoriteElement = elements[mostUsed[0]].name;
+            }
+        }
+
+        checkAchievements() {
+            const newAchievements = [];
+            const achievementDefinitions = this.getAchievementDefinitions();
+
+            achievementDefinitions.forEach(achievement => {
+                if (!this.player.achievements.includes(achievement.id) && achievement.condition(this.player)) {
+                    newAchievements.push(achievement.id);
+                    this.showAchievementNotification(achievement);
+                }
+            });
+
+            this.player.achievements.push(...newAchievements);
+        }
+
+        getAchievementDefinitions() {
+            return [
+                // Победы
+                { id: 'first_victory', icon: '🏆', name: 'First Victory', desc: 'Win your first battle', condition: p => p.wins >= 1 },
+                { id: 'veteran', icon: '⚔️', name: 'Veteran', desc: 'Win 5 battles', condition: p => p.wins >= 5 },
+                { id: 'champion', icon: '👑', name: 'Champion', desc: 'Win 10 battles', condition: p => p.wins >= 10 },
+                { id: 'legend', icon: '🌟', name: 'Legend', desc: 'Win 25 battles', condition: p => p.wins >= 25 },
+                { id: 'immortal', icon: '💫', name: 'Immortal', desc: 'Win 50 battles', condition: p => p.wins >= 50 },
+
+                // Серии побед
+                { id: 'win_streak_3', icon: '🔥', name: 'Triple Threat', desc: 'Win 3 battles in a row', condition: p => p.winStreak >= 3 },
+                { id: 'win_streak_5', icon: '🔥🔥', name: 'Unstoppable', desc: 'Win 5 battles in a row', condition: p => p.winStreak >= 5 },
+                { id: 'win_streak_10', icon: '🔥🔥🔥', name: 'Dominator', desc: 'Win 10 battles in a row', condition: p => p.winStreak >= 10 },
+
+                // Мана
+                { id: 'mana_master', icon: '💎', name: 'Mana Master', desc: 'Accumulate 1000 mana', condition: p => p.mana >= 1000 },
+                { id: 'mana_lord', icon: '💎💎', name: 'Mana Lord', desc: 'Accumulate 2500 mana', condition: p => p.mana >= 2500 },
+                { id: 'mana_god', icon: '💎💎💎', name: 'Mana God', desc: 'Accumulate 5000 mana', condition: p => p.mana >= 5000 },
+
+                // Элементы
+                { id: 'fire_master', icon: '🔥', name: 'Fire Master', desc: 'Win 10 battles with Fire', condition: p => p.elementStats.fire >= 10 },
+                { id: 'water_master', icon: '💧', name: 'Water Master', desc: 'Win 10 battles with Water', condition: p => p.elementStats.water >= 10 },
+                { id: 'earth_master', icon: '🗿', name: 'Earth Master', desc: 'Win 10 battles with Earth', condition: p => p.elementStats.earth >= 10 },
+                { id: 'elemental_master', icon: '🌈', name: 'Elemental Master', desc: 'Master all elements', condition: p => p.elementStats.fire >= 10 && p.elementStats.water >= 10 && p.elementStats.earth >= 10 },
+
+                // Опыт и уровень
+                { id: 'experienced', icon: '📚', name: 'Experienced', desc: 'Reach level 5', condition: p => p.level >= 5 },
+                { id: 'expert', icon: '🎓', name: 'Expert', desc: 'Reach level 10', condition: p => p.level >= 10 },
+                { id: 'master', icon: '🧙‍♂️', name: 'Master', desc: 'Reach level 15', condition: p => p.level >= 15 },
+
+                // Битвы
+                { id: 'warrior', icon: '⚔️', name: 'Warrior', desc: 'Fight 25 battles', condition: p => p.totalBattles >= 25 },
+                { id: 'gladiator', icon: '🛡️', name: 'Gladiator', desc: 'Fight 50 battles', condition: p => p.totalBattles >= 50 },
+                { id: 'arena_master', icon: '🏟️', name: 'Arena Master', desc: 'Fight 100 battles', condition: p => p.totalBattles >= 100 },
+
+                // Особые достижения
+                { id: 'perfectionist', icon: '💯', name: 'Perfectionist', desc: 'Win 10 battles without losing', condition: p => p.wins >= 10 && p.losses === 0 },
+                { id: 'comeback_king', icon: '🔄', name: 'Comeback King', desc: 'Win after losing 5 in a row', condition: p => p.winStreak >= 1 && p.maxLossStreak >= 5 },
+                { id: 'high_roller', icon: '🎰', name: 'High Roller', desc: 'Win a battle with 500+ mana wager', condition: p => p.maxWager >= 500 },
+            ];
+        }
+
+        showAchievementNotification(achievement) {
+            // Создаем уведомление о достижении
+            const notification = document.createElement('div');
+            notification.className = 'achievement-notification';
+            notification.innerHTML = `
+                <div class="achievement-popup">
+                    <div class="achievement-popup-icon">${achievement.icon}</div>
+                    <div class="achievement-popup-text">
+                        <div class="achievement-popup-title">Achievement Unlocked!</div>
+                        <div class="achievement-popup-name">${achievement.name}</div>
+                        <div class="achievement-popup-desc">${achievement.desc}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Показываем уведомление
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Убираем уведомление через 4 секунды
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 500);
+            }, 4000);
+        }
+
+        getRank() {
+            if (this.player.level >= 10) return 'Master';
+            if (this.player.level >= 5) return 'Expert';
+            if (this.player.level >= 3) return 'Adept';
+            return 'Novice';
+        }
+
+        getTitle() {
+            if (this.player.winStreak >= 5) return 'Unstoppable Force';
+            if (this.player.wins >= 10) return 'Battle Veteran';
+            if (this.player.wins >= 5) return 'Skilled Warrior';
+            return 'Elemental Seeker';
+        }
+
+        saveToStorage() {
+            localStorage.setItem('elementalGameState', JSON.stringify(this.player));
+        }
+
+        loadFromStorage() {
+            const saved = localStorage.getItem('elementalGameState');
+            if (saved) {
+                this.player = { ...this.player, ...JSON.parse(saved) };
+            }
+        }
+
+        updateUI() {
+            // Basic stats (Profile tab)
+            document.getElementById('playerMana').textContent = this.player.mana;
+            document.getElementById('playerWins').textContent = this.player.wins;
+            document.getElementById('playerLosses').textContent = this.player.losses;
+            document.getElementById('playerStreakNew').textContent = this.player.winStreak;
+
+            // Update streak status
+            const streakStatusEl = document.getElementById('streakStatusNew');
+            if (this.player.winStreak === 0) {
+                streakStatusEl.textContent = 'No streak';
+            } else if (this.player.winStreak === 1) {
+                streakStatusEl.textContent = '1 win in a row';
+            } else {
+                streakStatusEl.textContent = `${this.player.winStreak} wins in a row`;
             }
 
-            updatePlayer(updates) {
-                const oldMana = this.player.mana;
-                this.player = { ...this.player, ...updates };
-                
-                // Calculate mana change
-                if (updates.mana !== undefined) {
-                    this.player.lastManaChange = this.player.mana - oldMana;
-                }
-                
-                // Update total battles
-                if (updates.wins !== undefined || updates.losses !== undefined) {
-                    this.player.totalBattles = this.player.wins + this.player.losses;
-                }
-                
-                // Update best streak
-                if (updates.winStreak !== undefined && updates.winStreak > this.player.bestStreak) {
-                    this.player.bestStreak = updates.winStreak;
-                }
-                
-                // Update experience and level
-                if (updates.wins !== undefined && updates.wins > (this.player.wins || 0)) {
-                    this.player.experience += 100;
-                    this.checkLevelUp();
-                }
-                
-                // Update favorite element
-                this.updateFavoriteElement();
-                
-                // Check achievements
-                this.checkAchievements();
-                
-                this.saveToStorage();
-                this.updateUI();
+            // Battle tab stats sync
+            const battleMana = document.getElementById('battleMana');
+            const battleWins = document.getElementById('battleWins');
+            const battleStreak = document.getElementById('battleStreak');
+            const battleDefeats = document.getElementById('battleDefeats');
+
+            if (battleMana) battleMana.textContent = this.player.mana;
+            if (battleWins) battleWins.textContent = this.player.wins;
+            if (battleStreak) battleStreak.textContent = this.player.winStreak;
+            if (battleDefeats) battleDefeats.textContent = this.player.losses;
+
+            // Profile info
+            document.getElementById('playerName').textContent = this.player.name;
+            document.getElementById('playerRank').textContent = this.getRank();
+            document.getElementById('playerTitle').textContent = this.getTitle();
+
+            // Experience bar
+            const expNeeded = this.player.level * 1000;
+            const expPercent = (this.player.experience / expNeeded) * 100;
+            document.getElementById('expFill').style.width = `${expPercent}%`;
+            document.getElementById('expText').textContent = `${this.player.experience} / ${expNeeded} XP`;
+
+            // Mana change indicator
+            const manaChangeEl = document.getElementById('manaChange');
+            if (this.player.lastManaChange > 0) {
+                manaChangeEl.textContent = `+${this.player.lastManaChange}`;
+                manaChangeEl.className = 'stat-change';
+            } else if (this.player.lastManaChange < 0) {
+                manaChangeEl.textContent = `${this.player.lastManaChange}`;
+                manaChangeEl.className = 'stat-change negative';
+            } else {
+                manaChangeEl.textContent = '+0';
+                manaChangeEl.className = 'stat-change';
             }
 
-            checkLevelUp() {
-                const expNeeded = this.player.level * 1000;
-                if (this.player.experience >= expNeeded) {
-                    this.player.level++;
-                    this.player.experience -= expNeeded;
+            // Win rate
+            const winRate = this.player.totalBattles > 0 ?
+                Math.round((this.player.wins / this.player.totalBattles) * 100) : 0;
+            document.getElementById('winRate').textContent = `${winRate}% Win Rate`;
 
-                }
-            }
+            // Loss rate
+            const lossRate = this.player.totalBattles > 0 ?
+                Math.round((this.player.losses / this.player.totalBattles) * 100) : 0;
+            document.getElementById('lossRate').textContent = `${lossRate}% Loss Rate`;
 
-            updateFavoriteElement() {
-                if (!this.player.selectedElement) return;
-                
-                this.player.elementStats[this.player.selectedElement]++;
-                
-                const mostUsed = Object.entries(this.player.elementStats)
-                    .reduce((a, b) => a[1] > b[1] ? a : b);
-                
-                if (mostUsed[1] > 0) {
-                    this.player.favoriteElement = elements[mostUsed[0]].name;
-                }
-            }
+            // Current streak
+            const streakText = this.player.winStreak > 0 ?
+                `${this.player.winStreak} Win Streak` :
+                this.player.losses > this.player.wins ? `${this.player.losses - this.player.wins} Loss Streak` : '0 Streak';
+            document.getElementById('currentStreak').textContent = streakText;
 
-            checkAchievements() {
-                const achievements = [];
-                
-                if (this.player.wins >= 1 && !this.player.achievements.includes('first_victory')) {
-                    achievements.push('first_victory');
-                }
-                
-                if (this.player.winStreak >= 3 && !this.player.achievements.includes('win_streak_3')) {
-                    achievements.push('win_streak_3');
-                }
-                
-                if (this.player.mana >= 1000 && !this.player.achievements.includes('mana_master')) {
-                    achievements.push('mana_master');
-                }
-                
-                this.player.achievements.push(...achievements);
-            }
+            // Quick stats
+            document.getElementById('totalBattles').textContent = this.player.totalBattles;
+            document.getElementById('bestStreak').textContent = this.player.bestStreak;
+            document.getElementById('favoriteElement').textContent = this.player.favoriteElement || 'None';
 
-            getRank() {
-                if (this.player.level >= 10) return 'Master';
-                if (this.player.level >= 5) return 'Expert';
-                if (this.player.level >= 3) return 'Adept';
-                return 'Novice';
-            }
+            // Update achievements
+            this.updateAchievementsUI();
+        }
 
-            getTitle() {
-                if (this.player.winStreak >= 5) return 'Unstoppable Force';
-                if (this.player.wins >= 10) return 'Battle Veteran';
-                if (this.player.wins >= 5) return 'Skilled Warrior';
-                return 'Elemental Seeker';
-            }
+        updateAchievementsUI() {
+            const achievementsList = document.getElementById('achievementsList');
+            const allAchievements = this.getAchievementDefinitions();
+            
+            // Показываем только последние 5 достижений (разблокированные + ближайшие заблокированные)
+            const unlockedAchievements = allAchievements.filter(a => this.player.achievements.includes(a.id));
+            const lockedAchievements = allAchievements.filter(a => !this.player.achievements.includes(a.id));
+            
+            const displayAchievements = [
+                ...unlockedAchievements.slice(-3), // Последние 3 разблокированных
+                ...lockedAchievements.slice(0, 2)   // Первые 2 заблокированных
+            ];
 
-            saveToStorage() {
-                localStorage.setItem('elementalGameState', JSON.stringify(this.player));
-            }
-
-            loadFromStorage() {
-                const saved = localStorage.getItem('elementalGameState');
-                if (saved) {
-                    this.player = { ...this.player, ...JSON.parse(saved) };
-                }
-            }
-
-            updateUI() {
-                // Basic stats (Profile tab)
-                document.getElementById('playerMana').textContent = this.player.mana;
-                document.getElementById('playerWins').textContent = this.player.wins;
-                document.getElementById('playerLosses').textContent = this.player.losses;
+            achievementsList.innerHTML = displayAchievements.map(achievement => {
+                const isUnlocked = this.player.achievements.includes(achievement.id);
+                const progress = this.getAchievementProgress(achievement);
                 
-                // Battle tab stats sync
-                const battleMana = document.getElementById('battleMana');
-                const battleWins = document.getElementById('battleWins');
-                const battleStreak = document.getElementById('battleStreak');
-                
-                if (battleMana) battleMana.textContent = this.player.mana;
-                if (battleWins) battleWins.textContent = this.player.wins;
-                if (battleStreak) battleStreak.textContent = this.player.currentStreak;
-                
-                // Profile info
-                document.getElementById('playerName').textContent = this.player.name;
-                document.getElementById('playerRank').textContent = this.getRank();
-                document.getElementById('playerTitle').textContent = this.getTitle();
-                
-                // Experience bar
-                const expNeeded = this.player.level * 1000;
-                const expPercent = (this.player.experience / expNeeded) * 100;
-                document.getElementById('expFill').style.width = `${expPercent}%`;
-                document.getElementById('expText').textContent = `${this.player.experience} / ${expNeeded} XP`;
-                
-                // Mana change indicator
-                const manaChangeEl = document.getElementById('manaChange');
-                if (this.player.lastManaChange > 0) {
-                    manaChangeEl.textContent = `+${this.player.lastManaChange}`;
-                    manaChangeEl.className = 'stat-change';
-                } else if (this.player.lastManaChange < 0) {
-                    manaChangeEl.textContent = `${this.player.lastManaChange}`;
-                    manaChangeEl.className = 'stat-change negative';
-                } else {
-                    manaChangeEl.textContent = '+0';
-                    manaChangeEl.className = 'stat-change';
-                }
-                
-                // Win rate
-                const winRate = this.player.totalBattles > 0 ? 
-                    Math.round((this.player.wins / this.player.totalBattles) * 100) : 0;
-                document.getElementById('winRate').textContent = `${winRate}% Win Rate`;
-                
-                // Current streak
-                const streakText = this.player.winStreak > 0 ? 
-                    `${this.player.winStreak} Win Streak` : 
-                    this.player.losses > this.player.wins ? `${this.player.losses - this.player.wins} Loss Streak` : '0 Streak';
-                document.getElementById('currentStreak').textContent = streakText;
-                
-                // Quick stats
-                document.getElementById('totalBattles').textContent = this.player.totalBattles;
-                document.getElementById('bestStreak').textContent = this.player.bestStreak;
-                document.getElementById('favoriteElement').textContent = this.player.favoriteElement || 'None';
-                
-                // Update achievements
-                this.updateAchievementsUI();
-            }
-
-            updateAchievementsUI() {
-                const achievementsList = document.getElementById('achievementsList');
-                const achievements = [
-                    {
-                        id: 'first_victory',
-                        icon: '🏆',
-                        name: 'First Victory',
-                        desc: 'Win your first battle'
-                    },
-                    {
-                        id: 'win_streak_3',
-                        icon: '🔥',
-                        name: 'Triple Threat',
-                        desc: 'Win 3 battles in a row'
-                    },
-                    {
-                        id: 'mana_master',
-                        icon: '💎',
-                        name: 'Mana Master',
-                        desc: 'Accumulate 1000 mana'
-                    }
-                ];
-                
-                achievementsList.innerHTML = achievements.map(achievement => {
-                    const isUnlocked = this.player.achievements.includes(achievement.id);
-                    return `
-                        <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
-                            <div class="achievement-icon">${isUnlocked ? achievement.icon : '🔒'}</div>
-                            <div class="achievement-text">
-                                <div class="achievement-name">${achievement.name}</div>
-                                <div class="achievement-desc">${achievement.desc}</div>
-                            </div>
+                return `
+                    <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
+                        <div class="achievement-icon">${isUnlocked ? achievement.icon : '🔒'}</div>
+                        <div class="achievement-text">
+                            <div class="achievement-name">${achievement.name}</div>
+                            <div class="achievement-desc">${achievement.desc}</div>
+                            ${!isUnlocked && progress ? `<div class="achievement-progress">${progress}</div>` : ''}
                         </div>
-                    `;
-                }).join('');
-            }
+                    </div>
+                `;
+            }).join('');
         }
 
-        // Initialize game state
-        const gameState = new GameState();
+        getAchievementProgress(achievement) {
+            const p = this.player;
+            
+            // Определяем прогресс для разных типов достижений
+            if (achievement.id.includes('wins') || achievement.id === 'veteran' || achievement.id === 'champion' || achievement.id === 'legend' || achievement.id === 'immortal') {
+                return `${p.wins}/${achievement.id === 'veteran' ? 5 : achievement.id === 'champion' ? 10 : achievement.id === 'legend' ? 25 : achievement.id === 'immortal' ? 50 : 1}`;
+            }
+            
+            if (achievement.id.includes('streak')) {
+                const target = achievement.id === 'win_streak_3' ? 3 : achievement.id === 'win_streak_5' ? 5 : 10;
+                return `${p.winStreak}/${target}`;
+            }
+            
+            if (achievement.id.includes('mana')) {
+                const target = achievement.id === 'mana_master' ? 1000 : achievement.id === 'mana_lord' ? 2500 : 5000;
+                return `${p.mana}/${target}`;
+            }
+            
+            if (achievement.id.includes('_master') && !achievement.id.includes('mana')) {
+                const element = achievement.id.split('_')[0];
+                return `${p.elementStats[element] || 0}/10`;
+            }
+            
+            if (achievement.id.includes('level') || achievement.id === 'experienced' || achievement.id === 'expert' || achievement.id === 'master') {
+                const target = achievement.id === 'experienced' ? 5 : achievement.id === 'expert' ? 10 : 15;
+                return `Level ${p.level}/${target}`;
+            }
+            
+            if (achievement.id.includes('battles') || achievement.id === 'warrior' || achievement.id === 'gladiator' || achievement.id === 'arena_master') {
+                const target = achievement.id === 'warrior' ? 25 : achievement.id === 'gladiator' ? 50 : 100;
+                return `${p.totalBattles}/${target}`;
+            }
+            
+            return null;
+        }
+    }
 
-        // Game Data
-        const elements = {
-            earth: { name: 'Earth Golem', emoji: '🗿' },
-            water: { name: 'Water Nymph', emoji: '💧' },
-            fire: { name: 'Fire Sprite', emoji: '🔥' }
+    // Initialize game state
+    const gameState = new GameState();
+
+    // Game Data
+    const elements = {
+        earth: { name: 'Earth Golem', emoji: '🗿' },
+        water: { name: 'Water Nymph', emoji: '💧' },
+        fire: { name: 'Fire Sprite', emoji: '🔥' }
+    };
+
+    const opponentNames = [
+        'DragonSlayer', 'MysticMage', 'ElementMaster', 'StormBringer', 'EarthShaker',
+        'FlameWarden', 'WaterSpirit', 'CrystalGuard', 'ShadowHunter', 'LightBringer'
+    ];
+
+    const opponentAvatars = ['🐉', '🧙‍♂️', '⚔️', '🛡️', '🔥', '💧', '🗿', '⚡', '🌟', '👑'];
+
+
+
+    // Enhanced Modal Management with Animation Queue
+    function showModal(modalId, delay = 0) {
+        setTimeout(() => {
+            hideAllModals();
+            setTimeout(() => {
+                document.getElementById(modalId).classList.add('active');
+            }, 100);
+        }, delay);
+    }
+
+    function hideModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+    }
+
+    function hideAllModals() {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.classList.remove('active');
+        });
+    }
+
+
+
+    // Enhanced Game Logic
+    function getWinner(element1, element2) {
+        if (element1 === element2) return 'tie';
+
+        const winConditions = {
+            earth: 'water',
+            water: 'fire',
+            fire: 'earth'
         };
 
-        const opponentNames = [
-            'DragonSlayer', 'MysticMage', 'ElementMaster', 'StormBringer', 'EarthShaker',
-            'FlameWarden', 'WaterSpirit', 'CrystalGuard', 'ShadowHunter', 'LightBringer'
-        ];
+        return winConditions[element1] === element2 ? 'player' : 'opponent';
+    }
 
-        const opponentAvatars = ['🐉', '🧙‍♂️', '⚔️', '🛡️', '🔥', '💧', '🗿', '⚡', '🌟', '👑'];
+    function generateOpponent() {
+        const name = opponentNames[Math.floor(Math.random() * opponentNames.length)];
+        const avatar = opponentAvatars[Math.floor(Math.random() * opponentAvatars.length)];
+        const level = Math.floor(Math.random() * 10) + 1;
+        const rarities = ['Common', 'Rare', 'Legendary'];
+        const rarity = rarities[Math.floor(Math.random() * rarities.length)];
 
-        // Enhanced Toast Notification System
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type}`;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
+        return {
+            name,
+            avatar,
+            level,
+            rarity,
+            wager: Math.floor(Math.random() * 100) + 50
+        };
+    }
 
-        // Enhanced Modal Management with Animation Queue
-        function showModal(modalId, delay = 0) {
-            setTimeout(() => {
-                hideAllModals();
-                setTimeout(() => {
-                    document.getElementById(modalId).classList.add('active');
-                }, 100);
-            }, delay);
-        }
+    // Enhanced Game Flow with Better UX
+    function startMatchmaking() {
+        console.log('🔍 Starting matchmaking...');
+        gameState.gamePhase = 'matchmaking';
+        showModal('matchmakingModal');
 
-        function hideModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
+        // Показываем кнопку экстренного сброса через 10 секунд
+        const emergencyTimeout = setTimeout(() => {
+            const emergencyButton = document.getElementById('emergencyButton');
+            if (emergencyButton && gameState.gamePhase !== 'menu') {
+                emergencyButton.style.display = 'block';
+                console.log('⚠️ Emergency reset button shown');
+            }
+        }, 10000);
 
-        function hideAllModals() {
-            document.querySelectorAll('.modal-overlay').forEach(modal => {
-                modal.classList.remove('active');
-            });
-        }
+        // Simulate realistic matchmaking with progress
+        let progress = 0;
+        const progressDots = document.querySelectorAll('#matchmakingModal .progress-dot');
 
-        // Enhanced Game Logic
-        function getWinner(element1, element2) {
-            if (element1 === element2) return 'tie';
-            
-            const winConditions = {
-                earth: 'water',
-                water: 'fire',
-                fire: 'earth'
-            };
-            
-            return winConditions[element1] === element2 ? 'player' : 'opponent';
-        }
+        const progressInterval = setInterval(() => {
+            if (progress < progressDots.length) {
+                progressDots[progress].classList.add('active');
+                progress++;
+            }
+        }, 1000);
 
-        function generateOpponent() {
-            const name = opponentNames[Math.floor(Math.random() * opponentNames.length)];
-            const avatar = opponentAvatars[Math.floor(Math.random() * opponentAvatars.length)];
-            const level = Math.floor(Math.random() * 10) + 1;
-            const rarities = ['Common', 'Rare', 'Legendary'];
-            const rarity = rarities[Math.floor(Math.random() * rarities.length)];
-            
-            return {
-                name,
-                avatar,
-                level,
-                rarity,
-                wager: Math.floor(Math.random() * 100) + 50
-            };
-        }
-
-        // Enhanced Game Flow with Better UX
-        function startMatchmaking() {
-            gameState.gamePhase = 'matchmaking';
-            showModal('matchmakingModal');
-            
-            // Simulate realistic matchmaking with progress
-            let progress = 0;
-            const progressDots = document.querySelectorAll('#matchmakingModal .progress-dot');
-            
-            const progressInterval = setInterval(() => {
-                if (progress < progressDots.length) {
-                    progressDots[progress].classList.add('active');
-                    progress++;
-                }
-            }, 1000);
-            
-            // Find opponent after delay
-            setTimeout(() => {
+        // Find opponent after delay
+        const matchmakingTimeout = setTimeout(() => {
+            try {
                 clearInterval(progressInterval);
+                clearTimeout(emergencyTimeout);
+                
                 gameState.currentOpponent = generateOpponent();
-                
-                // Update opponent display
-                document.getElementById('opponentAvatar').textContent = gameState.currentOpponent.avatar;
-                document.getElementById('opponentName').textContent = gameState.currentOpponent.name;
-                document.getElementById('opponentLevel').textContent = `Level ${gameState.currentOpponent.level} • ${gameState.currentOpponent.rarity} Elemental`;
-                document.getElementById('opponentBattleName').textContent = gameState.currentOpponent.name;
-                
+
+                // Update opponent display with error checking
+                safeUpdateElement('opponentAvatar', gameState.currentOpponent.avatar);
+                safeUpdateElement('opponentName', gameState.currentOpponent.name);
+                safeUpdateElement('opponentLevel', `Level ${gameState.currentOpponent.level} • ${gameState.currentOpponent.rarity} Elemental`);
+                safeUpdateElement('opponentBattleName', gameState.currentOpponent.name);
+
                 showModal('opponentModal', 300);
-                
+
                 // Enable battle button if element is already selected
                 if (gameState.player.selectedElement) {
                     const battleButton = document.getElementById('battleButton');
@@ -1703,218 +1974,550 @@ y>
                         battleButton.disabled = false;
                     }
                 }
-            }, 3000 + Math.random() * 2000);
+                
+                console.log('✅ Opponent found successfully');
+                
+            } catch (error) {
+                console.error('❌ Error in matchmaking:', error);
+                clearInterval(progressInterval);
+                clearTimeout(emergencyTimeout);
+                
+                // Пытаемся создать базового противника
+                try {
+                    gameState.currentOpponent = {
+                        name: 'Unknown Challenger',
+                        avatar: '❓',
+                        level: 1,
+                        rarity: 'Common',
+                        wager: 50
+                    };
+                    
+                    showModal('opponentModal', 300);
+                    showFriendlyMessage('⚠️ Matchmaking had issues, but found you an opponent!');
+                    
+                } catch (fallbackError) {
+                    console.error('❌ Fallback opponent creation failed:', fallbackError);
+                    hideAllModals();
+                    showFriendlyMessage('❌ Matchmaking failed. Please try again.');
+                }
+            }
+        }, 3000 + Math.random() * 2000);
+
+        // Сохраняем таймеры для возможной очистки
+        gameState.matchmakingTimeouts = [progressInterval, matchmakingTimeout, emergencyTimeout];
+    }
+
+    function selectElement(element, event) {
+        gameState.player.selectedElement = element;
+
+        // Enhanced visual feedback
+        document.querySelectorAll('.element-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Find the clicked element button
+        const clickedBtn = event ? event.target.closest('.element-btn') :
+            document.querySelector(`[data-element="${element}"]`);
+        if (clickedBtn) {
+            clickedBtn.classList.add('selected');
         }
 
-        function selectElement(element, event) {
-            gameState.player.selectedElement = element;
-            
-            // Enhanced visual feedback
-            document.querySelectorAll('.element-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            
-            // Find the clicked element button
-            const clickedBtn = event ? event.target.closest('.element-btn') : 
-                              document.querySelector(`[data-element="${element}"]`);
-            if (clickedBtn) {
-                clickedBtn.classList.add('selected');
-            }
-            
-            // Haptic feedback simulation
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-            
-            // Enable seek button with animation
-            const seekButton = document.getElementById('seekButton');
-            if (seekButton) {
-                seekButton.disabled = false;
-                seekButton.textContent = '🔮 Seek Challenger';
-                seekButton.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    seekButton.style.transform = 'scale(1)';
-                }, 200);
-            }
-            
-            // Enable battle button in modal with animation
-            const battleButton = document.getElementById('battleButton');
-            if (battleButton) {
-                battleButton.disabled = false;
-                battleButton.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    battleButton.style.transform = 'scale(1)';
-                }, 200);
-            }
-            
-
+        // Haptic feedback simulation
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
         }
 
-        function startBattle() {
-            gameState.gamePhase = 'battle';
-            showModal('battleModal');
-            
-            // Generate opponent choice
-            const elementKeys = Object.keys(elements);
-            gameState.opponentElement = elementKeys[Math.floor(Math.random() * elementKeys.length)];
-            
-            // Enhanced battle sequence with better timing
+        // Enable seek button with animation
+        const seekButton = document.getElementById('seekButton');
+        if (seekButton) {
+            seekButton.disabled = false;
+            seekButton.textContent = '🔮 Seek Challenger';
+            seekButton.style.transform = 'scale(1.05)';
             setTimeout(() => {
-                document.getElementById('playerBattleChoice').textContent = elements[gameState.player.selectedElement].emoji;
-                document.getElementById('playerBattleChoice').classList.add('animate');
-            }, 800);
-            
+                seekButton.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Enable battle button in modal with animation
+        const battleButton = document.getElementById('battleButton');
+        if (battleButton) {
+            battleButton.disabled = false;
+            battleButton.style.transform = 'scale(1.05)';
             setTimeout(() => {
-                document.getElementById('opponentBattleChoice').textContent = elements[gameState.opponentElement].emoji;
-                document.getElementById('opponentBattleChoice').classList.add('animate');
-            }, 1600);
-            
-            // Show result with dramatic pause
-            setTimeout(() => {
+                battleButton.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+
+    }
+
+    function startBattle() {
+        console.log('🎮 Starting battle...');
+        
+        // Проверка критических условий
+        if (!gameState.player.selectedElement) {
+            console.error('❌ No element selected!');
+            alert('Please select an element first!');
+            hideAllModals();
+            return;
+        }
+        
+        if (!gameState.currentOpponent) {
+            console.error('❌ No opponent found!');
+            alert('No opponent available!');
+            hideAllModals();
+            return;
+        }
+
+        gameState.gamePhase = 'battle';
+        showModal('battleModal');
+
+        // Generate opponent choice
+        const elementKeys = Object.keys(elements);
+        gameState.opponentElement = elementKeys[Math.floor(Math.random() * elementKeys.length)];
+        
+        console.log(`⚔️ Battle: ${gameState.player.selectedElement} vs ${gameState.opponentElement}`);
+
+        // Проверка элементов DOM
+        const playerChoice = document.getElementById('playerBattleChoice');
+        const opponentChoice = document.getElementById('opponentBattleChoice');
+        
+        if (!playerChoice || !opponentChoice) {
+            console.error('❌ Battle elements not found in DOM!');
+            showResult(); // Пропускаем анимацию и показываем результат
+            return;
+        }
+
+        // Enhanced battle sequence with better timing and error handling
+        const battleTimeout1 = setTimeout(() => {
+            try {
+                if (elements[gameState.player.selectedElement]) {
+                    playerChoice.textContent = elements[gameState.player.selectedElement].emoji;
+                    playerChoice.classList.add('animate');
+                    console.log('✅ Player choice displayed');
+                } else {
+                    console.error('❌ Invalid player element');
+                    showResult();
+                }
+            } catch (error) {
+                console.error('❌ Error showing player choice:', error);
                 showResult();
-            }, 3000);
-        }
+            }
+        }, 800);
 
-        function showResult() {
+        const battleTimeout2 = setTimeout(() => {
+            try {
+                if (elements[gameState.opponentElement]) {
+                    opponentChoice.textContent = elements[gameState.opponentElement].emoji;
+                    opponentChoice.classList.add('animate');
+                    console.log('✅ Opponent choice displayed');
+                } else {
+                    console.error('❌ Invalid opponent element');
+                    showResult();
+                }
+            } catch (error) {
+                console.error('❌ Error showing opponent choice:', error);
+                showResult();
+            }
+        }, 1600);
+
+        // Show result with dramatic pause and timeout protection
+        const battleTimeout3 = setTimeout(() => {
+            try {
+                console.log('🏁 Showing battle result...');
+                showResult();
+            } catch (error) {
+                console.error('❌ Error showing result:', error);
+                // Пытаемся показать результат без анимации
+                try {
+                    showResult();
+                } catch (fallbackError) {
+                    console.error('❌ Fallback result failed:', fallbackError);
+                    emergencyReset();
+                }
+            }
+        }, 3000);
+
+        // Сохраняем таймеры для возможной очистки
+        gameState.battleTimeouts = [battleTimeout1, battleTimeout2, battleTimeout3];
+    }
+
+    function showResult() {
+        console.log('🏁 Calculating battle result...');
+        
+        try {
+            // Очищаем таймеры битвы
+            if (gameState.battleTimeouts) {
+                gameState.battleTimeouts.forEach(timeout => clearTimeout(timeout));
+                gameState.battleTimeouts = null;
+            }
+
             const winner = getWinner(gameState.player.selectedElement, gameState.opponentElement);
             let manaChange = 0;
             
+            console.log(`🏆 Battle result: ${winner}`);
+
             // Calculate result with enhanced logic
             if (winner === 'player') {
-                manaChange = gameState.currentOpponent.wager;
+                manaChange = gameState.currentOpponent ? gameState.currentOpponent.wager : 50;
                 gameState.updatePlayer({
                     mana: gameState.player.mana + manaChange,
                     wins: gameState.player.wins + 1,
-                    winStreak: gameState.player.winStreak + 1
+                    winStreak: gameState.player.winStreak + 1,
+                    currentLossStreak: 0
                 });
-                
-                document.getElementById('resultIcon').textContent = '🏆';
-                document.getElementById('resultTitle').textContent = 'Victory!';
-                document.getElementById('resultTitle').style.color = 'var(--success)';
-                document.getElementById('resultSubtitle').textContent = `You defeated ${gameState.currentOpponent.name}`;
-                document.getElementById('manaChange').textContent = `+${manaChange}`;
-                document.getElementById('manaChange').style.color = 'var(--success)';
-                
+
+                // Обновляем статистику элементов
+                if (gameState.player.elementStats[gameState.player.selectedElement] !== undefined) {
+                    gameState.player.elementStats[gameState.player.selectedElement]++;
+                }
+
+                updateResultUI('🏆', 'Victory!', 'var(--success)', 
+                    `You defeated ${gameState.currentOpponent?.name || 'Opponent'}`, 
+                    `+${manaChange}`, 'var(--success)');
 
             } else if (winner === 'opponent') {
-                manaChange = -Math.floor(gameState.currentOpponent.wager * 0.7);
+                manaChange = -Math.floor((gameState.currentOpponent?.wager || 50) * 0.7);
+                const newLossStreak = (gameState.player.currentLossStreak || 0) + 1;
+                
                 gameState.updatePlayer({
                     mana: Math.max(0, gameState.player.mana + manaChange),
                     losses: gameState.player.losses + 1,
-                    winStreak: 0
+                    winStreak: 0,
+                    currentLossStreak: newLossStreak,
+                    maxLossStreak: Math.max(gameState.player.maxLossStreak || 0, newLossStreak)
                 });
-                
-                document.getElementById('resultIcon').textContent = '💀';
-                document.getElementById('resultTitle').textContent = 'Defeat';
-                document.getElementById('resultTitle').style.color = 'var(--error)';
-                document.getElementById('resultSubtitle').textContent = `${gameState.currentOpponent.name} was victorious`;
-                document.getElementById('manaChange').textContent = `${manaChange}`;
-                document.getElementById('manaChange').style.color = 'var(--error)';
-                
+
+                updateResultUI('💀', 'Defeat', 'var(--error)', 
+                    `${gameState.currentOpponent?.name || 'Opponent'} was victorious`, 
+                    `${manaChange}`, 'var(--error)');
 
             } else {
-                document.getElementById('resultIcon').textContent = '⚖️';
-                document.getElementById('resultTitle').textContent = 'Draw';
-                document.getElementById('resultTitle').style.color = 'var(--warning)';
-                document.getElementById('resultSubtitle').textContent = 'A well-matched battle';
-                document.getElementById('manaChange').textContent = '0';
-                document.getElementById('manaChange').style.color = 'var(--text-muted)';
-                
+                gameState.updatePlayer({
+                    totalBattles: gameState.player.totalBattles + 1
+                });
 
+                updateResultUI('⚖️', 'Draw', 'var(--warning)', 
+                    'A well-matched battle', '0', 'var(--text-muted)');
+            }
+
+            // Update result stats with error checking
+            safeUpdateElement('newManaTotal', gameState.player.mana);
+            safeUpdateElement('winStreak', gameState.player.winStreak);
+
+            console.log('✅ Battle result calculated successfully');
+            showModal('resultModal', 500);
+            
+        } catch (error) {
+            console.error('❌ Error in showResult:', error);
+            
+            // Пытаемся показать базовый результат
+            try {
+                updateResultUI('⚖️', 'Battle Complete', 'var(--text-primary)', 
+                    'Result calculation failed, but battle is over', '0', 'var(--text-muted)');
+                showModal('resultModal', 500);
+            } catch (fallbackError) {
+                console.error('❌ Fallback result also failed:', fallbackError);
+                // Только в крайнем случае вызываем emergencyReset
+                emergencyReset();
+            }
+        }
+    }
+
+    function updateResultUI(icon, title, titleColor, subtitle, manaText, manaColor) {
+        safeUpdateElement('resultIcon', icon);
+        safeUpdateElement('resultTitle', title);
+        safeUpdateElement('resultSubtitle', subtitle);
+        safeUpdateElement('manaChange', manaText);
+        
+        const titleEl = document.getElementById('resultTitle');
+        const manaEl = document.getElementById('manaChange');
+        
+        if (titleEl) titleEl.style.color = titleColor;
+        if (manaEl) manaEl.style.color = manaColor;
+    }
+
+    function safeUpdateElement(id, content) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = content;
+        } else {
+            console.warn(`⚠️ Element with id '${id}' not found`);
+        }
+    }
+
+    function emergencyReset() {
+        console.log('🚨 Emergency reset triggered');
+        
+        // Увеличиваем счетчик попыток сброса
+        if (!gameState.resetAttempts) {
+            gameState.resetAttempts = 0;
+        }
+        gameState.resetAttempts++;
+        
+        try {
+            // Очищаем все таймеры битвы
+            if (gameState.battleTimeouts) {
+                gameState.battleTimeouts.forEach(timeout => {
+                    try {
+                        clearTimeout(timeout);
+                    } catch (e) {
+                        console.warn('Could not clear battle timeout:', e);
+                    }
+                });
+                gameState.battleTimeouts = null;
             }
             
-            // Update result stats
-            document.getElementById('newManaTotal').textContent = gameState.player.mana;
-            document.getElementById('winStreak').textContent = gameState.player.winStreak;
+            // Очищаем все таймеры матчмейкинга
+            if (gameState.matchmakingTimeouts) {
+                gameState.matchmakingTimeouts.forEach(timeout => {
+                    try {
+                        if (typeof timeout === 'number') {
+                            clearTimeout(timeout);
+                        } else {
+                            clearInterval(timeout);
+                        }
+                    } catch (e) {
+                        console.warn('Could not clear matchmaking timeout:', e);
+                    }
+                });
+                gameState.matchmakingTimeouts = null;
+            }
             
-            showModal('resultModal', 500);
+            // Сбрасываем состояние игры
+            gameState.gamePhase = 'menu';
+            gameState.player.selectedElement = null;
+            gameState.currentOpponent = null;
+            gameState.opponentElement = null;
+            
+            // Скрываем все модальные окна
+            try {
+                hideAllModals();
+            } catch (e) {
+                // Принудительно скрываем модальные окна
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    try {
+                        modal.classList.remove('active');
+                        modal.style.display = 'none';
+                    } catch (err) {
+                        console.warn('Could not hide modal:', err);
+                    }
+                });
+            }
+            
+            // Скрываем кнопку экстренного сброса
+            const emergencyButton = document.getElementById('emergencyButton');
+            if (emergencyButton) {
+                emergencyButton.style.display = 'none';
+            }
+            
+            // Сбрасываем UI элементы
+            try {
+                document.querySelectorAll('.element-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+            } catch (e) {
+                console.warn('Could not reset element buttons:', e);
+            }
+            
+            const battleButton = document.getElementById('battleButton');
+            if (battleButton) {
+                battleButton.disabled = true;
+                battleButton.textContent = '⚔️ Enter Battle';
+            }
+            
+            const seekButton = document.getElementById('seekButton');
+            if (seekButton) {
+                seekButton.disabled = true;
+                seekButton.textContent = '🔮 Choose Element First';
+            }
+            
+            // Обновляем UI только если функция существует
+            try {
+                if (gameState && typeof gameState.updateUI === 'function') {
+                    gameState.updateUI();
+                }
+            } catch (e) {
+                console.warn('Could not update UI:', e);
+            }
+            
+            console.log('✅ Emergency reset completed successfully');
+            
+            // Показываем дружелюбное сообщение вместо критической ошибки
+            if (gameState.resetAttempts === 1) {
+                showFriendlyMessage('🔄 Battle system reset. You can continue playing!');
+            } else if (gameState.resetAttempts < 3) {
+                showFriendlyMessage('⚠️ System reset again. Everything should work now.');
+            } else {
+                // Только после 3 попыток предлагаем перезагрузку
+                if (confirm('Multiple resets detected. Would you like to refresh the page for a clean start?')) {
+                    location.reload();
+                } else {
+                    showFriendlyMessage('🎮 Continuing with current session. Try selecting an element again.');
+                }
+            }
+            
+        } catch (error) {
+            console.error('❌ Error during emergency reset:', error);
+            
+            // Мягкая обработка ошибки без немедленной перезагрузки
+            if (gameState.resetAttempts < 3) {
+                showFriendlyMessage('⚠️ Reset encountered an issue, but you can continue playing.');
+            } else {
+                if (confirm('Persistent issues detected. Refresh the page for a clean start?')) {
+                    location.reload();
+                } else {
+                    showFriendlyMessage('🎮 Continuing anyway. Try refreshing manually if problems persist.');
+                }
+            }
         }
+    }
 
-        function returnToMenu() {
+    function showFriendlyMessage(message) {
+        // Создаем дружелюбное уведомление вместо alert
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: #1a1a1a;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(218, 165, 32, 0.4);
+            z-index: 4000;
+            font-weight: 600;
+            text-align: center;
+            max-width: 300px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        `;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // Убираем уведомление через 3 секунды
+        setTimeout(() => {
+            if (notification.parentNode) {
+                document.body.removeChild(notification);
+            }
+        }, 3000);
+    }
+
+    function returnToMenu() {
+        console.log('🔄 Returning to menu...');
+        
+        try {
+            // Очищаем все таймеры битвы
+            if (gameState.battleTimeouts) {
+                gameState.battleTimeouts.forEach(timeout => clearTimeout(timeout));
+                gameState.battleTimeouts = null;
+            }
+
             // Reset game state
             gameState.player.selectedElement = null;
             gameState.currentOpponent = null;
             gameState.opponentElement = null;
             gameState.gamePhase = 'menu';
-            
-            // Reset UI elements
+
+            // Reset UI elements with error checking
             document.querySelectorAll('.element-btn').forEach(btn => {
                 btn.classList.remove('selected');
             });
-            document.getElementById('battleButton').disabled = true;
-            document.getElementById('playerBattleChoice').classList.remove('animate');
-            document.getElementById('opponentBattleChoice').classList.remove('animate');
             
+            const battleButton = document.getElementById('battleButton');
+            if (battleButton) {
+                battleButton.disabled = true;
+                battleButton.textContent = '⚔️ Enter Battle';
+            }
+            
+            const seekButton = document.getElementById('seekButton');
+            if (seekButton) {
+                seekButton.disabled = true;
+                seekButton.textContent = '🔮 Choose Element First';
+            }
+            
+            const playerChoice = document.getElementById('playerBattleChoice');
+            const opponentChoice = document.getElementById('opponentBattleChoice');
+            
+            if (playerChoice) {
+                playerChoice.classList.remove('animate');
+                playerChoice.textContent = '?';
+            }
+            
+            if (opponentChoice) {
+                opponentChoice.classList.remove('animate');
+                opponentChoice.textContent = '?';
+            }
+
+            hideAllModals();
+            console.log('✅ Successfully returned to menu');
+            
+        } catch (error) {
+            console.error('❌ Error returning to menu:', error);
+            // Принудительный сброс
+            hideAllModals();
+        }
+    }
+
+    // Enhanced Initialization
+    window.addEventListener('load', function () {
+        gameState.loadFromStorage();
+        gameState.updateUI();
+    });
+
+    // Enhanced Error Handling
+    window.addEventListener('error', function (e) {
+        console.error('Something went wrong. Please try again.');
+        console.error('Game error:', e);
+    });
+
+    // Enhanced Keyboard Support
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
             hideAllModals();
         }
 
-        // Enhanced Initialization
-        window.addEventListener('load', function() {
+        // Element selection shortcuts
+        if (gameState.gamePhase === 'selection') {
+            if (e.key === '1') selectElement('earth', null);
+            if (e.key === '2') selectElement('water', null);
+            if (e.key === '3') selectElement('fire', null);
+        }
+    });
+
+    // App Initialization
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOM loaded, starting initialization...');
+
+        try {
+            // Initialize UI
+            console.log('Initializing game state...');
             gameState.loadFromStorage();
             gameState.updateUI();
-            
-            // Enhanced splash screen with progress
-            let splashProgress = 0;
-            const splashDots = document.querySelectorAll('#splashOverlay .progress-dot');
-            
-            const splashInterval = setInterval(() => {
-                if (splashProgress < splashDots.length) {
-                    splashDots[splashProgress].classList.add('active');
-                    splashProgress++;
-                }
-            }, 800);
-            
-            setTimeout(() => {
-                clearInterval(splashInterval);
-                hideModal('splashOverlay');
-            }, 3500);
-        });
 
-        // Enhanced Error Handling
-        window.addEventListener('error', function(e) {
-            showToast('Something went wrong. Please try again.', 'error');
-            console.error('Game error:', e);
-        });
-
-        // Enhanced Keyboard Support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideAllModals();
-            }
-            
-            // Element selection shortcuts
-            if (gameState.gamePhase === 'selection') {
-                if (e.key === '1') selectElement('earth', null);
-                if (e.key === '2') selectElement('water', null);
-                if (e.key === '3') selectElement('fire', null);
-            }
-        });
-
-        // App Initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize UI
-            gameState.updateUI();
-            
-            // Hide splash screen after loading
-            setTimeout(() => {
-                hideModal('splashOverlay');
-            }, 2000);
-            
-            // Set Battle as default active tab
+            // Start game immediately
             switchTab('battle');
-        });
-
-        // Performance Monitoring
-        if ('performance' in window) {
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    const perfData = performance.getEntriesByType('navigation')[0];
-                    if (perfData.loadEventEnd - perfData.loadEventStart > 3000) {
-                        console.warn('Slow loading detected');
-                    }
-                }, 0);
-            });
+            console.log('Game ready');
+        } catch (error) {
+            console.error('Initialization error:', error);
+            switchTab('battle');
         }
-    </script>
+    });
+
+    // Performance Monitoring
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData.loadEventEnd - perfData.loadEventStart > 3000) {
+                    console.warn('Slow loading detected');
+                }
+            }, 0);
+        });
+    }
+</script>
 </body>
+
 </html>
