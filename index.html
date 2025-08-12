@@ -723,6 +723,181 @@
             margin: 1rem 0;
         }
 
+        /* Location Selection */
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .location-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .location-btn:hover::before {
+            left: 100%;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
+        }
+
+        .location-btn.selected {
+            border-color: var(--secondary-gold);
+            background: rgba(218, 165, 32, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+        }
+
+        .location-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .location-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            margin-bottom: 0.25rem;
+        }
+
+        .location-mana {
+            font-size: 0.6rem;
+            color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        /* Elemental Selection */
+        .elemental-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .elemental-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .elemental-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .elemental-btn:hover::before {
+            left: 100%;
+        }
+
+        .elemental-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
+        }
+
+        .elemental-btn.selected {
+            border-color: var(--secondary-gold);
+            background: rgba(218, 165, 32, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+        }
+
+        .elemental-btn.common {
+            border-color: rgba(128, 128, 128, 0.3);
+        }
+
+        .elemental-btn.rare {
+            border-color: rgba(0, 123, 255, 0.3);
+        }
+
+        .elemental-btn.epic {
+            border-color: rgba(128, 0, 128, 0.3);
+        }
+
+        .elemental-btn.immortal {
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .elemental-emoji {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .elemental-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            margin-bottom: 0.25rem;
+        }
+
+        .elemental-rarity {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .elemental-btn.common .elemental-rarity {
+            color: #888;
+        }
+
+        .elemental-btn.rare .elemental-rarity {
+            color: #007bff;
+        }
+
+        .elemental-btn.epic .elemental-rarity {
+            color: #800080;
+        }
+
+        .elemental-btn.immortal .elemental-rarity {
+            color: #ffd700;
+        }
+
         .element-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
@@ -861,6 +1036,14 @@
                 gap: 0.5rem;
             }
 
+            .location-grid {
+                gap: 0.5rem;
+            }
+
+            .elemental-grid {
+                gap: 0.5rem;
+            }
+
             .battle-emoji {
                 width: 70px;
                 height: 70px;
@@ -916,7 +1099,9 @@
 
         /* Focus States */
         .btn-primary:focus,
-        .element-btn:focus {
+        .element-btn:focus,
+        .location-btn:focus,
+        .elemental-btn:focus {
             outline: 2px solid var(--secondary-gold);
             outline-offset: 2px;
         }
@@ -1106,13 +1291,7 @@
                             </div>
                         </div>
 
-                        <div class="stat-card">
-                            <div class="stat-icon">�</ /div>
-                                <div class="stat-content">
-
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Removed broken stat-card with corrupted icon -->
 
                         <div class="stat-card danger">
                             <div class="stat-icon">💀</div>
@@ -1220,11 +1399,39 @@
                             ">🏟️</div>
                             <h3 style="color: var(--secondary-gold); margin-bottom: 0.75rem;">Ready for Battle</h3>
                             <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
-                                Choose your element and challenge a worthy opponent
+                                Choose your location and element to challenge a worthy opponent
                             </p>
 
+                            <!-- Location Selection -->
+                            <div id="locationSelection" style="margin-bottom: 2rem;">
+                                <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+                                    Choose Your Battle Location
+                                </div>
+                                <div class="location-grid">
+                                    <div class="location-btn" onclick="selectLocation('swamp', event)" data-location="swamp">
+                                        <span class="location-emoji">🐸</span>
+                                        <div class="location-name">Swamp</div>
+                                        <div class="location-mana">100 Mana</div>
+                                    </div>
+                                    <div class="location-btn" onclick="selectLocation('village', event)" data-location="village">
+                                        <span class="location-emoji">🏘️</span>
+                                        <div class="location-name">Village</div>
+                                        <div class="location-mana">300 Mana</div>
+                                    </div>
+                                    <div class="location-btn" onclick="selectLocation('castle', event)" data-location="castle">
+                                        <span class="location-emoji">🏰</span>
+                                        <div class="location-name">Castle</div>
+                                        <div class="location-mana">500 Mana</div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Element Selection -->
-                            <div class="element-grid" style="margin-bottom: 2rem;">
+                            <div id="elementSelection" style="margin-bottom: 2rem; display: none;">
+                                <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+                                    Choose Your Element
+                                </div>
+                                <div class="element-grid" style="margin-bottom: 2rem;"></div>
                                 <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
                                     <span class="element-emoji">🌍</span>
                                     <div class="element-name">Earth</div>
@@ -1241,7 +1448,7 @@
 
                             <!-- Action Button -->
                             <button class="btn-primary" onclick="startMatchmaking()" id="seekButton" disabled>
-                                🔮 Choose Element First
+                                🔮 Choose Location First
                             </button>
                             
                             <!-- Emergency Reset Button (hidden by default) -->
@@ -1403,24 +1610,13 @@
             <div style="color: var(--text-muted); font-size: 0.8rem;" id="opponentLevel">Level 5 • Rare Elemental</div>
         </div>
 
-        <!-- Element Selection -->
+        <!-- Elemental Selection -->
         <div style="margin-bottom: 1.5rem;">
             <div
                 style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
-                Choose Your Element</div>
-            <div class="element-grid">
-                <button class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
-                    <div class="element-emoji">🗿</div>
-                    <div class="element-name">Earth<br>Golem</div>
-                </button>
-                <button class="element-btn" onclick="selectElement('water', event)" data-element="water">
-                    <div class="element-emoji">💧</div>
-                    <div class="element-name">Water<br>Nymph</div>
-                </button>
-                <button class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
-                    <div class="element-emoji">🔥</div>
-                    <div class="element-name">Fire<br>Sprite</div>
-                </button>
+                Choose Your <span id="selectedElementName">Elemental</span></div>
+            <div class="elemental-grid" id="elementalGrid">
+                <!-- Elementals will be populated by JavaScript -->
             </div>
         </div>
 
@@ -1472,7 +1668,7 @@
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                     <span style="color: var(--text-muted); font-size: 0.85rem;">Mana Change:</span>
                     <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--success);"
-                        id="manaChange">+75</span>
+                        id="resultManaChange">+75</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                     <span style="color: var(--text-muted); font-size: 0.85rem;">New Total:</span>
@@ -1526,6 +1722,8 @@
                 wins: 0,
                 losses: 0,
                 selectedElement: null,
+                selectedLocation: null,
+                selectedElemental: null,
                 winStreak: 0,
                 bestStreak: 0,
                 maxLossStreak: 0,
@@ -1550,9 +1748,10 @@
             const oldMana = this.player.mana;
             this.player = { ...this.player, ...updates };
 
-            // Calculate mana change
-            if (updates.mana !== undefined) {
-                this.player.lastManaChange = this.player.mana - oldMana;
+            // Calculate mana change only if explicitly requested
+            if (updates.mana !== undefined && updates.updateManaChange !== false) {
+                this.player.lastManaChange = updates.mana - oldMana;
+
             }
 
             // Update total battles
@@ -1578,7 +1777,6 @@
             this.checkAchievements();
 
             this.saveToStorage();
-            this.updateUI();
         }
 
         checkLevelUp() {
@@ -1711,21 +1909,32 @@
             }
         }
 
-        updateUI() {
+        updateUI(caller = 'unknown') {
+            
+            // Helper function to safely update element
+            const safeUpdate = (id, value) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value;
+                }
+            };
+
             // Basic stats (Profile tab)
-            document.getElementById('playerMana').textContent = this.player.mana;
-            document.getElementById('playerWins').textContent = this.player.wins;
-            document.getElementById('playerLosses').textContent = this.player.losses;
-            document.getElementById('playerStreakNew').textContent = this.player.winStreak;
+            safeUpdate('playerMana', this.player.mana);
+            safeUpdate('playerWins', this.player.wins);
+            safeUpdate('playerLosses', this.player.losses);
+            safeUpdate('playerStreakNew', this.player.winStreak);
 
             // Update streak status
             const streakStatusEl = document.getElementById('streakStatusNew');
-            if (this.player.winStreak === 0) {
-                streakStatusEl.textContent = 'No streak';
-            } else if (this.player.winStreak === 1) {
-                streakStatusEl.textContent = '1 win in a row';
-            } else {
-                streakStatusEl.textContent = `${this.player.winStreak} wins in a row`;
+            if (streakStatusEl) {
+                if (this.player.winStreak === 0) {
+                    streakStatusEl.textContent = 'No streak';
+                } else if (this.player.winStreak === 1) {
+                    streakStatusEl.textContent = '1 win in a row';
+                } else {
+                    streakStatusEl.textContent = `${this.player.winStreak} wins in a row`;
+                }
             }
 
             // Battle tab stats sync
@@ -1740,49 +1949,60 @@
             if (battleDefeats) battleDefeats.textContent = this.player.losses;
 
             // Profile info
-            document.getElementById('playerName').textContent = this.player.name;
-            document.getElementById('playerRank').textContent = this.getRank();
-            document.getElementById('playerTitle').textContent = this.getTitle();
+            safeUpdate('playerName', this.player.name);
+            safeUpdate('playerRank', this.getRank());
+            safeUpdate('playerTitle', this.getTitle());
 
             // Experience bar
             const expNeeded = this.player.level * 1000;
             const expPercent = (this.player.experience / expNeeded) * 100;
-            document.getElementById('expFill').style.width = `${expPercent}%`;
-            document.getElementById('expText').textContent = `${this.player.experience} / ${expNeeded} XP`;
+            const expFill = document.getElementById('expFill');
+            if (expFill) {
+                expFill.style.width = `${expPercent}%`;
+            }
+            safeUpdate('expText', `${this.player.experience} / ${expNeeded} XP`);
 
             // Mana change indicator
             const manaChangeEl = document.getElementById('manaChange');
-            if (this.player.lastManaChange > 0) {
-                manaChangeEl.textContent = `+${this.player.lastManaChange}`;
-                manaChangeEl.className = 'stat-change';
-            } else if (this.player.lastManaChange < 0) {
-                manaChangeEl.textContent = `${this.player.lastManaChange}`;
-                manaChangeEl.className = 'stat-change negative';
-            } else {
-                manaChangeEl.textContent = '+0';
-                manaChangeEl.className = 'stat-change';
+            if (manaChangeEl) {
+                // Use battleManaChange if available (from recent battle), otherwise use lastManaChange
+                const displayChange = gameState.battleManaChange !== undefined ? 
+                    gameState.battleManaChange : this.player.lastManaChange;
+                
+
+                
+                if (displayChange > 0) {
+                    manaChangeEl.textContent = `+${displayChange}`;
+                    manaChangeEl.className = 'stat-change';
+                } else if (displayChange < 0) {
+                    manaChangeEl.textContent = `${displayChange}`;
+                    manaChangeEl.className = 'stat-change negative';
+                } else {
+                    manaChangeEl.textContent = '+0';
+                    manaChangeEl.className = 'stat-change';
+                }
             }
 
             // Win rate
             const winRate = this.player.totalBattles > 0 ?
                 Math.round((this.player.wins / this.player.totalBattles) * 100) : 0;
-            document.getElementById('winRate').textContent = `${winRate}% Win Rate`;
+            safeUpdate('winRate', `${winRate}% Win Rate`);
 
             // Loss rate
             const lossRate = this.player.totalBattles > 0 ?
                 Math.round((this.player.losses / this.player.totalBattles) * 100) : 0;
-            document.getElementById('lossRate').textContent = `${lossRate}% Loss Rate`;
+            safeUpdate('lossRate', `${lossRate}% Loss Rate`);
 
             // Current streak
             const streakText = this.player.winStreak > 0 ?
                 `${this.player.winStreak} Win Streak` :
                 this.player.losses > this.player.wins ? `${this.player.losses - this.player.wins} Loss Streak` : '0 Streak';
-            document.getElementById('currentStreak').textContent = streakText;
+            safeUpdate('currentStreak', streakText);
 
             // Quick stats
-            document.getElementById('totalBattles').textContent = this.player.totalBattles;
-            document.getElementById('bestStreak').textContent = this.player.bestStreak;
-            document.getElementById('favoriteElement').textContent = this.player.favoriteElement || 'None';
+            safeUpdate('totalBattles', this.player.totalBattles);
+            safeUpdate('bestStreak', this.player.bestStreak);
+            safeUpdate('favoriteElement', this.player.favoriteElement || 'None');
 
             // Update achievements
             this.updateAchievementsUI();
@@ -1790,6 +2010,7 @@
 
         updateAchievementsUI() {
             const achievementsList = document.getElementById('achievementsList');
+            if (!achievementsList) return;
             const allAchievements = this.getAchievementDefinitions();
             
             // Показываем только последние 5 достижений (разблокированные + ближайшие заблокированные)
@@ -1865,6 +2086,33 @@
         fire: { name: 'Fire Sprite', emoji: '🔥' }
     };
 
+    const locations = {
+        swamp: { name: 'Swamp', emoji: '🐸', mana: 100 },
+        village: { name: 'Village', emoji: '🏘️', mana: 300 },
+        castle: { name: 'Castle', emoji: '🏰', mana: 500 }
+    };
+
+    const elementalTypes = {
+        earth: {
+            common: { name: 'Earth Golem', emoji: '🗿', rarity: 'Обычный', protection: 0.1 },
+            rare: { name: 'Stone Guardian', emoji: '🏔️', rarity: 'Редкий', protection: 0.2 },
+            epic: { name: 'Mountain Lord', emoji: '⛰️', rarity: 'Эпический', protection: 0.4 },
+            immortal: { name: 'Earth Titan', emoji: '🌋', rarity: 'Несокрушимый', protection: 0.8 }
+        },
+        water: {
+            common: { name: 'Water Nymph', emoji: '💧', rarity: 'Обычный', protection: 0.1 },
+            rare: { name: 'Sea Sprite', emoji: '🌊', rarity: 'Редкий', protection: 0.2 },
+            epic: { name: 'Ocean Master', emoji: '🌀', rarity: 'Эпический', protection: 0.4 },
+            immortal: { name: 'Leviathan', emoji: '🐋', rarity: 'Несокрушимый', protection: 0.8 }
+        },
+        fire: {
+            common: { name: 'Fire Sprite', emoji: '🔥', rarity: 'Обычный', protection: 0.1 },
+            rare: { name: 'Flame Dancer', emoji: '🔥', rarity: 'Редкий', protection: 0.2 },
+            epic: { name: 'Inferno Lord', emoji: '🌋', rarity: 'Эпический', protection: 0.4 },
+            immortal: { name: 'Phoenix King', emoji: '🔥', rarity: 'Несокрушимый', protection: 0.8 }
+        }
+    };
+
     const opponentNames = [
         'DragonSlayer', 'MysticMage', 'ElementMaster', 'StormBringer', 'EarthShaker',
         'FlameWarden', 'WaterSpirit', 'CrystalGuard', 'ShadowHunter', 'LightBringer'
@@ -1927,7 +2175,26 @@
 
     // Enhanced Game Flow with Better UX
     function startMatchmaking() {
-        console.log('🔍 Starting matchmaking...');
+        // Check if both location and element are selected
+        if (!gameState.player.selectedLocation) {
+            alert('Please select a location first!');
+            return;
+        }
+        if (!gameState.player.selectedElement) {
+            alert('Please select an element first!');
+            return;
+        }
+
+        const selectedLocation = locations[gameState.player.selectedLocation];
+        const wager = selectedLocation.mana;
+        
+        // Check if player has enough mana for the wager
+        if (gameState.player.mana < wager) {
+            alert(`Not enough mana! You need ${wager} mana to play in ${selectedLocation.name}, but you only have ${gameState.player.mana}.`);
+            return;
+        }
+
+        console.log(`🔍 Starting matchmaking in ${selectedLocation.name} (${wager} mana wager)...`);
         gameState.gamePhase = 'matchmaking';
         showModal('matchmakingModal');
 
@@ -1966,13 +2233,14 @@
                 safeUpdateElement('opponentBattleName', gameState.currentOpponent.name);
 
                 showModal('opponentModal', 300);
+                
+                // Populate elemental grid based on selected element
+                populateElementalGrid();
 
-                // Enable battle button if element is already selected
-                if (gameState.player.selectedElement) {
-                    const battleButton = document.getElementById('battleButton');
-                    if (battleButton) {
-                        battleButton.disabled = false;
-                    }
+                // Battle button will be enabled after elemental selection
+                const battleButton = document.getElementById('battleButton');
+                if (battleButton) {
+                    battleButton.disabled = true;
                 }
                 
                 console.log('✅ Opponent found successfully');
@@ -1993,6 +2261,10 @@
                     };
                     
                     showModal('opponentModal', 300);
+                    
+                    // Populate elemental grid for fallback opponent
+                    populateElementalGrid();
+                    
                     showFriendlyMessage('⚠️ Matchmaking had issues, but found you an opponent!');
                     
                 } catch (fallbackError) {
@@ -2005,6 +2277,45 @@
 
         // Сохраняем таймеры для возможной очистки
         gameState.matchmakingTimeouts = [progressInterval, matchmakingTimeout, emergencyTimeout];
+    }
+
+    function selectLocation(location, event) {
+        gameState.player.selectedLocation = location;
+
+        // Enhanced visual feedback
+        document.querySelectorAll('.location-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Find the clicked location button
+        const clickedBtn = event ? event.target.closest('.location-btn') :
+            document.querySelector(`[data-location="${location}"]`);
+        if (clickedBtn) {
+            clickedBtn.classList.add('selected');
+        }
+
+        // Haptic feedback simulation
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+
+        // Show element selection
+        const elementSelection = document.getElementById('elementSelection');
+        if (elementSelection) {
+            elementSelection.style.display = 'block';
+        }
+
+        // Update seek button text
+        const seekButton = document.getElementById('seekButton');
+        if (seekButton) {
+            const wager = locations[location].mana;
+            const canAfford = gameState.player.mana >= wager;
+            
+            seekButton.textContent = canAfford ? '🔮 Choose Element' : `🔮 Not enough mana (need ${wager})`;
+            seekButton.disabled = true;
+        }
+
+        console.log(`📍 Location selected: ${location} (${locations[location].mana} mana)`);
     }
 
     function selectElement(element, event) {
@@ -2027,15 +2338,23 @@
             navigator.vibrate(50);
         }
 
-        // Enable seek button with animation
+        // Enable seek button with animation only if location is also selected
         const seekButton = document.getElementById('seekButton');
-        if (seekButton) {
-            seekButton.disabled = false;
-            seekButton.textContent = '🔮 Seek Challenger';
-            seekButton.style.transform = 'scale(1.05)';
-            setTimeout(() => {
-                seekButton.style.transform = 'scale(1)';
-            }, 200);
+        if (seekButton && gameState.player.selectedLocation) {
+            const wager = locations[gameState.player.selectedLocation].mana;
+            const canAfford = gameState.player.mana >= wager;
+            
+            seekButton.disabled = !canAfford;
+            seekButton.textContent = canAfford ? 
+                `🔮 Seek Challenger (${wager} mana)` : 
+                `🔮 Not enough mana (need ${wager})`;
+            
+            if (canAfford) {
+                seekButton.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    seekButton.style.transform = 'scale(1)';
+                }, 200);
+            }
         }
 
         // Enable battle button in modal with animation
@@ -2051,6 +2370,73 @@
 
     }
 
+    function populateElementalGrid() {
+        const elementalGrid = document.getElementById('elementalGrid');
+        const selectedElementName = document.getElementById('selectedElementName');
+        
+        if (!elementalGrid || !gameState.player.selectedElement) return;
+
+        const elementType = gameState.player.selectedElement;
+        const elementals = elementalTypes[elementType];
+        
+        if (selectedElementName) {
+            selectedElementName.textContent = elements[elementType].name.split(' ')[0] + ' Elemental';
+        }
+
+        elementalGrid.innerHTML = '';
+
+        Object.keys(elementals).forEach(rarity => {
+            const elemental = elementals[rarity];
+            const button = document.createElement('button');
+            button.className = `elemental-btn ${rarity}`;
+            button.onclick = (event) => selectElemental(rarity, event);
+            button.setAttribute('data-elemental', rarity);
+            
+            button.innerHTML = `
+                <div class="elemental-emoji">${elemental.emoji}</div>
+                <div class="elemental-name">${elemental.name}</div>
+                <div class="elemental-rarity">${elemental.rarity} (${Math.round(elemental.protection * 100)}% защита)</div>
+            `;
+            
+            elementalGrid.appendChild(button);
+        });
+    }
+
+    function selectElemental(rarity, event) {
+        gameState.player.selectedElemental = rarity;
+
+        // Enhanced visual feedback
+        document.querySelectorAll('.elemental-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Find the clicked elemental button
+        const clickedBtn = event ? event.target.closest('.elemental-btn') :
+            document.querySelector(`[data-elemental="${rarity}"]`);
+        if (clickedBtn) {
+            clickedBtn.classList.add('selected');
+        }
+
+        // Haptic feedback simulation
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+
+        // Enable battle button with animation
+        const battleButton = document.getElementById('battleButton');
+        if (battleButton) {
+            battleButton.disabled = false;
+            battleButton.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                battleButton.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        const elementType = gameState.player.selectedElement;
+        const elemental = elementalTypes[elementType][rarity];
+        console.log(`⚡ Elemental selected: ${elemental.name} (${elemental.rarity})`);
+    }
+
     function startBattle() {
         console.log('🎮 Starting battle...');
         
@@ -2062,12 +2448,31 @@
             return;
         }
         
+        if (!gameState.player.selectedElemental) {
+            console.error('❌ No elemental selected!');
+            alert('Please select an elemental first!');
+            return;
+        }
+        
         if (!gameState.currentOpponent) {
             console.error('❌ No opponent found!');
             alert('No opponent available!');
             hideAllModals();
             return;
         }
+
+        // Store initial mana before battle for accurate change calculation
+        const wager = gameState.player.selectedLocation ? 
+            locations[gameState.player.selectedLocation].mana : 50;
+        
+        gameState.initialBattleMana = gameState.player.mana;
+        
+        gameState.updatePlayer({
+            mana: gameState.player.mana - wager,
+            updateManaChange: false // Don't update lastManaChange here
+        });
+        
+        console.log(`💰 Wager deducted: ${wager} mana. Remaining: ${gameState.player.mana}`);
 
         gameState.gamePhase = 'battle';
         showModal('battleModal');
@@ -2091,12 +2496,14 @@
         // Enhanced battle sequence with better timing and error handling
         const battleTimeout1 = setTimeout(() => {
             try {
-                if (elements[gameState.player.selectedElement]) {
-                    playerChoice.textContent = elements[gameState.player.selectedElement].emoji;
+                const elementType = gameState.player.selectedElement;
+                const elementalRarity = gameState.player.selectedElemental;
+                if (elementalTypes[elementType] && elementalTypes[elementType][elementalRarity]) {
+                    playerChoice.textContent = elementalTypes[elementType][elementalRarity].emoji;
                     playerChoice.classList.add('animate');
                     console.log('✅ Player choice displayed');
                 } else {
-                    console.error('❌ Invalid player element');
+                    console.error('❌ Invalid player elemental');
                     showResult();
                 }
             } catch (error) {
@@ -2157,15 +2564,35 @@
             
             console.log(`🏆 Battle result: ${winner}`);
 
-            // Calculate result with enhanced logic
+            // Calculate wager based on location (both players stake the same amount)
+            const wager = gameState.player.selectedLocation ? 
+                locations[gameState.player.selectedLocation].mana : 50;
+            
+            // Get elemental protection percentage
+            const elementalProtection = gameState.player.selectedElemental && 
+                gameState.player.selectedElement ? 
+                elementalTypes[gameState.player.selectedElement][gameState.player.selectedElemental].protection : 0;
+            
             if (winner === 'player') {
-                manaChange = gameState.currentOpponent ? gameState.currentOpponent.wager : 50;
+                // Player wins: gets back their wager + opponent's wager
+                const totalWinnings = wager * 2; // Full pot
+                const netGain = wager; // Net gain (opponent's wager, since we already paid our wager)
+                
                 gameState.updatePlayer({
-                    mana: gameState.player.mana + manaChange,
+                    mana: gameState.player.mana + totalWinnings, // Add full pot back
                     wins: gameState.player.wins + 1,
                     winStreak: gameState.player.winStreak + 1,
-                    currentLossStreak: 0
+                    currentLossStreak: 0,
+                    totalManaWon: (gameState.player.totalManaWon || 0) + netGain,
+                    totalBattles: gameState.player.totalBattles + 1,
+                    updateManaChange: false // Don't update lastManaChange here
                 });
+
+                // Calculate actual mana change relative to pre-battle amount
+                const actualManaChange = gameState.initialBattleMana ? 
+                    gameState.player.mana - gameState.initialBattleMana : wager;
+                
+                console.log(`💰 Victory - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
 
                 // Обновляем статистику элементов
                 if (gameState.player.elementStats[gameState.player.selectedElement] !== undefined) {
@@ -2174,36 +2601,69 @@
 
                 updateResultUI('🏆', 'Victory!', 'var(--success)', 
                     `You defeated ${gameState.currentOpponent?.name || 'Opponent'}`, 
-                    `+${manaChange}`, 'var(--success)');
+                    `+${actualManaChange}`, 'var(--success)');
 
             } else if (winner === 'opponent') {
-                manaChange = -Math.floor((gameState.currentOpponent?.wager || 50) * 0.7);
+                // Player loses: wager already deducted, but elemental protects some of it
+                const protectedMana = Math.floor(wager * elementalProtection);
+                const actualLoss = wager - protectedMana; // How much we actually lose
+                
                 const newLossStreak = (gameState.player.currentLossStreak || 0) + 1;
                 
                 gameState.updatePlayer({
-                    mana: Math.max(0, gameState.player.mana + manaChange),
+                    mana: gameState.player.mana + protectedMana, // Add back protected mana
                     losses: gameState.player.losses + 1,
                     winStreak: 0,
                     currentLossStreak: newLossStreak,
-                    maxLossStreak: Math.max(gameState.player.maxLossStreak || 0, newLossStreak)
+                    maxLossStreak: Math.max(gameState.player.maxLossStreak || 0, newLossStreak),
+                    totalManaLost: (gameState.player.totalManaLost || 0) + actualLoss,
+                    totalBattles: gameState.player.totalBattles + 1,
+                    updateManaChange: false // Don't update lastManaChange here
                 });
 
+                // Calculate actual mana change relative to pre-battle amount (should be negative)
+                const actualManaChange = gameState.initialBattleMana ? 
+                    gameState.player.mana - gameState.initialBattleMana : -actualLoss;
+                
+                console.log(`💀 Defeat - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
+                const protectionText = protectedMana > 0 ? ` (${protectedMana} защищено)` : '';
+                
                 updateResultUI('💀', 'Defeat', 'var(--error)', 
                     `${gameState.currentOpponent?.name || 'Opponent'} was victorious`, 
-                    `${manaChange}`, 'var(--error)');
+                    `${actualManaChange}${protectionText}`, 'var(--error)');
 
             } else {
+                // Draw: return the wager to player
                 gameState.updatePlayer({
-                    totalBattles: gameState.player.totalBattles + 1
+                    mana: gameState.player.mana + wager,
+                    totalBattles: gameState.player.totalBattles + 1,
+                    updateManaChange: false // Don't update lastManaChange here
                 });
 
+                // Calculate actual mana change relative to pre-battle amount (should be 0 since wager is returned)
+                const actualManaChange = gameState.initialBattleMana ? 
+                    gameState.player.mana - gameState.initialBattleMana : 0;
+                
+                console.log(`⚖️ Draw - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
+
                 updateResultUI('⚖️', 'Draw', 'var(--warning)', 
-                    'A well-matched battle', '0', 'var(--text-muted)');
+                    'A well-matched battle - wager returned', `${actualManaChange}`, 'var(--text-muted)');
             }
 
             // Update result stats with error checking
             safeUpdateElement('newManaTotal', gameState.player.mana);
             safeUpdateElement('winStreak', gameState.player.winStreak);
+
+            // Set correct lastManaChange for UI display
+            if (gameState.initialBattleMana) {
+                const correctManaChange = gameState.player.mana - gameState.initialBattleMana;
+                gameState.player.lastManaChange = correctManaChange;
+                gameState.battleManaChange = correctManaChange; // Store separately to prevent overwriting
+
+            }
+
+            // Update main UI with new stats
+            gameState.updateUI('showResult');
 
             console.log('✅ Battle result calculated successfully');
             showModal('resultModal', 500);
@@ -2228,10 +2688,10 @@
         safeUpdateElement('resultIcon', icon);
         safeUpdateElement('resultTitle', title);
         safeUpdateElement('resultSubtitle', subtitle);
-        safeUpdateElement('manaChange', manaText);
+        safeUpdateElement('resultManaChange', manaText);
         
         const titleEl = document.getElementById('resultTitle');
-        const manaEl = document.getElementById('manaChange');
+        const manaEl = document.getElementById('resultManaChange');
         
         if (titleEl) titleEl.style.color = titleColor;
         if (manaEl) manaEl.style.color = manaColor;
@@ -2287,8 +2747,11 @@
             // Сбрасываем состояние игры
             gameState.gamePhase = 'menu';
             gameState.player.selectedElement = null;
+            gameState.player.selectedLocation = null;
+            gameState.player.selectedElemental = null;
             gameState.currentOpponent = null;
             gameState.opponentElement = null;
+            gameState.battleManaChange = undefined; // Clear battle mana change
             
             // Скрываем все модальные окна
             try {
@@ -2316,8 +2779,19 @@
                 document.querySelectorAll('.element-btn').forEach(btn => {
                     btn.classList.remove('selected');
                 });
+                document.querySelectorAll('.location-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                document.querySelectorAll('.elemental-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                // Hide element selection
+                const elementSelection = document.getElementById('elementSelection');
+                if (elementSelection) {
+                    elementSelection.style.display = 'none';
+                }
             } catch (e) {
-                console.warn('Could not reset element buttons:', e);
+                console.warn('Could not reset UI elements:', e);
             }
             
             const battleButton = document.getElementById('battleButton');
@@ -2329,13 +2803,13 @@
             const seekButton = document.getElementById('seekButton');
             if (seekButton) {
                 seekButton.disabled = true;
-                seekButton.textContent = '🔮 Choose Element First';
+                seekButton.textContent = '🔮 Choose Location First';
             }
             
             // Обновляем UI только если функция существует
             try {
                 if (gameState && typeof gameState.updateUI === 'function') {
-                    gameState.updateUI();
+                    gameState.updateUI('emergencyReset');
                 }
             } catch (e) {
                 console.warn('Could not update UI:', e);
@@ -2417,14 +2891,28 @@
 
             // Reset game state
             gameState.player.selectedElement = null;
+            gameState.player.selectedLocation = null;
+            gameState.player.selectedElemental = null;
             gameState.currentOpponent = null;
             gameState.opponentElement = null;
             gameState.gamePhase = 'menu';
+            gameState.battleManaChange = undefined; // Clear battle mana change
 
             // Reset UI elements with error checking
             document.querySelectorAll('.element-btn').forEach(btn => {
                 btn.classList.remove('selected');
             });
+            document.querySelectorAll('.location-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.querySelectorAll('.elemental-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            // Hide element selection
+            const elementSelection = document.getElementById('elementSelection');
+            if (elementSelection) {
+                elementSelection.style.display = 'none';
+            }
             
             const battleButton = document.getElementById('battleButton');
             if (battleButton) {
@@ -2435,7 +2923,7 @@
             const seekButton = document.getElementById('seekButton');
             if (seekButton) {
                 seekButton.disabled = true;
-                seekButton.textContent = '🔮 Choose Element First';
+                seekButton.textContent = '🔮 Choose Location First';
             }
             
             const playerChoice = document.getElementById('playerBattleChoice');
@@ -2452,6 +2940,10 @@
             }
 
             hideAllModals();
+            
+            // Update UI to reflect reset state
+            gameState.updateUI('returnToMenu');
+            
             console.log('✅ Successfully returned to menu');
             
         } catch (error) {
@@ -2464,7 +2956,7 @@
     // Enhanced Initialization
     window.addEventListener('load', function () {
         gameState.loadFromStorage();
-        gameState.updateUI();
+        gameState.updateUI('windowLoad');
     });
 
     // Enhanced Error Handling
@@ -2495,7 +2987,7 @@
             // Initialize UI
             console.log('Initializing game state...');
             gameState.loadFromStorage();
-            gameState.updateUI();
+            gameState.updateUI('initialization');
 
             // Start game immediately
             switchTab('battle');
