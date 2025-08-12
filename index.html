@@ -556,6 +556,49 @@
             box-shadow: 0 4px 15px rgba(218, 165, 32, 0.1);
         }
 
+        /* Secondary Button */
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--error), #cc3333);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
         /* Enhanced Modal System */
         .modal-overlay {
             position: fixed;
@@ -1431,18 +1474,19 @@
                                 <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
                                     Choose Your Element
                                 </div>
-                                <div class="element-grid" style="margin-bottom: 2rem;"></div>
-                                <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
-                                    <span class="element-emoji">🌍</span>
-                                    <div class="element-name">Earth</div>
-                                </div>
-                                <div class="element-btn" onclick="selectElement('water', event)" data-element="water">
-                                    <span class="element-emoji">💧</span>
-                                    <div class="element-name">Water</div>
-                                </div>
-                                <div class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
-                                    <span class="element-emoji">🔥</span>
-                                    <div class="element-name">Fire</div>
+                                <div class="element-grid" style="margin-bottom: 2rem;">
+                                    <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
+                                        <span class="element-emoji">🌍</span>
+                                        <div class="element-name">Earth</div>
+                                    </div>
+                                    <div class="element-btn" onclick="selectElement('water', event)" data-element="water">
+                                        <span class="element-emoji">💧</span>
+                                        <div class="element-name">Water</div>
+                                    </div>
+                                    <div class="element-btn" onclick="selectElement('fire', event)" data-element="fire">
+                                        <span class="element-emoji">🔥</span>
+                                        <div class="element-name">Fire</div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1620,8 +1664,11 @@
             </div>
         </div>
 
-        <button class="btn-primary" id="battleButton" onclick="startBattle()" disabled style="width: 100%;">
+        <button class="btn-primary" id="battleButton" onclick="startBattle()" disabled style="width: 100%; margin-bottom: 0.75rem;">
             ⚔️ Enter Battle
+        </button>
+        <button class="btn-secondary" id="battleWithoutProtectionButton" onclick="startBattleWithoutProtection()" style="width: 100%;">
+            ⚡ Fight Without Protection
         </button>
     </div>
 </div>
@@ -1679,6 +1726,62 @@
                     <span style="color: var(--text-muted); font-size: 0.85rem;">Victory Streak:</span>
                     <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--secondary-gold);"
                         id="winStreak">1</span>
+                </div>
+            </div>
+
+            <!-- Battle Log -->
+            <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                <div style="font-size: 0.9rem; font-weight: 600; color: var(--secondary-gold); text-align: center; margin-bottom: 1rem;">
+                    ⚔️ Battle Log
+                </div>
+                
+                <!-- Element Battle -->
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Element Battle:</div>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem;" id="battleLogPlayerElement">🌍</div>
+                            <div style="font-size: 0.7rem; color: var(--text-secondary);" id="battleLogPlayerElementName">Earth</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">VS</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem;" id="battleLogOpponentElement">🔥</div>
+                            <div style="font-size: 0.7rem; color: var(--text-secondary);" id="battleLogOpponentElementName">Fire</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.75rem; text-align: center; color: var(--text-muted);" id="battleLogElementResult">
+                        Earth absorbs Water - You Win!
+                    </div>
+                </div>
+
+                <!-- Elementals Used -->
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Elementals Used:</div>
+                    <div style="display: flex; justify-content: space-between; gap: 1rem;">
+                        <!-- Player Elemental -->
+                        <div style="flex: 1; text-align: center; padding: 0.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;" id="battleLogPlayerElementalSection">
+                            <div style="font-size: 1rem;" id="battleLogPlayerElementalEmoji">🗿</div>
+                            <div style="font-size: 0.65rem; color: var(--text-secondary);" id="battleLogPlayerElementalName">Earth Golem</div>
+                            <div style="font-size: 0.6rem; color: var(--primary-gold);" id="battleLogPlayerProtection">10% защита</div>
+                        </div>
+                        
+                        <!-- Opponent Elemental -->
+                        <div style="flex: 1; text-align: center; padding: 0.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                            <div style="font-size: 1rem;" id="battleLogOpponentElementalEmoji">🔥</div>
+                            <div style="font-size: 0.65rem; color: var(--text-secondary);" id="battleLogOpponentElementalName">Fire Sprite</div>
+                            <div style="font-size: 0.6rem; color: var(--error);" id="battleLogOpponentProtection">10% защита</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Calculation -->
+                <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Final Calculation:</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.4;" id="battleLogCalculation">
+                        Base wager: 100 mana<br>
+                        Protection saved: 10 mana<br>
+                        Final loss: -90 mana
+                    </div>
                 </div>
             </div>
 
@@ -2148,10 +2251,12 @@
     function getWinner(element1, element2) {
         if (element1 === element2) return 'tie';
 
+        // Element battle rules (like rock-paper-scissors):
+        // Earth absorbs Water, Water extinguishes Fire, Fire melts Earth
         const winConditions = {
-            earth: 'water',
-            water: 'fire',
-            fire: 'earth'
+            earth: 'water',  // Earth absorbs Water
+            water: 'fire',   // Water extinguishes Fire  
+            fire: 'earth'    // Fire melts Earth
         };
 
         return winConditions[element1] === element2 ? 'player' : 'opponent';
@@ -2163,13 +2268,26 @@
         const level = Math.floor(Math.random() * 10) + 1;
         const rarities = ['Common', 'Rare', 'Legendary'];
         const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+        
+        // Generate opponent's element
+        const elementKeys = Object.keys(elements);
+        const opponentElement = elementKeys[Math.floor(Math.random() * elementKeys.length)];
+        
+        // 30% chance opponent plays without elemental (no protection)
+        let opponentElemental = null;
+        if (Math.random() > 0.3) {
+            const elementalKeys = Object.keys(elementalTypes[opponentElement]);
+            opponentElemental = elementalKeys[Math.floor(Math.random() * elementalKeys.length)];
+        }
 
         return {
             name,
             avatar,
             level,
             rarity,
-            wager: Math.floor(Math.random() * 100) + 50
+            wager: Math.floor(Math.random() * 100) + 50,
+            element: opponentElement,
+            elemental: opponentElemental // Can be null
         };
     }
 
@@ -2437,6 +2555,16 @@
         console.log(`⚡ Elemental selected: ${elemental.name} (${elemental.rarity})`);
     }
 
+    function startBattleWithoutProtection() {
+        console.log('⚡ Starting battle without protection...');
+        
+        // Set no elemental selected (no protection)
+        gameState.player.selectedElemental = null;
+        
+        // Start battle with no protection
+        startBattle();
+    }
+
     function startBattle() {
         console.log('🎮 Starting battle...');
         
@@ -2449,9 +2577,7 @@
         }
         
         if (!gameState.player.selectedElemental) {
-            console.error('❌ No elemental selected!');
-            alert('Please select an elemental first!');
-            return;
+            console.log('⚡ Playing without elemental protection');
         }
         
         if (!gameState.currentOpponent) {
@@ -2477,9 +2603,8 @@
         gameState.gamePhase = 'battle';
         showModal('battleModal');
 
-        // Generate opponent choice
-        const elementKeys = Object.keys(elements);
-        gameState.opponentElement = elementKeys[Math.floor(Math.random() * elementKeys.length)];
+        // Use opponent's element from their data
+        gameState.opponentElement = gameState.currentOpponent.element;
         
         console.log(`⚔️ Battle: ${gameState.player.selectedElement} vs ${gameState.opponentElement}`);
 
@@ -2498,12 +2623,19 @@
             try {
                 const elementType = gameState.player.selectedElement;
                 const elementalRarity = gameState.player.selectedElemental;
-                if (elementalTypes[elementType] && elementalTypes[elementType][elementalRarity]) {
+                
+                if (elementalRarity && elementalTypes[elementType] && elementalTypes[elementType][elementalRarity]) {
+                    // Show selected elemental
                     playerChoice.textContent = elementalTypes[elementType][elementalRarity].emoji;
                     playerChoice.classList.add('animate');
-                    console.log('✅ Player choice displayed');
+                    console.log('✅ Player choice displayed (with elemental)');
+                } else if (elements[elementType]) {
+                    // Show basic element (no elemental protection)
+                    playerChoice.textContent = elements[elementType].emoji;
+                    playerChoice.classList.add('animate');
+                    console.log('✅ Player choice displayed (no elemental protection)');
                 } else {
-                    console.error('❌ Invalid player elemental');
+                    console.error('❌ Invalid player element');
                     showResult();
                 }
             } catch (error) {
@@ -2568,18 +2700,24 @@
             const wager = gameState.player.selectedLocation ? 
                 locations[gameState.player.selectedLocation].mana : 50;
             
-            // Get elemental protection percentage
+            // Get elemental protection percentage (0 if no elemental selected)
             const elementalProtection = gameState.player.selectedElemental && 
-                gameState.player.selectedElement ? 
+                gameState.player.selectedElement && 
+                elementalTypes[gameState.player.selectedElement][gameState.player.selectedElemental] ? 
                 elementalTypes[gameState.player.selectedElement][gameState.player.selectedElemental].protection : 0;
             
             if (winner === 'player') {
-                // Player wins: gets back their wager + opponent's wager
-                const totalWinnings = wager * 2; // Full pot
-                const netGain = wager; // Net gain (opponent's wager, since we already paid our wager)
+                // Player wins: gets back their wager + opponent's wager (minus opponent's protection)
+                const opponentProtection = gameState.currentOpponent && gameState.currentOpponent.elemental ? 
+                    elementalTypes[gameState.currentOpponent.element][gameState.currentOpponent.elemental].protection : 0;
+                const opponentProtectedMana = Math.floor(wager * opponentProtection);
+                const opponentLostMana = wager - opponentProtectedMana;
+                
+                const playerWinnings = wager + opponentLostMana; // Player's wager back + opponent's actual loss
+                const netGain = opponentLostMana; // Net gain is what opponent actually lost
                 
                 gameState.updatePlayer({
-                    mana: gameState.player.mana + totalWinnings, // Add full pot back
+                    mana: gameState.player.mana + playerWinnings, // Add winnings back
                     wins: gameState.player.wins + 1,
                     winStreak: gameState.player.winStreak + 1,
                     currentLossStreak: 0,
@@ -2590,7 +2728,7 @@
 
                 // Calculate actual mana change relative to pre-battle amount
                 const actualManaChange = gameState.initialBattleMana ? 
-                    gameState.player.mana - gameState.initialBattleMana : wager;
+                    gameState.player.mana - gameState.initialBattleMana : netGain;
                 
                 console.log(`💰 Victory - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
 
@@ -2602,6 +2740,8 @@
                 updateResultUI('🏆', 'Victory!', 'var(--success)', 
                     `You defeated ${gameState.currentOpponent?.name || 'Opponent'}`, 
                     `+${actualManaChange}`, 'var(--success)');
+                
+                updateBattleLog('player', wager, elementalProtection, opponentProtectedMana, actualManaChange);
 
             } else if (winner === 'opponent') {
                 // Player loses: wager already deducted, but elemental protects some of it
@@ -2626,11 +2766,14 @@
                     gameState.player.mana - gameState.initialBattleMana : -actualLoss;
                 
                 console.log(`💀 Defeat - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
-                const protectionText = protectedMana > 0 ? ` (${protectedMana} защищено)` : '';
+                const protectionText = protectedMana > 0 ? ` (${protectedMana} защищено)` : 
+                    gameState.player.selectedElemental ? '' : ' (без защиты)';
                 
                 updateResultUI('💀', 'Defeat', 'var(--error)', 
                     `${gameState.currentOpponent?.name || 'Opponent'} was victorious`, 
                     `${actualManaChange}${protectionText}`, 'var(--error)');
+                
+                updateBattleLog('opponent', wager, elementalProtection, protectedMana, actualManaChange);
 
             } else {
                 // Draw: return the wager to player
@@ -2648,6 +2791,8 @@
 
                 updateResultUI('⚖️', 'Draw', 'var(--warning)', 
                     'A well-matched battle - wager returned', `${actualManaChange}`, 'var(--text-muted)');
+                
+                updateBattleLog('tie', wager, elementalProtection, 0, actualManaChange);
             }
 
             // Update result stats with error checking
@@ -2695,6 +2840,99 @@
         
         if (titleEl) titleEl.style.color = titleColor;
         if (manaEl) manaEl.style.color = manaColor;
+    }
+
+    function updateBattleLog(winner, wager, elementalProtection, protectedMana, actualManaChange) {
+        // Update element battle display
+        const playerElement = gameState.player.selectedElement;
+        const opponentElement = gameState.opponentElement;
+        
+        safeUpdateElement('battleLogPlayerElement', elements[playerElement].emoji);
+        safeUpdateElement('battleLogPlayerElementName', elements[playerElement].name.split(' ')[0]);
+        safeUpdateElement('battleLogOpponentElement', elements[opponentElement].emoji);
+        safeUpdateElement('battleLogOpponentElementName', elements[opponentElement].name.split(' ')[0]);
+        
+        // Update battle result explanation
+        let battleExplanation = '';
+        if (winner === 'player') {
+            if (playerElement === 'earth' && opponentElement === 'water') {
+                battleExplanation = 'Earth absorbs Water - You Win!';
+            } else if (playerElement === 'water' && opponentElement === 'fire') {
+                battleExplanation = 'Water extinguishes Fire - You Win!';
+            } else if (playerElement === 'fire' && opponentElement === 'earth') {
+                battleExplanation = 'Fire melts Earth - You Win!';
+            }
+        } else if (winner === 'opponent') {
+            if (opponentElement === 'earth' && playerElement === 'water') {
+                battleExplanation = 'Earth absorbs Water - You Lose!';
+            } else if (opponentElement === 'water' && playerElement === 'fire') {
+                battleExplanation = 'Water extinguishes Fire - You Lose!';
+            } else if (opponentElement === 'fire' && playerElement === 'earth') {
+                battleExplanation = 'Fire melts Earth - You Lose!';
+            }
+        } else {
+            battleExplanation = 'Same elements - Draw!';
+        }
+        
+        safeUpdateElement('battleLogElementResult', battleExplanation);
+        
+        // Update player elemental
+        const playerElementalSection = document.getElementById('battleLogPlayerElementalSection');
+        if (gameState.player.selectedElemental && playerElementalSection) {
+            const elemental = elementalTypes[playerElement][gameState.player.selectedElemental];
+            safeUpdateElement('battleLogPlayerElementalEmoji', elemental.emoji);
+            safeUpdateElement('battleLogPlayerElementalName', elemental.name);
+            safeUpdateElement('battleLogPlayerProtection', `${Math.round(elemental.protection * 100)}% защита`);
+        } else if (playerElementalSection) {
+            safeUpdateElement('battleLogPlayerElementalEmoji', '❌');
+            safeUpdateElement('battleLogPlayerElementalName', 'No Protection');
+            safeUpdateElement('battleLogPlayerProtection', '0% защита');
+        }
+        
+        // Update opponent elemental
+        if (gameState.currentOpponent && gameState.currentOpponent.elemental) {
+            const opponentElemental = elementalTypes[opponentElement][gameState.currentOpponent.elemental];
+            safeUpdateElement('battleLogOpponentElementalEmoji', opponentElemental.emoji);
+            safeUpdateElement('battleLogOpponentElementalName', opponentElemental.name);
+            safeUpdateElement('battleLogOpponentProtection', `${Math.round(opponentElemental.protection * 100)}% защита`);
+        } else {
+            safeUpdateElement('battleLogOpponentElementalEmoji', '❌');
+            safeUpdateElement('battleLogOpponentElementalName', 'No Protection');
+            safeUpdateElement('battleLogOpponentProtection', '0% защита');
+        }
+        
+        // Update final calculation
+        let calculationText = '';
+        if (winner === 'player') {
+            const opponentProtection = gameState.currentOpponent && gameState.currentOpponent.elemental ? 
+                elementalTypes[gameState.currentOpponent.element][gameState.currentOpponent.elemental].protection : 0;
+            const opponentProtectedMana = Math.floor(wager * opponentProtection);
+            const opponentLostMana = wager - opponentProtectedMana;
+            
+            calculationText = `Your wager: ${wager} mana (returned)<br>Opponent lost: ${opponentLostMana} mana`;
+            if (opponentProtectedMana > 0) {
+                calculationText += `<br>Opponent protected: ${opponentProtectedMana} mana`;
+            } else {
+                calculationText += `<br>Opponent had no protection`;
+            }
+            calculationText += `<br>Total won: +${actualManaChange} mana`;
+        } else if (winner === 'opponent') {
+            if (protectedMana > 0) {
+                calculationText = `Base wager: ${wager} mana<br>Protection saved: ${protectedMana} mana<br>Final loss: ${actualManaChange} mana`;
+            } else {
+                calculationText = `Base wager: ${wager} mana<br>No protection<br>Final loss: ${actualManaChange} mana`;
+            }
+        } else {
+            calculationText = `Base wager: ${wager} mana<br>Draw - wager returned<br>Final change: ${actualManaChange} mana`;
+        }
+        
+        safeUpdateElement('battleLogCalculation', calculationText);
+        
+        // Set innerHTML for calculation to support <br> tags
+        const calculationEl = document.getElementById('battleLogCalculation');
+        if (calculationEl) {
+            calculationEl.innerHTML = calculationText;
+        }
     }
 
     function safeUpdateElement(id, content) {
