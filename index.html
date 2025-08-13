@@ -37,7 +37,7 @@
 
         html {
             height: 100%;
-            overflow: hidden; /* Убираем скролл с html */
+            overflow: hidden; /* Remove scroll from html */
         }
 
         body {
@@ -46,8 +46,8 @@
                 radial-gradient(circle at center, rgba(25, 25, 50, 0.9), rgba(10, 10, 30, 0.95));
             color: var(--text-primary);
             line-height: 1.6;
-            height: 100vh; /* Фиксированная высота */
-            overflow: hidden; /* Убираем скролл с body */
+            height: 100vh; /* Fixed height */
+            overflow: hidden; /* Remove scroll from body */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -57,8 +57,8 @@
             margin: 0;
             background: linear-gradient(145deg, var(--dark-bg), rgba(25, 20, 35, 0.95));
             backdrop-filter: blur(20px);
-            height: 100vh; /* Фиксированная высота */
-            overflow-y: auto; /* Скролл только для контента */
+            height: 100vh; /* Fixed height */
+            overflow-y: auto; /* Scroll only for content */
             overflow-x: hidden;
             position: relative;
             /* Smooth scrolling */
@@ -1675,9 +1675,6 @@
                                 line-height: 0.8;
                             ">🏟️</div>
                             <h3 style="color: var(--secondary-gold); margin-bottom: 0.75rem;">Ready for Battle</h3>
-                            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem;">
-                                Choose your location and element to challenge a worthy opponent
-                            </p>
 
                             <!-- Location Selection -->
                             <div id="locationSelection" style="margin-bottom: 2rem;">
@@ -1944,7 +1941,7 @@
                                      onmouseout="this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.3)'">
                                     <div style="font-size: 2.5rem; margin-bottom: 0.5rem;" id="battleLogPlayerElementalEmoji">🌊</div>
                                     <div style="font-size: 14px; color: white; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif;" id="battleLogPlayerElementalName">Leviathan</div>
-                                    <div style="font-size: 12px; color: #FFD700; font-family: 'Inter', sans-serif;" id="battleLogPlayerProtection">80% защита</div>
+                                    <div style="font-size: 12px; color: #FFD700; font-family: 'Inter', sans-serif;" id="battleLogPlayerProtection">80% protection</div>
                                 </div>
                                 
                                 <!-- Opponent Elemental -->
@@ -1953,7 +1950,7 @@
                                      onmouseout="this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.3)'">
                                     <div style="font-size: 2.5rem; margin-bottom: 0.5rem; color: #FF4C4C;" id="battleLogOpponentElementalEmoji">❌</div>
                                     <div style="font-size: 14px; color: white; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif;" id="battleLogOpponentElementalName">No Protection</div>
-                                    <div style="font-size: 12px; color: #FF4C4C; font-family: 'Inter', sans-serif;" id="battleLogOpponentProtection">0% защита</div>
+                                    <div style="font-size: 12px; color: #FF4C4C; font-family: 'Inter', sans-serif;" id="battleLogOpponentProtection">0% protection</div>
                                 </div>
                             </div>
                         </div>
@@ -2276,40 +2273,40 @@
 
         getAchievementDefinitions() {
             return [
-                // Победы
+                // Victories
                 { id: 'first_victory', icon: '🏆', name: 'First Victory', desc: 'Win your first battle', condition: p => p.wins >= 1 },
                 { id: 'veteran', icon: '⚔️', name: 'Veteran', desc: 'Win 5 battles', condition: p => p.wins >= 5 },
                 { id: 'champion', icon: '👑', name: 'Champion', desc: 'Win 10 battles', condition: p => p.wins >= 10 },
                 { id: 'legend', icon: '🌟', name: 'Legend', desc: 'Win 25 battles', condition: p => p.wins >= 25 },
                 { id: 'immortal', icon: '💫', name: 'Immortal', desc: 'Win 50 battles', condition: p => p.wins >= 50 },
 
-                // Серии побед
+                // Win Streaks
                 { id: 'win_streak_3', icon: '🔥', name: 'Triple Threat', desc: 'Win 3 battles in a row', condition: p => p.winStreak >= 3 },
                 { id: 'win_streak_5', icon: '🔥🔥', name: 'Unstoppable', desc: 'Win 5 battles in a row', condition: p => p.winStreak >= 5 },
                 { id: 'win_streak_10', icon: '🔥🔥🔥', name: 'Dominator', desc: 'Win 10 battles in a row', condition: p => p.winStreak >= 10 },
 
-                // Мана
+                // Mana
                 { id: 'mana_master', icon: '💎', name: 'Mana Master', desc: 'Accumulate 1000 mana', condition: p => p.mana >= 1000 },
                 { id: 'mana_lord', icon: '💎💎', name: 'Mana Lord', desc: 'Accumulate 2500 mana', condition: p => p.mana >= 2500 },
                 { id: 'mana_god', icon: '💎💎💎', name: 'Mana God', desc: 'Accumulate 5000 mana', condition: p => p.mana >= 5000 },
 
-                // Элементы
+                // Elements
                 { id: 'fire_master', icon: '🔥', name: 'Fire Master', desc: 'Win 10 battles with Fire', condition: p => p.elementStats.fire >= 10 },
                 { id: 'water_master', icon: '💧', name: 'Water Master', desc: 'Win 10 battles with Water', condition: p => p.elementStats.water >= 10 },
                 { id: 'earth_master', icon: '🗿', name: 'Earth Master', desc: 'Win 10 battles with Earth', condition: p => p.elementStats.earth >= 10 },
                 { id: 'elemental_master', icon: '🌈', name: 'Elemental Master', desc: 'Master all elements', condition: p => p.elementStats.fire >= 10 && p.elementStats.water >= 10 && p.elementStats.earth >= 10 },
 
-                // Опыт и уровень
+                // Experience and Level
                 { id: 'experienced', icon: '📚', name: 'Experienced', desc: 'Reach level 5', condition: p => p.level >= 5 },
                 { id: 'expert', icon: '🎓', name: 'Expert', desc: 'Reach level 10', condition: p => p.level >= 10 },
                 { id: 'master', icon: '🧙‍♂️', name: 'Master', desc: 'Reach level 15', condition: p => p.level >= 15 },
 
-                // Битвы
+                // Battles
                 { id: 'warrior', icon: '⚔️', name: 'Warrior', desc: 'Fight 25 battles', condition: p => p.totalBattles >= 25 },
                 { id: 'gladiator', icon: '🛡️', name: 'Gladiator', desc: 'Fight 50 battles', condition: p => p.totalBattles >= 50 },
                 { id: 'arena_master', icon: '🏟️', name: 'Arena Master', desc: 'Fight 100 battles', condition: p => p.totalBattles >= 100 },
 
-                // Особые достижения
+                // Special Achievements
                 { id: 'perfectionist', icon: '💯', name: 'Perfectionist', desc: 'Win 10 battles without losing', condition: p => p.wins >= 10 && p.losses === 0 },
                 { id: 'comeback_king', icon: '🔄', name: 'Comeback King', desc: 'Win after losing 5 in a row', condition: p => p.winStreak >= 1 && p.maxLossStreak >= 5 },
                 { id: 'high_roller', icon: '🎰', name: 'High Roller', desc: 'Win a battle with 500+ mana wager', condition: p => p.maxWager >= 500 },
@@ -2317,7 +2314,7 @@
         }
 
         showAchievementNotification(achievement) {
-            // Создаем уведомление о достижении
+            // Create achievement notification
             const notification = document.createElement('div');
             notification.className = 'achievement-notification';
             notification.innerHTML = `
@@ -2333,10 +2330,10 @@
             
             document.body.appendChild(notification);
             
-            // Показываем уведомление
+            // Show notification
             setTimeout(() => notification.classList.add('show'), 100);
             
-            // Убираем уведомление через 4 секунды
+            // Remove notification after 4 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => document.body.removeChild(notification), 500);
@@ -2472,13 +2469,13 @@
             if (!achievementsList) return;
             const allAchievements = this.getAchievementDefinitions();
             
-            // Показываем только последние 5 достижений (разблокированные + ближайшие заблокированные)
+            // Show only the last 5 achievements (unlocked + nearest locked)
             const unlockedAchievements = allAchievements.filter(a => this.player.achievements.includes(a.id));
             const lockedAchievements = allAchievements.filter(a => !this.player.achievements.includes(a.id));
             
             const displayAchievements = [
-                ...unlockedAchievements.slice(-3), // Последние 3 разблокированных
-                ...lockedAchievements.slice(0, 2)   // Первые 2 заблокированных
+                ...unlockedAchievements.slice(-3), // Last 3 unlocked
+                ...lockedAchievements.slice(0, 2)   // First 2 locked
             ];
 
             achievementsList.innerHTML = displayAchievements.map(achievement => {
@@ -2501,7 +2498,7 @@
         getAchievementProgress(achievement) {
             const p = this.player;
             
-            // Определяем прогресс для разных типов достижений
+            // Determine progress for different types of achievements
             if (achievement.id.includes('wins') || achievement.id === 'veteran' || achievement.id === 'champion' || achievement.id === 'legend' || achievement.id === 'immortal') {
                 return `${p.wins}/${achievement.id === 'veteran' ? 5 : achievement.id === 'champion' ? 10 : achievement.id === 'legend' ? 25 : achievement.id === 'immortal' ? 50 : 1}`;
             }
@@ -2553,22 +2550,22 @@
 
     const elementalTypes = {
         earth: {
-            common: { name: 'Earth Golem', emoji: '🗿', rarity: 'Обычный', protection: 0.1 },
-            rare: { name: 'Stone Guardian', emoji: '🏔️', rarity: 'Редкий', protection: 0.2 },
-            epic: { name: 'Mountain Lord', emoji: '⛰️', rarity: 'Эпический', protection: 0.4 },
-            immortal: { name: 'Earth Titan', emoji: '🌋', rarity: 'Несокрушимый', protection: 0.8 }
+            common: { name: 'Earth Golem', emoji: '🗿', rarity: 'Common', protection: 0.1 },
+            rare: { name: 'Stone Guardian', emoji: '🏔️', rarity: 'Rare', protection: 0.2 },
+            epic: { name: 'Mountain Lord', emoji: '⛰️', rarity: 'Epic', protection: 0.4 },
+            immortal: { name: 'Earth Titan', emoji: '🌋', rarity: 'Immortal', protection: 0.8 }
         },
         water: {
-            common: { name: 'Water Nymph', emoji: '💧', rarity: 'Обычный', protection: 0.1 },
-            rare: { name: 'Sea Sprite', emoji: '🌊', rarity: 'Редкий', protection: 0.2 },
-            epic: { name: 'Ocean Master', emoji: '🌀', rarity: 'Эпический', protection: 0.4 },
-            immortal: { name: 'Leviathan', emoji: '🐋', rarity: 'Несокрушимый', protection: 0.8 }
+            common: { name: 'Water Nymph', emoji: '💧', rarity: 'Common', protection: 0.1 },
+            rare: { name: 'Sea Sprite', emoji: '🌊', rarity: 'Rare', protection: 0.2 },
+            epic: { name: 'Ocean Master', emoji: '🌀', rarity: 'Epic', protection: 0.4 },
+            immortal: { name: 'Leviathan', emoji: '🐋', rarity: 'Immortal', protection: 0.8 }
         },
         fire: {
-            common: { name: 'Fire Sprite', emoji: '🔥', rarity: 'Обычный', protection: 0.1 },
-            rare: { name: 'Flame Dancer', emoji: '🔥', rarity: 'Редкий', protection: 0.2 },
-            epic: { name: 'Inferno Lord', emoji: '🌋', rarity: 'Эпический', protection: 0.4 },
-            immortal: { name: 'Phoenix King', emoji: '🔥', rarity: 'Несокрушимый', protection: 0.8 }
+            common: { name: 'Fire Sprite', emoji: '🔥', rarity: 'Common', protection: 0.1 },
+            rare: { name: 'Flame Dancer', emoji: '🔥', rarity: 'Rare', protection: 0.2 },
+            epic: { name: 'Inferno Lord', emoji: '🌋', rarity: 'Epic', protection: 0.4 },
+            immortal: { name: 'Phoenix King', emoji: '🔥', rarity: 'Immortal', protection: 0.8 }
         }
     };
 
@@ -2672,7 +2669,7 @@
         gameState.gamePhase = 'matchmaking';
         showModal('matchmakingModal');
 
-        // Показываем кнопку экстренного сброса через 10 секунд
+        // Show emergency reset button after 10 seconds
         const emergencyTimeout = setTimeout(() => {
             const emergencyButton = document.getElementById('emergencyButton');
             if (emergencyButton && gameState.gamePhase !== 'menu') {
@@ -2724,7 +2721,7 @@
                 clearInterval(progressInterval);
                 clearTimeout(emergencyTimeout);
                 
-                // Пытаемся создать базового противника
+                // Try to create a basic opponent
                 try {
                     gameState.currentOpponent = {
                         name: 'Unknown Challenger',
@@ -2749,7 +2746,7 @@
             }
         }, 3000 + Math.random() * 2000);
 
-        // Сохраняем таймеры для возможной очистки
+        // Save timers for possible cleanup
         gameState.matchmakingTimeouts = [progressInterval, matchmakingTimeout, emergencyTimeout];
     }
 
@@ -2907,7 +2904,7 @@
             button.innerHTML = `
                 <div class="elemental-emoji">${elemental.emoji}</div>
                 <div class="elemental-name">${elemental.name}</div>
-                <div class="elemental-rarity">${elemental.rarity} (${Math.round(elemental.protection * 100)}% защита)</div>
+                <div class="elemental-rarity">${elemental.rarity} (${Math.round(elemental.protection * 100)}% protection)</div>
             `;
             
             elementalGrid.appendChild(button);
@@ -2962,7 +2959,7 @@
     function startBattle() {
         console.log('🎮 Starting battle...');
         
-        // Проверка критических условий
+        // Check critical conditions
         if (!gameState.player.selectedElement) {
             console.error('❌ No element selected!');
             alert('Please select an element first!');
@@ -3002,13 +2999,13 @@
         
         console.log(`⚔️ Battle: ${gameState.player.selectedElement} vs ${gameState.opponentElement}`);
 
-        // Проверка элементов DOM
+        // Check DOM elements
         const playerChoice = document.getElementById('playerBattleChoice');
         const opponentChoice = document.getElementById('opponentBattleChoice');
         
         if (!playerChoice || !opponentChoice) {
             console.error('❌ Battle elements not found in DOM!');
-            showResult(); // Пропускаем анимацию и показываем результат
+            showResult(); // Skip animation and show result
             return;
         }
 
@@ -3061,7 +3058,7 @@
                 showResult();
             } catch (error) {
                 console.error('❌ Error showing result:', error);
-                // Пытаемся показать результат без анимации
+                // Try to show result without animation
                 try {
                     showResult();
                 } catch (fallbackError) {
@@ -3071,7 +3068,7 @@
             }
         }, 3000);
 
-        // Сохраняем таймеры для возможной очистки
+        // Save timers for possible cleanup
         gameState.battleTimeouts = [battleTimeout1, battleTimeout2, battleTimeout3];
     }
 
@@ -3079,7 +3076,7 @@
         console.log('🏁 Calculating battle result...');
         
         try {
-            // Очищаем таймеры битвы
+            // Clear battle timers
             if (gameState.battleTimeouts) {
                 gameState.battleTimeouts.forEach(timeout => clearTimeout(timeout));
                 gameState.battleTimeouts = null;
@@ -3126,7 +3123,7 @@
                 
                 console.log(`💰 Victory - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
 
-                // Обновляем статистику элементов
+                // Update element statistics
                 if (gameState.player.elementStats[gameState.player.selectedElement] !== undefined) {
                     gameState.player.elementStats[gameState.player.selectedElement]++;
                 }
@@ -3160,8 +3157,8 @@
                     gameState.player.mana - gameState.initialBattleMana : -actualLoss;
                 
                 console.log(`💀 Defeat - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
-                const protectionText = protectedMana > 0 ? ` (${protectedMana} защищено)` : 
-                    gameState.player.selectedElemental ? '' : ' (без защиты)';
+                const protectionText = protectedMana > 0 ? ` (${protectedMana} protected)` : 
+                    gameState.player.selectedElemental ? '' : ' (no protection)';
                 
                 updateResultUI('💀', 'Defeat', 'var(--error)', 
                     `${gameState.currentOpponent?.name || 'Opponent'} was victorious`, 
@@ -3270,7 +3267,7 @@
         } catch (error) {
             console.error('❌ Error in showResult:', error);
             
-            // Пытаемся показать базовый результат
+            // Try to show basic result
             try {
                 updateResultUI('⚖️', 'Battle Complete', 'var(--text-primary)', 
                     'Result calculation failed, but battle is over', '0', 'var(--text-muted)');
@@ -3279,7 +3276,7 @@
                 switchTab('results');
             } catch (fallbackError) {
                 console.error('❌ Fallback result also failed:', fallbackError);
-                // Только в крайнем случае вызываем emergencyReset
+                // Only as a last resort call emergencyReset
                 emergencyReset();
             }
         }
@@ -3289,14 +3286,14 @@
         const titleEl = document.getElementById('resultTitle');
         const iconEl = document.getElementById('resultIcon');
         
-        // Все результаты показываем в компактном стиле с иконкой слева от текста
+        // Show all results in compact style with icon to the left of text
         if (titleEl) {
             titleEl.innerHTML = `<span class="result-icon">${icon}</span>${title}`;
             titleEl.className = 'results-title compact';
             titleEl.style.color = titleColor;
         }
         if (iconEl) {
-            iconEl.style.display = 'none'; // Скрываем отдельную большую иконку
+            iconEl.style.display = 'none'; // Hide separate large icon
         }
         
         safeUpdateElement('resultSubtitle', subtitle);
@@ -3356,11 +3353,11 @@
             const elemental = elementalTypes[playerElement][gameState.player.selectedElemental];
             safeUpdateElement('battleLogPlayerElementalEmoji', elemental.emoji);
             safeUpdateElement('battleLogPlayerElementalName', elemental.name);
-            safeUpdateElement('battleLogPlayerProtection', `${Math.round(elemental.protection * 100)}% защита`);
+            safeUpdateElement('battleLogPlayerProtection', `${Math.round(elemental.protection * 100)}% protection`);
         } else if (playerElementalSection) {
             safeUpdateElement('battleLogPlayerElementalEmoji', '❌');
             safeUpdateElement('battleLogPlayerElementalName', 'No Protection');
-            safeUpdateElement('battleLogPlayerProtection', '0% защита');
+            safeUpdateElement('battleLogPlayerProtection', '0% protection');
         }
         
         // Update opponent elemental
@@ -3368,11 +3365,11 @@
             const opponentElemental = elementalTypes[opponentElement][gameState.currentOpponent.elemental];
             safeUpdateElement('battleLogOpponentElementalEmoji', opponentElemental.emoji);
             safeUpdateElement('battleLogOpponentElementalName', opponentElemental.name);
-            safeUpdateElement('battleLogOpponentProtection', `${Math.round(opponentElemental.protection * 100)}% защита`);
+            safeUpdateElement('battleLogOpponentProtection', `${Math.round(opponentElemental.protection * 100)}% protection`);
         } else {
             safeUpdateElement('battleLogOpponentElementalEmoji', '❌');
             safeUpdateElement('battleLogOpponentElementalName', 'No Protection');
-            safeUpdateElement('battleLogOpponentProtection', '0% защита');
+            safeUpdateElement('battleLogOpponentProtection', '0% protection');
         }
         
         // Update final calculation
@@ -3436,14 +3433,14 @@
     function emergencyReset() {
         console.log('🚨 Emergency reset triggered');
         
-        // Увеличиваем счетчик попыток сброса
+        // Increment reset attempt counter
         if (!gameState.resetAttempts) {
             gameState.resetAttempts = 0;
         }
         gameState.resetAttempts++;
         
         try {
-            // Очищаем все таймеры битвы
+            // Clear all battle timers
             if (gameState.battleTimeouts) {
                 gameState.battleTimeouts.forEach(timeout => {
                     try {
@@ -3455,7 +3452,7 @@
                 gameState.battleTimeouts = null;
             }
             
-            // Очищаем все таймеры матчмейкинга
+            // Clear all matchmaking timers
             if (gameState.matchmakingTimeouts) {
                 gameState.matchmakingTimeouts.forEach(timeout => {
                     try {
@@ -3471,7 +3468,7 @@
                 gameState.matchmakingTimeouts = null;
             }
             
-            // Сбрасываем состояние игры
+            // Reset game state
             gameState.gamePhase = 'menu';
             gameState.player.selectedElement = null;
             gameState.player.selectedLocation = null;
@@ -3480,11 +3477,11 @@
             gameState.opponentElement = null;
             gameState.battleManaChange = undefined; // Clear battle mana change
             
-            // Скрываем все модальные окна
+            // Hide all modal windows
             try {
                 hideAllModals();
             } catch (e) {
-                // Принудительно скрываем модальные окна
+                // Force hide modal windows
                 document.querySelectorAll('.modal-overlay').forEach(modal => {
                     try {
                         modal.classList.remove('active');
@@ -3495,13 +3492,13 @@
                 });
             }
             
-            // Скрываем кнопку экстренного сброса
+            // Hide emergency reset button
             const emergencyButton = document.getElementById('emergencyButton');
             if (emergencyButton) {
                 emergencyButton.style.display = 'none';
             }
             
-            // Сбрасываем UI элементы
+            // Reset UI elements
             try {
                 document.querySelectorAll('.element-btn').forEach(btn => {
                     btn.classList.remove('selected');
@@ -3533,7 +3530,7 @@
                 seekButton.textContent = '🔮 Choose Location First';
             }
             
-            // Обновляем UI только если функция существует
+            // Update UI only if function exists
             try {
                 if (gameState && typeof gameState.updateUI === 'function') {
                     gameState.updateUI('emergencyReset');
@@ -3544,13 +3541,13 @@
             
             console.log('✅ Emergency reset completed successfully');
             
-            // Показываем дружелюбное сообщение вместо критической ошибки
+            // Show friendly message instead of critical error
             if (gameState.resetAttempts === 1) {
                 showFriendlyMessage('🔄 Battle system reset. You can continue playing!');
             } else if (gameState.resetAttempts < 3) {
                 showFriendlyMessage('⚠️ System reset again. Everything should work now.');
             } else {
-                // Только после 3 попыток предлагаем перезагрузку
+                // Only after 3 attempts suggest page reload
                 if (confirm('Multiple resets detected. Would you like to refresh the page for a clean start?')) {
                     location.reload();
                 } else {
