@@ -1724,6 +1724,19 @@
                         </p>
                     </div>
 
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🛡️ Fair Elemental System</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem;">
+                            When elements tie, elementals decide the outcome fairly - you never lose more than you wagered:
+                        </p>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-left: 1rem;">
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">• <strong>Stronger elemental:</strong> Gets wager back + wins difference from opponent</div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">• <strong>Weaker elemental:</strong> Keeps protected portion, loses the rest</div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">• <strong>Equal elementals:</strong> True draw - full wager returned</div>
+                            <div style="color: var(--success); font-size: 0.85rem;">• <strong>Maximum loss:</strong> Never more than your wager!</div>
+                        </div>
+                    </div>
+
                     <div>
                         <h3 style="color: var(--secondary-gold); font-size: 1rem; margin-bottom: 0.75rem;">🏆
                             Progression</h3>
@@ -2911,21 +2924,79 @@
                 updateBattleLog('opponent', wager, elementalProtection, protectedMana, actualManaChange);
 
             } else {
-                // Draw: return the wager to player
-                gameState.updatePlayer({
-                    mana: gameState.player.mana + wager,
-                    totalBattles: gameState.player.totalBattles + 1,
-                    updateManaChange: false // Don't update lastManaChange here
-                });
-
-                // Calculate actual mana change relative to pre-battle amount (should be 0 since wager is returned)
-                const actualManaChange = gameState.initialBattleMana ? 
-                    gameState.player.mana - gameState.initialBattleMana : 0;
+                // FAIR TIE LOGIC: Compare elemental protection levels
+                const opponentProtection = gameState.currentOpponent && gameState.currentOpponent.elemental ? 
+                    elementalTypes[gameState.currentOpponent.element][gameState.currentOpponent.elemental].protection : 0;
                 
-                console.log(`⚖️ Draw - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
+                console.log(`⚖️ Tie - Player protection: ${Math.round(elementalProtection * 100)}%, Opponent protection: ${Math.round(opponentProtection * 100)}%`);
+                
+                let actualManaChange = 0;
+                let resultMessage = '';
+                let resultIcon = '⚖️';
+                let resultColor = 'var(--warning)';
+                
+                if (elementalProtection > opponentProtection) {
+                    // Player has stronger elemental - wins part of opponent's wager
+                    const protectionDifference = elementalProtection - opponentProtection;
+                    const manaWon = Math.floor(wager * protectionDifference);
+                    
+                    // Player gets back their wager + wins from opponent
+                    gameState.updatePlayer({
+                        mana: gameState.player.mana + wager + manaWon,
+                        totalBattles: gameState.player.totalBattles + 1,
+                        wins: gameState.player.wins + 1,
+                        winStreak: gameState.player.winStreak + 1,
+                        updateManaChange: false
+                    });
+                    
+                    actualManaChange = gameState.initialBattleMana ? 
+                        gameState.player.mana - gameState.initialBattleMana : manaWon;
+                    
+                    resultIcon = '🛡️';
+                    resultMessage = `Stronger elemental wins ${Math.round(protectionDifference * 100)}% of opponent's wager`;
+                    resultColor = 'var(--success)';
+                    
+                } else if (opponentProtection > elementalProtection) {
+                    // Opponent has stronger elemental - player loses part of their wager
+                    const protectionDifference = opponentProtection - elementalProtection;
+                    const manaLost = Math.floor(wager * protectionDifference);
+                    
+                    // Player gets back only the protected portion of their wager
+                    const protectedMana = Math.floor(wager * elementalProtection);
+                    
+                    gameState.updatePlayer({
+                        mana: gameState.player.mana + protectedMana,
+                        totalBattles: gameState.player.totalBattles + 1,
+                        losses: gameState.player.losses + 1,
+                        winStreak: 0,
+                        updateManaChange: false
+                    });
+                    
+                    actualManaChange = gameState.initialBattleMana ? 
+                        gameState.player.mana - gameState.initialBattleMana : -(wager - protectedMana);
+                    
+                    resultIcon = '💔';
+                    resultMessage = `Opponent's stronger elemental takes ${Math.round(protectionDifference * 100)}% of your wager`;
+                    resultColor = 'var(--error)';
+                    
+                } else {
+                    // Equal protection - true draw, return wager
+                    gameState.updatePlayer({
+                        mana: gameState.player.mana + wager,
+                        totalBattles: gameState.player.totalBattles + 1,
+                        updateManaChange: false
+                    });
+                    
+                    actualManaChange = gameState.initialBattleMana ? 
+                        gameState.player.mana - gameState.initialBattleMana : 0;
+                    
+                    resultMessage = 'Equal elementals - true draw, wager returned';
+                }
+                
+                console.log(`⚖️ Fair Tie result - Initial: ${gameState.initialBattleMana}, Current: ${gameState.player.mana}, Change: ${actualManaChange}`);
 
-                updateResultUI('⚖️', 'Draw', 'var(--warning)', 
-                    'A well-matched battle - wager returned', `${actualManaChange}`, 'var(--text-muted)');
+                updateResultUI(resultIcon, elementalProtection === opponentProtection ? 'True Draw' : 'Elemental Victory', resultColor, 
+                    resultMessage, `${actualManaChange > 0 ? '+' : ''}${actualManaChange}`, actualManaChange > 0 ? 'var(--success)' : actualManaChange < 0 ? 'var(--error)' : 'var(--text-muted)');
                 
                 updateBattleLog('tie', wager, elementalProtection, 0, actualManaChange);
             }
@@ -3006,7 +3077,17 @@
                 battleExplanation = 'Fire melts Earth - You Lose!';
             }
         } else {
-            battleExplanation = 'Same elements - Draw!';
+            // NEW TIE EXPLANATION: Compare elemental protection
+            const opponentProtection = gameState.currentOpponent && gameState.currentOpponent.elemental ? 
+                elementalTypes[gameState.currentOpponent.element][gameState.currentOpponent.elemental].protection : 0;
+            
+            if (elementalProtection > opponentProtection) {
+                battleExplanation = `Same elements - Your elemental (${Math.round(elementalProtection * 100)}%) beats opponent's (${Math.round(opponentProtection * 100)}%)!`;
+            } else if (opponentProtection > elementalProtection) {
+                battleExplanation = `Same elements - Opponent's elemental (${Math.round(opponentProtection * 100)}%) beats yours (${Math.round(elementalProtection * 100)}%)!`;
+            } else {
+                battleExplanation = `Same elements - Equal elementals (${Math.round(elementalProtection * 100)}% each) - True Draw!`;
+            }
         }
         
         safeUpdateElement('battleLogElementResult', battleExplanation);
@@ -3058,7 +3139,22 @@
                 calculationText = `Base wager: ${wager} mana<br>No protection<br>Final loss: ${actualManaChange} mana`;
             }
         } else {
-            calculationText = `Base wager: ${wager} mana<br>Draw - wager returned<br>Final change: ${actualManaChange} mana`;
+            // FAIR TIE CALCULATION TEXT
+            const opponentProtection = gameState.currentOpponent && gameState.currentOpponent.elemental ? 
+                elementalTypes[gameState.currentOpponent.element][gameState.currentOpponent.elemental].protection : 0;
+            
+            if (elementalProtection > opponentProtection) {
+                const protectionDifference = elementalProtection - opponentProtection;
+                const manaWon = Math.floor(wager * protectionDifference);
+                calculationText = `Your wager: ${wager} mana (returned)<br>Your elemental: ${Math.round(elementalProtection * 100)}% vs ${Math.round(opponentProtection * 100)}%<br>Win from opponent: ${Math.round(protectionDifference * 100)}% × ${wager} = +${manaWon} mana<br>Final change: ${actualManaChange} mana`;
+            } else if (opponentProtection > elementalProtection) {
+                const protectionDifference = opponentProtection - elementalProtection;
+                const protectedMana = Math.floor(wager * elementalProtection);
+                const lostMana = wager - protectedMana;
+                calculationText = `Your wager: ${wager} mana<br>Your protection: ${Math.round(elementalProtection * 100)}% saves ${protectedMana} mana<br>Lost to opponent: ${lostMana} mana<br>Final change: ${actualManaChange} mana`;
+            } else {
+                calculationText = `Your wager: ${wager} mana<br>Equal elementals: ${Math.round(elementalProtection * 100)}% each<br>True draw - wager returned<br>Final change: ${actualManaChange} mana`;
+            }
         }
         
         safeUpdateElement('battleLogCalculation', calculationText);
