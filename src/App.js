@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import ElementSelector from './components/ElementSelector';
 import ManaDisplay from './components/ManaDisplay';
 import WagerSlider from './components/WagerSlider';

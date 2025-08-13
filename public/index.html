@@ -1,14 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Elemental Game - A competitive element-based strategy game" />
-    <title>Elemental Game</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#667eea" />
+  <meta name="description" content="Elemental Arena - A strategic element-based battle game with mana wagering and upgrades" />
+  <meta name="keywords" content="game, strategy, elements, battle, mana, elemental, react" />
+  <meta name="author" content="Elemental Arena Team" />
+  
+  <!-- Preload fonts for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <title>⚡ Elemental Arena - Strategic Battle Game</title>
+  
+  <style>
+    /* Loading screen styles */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    
+    .loading-spinner::before {
+      content: '⚡';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .loading-spinner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .loading-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      text-align: center;
+      max-width: 300px;
+    }
+    
+    /* Hide loading screen when React loads */
+    .loaded #loading-screen {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <noscript>
+    <div style="text-align: center; padding: 2rem; font-family: Arial, sans-serif;">
+      <h1>⚠️ JavaScript Required</h1>
+      <p>You need to enable JavaScript to run this app.</p>
+      <p>Elemental Arena requires JavaScript for the interactive gameplay experience.</p>
+    </div>
+  </noscript>
+  
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading Elemental Arena</div>
+    <div class="loading-subtitle">Preparing your strategic battle experience...</div>
+  </div>
+  
+  <!-- React App Root -->
+  <div id="root"></div>
+  
+  <script>
+    // Hide loading screen when React app loads
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.body.classList.add('loaded');
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.remove();
+          }
+        }, 500);
+      }, 1000);
+    });
+    
+    // Performance monitoring
+    if ('performance' in window) {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const perfData = performance.getEntriesByType('navigation')[0];
+          console.log('🎮 Elemental Arena loaded in:', Math.round(perfData.loadEventEnd - perfData.fetchStart), 'ms');
+        }, 0);
+      });
+    }
+  </script>
+</body>
 </html>
