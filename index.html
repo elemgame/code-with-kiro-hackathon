@@ -1679,8 +1679,25 @@
 
                             <!-- Element Selection -->
                             <div id="elementSelection" style="margin-bottom: 2rem; display: none;">
-                                <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
-                                    Choose Your Element
+                                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; position: relative;">
+                                    <button onclick="returnToLocationSelection()" style="
+                                        position: absolute;
+                                        left: 0;
+                                        background: transparent;
+                                        border: 1px solid var(--text-muted);
+                                        color: var(--text-muted);
+                                        padding: 0.5rem;
+                                        border-radius: 8px;
+                                        cursor: pointer;
+                                        font-size: 0.8rem;
+                                        transition: all 0.3s ease;
+                                    " onmouseover="this.style.borderColor='var(--primary-gold)'; this.style.color='var(--primary-gold)'" 
+                                       onmouseout="this.style.borderColor='var(--text-muted)'; this.style.color='var(--text-muted)'">
+                                        ← Back
+                                    </button>
+                                    <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">
+                                        Choose Your Element
+                                    </div>
                                 </div>
                                 <div class="element-grid" style="margin-bottom: 2rem;">
                                     <div class="element-btn" onclick="selectElement('earth', event)" data-element="earth">
@@ -2085,10 +2102,22 @@
             btn.classList.remove('selected');
         });
         
-        // Hide element selection
+        // Hide element selection and show location selection
         const elementSelection = document.getElementById('elementSelection');
+        const locationSelection = document.getElementById('locationSelection');
+        
         if (elementSelection) {
             elementSelection.style.display = 'none';
+        }
+        
+        if (locationSelection) {
+            locationSelection.style.display = 'block';
+        }
+        
+        // Hide battle display
+        const battleDisplay = document.getElementById('battleDisplay');
+        if (battleDisplay) {
+            battleDisplay.style.display = 'none';
         }
         
         // Reset buttons
@@ -2705,8 +2734,14 @@
             navigator.vibrate(50);
         }
 
-        // Show element selection
+        // Hide location selection and show element selection
+        const locationSelection = document.getElementById('locationSelection');
         const elementSelection = document.getElementById('elementSelection');
+        
+        if (locationSelection) {
+            locationSelection.style.display = 'none';
+        }
+        
         if (elementSelection) {
             elementSelection.style.display = 'block';
         }
@@ -2722,6 +2757,38 @@
         }
 
         console.log(`📍 Location selected: ${location} (${locations[location].mana} mana)`);
+    }
+
+    function returnToLocationSelection() {
+        // Hide element selection and show location selection
+        const locationSelection = document.getElementById('locationSelection');
+        const elementSelection = document.getElementById('elementSelection');
+        
+        if (elementSelection) {
+            elementSelection.style.display = 'none';
+        }
+        
+        if (locationSelection) {
+            locationSelection.style.display = 'block';
+        }
+
+        // Reset element selection
+        gameState.player.selectedElement = null;
+        document.querySelectorAll('.element-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Update seek button
+        const seekButton = document.getElementById('seekButton');
+        if (seekButton && gameState.player.selectedLocation) {
+            const wager = locations[gameState.player.selectedLocation].mana;
+            const canAfford = gameState.player.mana >= wager;
+            
+            seekButton.textContent = canAfford ? '🔮 Choose Element' : `🔮 Not enough mana (need ${wager})`;
+            seekButton.disabled = true;
+        }
+
+        console.log('🔙 Returned to location selection');
     }
 
     function selectElement(element, event) {
