@@ -1906,57 +1906,73 @@
 
                 <!-- Battle Log Card -->
                 <div class="card">
+                    <!-- Battle Log Header -->
+                    <div style="font-size: 24px; font-weight: 700; color: #FFD700; text-align: center; margin-bottom: 1.5rem; font-family: 'Inter', sans-serif;">
+                        ⚔️ Battle Log
+                    </div>
+
                     <div class="results-battle-log">
-                        <div style="font-size: 1rem; font-weight: 600; color: var(--secondary-gold); text-align: center; margin-bottom: 1.5rem;">
-                            ⚔️ Battle Log
-                        </div>
-                        
+
+                                                
                         <!-- Element Battle -->
                         <div style="margin-bottom: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600;">Element Battle:</div>
-                            <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 0.75rem;">
+                            <div style="font-size: 16px; color: #FFD700; font-weight: 600; font-family: 'Inter', sans-serif;">Element Battle:</div>
+                            <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-bottom: 1rem;">
                                 <div style="text-align: center;">
-                                    <div style="font-size: 2rem; margin-bottom: 0.25rem;" id="battleLogPlayerElement">🌍</div>
-                                    <div style="font-size: 0.75rem; color: var(--text-secondary);" id="battleLogPlayerElementName">Earth</div>
+                                    <div style="font-size: 3rem; margin-bottom: 0.5rem; color: #00AFFF;" id="battleLogPlayerElement">💧</div>
+                                    <div style="font-size: 14px; color: white; font-family: 'Inter', sans-serif;" id="battleLogPlayerElementName">Water</div>
                                 </div>
-                                <div style="font-size: 1rem; color: var(--text-muted); font-weight: 600;">VS</div>
+                                <div style="font-size: 20px; color: #FFD700; font-weight: 700; font-family: 'Inter', sans-serif;">VS</div>
                                 <div style="text-align: center;">
-                                    <div style="font-size: 2rem; margin-bottom: 0.25rem;" id="battleLogOpponentElement">🔥</div>
-                                    <div style="font-size: 0.75rem; color: var(--text-secondary);" id="battleLogOpponentElementName">Fire</div>
+                                    <div style="font-size: 3rem; margin-bottom: 0.5rem; color: #A8A8A8;" id="battleLogOpponentElement">🗿</div>
+                                    <div style="font-size: 14px; color: white; font-family: 'Inter', sans-serif;" id="battleLogOpponentElementName">Earth</div>
                                 </div>
                             </div>
-                            <div style="font-size: 0.8rem; text-align: center; color: var(--text-muted); background: rgba(255, 255, 255, 0.05); padding: 0.5rem; border-radius: 8px;" id="battleLogElementResult">
-                                Earth absorbs Water - You Win!
+                            <div style="font-size: 14px; text-align: center; color: white; background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 16px; font-family: 'Inter', sans-serif;" id="battleLogElementResult">
+                                Earth absorbs Water - You Lose!
                             </div>
                         </div>
 
                         <!-- Elementals Used -->
-                        <div style="margin-bottom: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600;">Elementals Used:</div>
+                        <div>
+                            <div style="font-size: 16px; color: #FFD700; margin-bottom: 1rem; font-weight: 600; font-family: 'Inter', sans-serif;">Elementals Used:</div>
                             <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                 <!-- Player Elemental -->
-                                <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;" id="battleLogPlayerElementalSection">
-                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;" id="battleLogPlayerElementalEmoji">🗿</div>
-                                    <div style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.25rem;" id="battleLogPlayerElementalName">Earth Golem</div>
-                                    <div style="font-size: 0.65rem; color: var(--primary-gold);" id="battleLogPlayerProtection">10% защита</div>
+                                <div style="flex: 1; text-align: center; padding: 16px; background: linear-gradient(135deg, #2A2A2A, #1A4A5A); border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); transition: all 0.3s ease;" 
+                                     id="battleLogPlayerElementalSection"
+                                     onmouseover="this.style.boxShadow='0 6px 20px rgba(0, 175, 255, 0.3)'"
+                                     onmouseout="this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.3)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;" id="battleLogPlayerElementalEmoji">🌊</div>
+                                    <div style="font-size: 14px; color: white; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif;" id="battleLogPlayerElementalName">Leviathan</div>
+                                    <div style="font-size: 12px; color: #FFD700; font-family: 'Inter', sans-serif;" id="battleLogPlayerProtection">80% защита</div>
                                 </div>
                                 
                                 <!-- Opponent Elemental -->
-                                <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
-                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;" id="battleLogOpponentElementalEmoji">🔥</div>
-                                    <div style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.25rem;" id="battleLogOpponentElementalName">Fire Sprite</div>
-                                    <div style="font-size: 0.65rem; color: var(--error);" id="battleLogOpponentProtection">10% защита</div>
+                                <div style="flex: 1; text-align: center; padding: 16px; background: #2A2A2A; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); transition: all 0.3s ease;"
+                                     onmouseover="this.style.boxShadow='0 6px 20px rgba(255, 76, 76, 0.3)'"
+                                     onmouseout="this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.3)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; color: #FF4C4C;" id="battleLogOpponentElementalEmoji">❌</div>
+                                    <div style="font-size: 14px; color: white; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif;" id="battleLogOpponentElementalName">No Protection</div>
+                                    <div style="font-size: 12px; color: #FF4C4C; font-family: 'Inter', sans-serif;" id="battleLogOpponentProtection">0% защита</div>
                                 </div>
                             </div>
                         </div>
 
+                        </div>
                         <!-- Final Calculation -->
-                        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600;">Final Calculation:</div>
-                            <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px;" id="battleLogCalculation">
-                                Base wager: 100 mana<br>
-                                Protection saved: 10 mana<br>
-                                Final loss: -90 mana
+                        <div style="background: rgba(0, 0, 0, 0.4); margin-top: 14px; padding: 16px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
+                            <div style="font-size: 16px; color: #FFD700; margin-bottom: 1rem; font-weight: 600; font-family: 'Inter', sans-serif;">Final Calculation:</div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: white; font-size: 14px; font-family: 'Inter', sans-serif;">Base wager:</span>
+                                <span style="color: white; font-size: 14px; font-family: 'Inter', sans-serif;" id="battleLogBaseWager">100 mana</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: white; font-size: 14px; font-family: 'Inter', sans-serif;">Protection saved:</span>
+                                <span style="color: white; font-size: 14px; font-family: 'Inter', sans-serif;" id="battleLogProtectionSaved">80 mana</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 8px;">
+                                <span style="color: white; font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif;">Final loss:</span>
+                                <span style="color: #FF4C4C; font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif;" id="battleLogFinalChange">-20 mana</span>
                             </div>
                         </div>
                     </div>
