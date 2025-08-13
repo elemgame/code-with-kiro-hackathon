@@ -1128,6 +1128,64 @@
             }
         }
 
+        /* Results Tab Styles */
+        #resultsTab {
+            /* Remove nested scrolling - let container handle scroll */
+        }
+
+        #resultsTab .card {
+            max-width: none;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .results-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .results-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .results-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .results-stats {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .results-battle-log {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .results-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
         /* Extra small devices */
         @media (max-width: 360px) {
             .modal {
@@ -1143,6 +1201,23 @@
             .stat-card {
                 padding: 0.75rem;
             }
+
+            .results-icon {
+                font-size: 2.8rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .results-title {
+                font-size: 1.8rem;
+            }
+
+            .results-header {
+                margin-bottom: 1rem;
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+
         }
 
         /* Accessibility Enhancements */
@@ -1379,7 +1454,6 @@
         /* App Content Adjustment - Enhanced spacing for fixed panel */
         .app-content {
             padding-bottom: 100px; /* Space for bottom navigation */
-            min-height: calc(100vh - 100px); /* Ensure content fills viewport */
             /* Content is now scrollable within container */
         }
         
@@ -1748,7 +1822,112 @@
                 </div>
             </main>
         </div>
+
+                <!-- Results Tab Content -->
+        <div id="resultsTab" class="tab-content">
+            <main style="padding: 1rem; flex: 1; display: flex; flex-direction: column;">
+                <!-- Result Header Card -->
+                <div class="card">
+                    <div class="results-header">
+                        <div class="results-icon" id="resultIcon">🎉</div>
+                        <div class="results-title" id="resultTitle">Victory!</div>
+                        <div class="results-subtitle" id="resultSubtitle">You defeated DragonSlayer</div>
+                    </div>
+
+                    <!-- Result Stats -->
+                    <div class="results-stats">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">Battle Summary</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted); font-size: 0.85rem;">Mana Change:</span>
+                            <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--success);" id="resultManaChange">+75</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="color: var(--text-muted); font-size: 0.85rem;">New Total:</span>
+                            <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--text-primary);" id="newManaTotal">575</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted); font-size: 0.85rem;">Victory Streak:</span>
+                            <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--secondary-gold);" id="winStreak">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Battle Log Card -->
+                <div class="card">
+                    <div class="results-battle-log">
+                        <div style="font-size: 1rem; font-weight: 600; color: var(--secondary-gold); text-align: center; margin-bottom: 1.5rem;">
+                            ⚔️ Battle Log
+                        </div>
+                        
+                        <!-- Element Battle -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600;">Element Battle:</div>
+                            <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 0.75rem;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 0.25rem;" id="battleLogPlayerElement">🌍</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-secondary);" id="battleLogPlayerElementName">Earth</div>
+                                </div>
+                                <div style="font-size: 1rem; color: var(--text-muted); font-weight: 600;">VS</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 0.25rem;" id="battleLogOpponentElement">🔥</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-secondary);" id="battleLogOpponentElementName">Fire</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.8rem; text-align: center; color: var(--text-muted); background: rgba(255, 255, 255, 0.05); padding: 0.5rem; border-radius: 8px;" id="battleLogElementResult">
+                                Earth absorbs Water - You Win!
+                            </div>
+                        </div>
+
+                        <!-- Elementals Used -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600;">Elementals Used:</div>
+                            <div style="display: flex; justify-content: space-between; gap: 1rem;">
+                                <!-- Player Elemental -->
+                                <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;" id="battleLogPlayerElementalSection">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;" id="battleLogPlayerElementalEmoji">🗿</div>
+                                    <div style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.25rem;" id="battleLogPlayerElementalName">Earth Golem</div>
+                                    <div style="font-size: 0.65rem; color: var(--primary-gold);" id="battleLogPlayerProtection">10% защита</div>
+                                </div>
+                                
+                                <!-- Opponent Elemental -->
+                                <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;" id="battleLogOpponentElementalEmoji">🔥</div>
+                                    <div style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.25rem;" id="battleLogOpponentElementalName">Fire Sprite</div>
+                                    <div style="font-size: 0.65rem; color: var(--error);" id="battleLogOpponentProtection">10% защита</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Final Calculation -->
+                        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600;">Final Calculation:</div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px;" id="battleLogCalculation">
+                                Base wager: 100 mana<br>
+                                Protection saved: 10 mana<br>
+                                Final loss: -90 mana
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons Card -->
+                <div class="card">
+                    <div class="results-actions">
+                        <button class="btn-primary" onclick="returnToBattle()">
+                            ⚔️ Battle Again
+                        </button>
+                        <button class="btn-primary" onclick="switchTab('profile')" style="background: linear-gradient(135deg, var(--cool-blue), var(--cool-light));">
+                            👤 View Profile
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
+
+
 
     </div>
 
@@ -1847,98 +2026,7 @@
     </div>
 </div>
 
-<!-- Result Modal -->
-<div class="modal-overlay" id="resultModal">
-    <div class="modal">
-        <div style="text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;" id="resultIcon">🎉</div>
-            <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);"
-                id="resultTitle">Victory!</div>
-            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic;"
-                id="resultSubtitle">You defeated DragonSlayer</div>
 
-            <!-- Result Stats -->
-            <div
-                style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">Mana Change:</span>
-                    <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--success);"
-                        id="resultManaChange">+75</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">New Total:</span>
-                    <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--text-primary);"
-                        id="newManaTotal">575</span>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="color: var(--text-muted); font-size: 0.85rem;">Victory Streak:</span>
-                    <span style="font-family: 'Cinzel', serif; font-weight: 600; color: var(--secondary-gold);"
-                        id="winStreak">1</span>
-                </div>
-            </div>
-
-            <!-- Battle Log -->
-            <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-                <div style="font-size: 0.9rem; font-weight: 600; color: var(--secondary-gold); text-align: center; margin-bottom: 1rem;">
-                    ⚔️ Battle Log
-                </div>
-                
-                <!-- Element Battle -->
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Element Battle:</div>
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem;" id="battleLogPlayerElement">🌍</div>
-                            <div style="font-size: 0.7rem; color: var(--text-secondary);" id="battleLogPlayerElementName">Earth</div>
-                        </div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">VS</div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem;" id="battleLogOpponentElement">🔥</div>
-                            <div style="font-size: 0.7rem; color: var(--text-secondary);" id="battleLogOpponentElementName">Fire</div>
-                        </div>
-                    </div>
-                    <div style="font-size: 0.75rem; text-align: center; color: var(--text-muted);" id="battleLogElementResult">
-                        Earth absorbs Water - You Win!
-                    </div>
-                </div>
-
-                <!-- Elementals Used -->
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Elementals Used:</div>
-                    <div style="display: flex; justify-content: space-between; gap: 1rem;">
-                        <!-- Player Elemental -->
-                        <div style="flex: 1; text-align: center; padding: 0.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;" id="battleLogPlayerElementalSection">
-                            <div style="font-size: 1rem;" id="battleLogPlayerElementalEmoji">🗿</div>
-                            <div style="font-size: 0.65rem; color: var(--text-secondary);" id="battleLogPlayerElementalName">Earth Golem</div>
-                            <div style="font-size: 0.6rem; color: var(--primary-gold);" id="battleLogPlayerProtection">10% защита</div>
-                        </div>
-                        
-                        <!-- Opponent Elemental -->
-                        <div style="flex: 1; text-align: center; padding: 0.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
-                            <div style="font-size: 1rem;" id="battleLogOpponentElementalEmoji">🔥</div>
-                            <div style="font-size: 0.65rem; color: var(--text-secondary);" id="battleLogOpponentElementalName">Fire Sprite</div>
-                            <div style="font-size: 0.6rem; color: var(--error);" id="battleLogOpponentProtection">10% защита</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Final Calculation -->
-                <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.75rem;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Final Calculation:</div>
-                    <div style="font-size: 0.7rem; color: var(--text-secondary); line-height: 1.4;" id="battleLogCalculation">
-                        Base wager: 100 mana<br>
-                        Protection saved: 10 mana<br>
-                        Final loss: -90 mana
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn-primary" onclick="returnToMenu()" style="width: 100%;">
-                🏰 Continue
-            </button>
-        </div>
-    </div>
-</div>
 <script>
     // Tab Navigation System
     function switchTab(tabName) {
@@ -1953,14 +2041,66 @@
         });
 
         // Show selected tab content
-        document.getElementById(tabName + 'Tab').classList.add('active');
+        const targetTab = tabName.endsWith('Tab') ? tabName : tabName + 'Tab';
+        document.getElementById(targetTab).classList.add('active');
 
-        // Add active class to selected nav item
-        document.getElementById(tabName + 'Nav').classList.add('active');
+        // Add active class to selected nav item (only for main tabs, not results)
+        if (tabName !== 'resultsTab' && tabName !== 'results') {
+            const navId = tabName.endsWith('Tab') ? tabName.replace('Tab', 'Nav') : tabName + 'Nav';
+            const navElement = document.getElementById(navId);
+            if (navElement) {
+                navElement.classList.add('active');
+            }
+        } else {
+            // For results tab, keep battle nav active since results is part of battle flow
+            document.getElementById('battleNav').classList.add('active');
+        }
 
         // Add haptic feedback simulation
         if (navigator.vibrate) {
             navigator.vibrate(50);
+        }
+    }
+
+    // Return to battle from results
+    function returnToBattle() {
+        switchTab('battle');
+        
+        // Reset battle state
+        gameState.player.selectedElement = null;
+        gameState.player.selectedLocation = null;
+        gameState.player.selectedElemental = null;
+        gameState.currentOpponent = null;
+        gameState.opponentElement = null;
+        gameState.gamePhase = 'menu';
+        
+        // Reset UI elements
+        document.querySelectorAll('.element-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        document.querySelectorAll('.location-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        document.querySelectorAll('.elemental-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        
+        // Hide element selection
+        const elementSelection = document.getElementById('elementSelection');
+        if (elementSelection) {
+            elementSelection.style.display = 'none';
+        }
+        
+        // Reset buttons
+        const seekButton = document.getElementById('seekButton');
+        if (seekButton) {
+            seekButton.disabled = true;
+            seekButton.textContent = '🔮 Choose Location First';
+        }
+        
+        const battleButton = document.getElementById('battleButton');
+        if (battleButton) {
+            battleButton.disabled = true;
         }
     }
 
@@ -3017,7 +3157,9 @@
             gameState.updateUI('showResult');
 
             console.log('✅ Battle result calculated successfully');
-            showModal('resultModal', 500);
+            console.log('🔄 Hiding modals and switching to results tab...');
+            hideAllModals();
+            switchTab('results');
             
         } catch (error) {
             console.error('❌ Error in showResult:', error);
@@ -3026,7 +3168,9 @@
             try {
                 updateResultUI('⚖️', 'Battle Complete', 'var(--text-primary)', 
                     'Result calculation failed, but battle is over', '0', 'var(--text-muted)');
-                showModal('resultModal', 500);
+                console.log('🔄 Hiding modals and switching to results tab (fallback)...');
+                hideAllModals();
+                switchTab('results');
             } catch (fallbackError) {
                 console.error('❌ Fallback result also failed:', fallbackError);
                 // Только в крайнем случае вызываем emergencyReset
@@ -3408,7 +3552,8 @@
                 opponentChoice.textContent = '?';
             }
 
-            hideAllModals();
+            // Switch to battle tab instead of hiding modals
+            switchTab('battle');
             
             // Update UI to reflect reset state
             gameState.updateUI('returnToMenu');
