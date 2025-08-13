@@ -1165,10 +1165,22 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
+        .results-title.compact {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .results-title.compact .result-icon {
+            font-size: 1.5rem;
+        }
+
         .results-subtitle {
             color: var(--text-muted);
             font-size: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             font-style: italic;
         }
 
@@ -1177,7 +1189,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
         }
 
         .results-battle-log {
@@ -1185,7 +1196,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
         }
 
         .results-actions {
@@ -1217,6 +1227,14 @@
 
             .results-title {
                 font-size: 1.8rem;
+            }
+
+            .results-title.compact {
+                font-size: 1.2rem;
+            }
+
+            .results-title.compact .result-icon {
+                font-size: 1.2rem;
             }
 
             .results-header {
@@ -3255,15 +3273,23 @@
     }
 
     function updateResultUI(icon, title, titleColor, subtitle, manaText, manaColor) {
-        safeUpdateElement('resultIcon', icon);
-        safeUpdateElement('resultTitle', title);
+        const titleEl = document.getElementById('resultTitle');
+        const iconEl = document.getElementById('resultIcon');
+        
+        // Все результаты показываем в компактном стиле с иконкой слева от текста
+        if (titleEl) {
+            titleEl.innerHTML = `<span class="result-icon">${icon}</span>${title}`;
+            titleEl.className = 'results-title compact';
+            titleEl.style.color = titleColor;
+        }
+        if (iconEl) {
+            iconEl.style.display = 'none'; // Скрываем отдельную большую иконку
+        }
+        
         safeUpdateElement('resultSubtitle', subtitle);
         safeUpdateElement('resultManaChange', manaText);
         
-        const titleEl = document.getElementById('resultTitle');
         const manaEl = document.getElementById('resultManaChange');
-        
-        if (titleEl) titleEl.style.color = titleColor;
         if (manaEl) manaEl.style.color = manaColor;
     }
 
