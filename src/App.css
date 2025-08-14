@@ -119,7 +119,7 @@ body::-webkit-scrollbar {
 
 .card-title {
   font-family: 'Cinzel', serif;
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--secondary-gold);
   margin-bottom: 1rem;
