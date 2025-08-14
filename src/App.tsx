@@ -37,7 +37,7 @@ const INITIAL_PLAYER: PlayerStats = {
   maxLossStreak: 0,
   currentLossStreak: 0,
   totalBattles: 0,
-  experience: 350,
+  experience: 0,
   level: 1,
   favoriteElement: null,
   elementStats: { earth: 0, water: 0, fire: 0 },
@@ -58,6 +58,7 @@ const App: React.FC = () => {
     battleLog: null
   });
   const [newAchievements, setNewAchievements] = useState<string[]>([]);
+  const [levelUp, setLevelUp] = useState<number | null>(null);
 
   // Load game state from localStorage on mount
   useEffect(() => {
@@ -102,11 +103,36 @@ const App: React.FC = () => {
 
       // Update experience and level
       if (updates.wins !== undefined && updates.wins > prev.player.wins) {
-        newPlayer.experience += 100;
+        // Victory gives more XP, bonus for win streaks
+        let xpGain = 150;
+        if (newPlayer.winStreak >= 5) {
+          xpGain += 50; // Bonus for 5+ win streak
+        } else if (newPlayer.winStreak >= 3) {
+          xpGain += 25; // Bonus for 3+ win streak
+        }
+        newPlayer.experience += xpGain;
+      } else if (updates.losses !== undefined && updates.losses > prev.player.losses) {
+        // Defeat still gives some XP
+        newPlayer.experience += 50;
+      }
+
+      // Check for level up
+      if (updates.wins !== undefined || updates.losses !== undefined) {
+        const oldLevel = newPlayer.level;
         const expNeeded = newPlayer.level * 1000;
-        if (newPlayer.experience >= expNeeded) {
+        while (newPlayer.experience >= expNeeded) {
           newPlayer.level++;
           newPlayer.experience -= expNeeded;
+          // Recalculate expNeeded for next level
+          const nextExpNeeded = newPlayer.level * 1000;
+          if (newPlayer.experience < nextExpNeeded) break;
+        }
+        
+        // Show level up notification
+        if (newPlayer.level > oldLevel) {
+          setLevelUp(newPlayer.level);
+          // Auto-dismiss after 3 seconds
+          setTimeout(() => setLevelUp(null), 3000);
         }
       }
 
@@ -344,6 +370,20 @@ const App: React.FC = () => {
             />
           ) : null;
         })}
+
+        {/* Level Up Notification */}
+        {levelUp && (
+          <div className="achievement-notification show">
+            <div className="achievement-popup level-up">
+              <div className="achievement-popup-icon">⭐</div>
+              <div>
+                <div className="achievement-popup-title">Level Up!</div>
+                <div className="achievement-popup-name">Level {levelUp}</div>
+                <div className="achievement-popup-desc">You've gained a new level!</div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Navigation outside of app container */}

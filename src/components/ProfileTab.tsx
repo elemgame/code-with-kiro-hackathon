@@ -14,9 +14,6 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
   
   const winRate = player.totalBattles > 0 ? 
     Math.round((player.wins / player.totalBattles) * 100) : 0;
-  
-  const lossRate = player.totalBattles > 0 ? 
-    Math.round((player.losses / player.totalBattles) * 100) : 0;
 
   const achievementDefinitions = getAchievementDefinitions();
   const unlockedAchievements = achievementDefinitions.filter(a => 
@@ -32,106 +29,124 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
   ];
 
   return (
-    <main style={{ padding: '1rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <div className="profile-card">
-        <div className="profile-header">
-          <div className="profile-avatar">
-            <div className="avatar-ring">
-              <div className="avatar-inner">⚔️</div>
+    <main className="profile-container">
+      {/* Hero Section */}
+      <div className="profile-hero">
+        <div className="hero-background">
+          <div className="hero-gradient"></div>
+          <div className="hero-pattern"></div>
+        </div>
+        
+        <div className="hero-content">
+          <div className="profile-avatar-modern">
+            <div className="avatar-glow"></div>
+            <div className="avatar-circle">
+              <span className="avatar-emoji">⚔️</span>
             </div>
-            <div className="rank-badge">{rank}</div>
+
           </div>
-          <div className="profile-info">
-            <div className="player-name">{player.name}</div>
-            <div className="player-title">{title}</div>
-            <div className="experience-bar">
-              <div className="exp-fill" style={{ width: `${expPercent}%` }}></div>
-              <span className="exp-text">{player.experience} / {expNeeded} XP</span>
-            </div>
+          
+          <div className="profile-identity">
+            <h1 className="player-name-modern">{player.name}</h1>
+            <div className="player-title-modern">{rank}</div>
           </div>
         </div>
 
-        <div className="enhanced-stats-grid">
-          <div className="stat-card primary">
-            <div className="stat-icon">💰</div>
-            <div className="stat-content">
-              <div className="stat-value">{player.mana}</div>
-              <div className="stat-label">Mana</div>
-              <div className={`stat-change ${player.lastManaChange < 0 ? 'negative' : ''}`}>
-                {player.lastManaChange > 0 ? '+' : ''}{player.lastManaChange}
-              </div>
-            </div>
+        {/* Experience Progress */}
+        <div className="experience-section">
+          <div className="exp-header">
+            <span className="exp-label">Experience</span>
+            <span className="exp-values">{player.experience} / {expNeeded} XP</span>
           </div>
-
-          <div className="stat-card success">
-            <div className="stat-icon">🏆</div>
-            <div className="stat-content">
-              <div className="stat-value">{player.wins}</div>
-              <div className="stat-label">Victories</div>
-              <div className="stat-subtext">{winRate}% Win Rate</div>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">🔥</div>
-            <div className="stat-content">
-              <div className="stat-value">{player.winStreak}</div>
-              <div className="stat-label">Streak</div>
-              <div className="stat-subtext">
-                {player.winStreak === 0 ? 'No streak' : 
-                 player.winStreak === 1 ? '1 win in a row' : 
-                 `${player.winStreak} wins in a row`}
-              </div>
-            </div>
-          </div>
-
-          <div className="stat-card danger">
-            <div className="stat-icon">💀</div>
-            <div className="stat-content">
-              <div className="stat-value">{player.losses}</div>
-              <div className="stat-label">Defeats</div>
-              <div className="stat-subtext">{lossRate}% Loss Rate</div>
+          <div className="exp-bar-modern">
+            <div className="exp-fill-modern" style={{ width: `${expPercent}%` }}>
+              <div className="exp-shine"></div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="achievements-section">
-          <div className="section-title">Recent Achievements</div>
-          <div className="achievements-list">
-            {displayAchievements.map(achievement => {
-              const isUnlocked = player.achievements.includes(achievement.id);
-              const progress = getAchievementProgress(achievement, player);
-              
-              return (
-                <div key={achievement.id} className={`achievement-item ${isUnlocked ? 'unlocked' : 'locked'}`}>
-                  <div className="achievement-icon">
-                    {isUnlocked ? achievement.icon : '🔒'}
-                  </div>
-                  <div className="achievement-text">
-                    <div className="achievement-name">{achievement.name}</div>
-                    <div className="achievement-desc">{achievement.desc}</div>
-                    {!isUnlocked && progress && (
-                      <div className="achievement-progress">{progress}</div>
-                    )}
-                  </div>
+      {/* Stats Grid */}
+      <div className="stats-grid-modern">
+        <div className="stat-card-modern">
+          <div className="stat-value-modern">{player.mana.toLocaleString()}</div>
+          <div className="stat-label-modern">Mana</div>
+        </div>
+
+        <div className="stat-card-modern">
+          <div className="stat-value-modern">{player.wins}</div>
+          <div className="stat-label-modern">Victories</div>
+        </div>
+
+        <div className="stat-card-modern">
+          <div className="stat-value-modern">{player.winStreak}</div>
+          <div className="stat-label-modern">Streak</div>
+        </div>
+
+        <div className="stat-card-modern">
+          <div className="stat-value-modern">{player.totalBattles}</div>
+          <div className="stat-label-modern">Battles</div>
+        </div>
+      </div>
+
+      {/* Achievements Section */}
+      <div className="achievements-modern">
+        <div className="section-header-modern">
+          <h2 className="section-title-modern">
+            <span className="section-icon">🏅</span>
+            Achievements
+          </h2>
+          <div className="achievements-count">
+            {unlockedAchievements.length} / {achievementDefinitions.length}
+          </div>
+        </div>
+
+        <div className="achievements-grid">
+          {displayAchievements.map(achievement => {
+            const isUnlocked = player.achievements.includes(achievement.id);
+            const progress = getAchievementProgress(achievement, player);
+            
+            return (
+              <div key={achievement.id} className={`achievement-card-modern ${isUnlocked ? 'unlocked' : 'locked'}`}>
+                <div className="achievement-icon-modern">
+                  {isUnlocked ? achievement.icon : '🔒'}
                 </div>
-              );
-            })}
-          </div>
+                <div className="achievement-content">
+                  <div className="achievement-name-modern">{achievement.name}</div>
+                  <div className="achievement-desc-modern">{achievement.desc}</div>
+                </div>
+                {isUnlocked && <div className="achievement-glow"></div>}
+              </div>
+            );
+          })}
         </div>
+      </div>
 
-        <div className="quick-stats">
-          <div className="quick-stat">
-            <span className="quick-stat-label">Total Battles:</span>
-            <span className="quick-stat-value">{player.totalBattles}</span>
+      {/* Additional Stats */}
+      <div className="additional-stats">
+        <div className="stats-row">
+          <div className="mini-stat">
+            <div className="mini-stat-icon">🎯</div>
+            <div className="mini-stat-content">
+              <div className="mini-stat-value">{winRate}%</div>
+              <div className="mini-stat-label">Win Rate</div>
+            </div>
           </div>
-          <div className="quick-stat">
-            <span className="quick-stat-label">Best Streak:</span>
-            <span className="quick-stat-value">{player.bestStreak}</span>
+          
+          <div className="mini-stat">
+            <div className="mini-stat-icon">💎</div>
+            <div className="mini-stat-content">
+              <div className="mini-stat-value">{player.totalManaWon.toLocaleString()}</div>
+              <div className="mini-stat-label">Mana Won</div>
+            </div>
           </div>
-          <div className="quick-stat">
-            <span className="quick-stat-label">Favorite Element:</span>
-            <span className="quick-stat-value">{player.favoriteElement || 'None'}</span>
+          
+          <div className="mini-stat">
+            <div className="mini-stat-icon">🌟</div>
+            <div className="mini-stat-content">
+              <div className="mini-stat-value">{player.favoriteElement || 'None'}</div>
+              <div className="mini-stat-label">Element</div>
+            </div>
           </div>
         </div>
       </div>
