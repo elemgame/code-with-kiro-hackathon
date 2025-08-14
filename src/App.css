@@ -544,6 +544,10 @@ body::-webkit-scrollbar {
   text-align: center;
   position: relative;
   overflow: hidden;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .element-btn::before {
@@ -575,7 +579,7 @@ body::-webkit-scrollbar {
 }
 
 .element-emoji {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 0.5rem;
   display: block;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
@@ -1029,7 +1033,7 @@ body::-webkit-scrollbar {
 }
 
 .location-emoji {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 0.5rem;
   display: block;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
@@ -1139,16 +1143,28 @@ body::-webkit-scrollbar {
   margin-top: 0.25rem;
 }
 
-.elemental-btn.common .elemental-rarity {
+.elemental-protection {
+  font-size: 0.6rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.elemental-btn.common .elemental-name {
   color: #888;
 }
 
-.elemental-btn.rare .elemental-rarity {
+.elemental-btn.rare .elemental-name {
   color: #007bff;
 }
 
-.elemental-btn.epic .elemental-rarity {
-  color: #800080;
+.elemental-btn.epic .elemental-name {
+  color: #a855f7;
+}
+
+.elemental-btn.immortal .elemental-name {
+  color: #ffd700;
 }
 
 .elemental-btn.immortal .elemental-rarity {

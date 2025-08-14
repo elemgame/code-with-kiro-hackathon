@@ -294,36 +294,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       >
         {currentOpponent && (
           <>
-            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--primary-gold), var(--accent-gold))',
-                border: '2px solid var(--secondary-gold)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                margin: '0 auto 0.75rem',
-                boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)'
-              }}>
-                {currentOpponent.avatar}
-              </div>
-              <div style={{
-                fontFamily: "'Cinzel', serif",
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                color: 'var(--secondary-gold)',
-                marginBottom: '0.25rem',
-                textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)'
-              }}>
-                {currentOpponent.name}
-              </div>
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                Level {currentOpponent.level} • {currentOpponent.rarity} Elemental
-              </div>
-            </div>
+
 
             {/* Elemental Selection */}
             <div style={{ marginBottom: '1.5rem' }}>
@@ -347,9 +318,9 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                         onClick={() => onSelectElemental(rarity)}
                       >
                         <div className="elemental-emoji">{elemental.emoji}</div>
-                        <div className="elemental-name">{elemental.name}</div>
-                        <div className="elemental-rarity">
-                          {elemental.rarity} ({Math.round(elemental.protection * 100)}% protection)
+                        <div className="elemental-name">{elemental.rarity}</div>
+                        <div className="elemental-protection">
+                          {Math.round(elemental.protection * 100)}% protection
                         </div>
                       </button>
                     );
@@ -360,22 +331,15 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
             <button
               className="btn-primary"
-              onClick={onStartBattle}
-              disabled={!player.selectedElemental}
-              style={{ width: '100%', marginBottom: '0.75rem' }}
-            >
-              {player.selectedElemental ? '⚔️ Enter Battle' : '🔮 Choose Elemental'}
-            </button>
-
-            <button
-              className="btn-secondary"
               onClick={() => {
-                onSelectElemental('common');
+                if (!player.selectedElemental) {
+                  onSelectElemental('common');
+                }
                 setTimeout(onStartBattle, 100);
               }}
               style={{ width: '100%' }}
             >
-              ⚡ Fight Without Protection
+              🔮 Select
             </button>
           </>
         )}
