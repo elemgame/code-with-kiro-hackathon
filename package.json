@@ -2,6 +2,7 @@
   "name": "elemental-arena",
   "version": "1.0.0",
   "description": "A strategic element-based battle game with mana wagering and upgrades",
+  "homepage": "https://elemgame.github.io/code-with-kiro-hackathon/",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
