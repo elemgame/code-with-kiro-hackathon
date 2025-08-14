@@ -75,7 +75,15 @@ export interface BattleLog {
   winner: BattleResult;
 }
 
-export type GamePhase = 'menu' | 'locationSelection' | 'elementSelection' | 'elementalSelection' | 'matchmaking' | 'battle' | 'battleAnimation' | 'result';
+export type GamePhase =
+  | 'menu'
+  | 'locationSelection'
+  | 'elementSelection'
+  | 'elementalSelection'
+  | 'matchmaking'
+  | 'battle'
+  | 'battleAnimation'
+  | 'result';
 export type BattleResult = 'player' | 'opponent' | 'draw';
 
 export interface GameState {

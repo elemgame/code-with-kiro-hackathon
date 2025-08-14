@@ -8,7 +8,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
   const handleTabClick = (tab: 'profile' | 'battle' | 'rules') => {
     onTabChange(tab);
-    
+
     // Haptic feedback simulation
     if (navigator.vibrate) {
       navigator.vibrate(50);
@@ -16,28 +16,28 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
   };
 
   return (
-    <nav className="mobile-nav">
-      <div className="nav-container">
-        <div 
+    <nav className='mobile-nav'>
+      <div className='nav-container'>
+        <div
           className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
           onClick={() => handleTabClick('profile')}
         >
-          <div className="nav-icon">👤</div>
-          <div className="nav-label">Profile</div>
+          <div className='nav-icon'>👤</div>
+          <div className='nav-label'>Profile</div>
         </div>
-        <div 
+        <div
           className={`nav-item ${activeTab === 'battle' ? 'active' : ''}`}
           onClick={() => handleTabClick('battle')}
         >
-          <div className="nav-icon">⚔️</div>
-          <div className="nav-label">Battle</div>
+          <div className='nav-icon'>⚔️</div>
+          <div className='nav-label'>Battle</div>
         </div>
-        <div 
+        <div
           className={`nav-item ${activeTab === 'rules' ? 'active' : ''}`}
           onClick={() => handleTabClick('rules')}
         >
-          <div className="nav-icon">📜</div>
-          <div className="nav-label">Rules</div>
+          <div className='nav-icon'>📜</div>
+          <div className='nav-label'>Rules</div>
         </div>
       </div>
     </nav>

@@ -1,0 +1,35 @@
+name: Quality Check
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  quality-check:
+    name: Code Quality & Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - run: npm ci
+      - name: 🔍 TypeScript check
+        run: npm run type-check
+      - name: 🧹 ESLint check
+        run: npm run lint
+      - name: 💅 Prettier check
+        run: npm run format
+      - name: 🧪 Run tests
+        run: npm test
+        env:
+          CI: true
+      - name: 🏗️ Build check
+        run: npm run build

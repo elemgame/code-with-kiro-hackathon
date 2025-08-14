@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "name": "Lint Check",
+  "description": "Automatically applies linting and formatting validation after Kiro makes changes to the project files",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "src/**/*.css",
+      "*.js",
+      "*.ts",
+      "*.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Kiro has made changes to the project files. Please run ESLint and Prettier checks on the modified files to ensure code quality and formatting standards are maintained. Check for any linting errors, formatting issues, or TypeScript type errors that need to be addressed. If issues are found, provide specific fixes or suggestions."
+  }
+}

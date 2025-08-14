@@ -50,6 +50,20 @@ coverage/
 # ESLint cache
 .eslintcache
 
+# Prettier cache
+.prettiercache
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Quality reports
+eslint-report.html
+prettier-report.html
+
 # Optional npm cache directory
 .npm
 
