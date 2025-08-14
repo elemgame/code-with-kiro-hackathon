@@ -43,7 +43,7 @@ export const OPPONENT_AVATARS = ['🐉', '🧙‍♂️', '⚔️', '🛡️', '
 
 // Battle logic: Earth > Water > Fire > Earth
 export const getWinner = (element1: Element, element2: Element): BattleResult => {
-  if (element1 === element2) return 'tie';
+  if (element1 === element2) return 'draw';
   
   const winConditions: Record<Element, Element> = {
     earth: 'water',  // Earth absorbs Water
@@ -63,12 +63,19 @@ export const generateOpponent = (location: Location): Opponent => {
   const rarity = rarities[Math.floor(Math.random() * rarities.length)];
   const locationData = LOCATIONS[location];
   
+  // Generate opponent's element and elemental (50% chance to have elemental)
+  const element = getRandomElement();
+  const elementalRarities: ElementalRarity[] = ['common', 'rare', 'epic', 'immortal'];
+  const elemental = Math.random() < 0.5 ? elementalRarities[Math.floor(Math.random() * elementalRarities.length)] : undefined;
+  
   return {
     name,
     avatar,
     level,
     rarity,
-    wager: locationData.mana
+    wager: locationData.mana,
+    element,
+    elemental
   };
 };
 
@@ -150,6 +157,46 @@ export const calculateProtectedMana = (wager: number, element: Element | null, e
   if (!element || !elementalRarity) return 0;
   const elemental = getElementalData(element, elementalRarity);
   return Math.floor(wager * elemental.protection);
+};
+
+// Calculate draw result when same elements are used
+export const calculateDrawResult = (
+  baseWager: number,
+  playerElement: Element,
+  playerElemental: ElementalRarity | null,
+  opponentElement: Element,
+  opponentElemental: ElementalRarity | null
+): { playerManaChange: number; opponentManaChange: number; winner: BattleResult } => {
+  // Get protection percentages
+  const playerProtection = playerElemental ? getElementalData(playerElement, playerElemental).protection : 0;
+  const opponentProtection = opponentElemental ? getElementalData(opponentElement, opponentElemental).protection : 0;
+  
+  if (playerProtection === opponentProtection) {
+    // Equal protection - true draw
+    return {
+      playerManaChange: 0, // Keep original wager
+      opponentManaChange: 0,
+      winner: 'draw'
+    };
+  } else if (playerProtection > opponentProtection) {
+    // Player has stronger elemental
+    const advantage = playerProtection - opponentProtection;
+    const manaToTake = Math.floor(baseWager * advantage);
+    return {
+      playerManaChange: manaToTake, // Gain from opponent
+      opponentManaChange: -manaToTake,
+      winner: 'player'
+    };
+  } else {
+    // Opponent has stronger elemental
+    const advantage = opponentProtection - playerProtection;
+    const manaToLose = Math.floor(baseWager * advantage);
+    return {
+      playerManaChange: -manaToLose, // Lose to opponent
+      opponentManaChange: manaToLose,
+      winner: 'opponent'
+    };
+  }
 };
 
 // Check if player can afford location

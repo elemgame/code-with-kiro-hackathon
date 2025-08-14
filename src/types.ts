@@ -52,6 +52,8 @@ export interface Opponent {
   level: number;
   rarity: string;
   wager: number;
+  element?: Element;
+  elemental?: ElementalRarity;
 }
 
 export interface Achievement {
@@ -66,6 +68,7 @@ export interface BattleLog {
   playerElement: Element;
   opponentElement: Element;
   playerElemental: ElementalRarity | null;
+  opponentElemental: ElementalRarity | null;
   baseWager: number;
   protectionSaved: number;
   finalChange: number;
@@ -73,7 +76,7 @@ export interface BattleLog {
 }
 
 export type GamePhase = 'menu' | 'locationSelection' | 'elementSelection' | 'elementalSelection' | 'matchmaking' | 'battle' | 'result';
-export type BattleResult = 'player' | 'opponent' | 'tie';
+export type BattleResult = 'player' | 'opponent' | 'draw';
 
 export interface GameState {
   player: PlayerStats;

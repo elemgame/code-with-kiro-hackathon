@@ -1,31 +1,32 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { GameState, PlayerStats, Element, Location, ElementalRarity, Opponent, GamePhase, BattleResult } from './types';
-import { 
-  ELEMENTS, 
+import React, { useState, useEffect, useCallback } from "react";
+import { GameState, PlayerStats, Element, Location, ElementalRarity, Opponent, GamePhase, BattleResult } from "./types";
+import {
+  ELEMENTS,
   LOCATIONS,
-  generateOpponent, 
-  getRandomElement, 
-  getWinner, 
-  getRank, 
-  getTitle, 
+  generateOpponent,
+  getRandomElement,
+  getWinner,
+  getRank,
+  getTitle,
   getAchievementDefinitions,
   getAchievementProgress,
   getAvailableElementals,
   getElementalData,
   calculateProtectedMana,
-  canAffordLocation
-} from './gameLogic';
-import ProfileTab from './components/ProfileTab';
-import BattleComponent from './components/BattleComponent';
-import BattleResultPage from './components/BattleResultPage';
-import RulesTab from './components/RulesTab';
-import Navigation from './components/Navigation';
-import Modal from './components/Modal';
-import AchievementNotification from './components/AchievementNotification';
-import './App.css';
+  calculateDrawResult,
+  canAffordLocation,
+} from "./gameLogic";
+import ProfileTab from "./components/ProfileTab";
+import BattleComponent from "./components/BattleComponent";
+import BattleResultPage from "./components/BattleResultPage";
+import RulesTab from "./components/RulesTab";
+import Navigation from "./components/Navigation";
+import Modal from "./components/Modal";
+import AchievementNotification from "./components/AchievementNotification";
+import "./App.css";
 
 const INITIAL_PLAYER: PlayerStats = {
-  name: 'Warrior',
+  name: "Warrior",
   mana: 500,
   wins: 0,
   losses: 0,
@@ -45,44 +46,44 @@ const INITIAL_PLAYER: PlayerStats = {
   lastManaChange: 0,
   maxWager: 0,
   totalManaWon: 0,
-  totalManaLost: 0
+  totalManaLost: 0,
 };
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'profile' | 'battle' | 'rules'>('battle');
+  const [activeTab, setActiveTab] = useState<"profile" | "battle" | "rules">("battle");
   const [gameState, setGameState] = useState<GameState>({
     player: INITIAL_PLAYER,
     currentOpponent: null,
     opponentElement: null,
-    gamePhase: 'menu',
-    battleLog: null
+    gamePhase: "menu",
+    battleLog: null,
   });
   const [newAchievements, setNewAchievements] = useState<string[]>([]);
   const [levelUp, setLevelUp] = useState<number | null>(null);
 
   // Load game state from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem('elementalGameState');
+    const saved = localStorage.getItem("elementalGameState");
     if (saved) {
       try {
         const savedPlayer = JSON.parse(saved);
-        setGameState(prev => ({
+        setGameState((prev) => ({
           ...prev,
-          player: { ...INITIAL_PLAYER, ...savedPlayer }
+          player: { ...INITIAL_PLAYER, ...savedPlayer },
         }));
       } catch (error) {
-        console.error('Failed to load saved game state:', error);
+        console.error("Failed to load saved game state:", error);
       }
     }
   }, []);
 
   // Save game state to localStorage whenever player data changes
   useEffect(() => {
-    localStorage.setItem('elementalGameState', JSON.stringify(gameState.player));
+    localStorage.setItem("elementalGameState", JSON.stringify(gameState.player));
   }, [gameState.player]);
 
   const updatePlayer = useCallback((updates: Partial<PlayerStats>) => {
-    setGameState(prev => {
+    setGameState((prev) => {
       const oldMana = prev.player.mana;
       const newPlayer = { ...prev.player, ...updates };
 
@@ -127,7 +128,7 @@ const App: React.FC = () => {
           const nextExpNeeded = newPlayer.level * 1000;
           if (newPlayer.experience < nextExpNeeded) break;
         }
-        
+
         // Show level up notification
         if (newPlayer.level > oldLevel) {
           setLevelUp(newPlayer.level);
@@ -139,8 +140,7 @@ const App: React.FC = () => {
       // Update favorite element
       if (newPlayer.selectedElement) {
         newPlayer.elementStats[newPlayer.selectedElement]++;
-        const mostUsed = Object.entries(newPlayer.elementStats)
-          .reduce((a, b) => a[1] > b[1] ? a : b);
+        const mostUsed = Object.entries(newPlayer.elementStats).reduce((a, b) => (a[1] > b[1] ? a : b));
         if (mostUsed[1] > 0) {
           newPlayer.favoriteElement = ELEMENTS[mostUsed[0] as Element].name;
         }
@@ -149,8 +149,8 @@ const App: React.FC = () => {
       // Check achievements
       const achievementDefinitions = getAchievementDefinitions();
       const unlockedAchievements: string[] = [];
-      
-      achievementDefinitions.forEach(achievement => {
+
+      achievementDefinitions.forEach((achievement) => {
         if (!newPlayer.achievements.includes(achievement.id) && achievement.condition(newPlayer)) {
           unlockedAchievements.push(achievement.id);
         }
@@ -163,59 +163,74 @@ const App: React.FC = () => {
 
       return {
         ...prev,
-        player: newPlayer
+        player: newPlayer,
       };
     });
   }, []);
 
-  const selectLocation = useCallback((location: Location) => {
-    if (!canAffordLocation(gameState.player.mana, location)) return;
-    
-    updatePlayer({ selectedLocation: location });
-    setGameState(prev => ({ ...prev, gamePhase: 'elementSelection' }));
-  }, [gameState.player.mana, updatePlayer]);
+  const selectLocation = useCallback(
+    (location: Location) => {
+      if (!canAffordLocation(gameState.player.mana, location)) return;
 
-  const selectElement = useCallback((element: Element) => {
-    updatePlayer({ selectedElement: element });
-    // Остаемся в elementSelection, просто обновляем состояние
-  }, [updatePlayer]);
+      updatePlayer({ selectedLocation: location });
+      setGameState((prev) => ({ ...prev, gamePhase: "elementSelection" }));
+    },
+    [gameState.player.mana, updatePlayer]
+  );
 
-  const selectElemental = useCallback((elemental: ElementalRarity) => {
-    updatePlayer({ selectedElemental: elemental });
-  }, [updatePlayer]);
+  const selectElement = useCallback(
+    (element: Element) => {
+      updatePlayer({ selectedElement: element });
+      // Остаемся в elementSelection, просто обновляем состояние
+    },
+    [updatePlayer]
+  );
+
+  const selectElemental = useCallback(
+    (elemental: ElementalRarity) => {
+      updatePlayer({ selectedElemental: elemental });
+    },
+    [updatePlayer]
+  );
 
   const returnToLocationSelection = useCallback(() => {
     updatePlayer({ selectedLocation: null, selectedElement: null, selectedElemental: null });
-    setGameState(prev => ({ ...prev, gamePhase: 'menu' }));
+    setGameState((prev) => ({ ...prev, gamePhase: "menu" }));
   }, [updatePlayer]);
 
   const returnToElementSelection = useCallback(() => {
     updatePlayer({ selectedElement: null, selectedElemental: null });
-    setGameState(prev => ({ ...prev, gamePhase: 'elementSelection' }));
+    setGameState((prev) => ({ ...prev, gamePhase: "elementSelection" }));
   }, [updatePlayer]);
 
   const startMatchmaking = useCallback(() => {
     if (!gameState.player.selectedLocation || !gameState.player.selectedElement) {
-      console.log('Missing location or element');
+      console.log("Missing location or element");
       return;
     }
-    
+
     const wager = LOCATIONS[gameState.player.selectedLocation].mana;
     if (gameState.player.mana < wager) {
-      alert(`Not enough mana! You need ${wager} mana to play in ${LOCATIONS[gameState.player.selectedLocation].name}, but you only have ${gameState.player.mana}.`);
+      alert(
+        `Not enough mana! You need ${wager} mana to play in ${
+          LOCATIONS[gameState.player.selectedLocation].name
+        }, but you only have ${gameState.player.mana}.`
+      );
       return;
     }
-    
-    console.log(`🔍 Starting matchmaking in ${LOCATIONS[gameState.player.selectedLocation].name} (${wager} mana wager)...`);
-    setGameState(prev => ({ ...prev, gamePhase: 'matchmaking' }));
-    
+
+    console.log(
+      `🔍 Starting matchmaking in ${LOCATIONS[gameState.player.selectedLocation].name} (${wager} mana wager)...`
+    );
+    setGameState((prev) => ({ ...prev, gamePhase: "matchmaking" }));
+
     // Simulate matchmaking delay
     setTimeout(() => {
       const opponent = generateOpponent(gameState.player.selectedLocation!);
-      setGameState(prev => ({
+      setGameState((prev) => ({
         ...prev,
         currentOpponent: opponent,
-        gamePhase: 'elementalSelection' // Показываем выбор элементала, а не сразу битву
+        gamePhase: "elementalSelection", // Показываем выбор элементала, а не сразу битву
       }));
     }, 2000 + Math.random() * 2000);
   }, [gameState.player.selectedLocation, gameState.player.selectedElement, gameState.player.mana]);
@@ -226,22 +241,22 @@ const App: React.FC = () => {
     // Сначала вычитаем ставку из маны игрока
     const baseWager = gameState.currentOpponent.wager;
     const initialMana = gameState.player.mana;
-    
+
     // Сохраняем начальную ману для расчетов
-    setGameState(prev => ({ 
-      ...prev, 
-      gamePhase: 'battle',
-      player: { ...prev.player, mana: prev.player.mana - baseWager }
+    setGameState((prev) => ({
+      ...prev,
+      gamePhase: "battle",
+      player: { ...prev.player, mana: prev.player.mana - baseWager },
     }));
 
-    const opponentElement = getRandomElement();
-    
+    const opponentElement = gameState.currentOpponent?.element || getRandomElement();
+
     // Show battle animation
     setTimeout(() => {
-      setGameState(prev => ({
+      setGameState((prev) => ({
         ...prev,
         opponentElement,
-        gamePhase: 'result'
+        gamePhase: "result",
       }));
     }, 1000);
 
@@ -249,27 +264,28 @@ const App: React.FC = () => {
     setTimeout(() => {
       const winner = getWinner(gameState.player.selectedElement!, opponentElement);
       const protectedMana = calculateProtectedMana(
-        baseWager, 
-        gameState.player.selectedElement, 
+        baseWager,
+        gameState.player.selectedElement,
         gameState.player.selectedElemental
       );
-      
-      let finalManaChange = 0;
 
-      if (winner === 'player') {
+      let finalManaChange = 0;
+      let actualWinner = winner;
+
+      if (winner === "player") {
         // Игрок выигрывает: получает обратно свою ставку + ставку противника
-        finalManaChange = baseWager * 2;
+        finalManaChange = baseWager; // Чистая прибыль (ставка противника)
         updatePlayer({
-          mana: initialMana - baseWager + finalManaChange,
+          mana: initialMana + baseWager, // Возвращаем ставку + выигрыш
           wins: gameState.player.wins + 1,
           winStreak: gameState.player.winStreak + 1,
           currentLossStreak: 0,
-          totalManaWon: gameState.player.totalManaWon + baseWager
+          totalManaWon: gameState.player.totalManaWon + baseWager,
         });
-      } else if (winner === 'opponent') {
+      } else if (winner === "opponent") {
         // Игрок проигрывает: теряет ставку, но часть защищена элементалом
         const actualLoss = baseWager - protectedMana;
-        finalManaChange = protectedMana; // Возвращаем защищенную часть
+        finalManaChange = -actualLoss; // Показываем реальную потерю
         const newLossStreak = gameState.player.currentLossStreak + 1;
         updatePlayer({
           mana: initialMana - actualLoss,
@@ -277,14 +293,47 @@ const App: React.FC = () => {
           winStreak: 0,
           currentLossStreak: newLossStreak,
           maxLossStreak: Math.max(gameState.player.maxLossStreak, newLossStreak),
-          totalManaLost: gameState.player.totalManaLost + actualLoss
+          totalManaLost: gameState.player.totalManaLost + actualLoss,
         });
       } else {
-        // Ничья: возвращаем ставку
-        finalManaChange = baseWager;
-        updatePlayer({
-          mana: initialMana
-        });
+        // Ничья: используем новую логику с элементалями
+        const drawResult = calculateDrawResult(
+          baseWager,
+          gameState.player.selectedElement!,
+          gameState.player.selectedElemental,
+          opponentElement,
+          gameState.currentOpponent?.elemental || null
+        );
+
+        finalManaChange = drawResult.playerManaChange;
+        actualWinner = drawResult.winner;
+
+        if (drawResult.winner === "player") {
+          // Игрок выиграл благодаря более сильному элементалю
+          updatePlayer({
+            mana: initialMana + drawResult.playerManaChange,
+            wins: gameState.player.wins + 1,
+            winStreak: gameState.player.winStreak + 1,
+            currentLossStreak: 0,
+            totalManaWon: gameState.player.totalManaWon + Math.abs(drawResult.playerManaChange),
+          });
+        } else if (drawResult.winner === "opponent") {
+          // Игрок проиграл из-за более слабого элементаля
+          const newLossStreak = gameState.player.currentLossStreak + 1;
+          updatePlayer({
+            mana: initialMana + drawResult.playerManaChange, // playerManaChange отрицательный
+            losses: gameState.player.losses + 1,
+            winStreak: 0,
+            currentLossStreak: newLossStreak,
+            maxLossStreak: Math.max(gameState.player.maxLossStreak, newLossStreak),
+            totalManaLost: gameState.player.totalManaLost + Math.abs(drawResult.playerManaChange),
+          });
+        } else {
+          // Истинная ничья - равные элементали
+          updatePlayer({
+            mana: initialMana, // Возвращаем ставку
+          });
+        }
       }
 
       // Create battle log
@@ -292,50 +341,75 @@ const App: React.FC = () => {
         playerElement: gameState.player.selectedElement!,
         opponentElement,
         playerElemental: gameState.player.selectedElemental,
+        opponentElemental: gameState.currentOpponent?.elemental || null,
         baseWager,
-        protectionSaved: protectedMana,
-        finalChange: winner === 'player' ? baseWager : winner === 'opponent' ? -Math.max(0, baseWager - protectedMana) : 0,
-        winner
+        protectionSaved: winner === "opponent" ? protectedMana : 0, // Защита работает только при поражении
+        finalChange: finalManaChange,
+        winner: actualWinner,
       };
 
-      setGameState(prev => ({ ...prev, battleLog }));
+      setGameState((prev) => ({ ...prev, battleLog }));
     }, 3000);
   }, [gameState.player, gameState.currentOpponent, updatePlayer]);
 
   const returnToMenu = useCallback(() => {
-    setActiveTab('battle'); // Переключаемся на вкладку battle
-    setGameState(prev => ({
+    setActiveTab("battle"); // Переключаемся на вкладку battle
+    setGameState((prev) => ({
       ...prev,
-      gamePhase: 'menu',
+      gamePhase: "menu",
       currentOpponent: null,
       opponentElement: null,
       battleLog: null,
-      player: { 
-        ...prev.player, 
-        selectedElement: null, 
-        selectedLocation: null, 
-        selectedElemental: null 
-      }
+      player: {
+        ...prev.player,
+        selectedElement: null,
+        selectedLocation: null,
+        selectedElemental: null,
+      },
     }));
   }, []);
 
+  // Handle tab changes - if on result page, return to menu first
+  const handleTabChange = useCallback(
+    (tab: "profile" | "battle" | "rules") => {
+      if (gameState.gamePhase === "result") {
+        // If on result page, return to menu first
+        setGameState((prev) => ({
+          ...prev,
+          gamePhase: "menu",
+          currentOpponent: null,
+          opponentElement: null,
+          battleLog: null,
+          player: {
+            ...prev.player,
+            selectedElement: null,
+            selectedLocation: null,
+            selectedElemental: null,
+          },
+        }));
+      }
+      setActiveTab(tab);
+    },
+    [gameState.gamePhase]
+  );
+
   const dismissAchievement = useCallback((achievementId: string) => {
-    setNewAchievements(prev => prev.filter(id => id !== achievementId));
+    setNewAchievements((prev) => prev.filter((id) => id !== achievementId));
   }, []);
 
   return (
     <>
       <div className="app">
         <div className="app-content">
-          {activeTab === 'profile' && gameState.gamePhase !== 'result' && (
-            <ProfileTab 
+          {activeTab === "profile" && gameState.gamePhase !== "result" && (
+            <ProfileTab
               player={gameState.player}
               rank={getRank(gameState.player.level)}
               title={getTitle(gameState.player.wins, gameState.player.winStreak)}
             />
           )}
-          
-          {activeTab === 'battle' && gameState.gamePhase !== 'result' && (
+
+          {activeTab === "battle" && gameState.gamePhase !== "result" && (
             <BattleComponent
               gameState={gameState}
               onSelectLocation={selectLocation}
@@ -348,20 +422,15 @@ const App: React.FC = () => {
               onReturnToMenu={returnToMenu}
             />
           )}
-          
-          {activeTab === 'rules' && gameState.gamePhase !== 'result' && <RulesTab />}
-          
-          {gameState.gamePhase === 'result' && (
-            <BattleResultPage
-              gameState={gameState}
-              onReturnToMenu={returnToMenu}
-            />
-          )}
+
+          {activeTab === "rules" && gameState.gamePhase !== "result" && <RulesTab />}
+
+          {gameState.gamePhase === "result" && <BattleResultPage gameState={gameState} onReturnToMenu={returnToMenu} />}
         </div>
 
         {/* Achievement Notifications */}
-        {newAchievements.map(achievementId => {
-          const achievement = getAchievementDefinitions().find(a => a.id === achievementId);
+        {newAchievements.map((achievementId) => {
+          const achievement = getAchievementDefinitions().find((a) => a.id === achievementId);
           return achievement ? (
             <AchievementNotification
               key={achievementId}
@@ -387,9 +456,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Navigation outside of app container */}
-      {gameState.gamePhase !== 'result' && (
-        <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
-      )}
+      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
     </>
   );
 };

@@ -252,7 +252,7 @@ const RulesTab: React.FC = () => {
           <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
             • <strong>Win:</strong> Gain opponent's mana wager<br />
             • <strong>Lose:</strong> Lose your mana wager<br />
-            • <strong>Tie:</strong> Keep your mana
+            • <strong>Draw:</strong> Keep your mana
           </div>
         </div>
       </div>
