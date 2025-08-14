@@ -1,21 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
-  --primary-gold: #DAA520;
-  --secondary-gold: #FFD700;
-  --accent-gold: #FFA500;
-  --cool-blue: #4FA0AF;
-  --cool-light: #6BB6C4;
-  --cool-bright: #87CEEB;
+  --primary-gold: #daa520;
+  --secondary-gold: #ffd700;
+  --accent-gold: #ffa500;
+  --cool-blue: #4fa0af;
+  --cool-light: #6bb6c4;
+  --cool-bright: #87ceeb;
   --dark-bg: rgba(15, 20, 35, 0.98);
   --glass-bg: rgba(255, 255, 255, 0.05);
-  --text-primary: #F5F5DC;
-  --text-secondary: #E8D5B7;
-  --text-muted: #B8860B;
-  --success: #10B981;
-  --error: #EF4444;
-  --warning: #F59E0B;
-  --info: #3B82F6;
+  --text-primary: #f5f5dc;
+  --text-secondary: #e8d5b7;
+  --text-muted: #b8860b;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
 }
 
 * {
@@ -52,7 +52,7 @@ html::-webkit-scrollbar {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background: radial-gradient(circle at center, rgba(25, 25, 50, 0.9), rgba(10, 10, 30, 0.95));
   color: var(--text-primary);
   line-height: 1.6;
@@ -118,7 +118,7 @@ body::-webkit-scrollbar {
 }
 
 .card-title {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--secondary-gold);
@@ -128,7 +128,7 @@ body::-webkit-scrollbar {
 }
 
 .card-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -0.5rem;
   left: 50%;
@@ -153,7 +153,7 @@ body::-webkit-scrollbar {
 }
 
 .profile-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -165,7 +165,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes shimmer {
-
   0%,
   100% {
     background-position: 0% 50%;
@@ -232,7 +231,7 @@ body::-webkit-scrollbar {
 }
 
 .player-name {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -264,7 +263,7 @@ body::-webkit-scrollbar {
 }
 
 .exp-fill::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -304,7 +303,7 @@ body::-webkit-scrollbar {
 }
 
 .stat-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -338,7 +337,7 @@ body::-webkit-scrollbar {
 }
 
 .stat-value {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -481,7 +480,7 @@ body::-webkit-scrollbar {
   color: #1a1a1a;
   padding: 1rem 2rem;
   border-radius: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -495,7 +494,7 @@ body::-webkit-scrollbar {
 }
 
 .btn-primary::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -551,7 +550,7 @@ body::-webkit-scrollbar {
 }
 
 .element-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -629,7 +628,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes battlePulse {
-
   0%,
   100% {
     transform: scale(1);
@@ -643,7 +641,7 @@ body::-webkit-scrollbar {
 }
 
 .battle-vs {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -695,7 +693,7 @@ body::-webkit-scrollbar {
 }
 
 .modal-title {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -713,7 +711,7 @@ body::-webkit-scrollbar {
 }
 
 .loading-spinner::before {
-  content: '⚡';
+  content: "⚡";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -724,7 +722,7 @@ body::-webkit-scrollbar {
 }
 
 .loading-spinner::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -737,7 +735,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 0.6;
@@ -772,7 +769,7 @@ body::-webkit-scrollbar {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 0 0.75rem;
+  padding: 0.5rem 0 0.5rem;
   z-index: 9999 !important;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
   margin: 0 !important;
@@ -813,7 +810,7 @@ body::-webkit-scrollbar {
 }
 
 .nav-item.active::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -0.75rem;
   left: 50%;
@@ -999,7 +996,7 @@ body::-webkit-scrollbar {
 }
 
 .location-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -1079,7 +1076,7 @@ body::-webkit-scrollbar {
 }
 
 .elemental-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -1178,7 +1175,7 @@ body::-webkit-scrollbar {
   color: white;
   padding: 1rem 2rem;
   border-radius: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -1192,7 +1189,7 @@ body::-webkit-scrollbar {
 }
 
 .btn-secondary::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -1230,7 +1227,7 @@ body::-webkit-scrollbar {
   color: var(--secondary-gold);
   text-align: center;
   margin-bottom: 1rem;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
 }
 
 .element-battle {
@@ -1296,7 +1293,7 @@ body::-webkit-scrollbar {
   flex: 1;
   text-align: center;
   padding: 1rem;
-  background: linear-gradient(135deg, #2A2A2A, #1A4A5A);
+  background: linear-gradient(135deg, #2a2a2a, #1a4a5a);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
@@ -1307,7 +1304,7 @@ body::-webkit-scrollbar {
 }
 
 .elemental-card.opponent {
-  background: #2A2A2A;
+  background: #2a2a2a;
 }
 
 .elemental-card.opponent:hover {
@@ -1419,7 +1416,7 @@ body::-webkit-scrollbar {
 }
 
 .results-title {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -1499,7 +1496,7 @@ body::-webkit-scrollbar {
 }
 
 .results-stat-value {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-weight: 600;
 }
 
@@ -1529,10 +1526,10 @@ body::-webkit-scrollbar {
 .battle-log-header {
   font-size: 24px;
   font-weight: 700;
-  color: #FFD700;
+  color: #ffd700;
   text-align: center;
   margin-bottom: 1.5rem;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .results-actions {
@@ -1604,9 +1601,9 @@ body::-webkit-scrollbar {
 
 .element-battle-title {
   font-size: 16px;
-  color: #FFD700;
+  color: #ffd700;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   margin-bottom: 1rem;
 }
 
@@ -1630,14 +1627,14 @@ body::-webkit-scrollbar {
 .element-battle-name {
   font-size: 14px;
   color: white;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .element-battle-vs {
   font-size: 20px;
-  color: #FFD700;
+  color: #ffd700;
   font-weight: 700;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .element-battle-result {
@@ -1647,7 +1644,7 @@ body::-webkit-scrollbar {
   background: rgba(255, 255, 255, 0.1);
   padding: 12px;
   border-radius: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* Elementals Used Styles */
@@ -1657,10 +1654,10 @@ body::-webkit-scrollbar {
 
 .elementals-used-title {
   font-size: 16px;
-  color: #FFD700;
+  color: #ffd700;
   margin-bottom: 1rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .elementals-used-display {
@@ -1679,7 +1676,7 @@ body::-webkit-scrollbar {
 }
 
 .elemental-used-card.player {
-  background: linear-gradient(135deg, #2A2A2A, #1A4A5A);
+  background: linear-gradient(135deg, #2a2a2a, #1a4a5a);
 }
 
 .elemental-used-card.player:hover {
@@ -1687,7 +1684,7 @@ body::-webkit-scrollbar {
 }
 
 .elemental-used-card.opponent {
-  background: #2A2A2A;
+  background: #2a2a2a;
 }
 
 .elemental-used-card.opponent:hover {
@@ -1703,20 +1700,20 @@ body::-webkit-scrollbar {
   font-size: 14px;
   color: white;
   margin-bottom: 0.5rem;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .elemental-used-protection {
   font-size: 12px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .elemental-used-protection.player {
-  color: #FFD700;
+  color: #ffd700;
 }
 
 .elemental-used-protection.opponent {
-  color: #FF4C4C;
+  color: #ff4c4c;
 }
 
 /* Final Calculation Styles */
@@ -1730,10 +1727,10 @@ body::-webkit-scrollbar {
 
 .final-calculation-title {
   font-size: 16px;
-  color: #FFD700;
+  color: #ffd700;
   margin-bottom: 1rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .final-calculation-row {
@@ -1751,7 +1748,7 @@ body::-webkit-scrollbar {
 .final-calculation-label {
   color: white;
   font-size: 14px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .final-calculation-label.total {
@@ -1761,7 +1758,7 @@ body::-webkit-scrollbar {
 .final-calculation-value {
   color: white;
   font-size: 14px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .final-calculation-value.total {
@@ -1769,11 +1766,11 @@ body::-webkit-scrollbar {
 }
 
 .final-calculation-value.victory {
-  color: #10B981;
+  color: #10b981;
 }
 
 .final-calculation-value.defeat {
-  color: #FF4C4C;
+  color: #ff4c4c;
 }
 
 /* Ensure navigation is always at bottom on all devices */
@@ -1785,7 +1782,7 @@ body::-webkit-scrollbar {
     right: 0 !important;
     width: 100vw !important;
     z-index: 9999 !important;
-    padding: 0.75rem 0 0.75rem !important;
+    padding: 0.5rem 0 0.5rem !important;
   }
 }
 
@@ -1797,7 +1794,7 @@ body::-webkit-scrollbar {
     left: 0 !important;
     right: 0 !important;
     width: 100vw !important;
-    padding: 0.75rem 0 0.75rem !important;
+    padding: 0.5rem 0 0.5rem !important;
   }
 }
 
@@ -1893,7 +1890,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes pulse-glow {
-
   0%,
   100% {
     opacity: 0.5;
@@ -1952,7 +1948,7 @@ body::-webkit-scrollbar {
 }
 
 .player-name-modern {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -2023,7 +2019,7 @@ body::-webkit-scrollbar {
 .exp-values {
   font-size: 0.8rem;
   color: var(--text-muted);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .exp-bar-modern {
@@ -2088,7 +2084,7 @@ body::-webkit-scrollbar {
 }
 
 .stat-card-modern::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -2119,7 +2115,7 @@ body::-webkit-scrollbar {
 /* Removed stat-icon-modern - no longer used */
 
 .stat-value-modern {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -2186,7 +2182,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes flicker {
-
   0%,
   100% {
     opacity: 1;
@@ -2237,7 +2232,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--secondary-gold);
@@ -2342,7 +2337,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes achievement-glow {
-
   0%,
   100% {
     opacity: 0;
@@ -2478,4 +2472,699 @@ body::-webkit-scrollbar {
 
 .achievement-popup.level-up .achievement-popup-desc {
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* Battle Animation Styles */
+.battle-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.battle-arena {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background Effects */
+.battle-bg-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.energy-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(2px 2px at 20px 30px, #00ffff, transparent),
+    radial-gradient(2px 2px at 40px 70px, #ff00ff, transparent),
+    radial-gradient(1px 1px at 90px 40px, #ffff00, transparent),
+    radial-gradient(1px 1px at 130px 80px, #ff0080, transparent),
+    radial-gradient(2px 2px at 160px 30px, #00ff80, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  animation: float-particles 20s linear infinite;
+}
+
+.magic-circles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: rotate-circle 10s linear infinite;
+}
+
+.magic-circles::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  animation: rotate-circle 15s linear infinite reverse;
+}
+
+/* Intro Phase */
+.battle-intro {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.opponent-profiles {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  max-width: 600px;
+  justify-content: space-between;
+}
+
+.player-profile,
+.opponent-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 150px;
+}
+
+.profile-avatar {
+  font-size: 4rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.profile-level {
+  font-size: 0.9rem;
+  color: var(--secondary-gold);
+}
+
+.vs-indicator {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-shadow: 0 0 20px var(--accent);
+}
+
+/* Elements Battle */
+.elements-battle {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.battle-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.elements-arena {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 600px;
+  justify-content: space-between;
+}
+
+.element-fighter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.element-fighter.enter-battle {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.element-fighter.player.enter-battle {
+  animation: player-element-enter 0.8s ease-out;
+}
+
+.element-fighter.opponent.enter-battle {
+  animation: opponent-element-enter 0.8s ease-out;
+}
+
+.element-orb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: element-pulse 2s ease-in-out infinite;
+}
+
+.battle-animation .element-emoji {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+.element-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.battle-lightning {
+  font-size: 3rem;
+  color: #ffff00;
+  animation: lightning-flash 0.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 20px #ffff00;
+}
+
+/* Elementals Battle */
+.elementals-battle {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.elementals-arena {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 700px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.elemental-fighter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease-out;
+}
+
+.elemental-fighter.summon-elemental {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.elemental-aura {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: elemental-glow 3s ease-in-out infinite;
+}
+
+.player-aura {
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0.1));
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+}
+
+.opponent-aura {
+  background: radial-gradient(circle, rgba(255, 100, 100, 0.3), rgba(255, 100, 100, 0.1));
+  box-shadow: 0 0 40px rgba(255, 100, 100, 0.6);
+}
+
+.battle-animation .elemental-emoji {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9));
+}
+
+.elemental-info {
+  text-align: center;
+  min-width: 120px;
+}
+
+.elemental-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.protection-bar {
+  width: 100px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.protection-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff88, #00cc66);
+  border-radius: 10px;
+  transition: width 1s ease-out;
+  animation: protection-shimmer 2s ease-in-out infinite;
+}
+
+.opponent-fill {
+  background: linear-gradient(90deg, #ff6b6b, #ff4757);
+}
+
+.protection-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.no-elemental {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.6;
+}
+
+.no-protection-icon {
+  font-size: 3rem;
+  color: #ff4757;
+}
+
+.elemental-vs {
+  font-size: 5rem;
+  color: var(--secondary-gold);
+  animation: shield-pulse 2s ease-in-out infinite;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-shadow: 0 0 30px var(--secondary-gold);
+}
+
+/* Final Clash */
+.final-clash {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.clash-explosion {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.clash-explosion.explode .explosion-ring {
+  animation: explosion-expand 1.5s ease-out;
+}
+
+.clash-explosion.explode .explosion-core {
+  animation: explosion-core 1.5s ease-out;
+}
+
+.clash-explosion.explode .explosion-sparks {
+  animation: sparks-scatter 1.5s ease-out;
+}
+
+.explosion-ring {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #ffff00;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.explosion-core {
+  font-size: 6rem;
+  z-index: 2;
+  transform: scale(0);
+}
+
+.explosion-sparks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.explosion-sparks span {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0;
+}
+
+.explosion-sparks span:nth-child(1) {
+  transform: rotate(0deg) translateY(-120px);
+}
+.explosion-sparks span:nth-child(2) {
+  transform: rotate(90deg) translateY(-120px);
+}
+.explosion-sparks span:nth-child(3) {
+  transform: rotate(180deg) translateY(-120px);
+}
+.explosion-sparks span:nth-child(4) {
+  transform: rotate(270deg) translateY(-120px);
+}
+
+.clash-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-shadow: 0 0 30px var(--accent);
+  opacity: 0;
+}
+
+/* Animations */
+@keyframes float-particles {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes rotate-circle {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes battle-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-delayed {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes player-element-enter {
+  0% {
+    transform: translateX(-200px) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes opponent-element-enter {
+  0% {
+    transform: translateX(200px) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes element-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes lightning-flash {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes elemental-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes protection-shimmer {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shield-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    color: var(--secondary-gold);
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ffd700;
+  }
+}
+
+@keyframes explosion-expand {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 1;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+@keyframes explosion-core {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sparks-scatter {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.explosion-sparks.explode span {
+  animation: spark-fly 1.5s ease-out;
+}
+
+@keyframes spark-fly {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translateY(-40px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .opponent-profiles {
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .elements-arena,
+  .elementals-arena {
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .battle-title {
+    font-size: 1.5rem;
+  }
+
+  .element-orb {
+    width: 80px;
+    height: 80px;
+  }
+
+  .battle-animation .element-emoji {
+    font-size: 2.5rem;
+  }
+
+  .elemental-aura {
+    width: 100px;
+    height: 100px;
+  }
+
+  .battle-animation .elemental-emoji {
+    font-size: 3rem;
+  }
+}
+
+/* Apply animations to elements */
+.slide-in-left {
+  animation: slide-in-left 1s ease-out;
+}
+
+.slide-in-right {
+  animation: slide-in-right 1s ease-out;
+}
+
+.pulse {
+  animation: battle-pulse 2s ease-in-out infinite;
+}
+
+.fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.fade-in-delayed {
+  animation: fade-in-delayed 2s ease-out;
 }

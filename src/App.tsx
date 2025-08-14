@@ -20,6 +20,7 @@ import {
 import ProfileTab from "./components/ProfileTab";
 import BattleComponent from "./components/BattleComponent";
 import BattleResultPage from "./components/BattleResultPage";
+import BattleAnimation from "./components/BattleAnimation";
 import RulesTab from "./components/RulesTab";
 import Navigation from "./components/Navigation";
 import Modal from "./components/Modal";
@@ -247,6 +248,7 @@ const App: React.FC = () => {
     setGameState((prev) => ({
       ...prev,
       gamePhase: "battle",
+      initialBattleMana: initialMana,
       player: { ...prev.player, mana: prev.player.mana - baseWager },
     }));
 
@@ -257,67 +259,87 @@ const App: React.FC = () => {
       setGameState((prev) => ({
         ...prev,
         opponentElement,
-        gamePhase: "result",
+        gamePhase: "battleAnimation",
       }));
     }, 1000);
+  }, [gameState.player, gameState.currentOpponent]);
 
-    // Show result after battle animation
-    setTimeout(() => {
-      // Используем новую логику расчета с учетом элементалей
-      const battleResult = calculateBattleResult(
-        baseWager,
-        gameState.player.selectedElement!,
-        gameState.player.selectedElemental,
-        opponentElement,
-        gameState.currentOpponent?.elemental || null
-      );
+  const onBattleAnimationComplete = useCallback(() => {
+    if (!gameState.player.selectedElement || !gameState.currentOpponent || !gameState.player.selectedLocation) return;
 
-      const finalManaChange = battleResult.playerManaChange;
-      const actualWinner = battleResult.winner;
-      const protectionSaved = battleResult.protectionSaved;
+    const baseWager = gameState.currentOpponent.wager;
+    const initialMana = gameState.initialBattleMana!; // Используем сохраненную изначальную ману
+    const opponentElement = gameState.opponentElement!;
 
-      if (battleResult.winner === "player") {
-        // Игрок выиграл
-        updatePlayer({
-          mana: initialMana + battleResult.playerManaChange,
-          wins: gameState.player.wins + 1,
-          winStreak: gameState.player.winStreak + 1,
-          currentLossStreak: 0,
-          totalManaWon: gameState.player.totalManaWon + Math.abs(battleResult.playerManaChange),
-        });
-      } else if (battleResult.winner === "opponent") {
-        // Игрок проиграл
-        const newLossStreak = gameState.player.currentLossStreak + 1;
-        updatePlayer({
-          mana: initialMana + battleResult.playerManaChange, // playerManaChange отрицательный
-          losses: gameState.player.losses + 1,
-          winStreak: 0,
-          currentLossStreak: newLossStreak,
-          maxLossStreak: Math.max(gameState.player.maxLossStreak, newLossStreak),
-          totalManaLost: gameState.player.totalManaLost + Math.abs(battleResult.playerManaChange),
-        });
-      } else {
-        // Истинная ничья
-        updatePlayer({
-          mana: initialMana, // Возвращаем ставку
-        });
-      }
+    // Используем новую логику расчета с учетом элементалей
+    const battleResult = calculateBattleResult(
+      baseWager,
+      gameState.player.selectedElement!,
+      gameState.player.selectedElemental,
+      opponentElement,
+      gameState.currentOpponent?.elemental || null
+    );
 
-      // Create battle log
-      const battleLog = {
-        playerElement: gameState.player.selectedElement!,
-        opponentElement,
-        playerElemental: gameState.player.selectedElemental,
-        opponentElemental: gameState.currentOpponent?.elemental || null,
-        baseWager,
-        protectionSaved: protectionSaved,
-        finalChange: finalManaChange,
-        winner: actualWinner,
-      };
+    const finalManaChange = battleResult.playerManaChange;
+    const actualWinner = battleResult.winner;
+    const protectionSaved = battleResult.protectionSaved;
 
-      setGameState((prev) => ({ ...prev, battleLog }));
-    }, 3000);
-  }, [gameState.player, gameState.currentOpponent, updatePlayer]);
+    if (battleResult.winner === "player") {
+      // Игрок выиграл
+      updatePlayer({
+        mana: initialMana + battleResult.playerManaChange,
+        wins: gameState.player.wins + 1,
+        winStreak: gameState.player.winStreak + 1,
+        currentLossStreak: 0,
+        totalManaWon: gameState.player.totalManaWon + Math.abs(battleResult.playerManaChange),
+      });
+    } else if (battleResult.winner === "opponent") {
+      // Игрок проиграл
+      const newLossStreak = gameState.player.currentLossStreak + 1;
+      updatePlayer({
+        mana: initialMana + battleResult.playerManaChange, // playerManaChange отрицательный
+        losses: gameState.player.losses + 1,
+        winStreak: 0,
+        currentLossStreak: newLossStreak,
+        maxLossStreak: Math.max(gameState.player.maxLossStreak, newLossStreak),
+        totalManaLost: gameState.player.totalManaLost + Math.abs(battleResult.playerManaChange),
+      });
+    } else {
+      // Истинная ничья
+      updatePlayer({
+        mana: initialMana, // Возвращаем ставку
+      });
+    }
+
+    // Create battle log
+    const battleLog = {
+      playerElement: gameState.player.selectedElement!,
+      opponentElement,
+      playerElemental: gameState.player.selectedElemental,
+      opponentElemental: gameState.currentOpponent?.elemental || null,
+      baseWager,
+      protectionSaved: protectionSaved,
+      finalChange: finalManaChange,
+      winner: actualWinner,
+    };
+
+    setGameState((prev) => ({ ...prev, battleLog, gamePhase: "result" }));
+  }, [
+    gameState.player.selectedElement,
+    gameState.player.selectedLocation,
+    gameState.player.selectedElemental,
+    gameState.player.wins,
+    gameState.player.winStreak,
+    gameState.player.totalManaWon,
+    gameState.player.currentLossStreak,
+    gameState.player.losses,
+    gameState.player.maxLossStreak,
+    gameState.player.totalManaLost,
+    gameState.currentOpponent,
+    gameState.initialBattleMana,
+    gameState.opponentElement,
+    updatePlayer,
+  ]);
 
   const returnToMenu = useCallback(() => {
     setActiveTab("battle"); // Переключаемся на вкладку battle
@@ -327,6 +349,7 @@ const App: React.FC = () => {
       currentOpponent: null,
       opponentElement: null,
       battleLog: null,
+      initialBattleMana: undefined,
       player: {
         ...prev.player,
         selectedElement: null,
@@ -347,6 +370,7 @@ const App: React.FC = () => {
           currentOpponent: null,
           opponentElement: null,
           battleLog: null,
+          initialBattleMana: undefined,
           player: {
             ...prev.player,
             selectedElement: null,
@@ -368,7 +392,7 @@ const App: React.FC = () => {
     <>
       <div className="app">
         <div className="app-content">
-          {activeTab === "profile" && gameState.gamePhase !== "result" && (
+          {activeTab === "profile" && gameState.gamePhase !== "result" && gameState.gamePhase !== "battleAnimation" && (
             <ProfileTab
               player={gameState.player}
               rank={getRank(gameState.player.level)}
@@ -376,7 +400,7 @@ const App: React.FC = () => {
             />
           )}
 
-          {activeTab === "battle" && gameState.gamePhase !== "result" && (
+          {activeTab === "battle" && gameState.gamePhase !== "result" && gameState.gamePhase !== "battleAnimation" && (
             <BattleComponent
               gameState={gameState}
               onSelectLocation={selectLocation}
@@ -390,7 +414,17 @@ const App: React.FC = () => {
             />
           )}
 
-          {activeTab === "rules" && gameState.gamePhase !== "result" && <RulesTab />}
+          {activeTab === "rules" && gameState.gamePhase !== "result" && gameState.gamePhase !== "battleAnimation" && (
+            <RulesTab />
+          )}
+
+          {gameState.gamePhase === "battleAnimation" && (
+            <BattleAnimation
+              gameState={gameState}
+              opponentElement={gameState.opponentElement!}
+              onAnimationComplete={onBattleAnimationComplete}
+            />
+          )}
 
           {gameState.gamePhase === "result" && <BattleResultPage gameState={gameState} onReturnToMenu={returnToMenu} />}
         </div>
