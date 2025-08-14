@@ -14,6 +14,7 @@ import {
   getElementalData,
   calculateProtectedMana,
   calculateDrawResult,
+  calculateBattleResult,
   canAffordLocation,
 } from "./gameLogic";
 import ProfileTab from "./components/ProfileTab";
@@ -262,78 +263,44 @@ const App: React.FC = () => {
 
     // Show result after battle animation
     setTimeout(() => {
-      const winner = getWinner(gameState.player.selectedElement!, opponentElement);
-      const protectedMana = calculateProtectedMana(
+      // Используем новую логику расчета с учетом элементалей
+      const battleResult = calculateBattleResult(
         baseWager,
-        gameState.player.selectedElement,
-        gameState.player.selectedElemental
+        gameState.player.selectedElement!,
+        gameState.player.selectedElemental,
+        opponentElement,
+        gameState.currentOpponent?.elemental || null
       );
 
-      let finalManaChange = 0;
-      let actualWinner = winner;
+      const finalManaChange = battleResult.playerManaChange;
+      const actualWinner = battleResult.winner;
+      const protectionSaved = battleResult.protectionSaved;
 
-      if (winner === "player") {
-        // Игрок выигрывает: получает обратно свою ставку + ставку противника
-        finalManaChange = baseWager; // Чистая прибыль (ставка противника)
+      if (battleResult.winner === "player") {
+        // Игрок выиграл
         updatePlayer({
-          mana: initialMana + baseWager, // Возвращаем ставку + выигрыш
+          mana: initialMana + battleResult.playerManaChange,
           wins: gameState.player.wins + 1,
           winStreak: gameState.player.winStreak + 1,
           currentLossStreak: 0,
-          totalManaWon: gameState.player.totalManaWon + baseWager,
+          totalManaWon: gameState.player.totalManaWon + Math.abs(battleResult.playerManaChange),
         });
-      } else if (winner === "opponent") {
-        // Игрок проигрывает: теряет ставку, но часть защищена элементалом
-        const actualLoss = baseWager - protectedMana;
-        finalManaChange = -actualLoss; // Показываем реальную потерю
+      } else if (battleResult.winner === "opponent") {
+        // Игрок проиграл
         const newLossStreak = gameState.player.currentLossStreak + 1;
         updatePlayer({
-          mana: initialMana - actualLoss,
+          mana: initialMana + battleResult.playerManaChange, // playerManaChange отрицательный
           losses: gameState.player.losses + 1,
           winStreak: 0,
           currentLossStreak: newLossStreak,
           maxLossStreak: Math.max(gameState.player.maxLossStreak, newLossStreak),
-          totalManaLost: gameState.player.totalManaLost + actualLoss,
+          totalManaLost: gameState.player.totalManaLost + Math.abs(battleResult.playerManaChange),
         });
       } else {
-        // Ничья: используем новую логику с элементалями
-        const drawResult = calculateDrawResult(
-          baseWager,
-          gameState.player.selectedElement!,
-          gameState.player.selectedElemental,
-          opponentElement,
-          gameState.currentOpponent?.elemental || null
-        );
-
-        finalManaChange = drawResult.playerManaChange;
-        actualWinner = drawResult.winner;
-
-        if (drawResult.winner === "player") {
-          // Игрок выиграл благодаря более сильному элементалю
-          updatePlayer({
-            mana: initialMana + drawResult.playerManaChange,
-            wins: gameState.player.wins + 1,
-            winStreak: gameState.player.winStreak + 1,
-            currentLossStreak: 0,
-            totalManaWon: gameState.player.totalManaWon + Math.abs(drawResult.playerManaChange),
-          });
-        } else if (drawResult.winner === "opponent") {
-          // Игрок проиграл из-за более слабого элементаля
-          const newLossStreak = gameState.player.currentLossStreak + 1;
-          updatePlayer({
-            mana: initialMana + drawResult.playerManaChange, // playerManaChange отрицательный
-            losses: gameState.player.losses + 1,
-            winStreak: 0,
-            currentLossStreak: newLossStreak,
-            maxLossStreak: Math.max(gameState.player.maxLossStreak, newLossStreak),
-            totalManaLost: gameState.player.totalManaLost + Math.abs(drawResult.playerManaChange),
-          });
-        } else {
-          // Истинная ничья - равные элементали
-          updatePlayer({
-            mana: initialMana, // Возвращаем ставку
-          });
-        }
+        // Истинная ничья
+        updatePlayer({
+          mana: initialMana, // Возвращаем ставку
+        });
       }
 
       // Create battle log
@@ -343,7 +310,7 @@ const App: React.FC = () => {
         playerElemental: gameState.player.selectedElemental,
         opponentElemental: gameState.currentOpponent?.elemental || null,
         baseWager,
-        protectionSaved: winner === "opponent" ? protectedMana : 0, // Защита работает только при поражении
+        protectionSaved: protectionSaved,
         finalChange: finalManaChange,
         winner: actualWinner,
       };

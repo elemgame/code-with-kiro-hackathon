@@ -159,7 +159,76 @@ export const calculateProtectedMana = (wager: number, element: Element | null, e
   return Math.floor(wager * elemental.protection);
 };
 
-// Calculate draw result when same elements are used
+// Calculate battle result with elementals protecting the losing side
+export const calculateBattleResult = (
+  baseWager: number,
+  playerElement: Element,
+  playerElemental: ElementalRarity | null,
+  opponentElement: Element,
+  opponentElemental: ElementalRarity | null
+): { playerManaChange: number; opponentManaChange: number; winner: BattleResult; protectionSaved: number } => {
+  // First determine element winner
+  const elementWinner = getWinner(playerElement, opponentElement);
+  
+  // Get protection percentages
+  const playerProtection = playerElemental ? getElementalData(playerElement, playerElemental).protection : 0;
+  const opponentProtection = opponentElemental ? getElementalData(opponentElement, opponentElemental).protection : 0;
+  
+  if (elementWinner === 'player') {
+    // Player wins by elements - opponent's elemental protects opponent's loss
+    const opponentSaved = Math.floor(baseWager * opponentProtection);
+    const playerGain = baseWager - opponentSaved;
+    return {
+      playerManaChange: playerGain,
+      opponentManaChange: -playerGain,
+      winner: 'player',
+      protectionSaved: 0 // Player doesn't need protection when winning
+    };
+  } else if (elementWinner === 'opponent') {
+    // Opponent wins by elements - player's elemental protects player's loss
+    const playerSaved = Math.floor(baseWager * playerProtection);
+    const playerLoss = baseWager - playerSaved;
+    return {
+      playerManaChange: -playerLoss,
+      opponentManaChange: playerLoss,
+      winner: 'opponent',
+      protectionSaved: playerSaved
+    };
+  } else {
+    // Same elements - elementals decide the outcome
+    if (playerProtection === opponentProtection) {
+      // Equal protection - true draw
+      return {
+        playerManaChange: 0,
+        opponentManaChange: 0,
+        winner: 'draw',
+        protectionSaved: 0
+      };
+    } else if (playerProtection > opponentProtection) {
+      // Player has stronger elemental - player wins, opponent's elemental protects
+      const advantage = playerProtection - opponentProtection;
+      const manaToTake = Math.floor(baseWager * advantage);
+      return {
+        playerManaChange: manaToTake,
+        opponentManaChange: -manaToTake,
+        winner: 'player',
+        protectionSaved: 0
+      };
+    } else {
+      // Opponent has stronger elemental - opponent wins, player's elemental protects
+      const advantage = opponentProtection - playerProtection;
+      const manaToLose = Math.floor(baseWager * advantage);
+      return {
+        playerManaChange: -manaToLose,
+        opponentManaChange: manaToLose,
+        winner: 'opponent',
+        protectionSaved: Math.floor(baseWager * playerProtection)
+      };
+    }
+  }
+};
+
+// Calculate draw result when same elements are used (deprecated - use calculateBattleResult)
 export const calculateDrawResult = (
   baseWager: number,
   playerElement: Element,
@@ -167,36 +236,12 @@ export const calculateDrawResult = (
   opponentElement: Element,
   opponentElemental: ElementalRarity | null
 ): { playerManaChange: number; opponentManaChange: number; winner: BattleResult } => {
-  // Get protection percentages
-  const playerProtection = playerElemental ? getElementalData(playerElement, playerElemental).protection : 0;
-  const opponentProtection = opponentElemental ? getElementalData(opponentElement, opponentElemental).protection : 0;
-  
-  if (playerProtection === opponentProtection) {
-    // Equal protection - true draw
-    return {
-      playerManaChange: 0, // Keep original wager
-      opponentManaChange: 0,
-      winner: 'draw'
-    };
-  } else if (playerProtection > opponentProtection) {
-    // Player has stronger elemental
-    const advantage = playerProtection - opponentProtection;
-    const manaToTake = Math.floor(baseWager * advantage);
-    return {
-      playerManaChange: manaToTake, // Gain from opponent
-      opponentManaChange: -manaToTake,
-      winner: 'player'
-    };
-  } else {
-    // Opponent has stronger elemental
-    const advantage = opponentProtection - playerProtection;
-    const manaToLose = Math.floor(baseWager * advantage);
-    return {
-      playerManaChange: -manaToLose, // Lose to opponent
-      opponentManaChange: manaToLose,
-      winner: 'opponent'
-    };
-  }
+  const result = calculateBattleResult(baseWager, playerElement, playerElemental, opponentElement, opponentElemental);
+  return {
+    playerManaChange: result.playerManaChange,
+    opponentManaChange: result.opponentManaChange,
+    winner: result.winner
+  };
 };
 
 // Check if player can afford location
