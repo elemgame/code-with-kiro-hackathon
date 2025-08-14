@@ -1,19 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { GameState, PlayerStats, Element, Location, ElementalRarity, Opponent, GamePhase, BattleResult } from "./types";
+import { GameState, PlayerStats, Element, Location, ElementalRarity } from "./types";
 import {
   ELEMENTS,
   LOCATIONS,
   generateOpponent,
   getRandomElement,
-  getWinner,
   getRank,
   getTitle,
   getAchievementDefinitions,
-  getAchievementProgress,
-  getAvailableElementals,
-  getElementalData,
-  calculateProtectedMana,
-  calculateDrawResult,
   calculateBattleResult,
   canAffordLocation,
 } from "./gameLogic";
@@ -23,7 +17,6 @@ import BattleResultPage from "./components/BattleResultPage";
 import BattleAnimation from "./components/BattleAnimation";
 import RulesTab from "./components/RulesTab";
 import Navigation from "./components/Navigation";
-import Modal from "./components/Modal";
 import AchievementNotification from "./components/AchievementNotification";
 import "./App.css";
 
@@ -214,8 +207,7 @@ const App: React.FC = () => {
     const wager = LOCATIONS[gameState.player.selectedLocation].mana;
     if (gameState.player.mana < wager) {
       alert(
-        `Not enough mana! You need ${wager} mana to play in ${
-          LOCATIONS[gameState.player.selectedLocation].name
+        `Not enough mana! You need ${wager} mana to play in ${LOCATIONS[gameState.player.selectedLocation].name
         }, but you only have ${gameState.player.mana}.`
       );
       return;

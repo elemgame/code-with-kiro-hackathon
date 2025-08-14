@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlayerStats } from '../types';
-import { getAchievementDefinitions, getAchievementProgress } from '../gameLogic';
+import { getAchievementDefinitions } from '../gameLogic';
 
 interface ProfileTabProps {
   player: PlayerStats;
@@ -11,18 +11,18 @@ interface ProfileTabProps {
 const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
   const expNeeded = player.level * 1000;
   const expPercent = (player.experience / expNeeded) * 100;
-  
-  const winRate = player.totalBattles > 0 ? 
+
+  const winRate = player.totalBattles > 0 ?
     Math.round((player.wins / player.totalBattles) * 100) : 0;
 
   const achievementDefinitions = getAchievementDefinitions();
-  const unlockedAchievements = achievementDefinitions.filter(a => 
+  const unlockedAchievements = achievementDefinitions.filter(a =>
     player.achievements.includes(a.id)
   );
-  const lockedAchievements = achievementDefinitions.filter(a => 
+  const lockedAchievements = achievementDefinitions.filter(a =>
     !player.achievements.includes(a.id)
   );
-  
+
   const displayAchievements = [
     ...unlockedAchievements.slice(-3),
     ...lockedAchievements.slice(0, 2)
@@ -36,7 +36,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
           <div className="hero-gradient"></div>
           <div className="hero-pattern"></div>
         </div>
-        
+
         <div className="hero-content">
           <div className="profile-avatar-modern">
             <div className="avatar-glow"></div>
@@ -45,7 +45,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
             </div>
 
           </div>
-          
+
           <div className="profile-identity">
             <h1 className="player-name-modern">{player.name}</h1>
             <div className="player-title-modern">{rank}</div>
@@ -104,8 +104,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
         <div className="achievements-grid">
           {displayAchievements.map(achievement => {
             const isUnlocked = player.achievements.includes(achievement.id);
-            const progress = getAchievementProgress(achievement, player);
-            
+
             return (
               <div key={achievement.id} className={`achievement-card-modern ${isUnlocked ? 'unlocked' : 'locked'}`}>
                 <div className="achievement-icon-modern">
@@ -132,7 +131,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
               <div className="mini-stat-label">Win Rate</div>
             </div>
           </div>
-          
+
           <div className="mini-stat">
             <div className="mini-stat-icon">💎</div>
             <div className="mini-stat-content">
@@ -140,7 +139,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ player, rank, title }) => {
               <div className="mini-stat-label">Mana Won</div>
             </div>
           </div>
-          
+
           <div className="mini-stat">
             <div className="mini-stat-icon">🌟</div>
             <div className="mini-stat-content">
