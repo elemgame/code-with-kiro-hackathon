@@ -17,6 +17,7 @@ import {
 } from './gameLogic';
 import ProfileTab from './components/ProfileTab';
 import BattleComponent from './components/BattleComponent';
+import BattleResultPage from './components/BattleResultPage';
 import RulesTab from './components/RulesTab';
 import Navigation from './components/Navigation';
 import Modal from './components/Modal';
@@ -276,6 +277,7 @@ const App: React.FC = () => {
   }, [gameState.player, gameState.currentOpponent, updatePlayer]);
 
   const returnToMenu = useCallback(() => {
+    setActiveTab('battle'); // Переключаемся на вкладку battle
     setGameState(prev => ({
       ...prev,
       gamePhase: 'menu',
@@ -296,47 +298,59 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="app">
-      <div className="app-content">
-        {activeTab === 'profile' && (
-          <ProfileTab 
-            player={gameState.player}
-            rank={getRank(gameState.player.level)}
-            title={getTitle(gameState.player.wins, gameState.player.winStreak)}
-          />
-        )}
-        
-        {activeTab === 'battle' && (
-          <BattleComponent
-            gameState={gameState}
-            onSelectLocation={selectLocation}
-            onSelectElement={selectElement}
-            onSelectElemental={selectElemental}
-            onReturnToLocationSelection={returnToLocationSelection}
-            onReturnToElementSelection={returnToElementSelection}
-            onStartMatchmaking={startMatchmaking}
-            onStartBattle={startBattle}
-            onReturnToMenu={returnToMenu}
-          />
-        )}
-        
-        {activeTab === 'rules' && <RulesTab />}
+    <>
+      <div className="app">
+        <div className="app-content">
+          {activeTab === 'profile' && gameState.gamePhase !== 'result' && (
+            <ProfileTab 
+              player={gameState.player}
+              rank={getRank(gameState.player.level)}
+              title={getTitle(gameState.player.wins, gameState.player.winStreak)}
+            />
+          )}
+          
+          {activeTab === 'battle' && gameState.gamePhase !== 'result' && (
+            <BattleComponent
+              gameState={gameState}
+              onSelectLocation={selectLocation}
+              onSelectElement={selectElement}
+              onSelectElemental={selectElemental}
+              onReturnToLocationSelection={returnToLocationSelection}
+              onReturnToElementSelection={returnToElementSelection}
+              onStartMatchmaking={startMatchmaking}
+              onStartBattle={startBattle}
+              onReturnToMenu={returnToMenu}
+            />
+          )}
+          
+          {activeTab === 'rules' && gameState.gamePhase !== 'result' && <RulesTab />}
+          
+          {gameState.gamePhase === 'result' && (
+            <BattleResultPage
+              gameState={gameState}
+              onReturnToMenu={returnToMenu}
+            />
+          )}
+        </div>
+
+        {/* Achievement Notifications */}
+        {newAchievements.map(achievementId => {
+          const achievement = getAchievementDefinitions().find(a => a.id === achievementId);
+          return achievement ? (
+            <AchievementNotification
+              key={achievementId}
+              achievement={achievement}
+              onDismiss={() => dismissAchievement(achievementId)}
+            />
+          ) : null;
+        })}
       </div>
 
-      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
-
-      {/* Achievement Notifications */}
-      {newAchievements.map(achievementId => {
-        const achievement = getAchievementDefinitions().find(a => a.id === achievementId);
-        return achievement ? (
-          <AchievementNotification
-            key={achievementId}
-            achievement={achievement}
-            onDismiss={() => dismissAchievement(achievementId)}
-          />
-        ) : null;
-      })}
-    </div>
+      {/* Navigation outside of app container */}
+      {gameState.gamePhase !== 'result' && (
+        <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      )}
+    </>
   );
 };
 

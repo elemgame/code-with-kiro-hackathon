@@ -6,8 +6,7 @@ const RulesTab: React.FC = () => {
       padding: '1rem',
       flex: 1,
       display: 'flex',
-      flexDirection: 'column',
-      minHeight: 'calc(100vh - 80px)'
+      flexDirection: 'column'
     }}>
       <div className="card">
         <div className="card-title">📜 Game Rules</div>

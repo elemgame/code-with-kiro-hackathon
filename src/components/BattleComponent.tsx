@@ -27,19 +27,13 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 }) => {
   const { player, currentOpponent, opponentElement, gamePhase } = gameState;
   
-  // Debug logs
-  console.log('BattleComponent render:', {
-    gamePhase,
-    selectedLocation: player.selectedLocation,
-    selectedElement: player.selectedElement,
-    mana: player.mana
-  });
+
 
   const renderLocationSelection = () => (
     <div style={{ textAlign: 'center' }}>
       <div style={{
         display: 'inline-block',
-        fontSize: '12rem',
+        fontSize: '8rem',
         marginTop: '0.25rem',
         marginBottom: '3rem',
         opacity: 0.8,
@@ -90,6 +84,19 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
   const renderElementSelection = () => (
     <div style={{ textAlign: 'center' }}>
+      <div style={{
+        display: 'inline-block',
+        fontSize: '8rem',
+        marginTop: '0.25rem',
+        marginBottom: '3rem',
+        opacity: 0.8,
+        padding: '0.1rem',
+        lineHeight: 0.8
+      }}>🏟️</div>
+      <h3 style={{ color: 'var(--secondary-gold)', marginBottom: '0.75rem' }}>
+        Ready for Battle
+      </h3>
+
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -243,18 +250,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
         <div className="card" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div className="card-title">⚔️ Battle Arena</div>
           
-          {/* Debug Info */}
-          <div style={{ 
-            fontSize: '0.8rem', 
-            color: 'var(--text-muted)', 
-            textAlign: 'center',
-            marginBottom: '1rem',
-            padding: '0.5rem',
-            background: 'rgba(0,0,0,0.2)',
-            borderRadius: '8px'
-          }}>
-            Phase: {gamePhase} | Location: {player.selectedLocation || 'none'} | Element: {player.selectedElement || 'none'}
-          </div>
+
 
           <div style={{
             flex: 1,
@@ -264,7 +260,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
           }}>
             {gamePhase === 'menu' && renderLocationSelection()}
             {gamePhase === 'elementSelection' && renderElementSelection()}
-            {(gamePhase === 'battle' || gamePhase === 'result') && renderBattleDisplay()}
+            {gamePhase === 'battle' && renderBattleDisplay()}
             
             {/* Fallback for unknown phases */}
             {!['menu', 'elementSelection', 'battle', 'result', 'matchmaking'].includes(gamePhase) && (
@@ -430,83 +426,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
         </div>
       </Modal>
 
-      <Modal
-        isOpen={gamePhase === 'result'}
-        onClose={() => { }}
-        title="⚔️ Battle Result"
-      >
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-            {player.lastManaChange > 0 ? '🎉' : player.lastManaChange < 0 ? '💀' : '🤝'}
-          </div>
-          <div style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: '1.8rem',
-            fontWeight: 700,
-            marginBottom: '0.5rem',
-            textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)',
-            color: player.lastManaChange > 0 ? 'var(--success)' :
-              player.lastManaChange < 0 ? 'var(--error)' : 'var(--text-primary)'
-          }}>
-            {player.lastManaChange > 0 ? 'Victory!' :
-              player.lastManaChange < 0 ? 'Defeat!' : 'Draw!'}
-          </div>
-          <div style={{
-            color: 'var(--text-muted)',
-            fontSize: '0.9rem',
-            marginBottom: '1.5rem',
-            fontStyle: 'italic'
-          }}>
-            {player.lastManaChange > 0 ? `You defeated ${currentOpponent?.name}` :
-              player.lastManaChange < 0 ? `${currentOpponent?.name} defeated you` :
-                `You tied with ${currentOpponent?.name}`}
-          </div>
 
-          <div style={{
-            background: 'rgba(0, 0, 0, 0.4)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '12px',
-            padding: '1rem',
-            marginBottom: '1.5rem'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Mana Change:</span>
-              <span style={{
-                fontFamily: "'Cinzel', serif",
-                fontWeight: 600,
-                color: player.lastManaChange > 0 ? 'var(--success)' :
-                  player.lastManaChange < 0 ? 'var(--error)' : 'var(--text-primary)'
-              }}>
-                {player.lastManaChange > 0 ? '+' : ''}{player.lastManaChange}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>New Total:</span>
-              <span style={{
-                fontFamily: "'Cinzel', serif",
-                fontWeight: 600,
-                color: 'var(--text-primary)'
-              }}>
-                {player.mana}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Victory Streak:</span>
-              <span style={{
-                fontFamily: "'Cinzel', serif",
-                fontWeight: 600,
-                color: 'var(--secondary-gold)'
-              }}>
-                {player.winStreak}
-              </span>
-            </div>
-          </div>
-
-          <button className="btn-primary" onClick={onReturnToMenu} style={{ width: '100%' }}>
-            🏰 Continue
-          </button>
-        </div>
-      </Modal>
     </>
   );
 };

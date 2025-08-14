@@ -2,8 +2,8 @@ import { Element, ElementData, LocationData, ElementalData, ElementalRarity, Loc
 
 // Game constants
 export const ELEMENTS: Record<Element, ElementData> = {
-  earth: { name: 'Earth', emoji: '🌍', color: '#8B4513' },
-  water: { name: 'Water', emoji: '💧', color: '#4169E1' },
+  earth: { name: 'Earth', emoji: '🗿', color: '#A8A8A8' },
+  water: { name: 'Water', emoji: '💧', color: '#00AFFF' },
   fire: { name: 'Fire', emoji: '🔥', color: '#FF4500' }
 };
 
