@@ -1,12 +1,5 @@
-import * as PIXI from 'pixi.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Element, GameState } from '../types';
-
-// interface ElementalData {
-//   rarity: string;
-//   protection: number;
-//   emoji: string;
-// }
 
 interface BattleAnimationPixiProps {
   gameState: GameState;
@@ -15,133 +8,218 @@ interface BattleAnimationPixiProps {
 }
 
 const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
-  gameState,
-  opponentElement,
+  gameState: _gameState,
+  opponentElement: _opponentElement,
   onAnimationComplete,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const appRef = useRef<PIXI.Application | null>(null);
-  const [, setPhase] = useState<
+  const [phase, setPhase] = useState<
     'intro' | 'elements' | 'elementals' | 'clash' | 'result'
   >('intro');
 
-  const { player, currentOpponent } = gameState;
-  const playerElement = player.selectedElement as Element;
-  // const playerElemental = player.selectedElemental
-  //   ? getElementalData(playerElement, player.selectedElemental)
-  //   : null;
-  // const opponentElemental = currentOpponent?.elemental
-  //   ? getElementalData(opponentElement, currentOpponent.elemental)
-  //   : null;
-
   useEffect(() => {
-    if (!canvasRef.current) return;
+    const timeoutIds: NodeJS.Timeout[] = [];
 
-    // Создаем PIXI приложение
-    const app = new PIXI.Application({
-      view: canvasRef.current,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      backgroundColor: 0x0a0a0a,
-      antialias: true,
+    // Animation sequence
+    const timeline = [
+      { delay: 800, action: () => setPhase('intro') },
+      { delay: 2000, action: () => setPhase('elements') },
+      { delay: 4000, action: () => setPhase('elementals') },
+      { delay: 6000, action: () => setPhase('clash') },
+      { delay: 8000, action: () => setPhase('result') },
+      { delay: 10000, action: onAnimationComplete },
+    ];
+
+    timeline.forEach(({ delay, action }) => {
+      const timeoutId = setTimeout(action, delay);
+      timeoutIds.push(timeoutId);
     });
 
-    appRef.current = app;
-
-    // Создаем контейнеры для разных слоев
-    const backgroundContainer = new PIXI.Container();
-    const uiContainer = new PIXI.Container();
-    const effectsContainer = new PIXI.Container();
-
-    app.stage.addChild(backgroundContainer);
-    app.stage.addChild(uiContainer);
-    app.stage.addChild(effectsContainer);
-
-    // Создаем фоновые эффекты
-    const createBackgroundEffects = (container: PIXI.Container, pixiApp: PIXI.Application) => {
-      // Создаем частицы энергии
-      for (let i = 0; i < 50; i++) {
-        const particle = new PIXI.Graphics();
-        particle.beginFill(Math.random() > 0.5 ? 0x00ffff : 0xff00ff);
-        particle.drawCircle(0, 0, Math.random() * 3 + 1);
-        particle.endFill();
-
-        particle.x = Math.random() * pixiApp.renderer.width;
-        particle.y = Math.random() * pixiApp.renderer.height;
-        particle.alpha = Math.random() * 0.5 + 0.3;
-
-        container.addChild(particle);
-
-        // Анимация частиц
-        pixiApp.ticker.add(() => {
-          particle.y -= 0.5;
-          particle.x += Math.sin(particle.y * 0.01) * 0.5;
-
-          if (particle.y < -10) {
-            particle.y = pixiApp.renderer.height + 10;
-            particle.x = Math.random() * pixiApp.renderer.width;
-          }
-        });
-      }
-
-      // Создаем магические круги
-      const outerCircle = new PIXI.Graphics();
-      outerCircle.lineStyle(2, 0xffffff, 0.1);
-      outerCircle.drawCircle(0, 0, 200);
-      outerCircle.x = pixiApp.renderer.width / 2;
-      outerCircle.y = pixiApp.renderer.height / 2;
-      container.addChild(outerCircle);
-
-      const innerCircle = new PIXI.Graphics();
-      innerCircle.lineStyle(1, 0xffffff, 0.05);
-      innerCircle.drawCircle(0, 0, 150);
-      innerCircle.x = pixiApp.renderer.width / 2;
-      innerCircle.y = pixiApp.renderer.height / 2;
-      container.addChild(innerCircle);
-
-      // Анимация вращения кругов
-      pixiApp.ticker.add(() => {
-        outerCircle.rotation += 0.005;
-        innerCircle.rotation -= 0.008;
-      });
-    };
-
-    createBackgroundEffects(backgroundContainer, app);
-
-    // Запускаем анимационную последовательность
-    const startBattleSequence = () => {
-      const timeline = [
-        // Intro phase - show opponents
-        { delay: 800, action: () => setPhase('intro') },
-
-        // Complete
-        { delay: 18000, action: onAnimationComplete },
-      ];
-
-      timeline.forEach(({ delay, action }) => {
-        setTimeout(action, delay);
-      });
-    };
-
-    startBattleSequence();
-
-    // Обработка изменения размера окна
-    const handleResize = () => {
-      app.renderer.resize(window.innerWidth, window.innerHeight);
-    };
-
-    window.addEventListener('resize', handleResize);
-
     return () => {
-      window.removeEventListener('resize', handleResize);
-      app.destroy(true);
+      timeoutIds.forEach(id => clearTimeout(id));
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onAnimationComplete]);
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000 }}>
-      <canvas ref={canvasRef} />
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 10000,
+        background:
+          'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Animated background particles */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: `
+            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%)
+          `,
+          animation: 'pulse 4s ease-in-out infinite',
+        }}
+      />
+
+      {/* Magic circles */}
+      <div
+        style={{
+          position: 'absolute',
+          width: '400px',
+          height: '400px',
+          border: '2px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          animation: 'rotate 20s linear infinite',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          width: '300px',
+          height: '300px',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          borderRadius: '50%',
+          animation: 'rotate 15s linear infinite reverse',
+        }}
+      />
+
+      {/* Battle content */}
+      <div
+        style={{
+          textAlign: 'center',
+          color: 'white',
+          zIndex: 1,
+        }}
+      >
+        {phase === 'intro' && (
+          <div style={{ animation: 'fadeIn 1s ease-in' }}>
+            <h1
+              style={{
+                fontSize: '3rem',
+                marginBottom: '1rem',
+                textShadow: '0 0 20px rgba(255, 255, 255, 0.5)',
+              }}
+            >
+              ⚔️ BATTLE BEGINS ⚔️
+            </h1>
+          </div>
+        )}
+
+        {phase === 'elements' && (
+          <div style={{ animation: 'fadeIn 1s ease-in' }}>
+            <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>
+              Elements Clash!
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '4rem',
+                fontSize: '4rem',
+              }}
+            >
+              <div style={{ animation: 'bounce 1s ease-in-out infinite' }}>
+                🔥
+              </div>
+              <div style={{ fontSize: '2rem', alignSelf: 'center' }}>VS</div>
+              <div style={{ animation: 'bounce 1s ease-in-out infinite 0.5s' }}>
+                💧
+              </div>
+            </div>
+          </div>
+        )}
+
+        {phase === 'elementals' && (
+          <div style={{ animation: 'fadeIn 1s ease-in' }}>
+            <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>
+              Elementals Awaken!
+            </h2>
+            <div
+              style={{
+                fontSize: '6rem',
+                animation: 'glow 2s ease-in-out infinite',
+              }}
+            >
+              ✨
+            </div>
+          </div>
+        )}
+
+        {phase === 'clash' && (
+          <div style={{ animation: 'shake 0.5s ease-in-out infinite' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#ff6b6b' }}>
+              💥 CLASH! 💥
+            </h2>
+          </div>
+        )}
+
+        {phase === 'result' && (
+          <div style={{ animation: 'fadeIn 1s ease-in' }}>
+            <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+              Battle Complete!
+            </h2>
+            <div
+              style={{
+                fontSize: '4rem',
+                animation: 'victory 2s ease-in-out infinite',
+              }}
+            >
+              🏆
+            </div>
+          </div>
+        )}
+      </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 0.8; }
+        }
+
+        @keyframes rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-30px); }
+          60% { transform: translateY(-15px); }
+        }
+
+        @keyframes glow {
+          0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+          50% { text-shadow: 0 0 40px rgba(255, 255, 255, 1), 0 0 60px rgba(255, 255, 255, 0.8); }
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
+        }
+
+        @keyframes victory {
+          0%, 100% { transform: scale(1) rotate(0deg); }
+          50% { transform: scale(1.2) rotate(10deg); }
+        }
+      `}</style>
     </div>
   );
 };
