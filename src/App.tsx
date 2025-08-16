@@ -1,29 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import AchievementNotification from './components/AchievementNotification';
-import BattleAnimation from './components/BattleAnimation';
+import BattleAnimationPixi from './components/BattleAnimationPixi';
 import BattleComponent from './components/BattleComponent';
 import BattleResultPage from './components/BattleResultPage';
 import Navigation from './components/Navigation';
 import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
 import {
-  ELEMENTS,
-  LOCATIONS,
-  calculateBattleResult,
-  canAffordLocation,
-  generateOpponent,
-  getAchievementDefinitions,
-  getRandomElement,
-  getRank,
-  getTitle,
+    ELEMENTS,
+    LOCATIONS,
+    calculateBattleResult,
+    canAffordLocation,
+    generateOpponent,
+    getAchievementDefinitions,
+    getRandomElement,
+    getRank,
+    getTitle,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -467,7 +467,7 @@ const App: React.FC = () => {
             gameState.gamePhase !== 'battleAnimation' && <RulesTab />}
 
           {gameState.gamePhase === 'battleAnimation' && (
-            <BattleAnimation
+            <BattleAnimationPixi
               gameState={gameState}
               opponentElement={gameState.opponentElement as Element}
               onAnimationComplete={onBattleAnimationComplete}

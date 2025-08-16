@@ -5,12 +5,14 @@
   "homepage": "https://elemgame.github.io/code-with-kiro-hackathon/",
   "private": true,
   "dependencies": {
+    "pixi.js": "^8.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/pixi.js": "^4.8.9",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
