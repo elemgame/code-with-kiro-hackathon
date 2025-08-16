@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    ELEMENTS,
-    LOCATIONS,
-    canAffordLocation,
-    getAvailableElementals,
-    getElementalData,
+  ELEMENTS,
+  LOCATIONS,
+  canAffordLocation,
+  getAvailableElementals,
+  getElementalData,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
 import Modal from './Modal';

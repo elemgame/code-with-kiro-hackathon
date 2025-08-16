@@ -8,22 +8,22 @@ import Navigation from './components/Navigation';
 import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
 import {
-    ELEMENTS,
-    LOCATIONS,
-    calculateBattleResult,
-    canAffordLocation,
-    generateOpponent,
-    getAchievementDefinitions,
-    getRandomElement,
-    getRank,
-    getTitle,
+  ELEMENTS,
+  LOCATIONS,
+  calculateBattleResult,
+  canAffordLocation,
+  generateOpponent,
+  getAchievementDefinitions,
+  getRandomElement,
+  getRank,
+  getTitle,
 } from './gameLogic';
 import {
-    Element,
-    ElementalRarity,
-    GameState,
-    Location,
-    PlayerStats,
+  Element,
+  ElementalRarity,
+  GameState,
+  Location,
+  PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {

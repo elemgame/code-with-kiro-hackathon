@@ -46,7 +46,12 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
       { delay: 6500, action: () => setShowOpponentElement(true) },
 
       // Пауза для восприятия элементов
-      { delay: 8500, action: () => { /* Пауза для восприятия элементов */ } },
+      {
+        delay: 8500,
+        action: () => {
+          /* Пауза для восприятия элементов */
+        },
+      },
 
       // Elementals phase (более драматично)
       { delay: 9000, action: () => setPhase('elementals') },
@@ -55,7 +60,12 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
       { delay: 12000, action: () => setShowOpponentElemental(true) },
 
       // Пауза перед финальным столкновением
-      { delay: 14000, action: () => { /* Пауза перед финальным столкновением */ } },
+      {
+        delay: 14000,
+        action: () => {
+          /* Пауза перед финальным столкновением */
+        },
+      },
 
       // Clash phase (более эпично)
       { delay: 14500, action: () => setPhase('clash') },
@@ -93,9 +103,12 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
                   <div className='profile-level'>Level {player.level}</div>
                   <div className='profile-elemental'>
                     {playerElemental ? (
-                      <div className={`elemental-card-compact rarity-${playerElemental.rarity.toLowerCase()}`}>
+                      <div
+                        className={`elemental-card-compact rarity-${playerElemental.rarity.toLowerCase()}`}
+                      >
                         <div className='elemental-protection'>
-                          Protection {Math.round(playerElemental.protection * 100)}%
+                          Protection{' '}
+                          {Math.round(playerElemental.protection * 100)}%
                         </div>
                       </div>
                     ) : (
@@ -118,9 +131,12 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
                   </div>
                   <div className='profile-elemental'>
                     {opponentElemental ? (
-                      <div className={`elemental-card-compact rarity-${opponentElemental.rarity.toLowerCase()}`}>
+                      <div
+                        className={`elemental-card-compact rarity-${opponentElemental.rarity.toLowerCase()}`}
+                      >
                         <div className='elemental-protection'>
-                          Protection {Math.round(opponentElemental.protection * 100)}%
+                          Protection{' '}
+                          {Math.round(opponentElemental.protection * 100)}%
                         </div>
                       </div>
                     ) : (
@@ -138,7 +154,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
         {/* Elements Phase */}
         {phase === 'elements' && (
           <div className='elements-battle'>
-            <div className={`battle-title ${showElementsTitle ? 'fade-in' : ''}`}>
+            <div
+              className={`battle-title ${showElementsTitle ? 'fade-in' : ''}`}
+            >
               ⚔️ Element Battle! ⚔️
             </div>
             <div className='elements-arena'>
@@ -188,7 +206,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
         {/* Elementals Phase */}
         {phase === 'elementals' && (
           <div className='elementals-battle'>
-            <div className={`battle-title ${showElementalsTitle ? 'fade-in' : ''}`}>
+            <div
+              className={`battle-title ${showElementalsTitle ? 'fade-in' : ''}`}
+            >
               🛡️ Elemental Guardians! 🛡️
             </div>
             <div className='elementals-arena'>
@@ -280,7 +300,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
                 <span>🌟</span>
               </div>
             </div>
-            <div className={`clash-text ${showClashTitle ? 'fade-in-delayed' : ''}`}>
+            <div
+              className={`clash-text ${showClashTitle ? 'fade-in-delayed' : ''}`}
+            >
               💥 Battle Complete! 💥
             </div>
           </div>
