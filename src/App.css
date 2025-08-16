@@ -726,21 +726,10 @@ body::-webkit-scrollbar {
 }
 
 .modal.loading-modal {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(26, 26, 46, 0.8) 0%,
-      rgba(22, 33, 62, 0.8) 50%,
-      rgba(10, 10, 10, 0.8) 100%
-    ),
-    url('./background.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 2px solid rgba(218, 165, 32, 0.3);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.8),
-    0 0 40px rgba(218, 165, 32, 0.2);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
 }
 
 .modal-title {
@@ -753,39 +742,45 @@ body::-webkit-scrollbar {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-/* Loading Animation */
-.loading-spinner {
-  width: 120px;
-  height: 120px;
+/* Loading Animation - Three Dots */
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 2rem auto;
-  position: relative;
+  gap: 8px;
 }
 
-.loading-spinner::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
-  background: url('./logo.svg') center/contain no-repeat;
-  animation: logo-appear 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-}
-
-.loading-spinner::after {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
-  border: 3px solid transparent;
-  border-top: 3px solid var(--secondary-gold);
-  border-right: 3px solid var(--cool-blue);
+.loading-dots .dot {
+  width: 12px;
+  height: 12px;
+  background: var(--secondary-gold);
   border-radius: 50%;
-  animation: spin 2s linear infinite;
+  animation: dot-bounce 1.4s ease-in-out infinite both;
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+}
+
+.loading-dots .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.loading-dots .dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
 }
 
 @keyframes pulse {
@@ -2696,12 +2691,14 @@ body::-webkit-scrollbar {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 2rem;
+  padding: 1.5rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  min-width: 150px;
+  width: 180px;
+  height: 240px;
+  justify-content: space-between;
 }
 
 .profile-avatar {
@@ -2721,7 +2718,7 @@ body::-webkit-scrollbar {
 }
 
 .profile-name {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
@@ -2730,6 +2727,88 @@ body::-webkit-scrollbar {
 .profile-level {
   font-size: 0.9rem;
   color: var(--secondary-gold);
+  margin-bottom: 0.5rem;
+}
+
+.profile-elemental {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.elemental-card-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* Цвета по редкости элементалей */
+.elemental-card-compact.rarity-common {
+  background: rgba(169, 169, 169, 0.15);
+  border: 1px solid rgba(169, 169, 169, 0.4);
+}
+
+.elemental-card-compact.rarity-rare {
+  background: rgba(30, 144, 255, 0.15);
+  border: 1px solid rgba(30, 144, 255, 0.4);
+}
+
+.elemental-card-compact.rarity-epic {
+  background: rgba(138, 43, 226, 0.15);
+  border: 1px solid rgba(138, 43, 226, 0.4);
+}
+
+.elemental-card-compact.rarity-immortal {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.elemental-protection {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Цвета текста по редкости */
+.rarity-common .elemental-protection {
+  color: #A9A9A9;
+}
+
+.rarity-rare .elemental-protection {
+  color: #1E90FF;
+}
+
+.rarity-epic .elemental-protection {
+  color: #8A2BE2;
+}
+
+.rarity-immortal .elemental-protection {
+  color: #FFD700;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.no-elemental-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  background: rgba(255, 100, 100, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.no-protection-text {
+  font-size: 0.75rem;
+  color: #FF6464;
+  font-weight: 500;
+  text-align: center;
 }
 
 .vs-indicator {
@@ -2759,10 +2838,11 @@ body::-webkit-scrollbar {
 .elements-arena {
   display: flex;
   align-items: center;
-  gap: 4rem;
+  justify-content: center;
   width: 100%;
-  max-width: 600px;
-  justify-content: space-between;
+  min-height: 300px;
+  position: relative;
+  padding: 2rem 0;
 }
 
 .element-fighter {
@@ -2772,7 +2852,28 @@ body::-webkit-scrollbar {
   gap: 1rem;
   opacity: 0;
   transform: scale(0.5);
-  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: absolute;
+}
+
+.element-fighter.player {
+  left: 15%;
+  top: 50%;
+  transform: translate(0, -50%) scale(0.5);
+}
+
+.element-fighter.player.enter-battle {
+  transform: translate(0, -50%) scale(1);
+}
+
+.element-fighter.opponent {
+  right: 15%;
+  top: 50%;
+  transform: translate(0, -50%) scale(0.5);
+}
+
+.element-fighter.opponent.enter-battle {
+  transform: translate(0, -50%) scale(1);
 }
 
 .element-fighter.enter-battle {
@@ -2796,7 +2897,7 @@ body::-webkit-scrollbar {
   align-items: center;
   justify-content: center;
   position: relative;
-  animation: element-pulse 2s ease-in-out infinite;
+  animation: element-pulse 3.5s ease-in-out infinite;
 }
 
 .battle-animation .element-emoji {
@@ -2816,6 +2917,11 @@ body::-webkit-scrollbar {
   color: #ffff00;
   animation: lightning-flash 0.5s ease-in-out infinite alternate;
   text-shadow: 0 0 20px #ffff00;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
 /* Elementals Battle */
@@ -2830,11 +2936,11 @@ body::-webkit-scrollbar {
 .elementals-arena {
   display: flex;
   align-items: center;
-  gap: 4rem;
+  justify-content: center;
   width: 100%;
-  max-width: 700px;
-  justify-content: space-between;
+  min-height: 300px;
   position: relative;
+  padding: 2rem 0;
 }
 
 .elemental-fighter {
@@ -2844,7 +2950,28 @@ body::-webkit-scrollbar {
   gap: 1rem;
   opacity: 0;
   transform: translateY(50px);
-  transition: all 1s ease-out;
+  transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: absolute;
+}
+
+.elemental-fighter.player {
+  left: 10%;
+  top: 50%;
+  transform: translate(0, -50%) translateY(50px);
+}
+
+.elemental-fighter.player.summon-elemental {
+  transform: translate(0, -50%) translateY(0);
+}
+
+.elemental-fighter.opponent {
+  right: 10%;
+  top: 50%;
+  transform: translate(0, -50%) translateY(50px);
+}
+
+.elemental-fighter.opponent.summon-elemental {
+  transform: translate(0, -50%) translateY(0);
 }
 
 .elemental-fighter.summon-elemental {
@@ -3092,44 +3219,52 @@ body::-webkit-scrollbar {
 @keyframes fade-in {
   0% {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-30px) scale(0.9);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-10px) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes fade-in-delayed {
   0%,
-  50% {
+  30% {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-30px) scale(0.8);
+  }
+  70% {
+    opacity: 0.8;
+    transform: translateY(-10px) scale(0.9);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes player-element-enter {
   0% {
-    transform: translateX(-200px) scale(0.5);
+    transform: translate(-100px, -50%) scale(0.5);
     opacity: 0;
   }
   100% {
-    transform: translateX(0) scale(1);
+    transform: translate(0, -50%) scale(1);
     opacity: 1;
   }
 }
 
 @keyframes opponent-element-enter {
   0% {
-    transform: translateX(200px) scale(0.5);
+    transform: translate(100px, -50%) scale(0.5);
     opacity: 0;
   }
   100% {
-    transform: translateX(0) scale(1);
+    transform: translate(0, -50%) scale(1);
     opacity: 1;
   }
 }
@@ -3138,9 +3273,19 @@ body::-webkit-scrollbar {
   0%,
   100% {
     transform: scale(1);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.02);
+    filter: brightness(1.1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: brightness(1.2);
+  }
+  75% {
+    transform: scale(1.02);
+    filter: brightness(1.1);
   }
 }
 
@@ -3249,18 +3394,50 @@ body::-webkit-scrollbar {
 /* Responsive */
 @media (max-width: 768px) {
   .opponent-profiles {
-    gap: 2rem;
+    gap: 1.5rem;
     padding: 0 1rem;
   }
 
-  .elements-arena,
-  .elementals-arena {
-    gap: 2rem;
-    padding: 0 1rem;
+  .player-profile,
+  .opponent-profile {
+    width: 140px;
+    height: 200px;
+    padding: 1rem;
+  }
+
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 3rem;
+  }
+
+  .profile-name {
+    font-size: 0.9rem;
+  }
+
+  .elemental-protection,
+  .no-protection-text {
+    font-size: 0.7rem;
   }
 
   .battle-title {
     font-size: 1.5rem;
+  }
+
+  .element-fighter.player {
+    left: 5%;
+  }
+
+  .element-fighter.opponent {
+    right: 5%;
+  }
+
+  .elemental-fighter.player {
+    left: 5%;
+  }
+
+  .elemental-fighter.opponent {
+    right: 5%;
   }
 
   .element-orb {
@@ -3296,9 +3473,13 @@ body::-webkit-scrollbar {
 }
 
 .fade-in {
-  animation: fade-in 1s ease-out;
+  animation: fade-in 1.5s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
 
 .fade-in-delayed {
-  animation: fade-in-delayed 2s ease-out;
+  animation: fade-in-delayed 2.5s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  ELEMENTS,
-  LOCATIONS,
-  canAffordLocation,
-  getAvailableElementals,
-  getElementalData,
+    ELEMENTS,
+    LOCATIONS,
+    canAffordLocation,
+    getAvailableElementals,
+    getElementalData,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
 import Modal from './Modal';
@@ -347,7 +347,11 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
         title='🔮 Seeking Opponent'
         className='loading-modal'
       >
-        <div className='loading-spinner'></div>
+        <div className='loading-dots'>
+          <div className='dot'></div>
+          <div className='dot'></div>
+          <div className='dot'></div>
+        </div>
         <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
           <div style={{ marginBottom: '0.5rem' }}>
             Consulting the mystical orb...

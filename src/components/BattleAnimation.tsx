@@ -21,6 +21,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
   const [showPlayerElemental, setShowPlayerElemental] = useState(false);
   const [showOpponentElemental, setShowOpponentElemental] = useState(false);
   const [showClash, setShowClash] = useState(false);
+  const [showElementsTitle, setShowElementsTitle] = useState(false);
+  const [showElementalsTitle, setShowElementalsTitle] = useState(false);
+  const [showClashTitle, setShowClashTitle] = useState(false);
 
   const { player, currentOpponent } = gameState;
   const playerElement = player.selectedElement as Element;
@@ -33,25 +36,34 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
 
   useEffect(() => {
     const timeline = [
-      // Intro phase - show opponents
-      { delay: 500, action: () => setPhase('intro') },
+      // Intro phase - show opponents (более длительное знакомство)
+      { delay: 800, action: () => setPhase('intro') },
 
-      // Elements phase
-      { delay: 2000, action: () => setPhase('elements') },
-      { delay: 2500, action: () => setShowPlayerElement(true) },
-      { delay: 3000, action: () => setShowOpponentElement(true) },
+      // Elements phase (поэтапное появление)
+      { delay: 3500, action: () => setPhase('elements') },
+      { delay: 4000, action: () => setShowElementsTitle(true) },
+      { delay: 5000, action: () => setShowPlayerElement(true) },
+      { delay: 6500, action: () => setShowOpponentElement(true) },
 
-      // Elementals phase
-      { delay: 4000, action: () => setPhase('elementals') },
-      { delay: 4500, action: () => setShowPlayerElemental(true) },
-      { delay: 5000, action: () => setShowOpponentElemental(true) },
+      // Пауза для восприятия элементов
+      { delay: 8500, action: () => { /* Пауза для восприятия элементов */ } },
 
-      // Clash phase
-      { delay: 6000, action: () => setPhase('clash') },
-      { delay: 6500, action: () => setShowClash(true) },
+      // Elementals phase (более драматично)
+      { delay: 9000, action: () => setPhase('elementals') },
+      { delay: 9500, action: () => setShowElementalsTitle(true) },
+      { delay: 10500, action: () => setShowPlayerElemental(true) },
+      { delay: 12000, action: () => setShowOpponentElemental(true) },
 
-      // Complete
-      { delay: 8000, action: onAnimationComplete },
+      // Пауза перед финальным столкновением
+      { delay: 14000, action: () => { /* Пауза перед финальным столкновением */ } },
+
+      // Clash phase (более эпично)
+      { delay: 14500, action: () => setPhase('clash') },
+      { delay: 15000, action: () => setShowClashTitle(true) },
+      { delay: 15500, action: () => setShowClash(true) },
+
+      // Больше времени на финальный эффект
+      { delay: 18000, action: onAnimationComplete },
     ];
 
     const timeouts = timeline.map(({ delay, action }) =>
@@ -79,6 +91,19 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
                 <div className='profile-info'>
                   <div className='profile-name'>{player.name}</div>
                   <div className='profile-level'>Level {player.level}</div>
+                  <div className='profile-elemental'>
+                    {playerElemental ? (
+                      <div className={`elemental-card-compact rarity-${playerElemental.rarity.toLowerCase()}`}>
+                        <div className='elemental-protection'>
+                          Protection {Math.round(playerElemental.protection * 100)}%
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='no-elemental-card'>
+                        <div className='no-protection-text'>No Protection</div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -91,6 +116,19 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
                   <div className='profile-level'>
                     Level {currentOpponent?.level}
                   </div>
+                  <div className='profile-elemental'>
+                    {opponentElemental ? (
+                      <div className={`elemental-card-compact rarity-${opponentElemental.rarity.toLowerCase()}`}>
+                        <div className='elemental-protection'>
+                          Protection {Math.round(opponentElemental.protection * 100)}%
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='no-elemental-card'>
+                        <div className='no-protection-text'>No Protection</div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -100,7 +138,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
         {/* Elements Phase */}
         {phase === 'elements' && (
           <div className='elements-battle'>
-            <div className='battle-title fade-in'>Element Battle!</div>
+            <div className={`battle-title ${showElementsTitle ? 'fade-in' : ''}`}>
+              ⚔️ Element Battle! ⚔️
+            </div>
             <div className='elements-arena'>
               <div
                 className={`element-fighter player ${showPlayerElement ? 'enter-battle' : ''}`}
@@ -148,7 +188,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
         {/* Elementals Phase */}
         {phase === 'elementals' && (
           <div className='elementals-battle'>
-            <div className='battle-title fade-in'>Elemental Guardians!</div>
+            <div className={`battle-title ${showElementalsTitle ? 'fade-in' : ''}`}>
+              🛡️ Elemental Guardians! 🛡️
+            </div>
             <div className='elementals-arena'>
               <div
                 className={`elemental-fighter player ${showPlayerElemental ? 'summon-elemental' : ''}`}
@@ -238,7 +280,9 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({
                 <span>🌟</span>
               </div>
             </div>
-            <div className='clash-text fade-in-delayed'>Battle Complete!</div>
+            <div className={`clash-text ${showClashTitle ? 'fade-in-delayed' : ''}`}>
+              💥 Battle Complete! 💥
+            </div>
           </div>
         )}
       </div>
