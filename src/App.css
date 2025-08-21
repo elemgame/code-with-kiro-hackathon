@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --primary-gold: #daa520;
@@ -306,7 +306,7 @@ body::-webkit-scrollbar {
 }
 
 .card-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--secondary-gold);
@@ -429,7 +429,7 @@ body::-webkit-scrollbar {
 }
 
 .player-name {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -544,7 +544,7 @@ body::-webkit-scrollbar {
 }
 
 .stat-value {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -858,7 +858,7 @@ body::-webkit-scrollbar {
 }
 
 .battle-vs {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: var(--font-size-3xl);
   font-weight: 700;
   color: var(--secondary-gold);
@@ -917,7 +917,7 @@ body::-webkit-scrollbar {
 }
 
 .modal-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -1199,7 +1199,7 @@ body::-webkit-scrollbar {
   margin: 0;
   font-size: 2rem;
   font-weight: 700;
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
@@ -1998,7 +1998,7 @@ body::-webkit-scrollbar {
   color: var(--secondary-gold);
   text-align: center;
   margin-bottom: 1rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
 }
 
 .element-battle {
@@ -2201,7 +2201,7 @@ body::-webkit-scrollbar {
 }
 
 .results-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -2281,7 +2281,7 @@ body::-webkit-scrollbar {
 }
 
 .results-stat-value {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-weight: 600;
 }
 
@@ -2749,7 +2749,7 @@ body::-webkit-scrollbar {
 }
 
 .player-name-modern {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -2930,7 +2930,7 @@ body::-webkit-scrollbar {
 /* Removed stat-icon-modern - no longer used */
 
 .stat-value-modern {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -3047,7 +3047,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--secondary-gold);
@@ -4244,7 +4244,7 @@ body::-webkit-scrollbar {
 }
 
 .battle-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: var(--font-size-4xl);
   font-weight: 700;
   color: var(--secondary-gold);
@@ -4345,7 +4345,7 @@ body::-webkit-scrollbar {
   border: none;
   padding: var(--spacing-md) var(--spacing-xl);
   border-radius: var(--border-radius-lg);
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: var(--font-size-lg);
   font-weight: 600;
   cursor: pointer;
@@ -4444,7 +4444,7 @@ body::-webkit-scrollbar {
 }
 
 .battle-vs {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--secondary-gold);
@@ -4495,7 +4495,7 @@ body::-webkit-scrollbar {
 
 /* Battle Player Name */
 .battle-player-name {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--secondary-gold);
@@ -4601,7 +4601,7 @@ body::-webkit-scrollbar {
 }
 
 .elemental-name {
-  font-family: 'Cinzel', serif;
+  font-family: 'Volkhov', serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
