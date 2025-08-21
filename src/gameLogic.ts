@@ -423,6 +423,59 @@ export const calculateBattleResult = (
   winner: BattleResult;
   protectionSaved: number;
 } => {
+  // Special handling for zero wager battles (Free location)
+  if (baseWager === 0) {
+    // For zero wager battles, we only determine winner/loser/draw, no mana changes
+    const elementWinner = getWinner(playerElement, opponentElement);
+
+    if (elementWinner === 'player') {
+      return {
+        playerManaChange: 0,
+        opponentManaChange: 0,
+        winner: 'player',
+        protectionSaved: 0,
+      };
+    } else if (elementWinner === 'opponent') {
+      return {
+        playerManaChange: 0,
+        opponentManaChange: 0,
+        winner: 'opponent',
+        protectionSaved: 0,
+      };
+    } else {
+      // Same elements - elementals decide the outcome
+      const playerProtection = playerElemental
+        ? getElementalData(playerElement, playerElemental).protection
+        : 0;
+      const opponentProtection = opponentElemental
+        ? getElementalData(opponentElement, opponentElemental).protection
+        : 0;
+
+      if (playerProtection === opponentProtection) {
+        return {
+          playerManaChange: 0,
+          opponentManaChange: 0,
+          winner: 'draw',
+          protectionSaved: 0,
+        };
+      } else if (playerProtection > opponentProtection) {
+        return {
+          playerManaChange: 0,
+          opponentManaChange: 0,
+          winner: 'player',
+          protectionSaved: 0,
+        };
+      } else {
+        return {
+          playerManaChange: 0,
+          opponentManaChange: 0,
+          winner: 'opponent',
+          protectionSaved: 0,
+        };
+      }
+    }
+  }
+
   // First determine element winner
   const elementWinner = getWinner(playerElement, opponentElement);
 
@@ -457,7 +510,7 @@ export const calculateBattleResult = (
   } else {
     // Same elements - elementals decide the outcome
     if (playerProtection === opponentProtection) {
-      // Equal protection - true draw
+      // Equal protection - true draw, both keep their wagers
       return {
         playerManaChange: 0,
         opponentManaChange: 0,
@@ -465,7 +518,7 @@ export const calculateBattleResult = (
         protectionSaved: 0,
       };
     } else if (playerProtection > opponentProtection) {
-      // Player has stronger elemental - player wins, opponent's elemental protects
+      // Player has stronger elemental - player wins
       const advantage = playerProtection - opponentProtection;
       const manaToTake = Math.floor(baseWager * advantage);
       return {
@@ -475,14 +528,15 @@ export const calculateBattleResult = (
         protectionSaved: 0,
       };
     } else {
-      // Opponent has stronger elemental - opponent wins, player's elemental protects
+      // Opponent has stronger elemental - opponent wins
       const advantage = opponentProtection - playerProtection;
       const manaToLose = Math.floor(baseWager * advantage);
+      const playerSaved = Math.floor(baseWager * playerProtection);
       return {
         playerManaChange: -manaToLose,
         opponentManaChange: manaToLose,
         winner: 'opponent',
-        protectionSaved: Math.floor(baseWager * playerProtection),
+        protectionSaved: playerSaved,
       };
     }
   }

@@ -92,4 +92,5 @@ export interface GameState {
   gamePhase: GamePhase;
   battleLog: BattleLog | null;
   initialBattleMana?: number;
+  battleResult?: BattleResult;
 }

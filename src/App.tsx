@@ -10,22 +10,22 @@ import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
 import SettingsMenu from './components/SettingsMenu';
 import {
-  ELEMENTS,
-  LOCATIONS,
-  calculateBattleResult,
-  canAffordLocation,
-  generateOpponent,
-  getAchievementDefinitions,
-  getRandomElement,
-  getRank,
-  getTitle,
+    ELEMENTS,
+    LOCATIONS,
+    calculateBattleResult,
+    canAffordLocation,
+    generateOpponent,
+    getAchievementDefinitions,
+    getRandomElement,
+    getRank,
+    getTitle,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -279,11 +279,42 @@ const App: React.FC = () => {
         const opponent = generateOpponent(
           gameState.player.selectedLocation as Location
         );
-        setGameState(prev => ({
-          ...prev,
-          currentOpponent: opponent,
-          gamePhase: 'elementalSelection', // Show elemental selection, not battle immediately
-        }));
+
+        // For Free location, skip elemental selection and go directly to battle
+        if (wager === 0) {
+          setGameState(prev => ({
+            ...prev,
+            currentOpponent: opponent,
+            gamePhase: 'battle',
+          }));
+
+          // Start battle immediately
+          setTimeout(() => {
+            const opponentElement = opponent.element || getRandomElement();
+            const battleResult = calculateBattleResult(
+              0, // baseWager is 0 for Free location
+              gameState.player.selectedElement as Element,
+              null, // no elemental for Free battles
+              opponentElement,
+              opponent.elemental || null
+            );
+
+            setGameState(prev => ({
+              ...prev,
+              opponentElement,
+              initialBattleMana: prev.player.mana,
+              battleResult: battleResult.winner,
+              gamePhase: 'battleAnimation',
+            }));
+          }, 1000);
+        } else {
+          // For paid locations, show elemental selection
+          setGameState(prev => ({
+            ...prev,
+            currentOpponent: opponent,
+            gamePhase: 'elementalSelection',
+          }));
+        }
       },
       2000 + Math.random() * 2000
     );
@@ -301,20 +332,33 @@ const App: React.FC = () => {
     )
       return;
 
-    // First subtract the wager from player's mana
+    // Get the wager amount
     const baseWager = gameState.currentOpponent.wager;
     const initialMana = gameState.player.mana;
+
+    // Calculate battle result early
+    const opponentElement =
+      gameState.currentOpponent?.element || getRandomElement();
+
+    const battleResult = calculateBattleResult(
+      baseWager,
+      gameState.player.selectedElement as Element,
+      gameState.player.selectedElemental,
+      opponentElement,
+      gameState.currentOpponent?.elemental || null
+    );
+
+    // Only subtract wager if it's greater than 0
+    const newMana = baseWager > 0 ? initialMana - baseWager : initialMana;
 
     // Save initial mana for calculations
     setGameState(prev => ({
       ...prev,
       gamePhase: 'battle',
       initialBattleMana: initialMana,
-      player: { ...prev.player, mana: prev.player.mana - baseWager },
+      player: { ...prev.player, mana: newMana },
+      battleResult: battleResult.winner,
     }));
-
-    const opponentElement =
-      gameState.currentOpponent?.element || getRandomElement();
 
     // Show battle animation
     setTimeout(() => {
@@ -330,7 +374,8 @@ const App: React.FC = () => {
     if (
       !gameState.player.selectedElement ||
       !gameState.currentOpponent ||
-      !gameState.player.selectedLocation
+      !gameState.player.selectedLocation ||
+      !gameState.battleResult
     )
       return;
 
@@ -338,7 +383,7 @@ const App: React.FC = () => {
     const initialMana = gameState.initialBattleMana as number; // Use saved initial mana
     const opponentElement = gameState.opponentElement as Element;
 
-    // Use new calculation logic with elementals
+    // Use the pre-calculated battle result
     const battleResult = calculateBattleResult(
       baseWager,
       gameState.player.selectedElement as Element,
@@ -348,10 +393,10 @@ const App: React.FC = () => {
     );
 
     const finalManaChange = battleResult.playerManaChange;
-    const actualWinner = battleResult.winner;
+    const actualWinner = gameState.battleResult; // Use pre-calculated result
     const protectionSaved = battleResult.protectionSaved;
 
-    if (battleResult.winner === 'player') {
+    if (actualWinner === 'player') {
       // Player won
       updatePlayer({
         mana: initialMana + battleResult.playerManaChange,
@@ -362,7 +407,7 @@ const App: React.FC = () => {
           gameState.player.totalManaWon +
           Math.abs(battleResult.playerManaChange),
       });
-    } else if (battleResult.winner === 'opponent') {
+    } else if (actualWinner === 'opponent') {
       // Player lost
       const newLossStreak = gameState.player.currentLossStreak + 1;
       updatePlayer({
@@ -409,6 +454,7 @@ const App: React.FC = () => {
     gameState.currentOpponent,
     gameState.initialBattleMana,
     gameState.opponentElement,
+    gameState.battleResult,
     updatePlayer,
   ]);
 
@@ -538,6 +584,7 @@ const App: React.FC = () => {
               gameState={gameState}
               opponentElement={gameState.opponentElement as Element}
               onAnimationComplete={onBattleAnimationComplete}
+              battleResult={gameState.battleResult}
             />
           )}
 
