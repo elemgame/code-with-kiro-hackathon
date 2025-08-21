@@ -87,7 +87,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
 
         <div className='stat-card-modern'>
           <div className='stat-value-modern'>{player.wins}</div>
-          <div className='stat-label-modern'>Victories</div>
+          <div className='stat-label-modern'>Wins</div>
         </div>
 
         <div className='stat-card-modern'>

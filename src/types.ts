@@ -1,6 +1,6 @@
 // Game types
 export type Element = 'earth' | 'water' | 'fire';
-export type Location = 'swamp' | 'village' | 'castle';
+export type Location = 'swamp' | 'village' | 'castle' | 'free';
 export type ElementalRarity = 'common' | 'rare' | 'epic' | 'immortal';
 
 export interface ElementData {
@@ -41,7 +41,6 @@ export interface PlayerStats {
   elementStats: Record<Element, number>;
   achievements: string[];
   lastManaChange: number;
-  maxWager: number;
   totalManaWon: number;
   totalManaLost: number;
 }

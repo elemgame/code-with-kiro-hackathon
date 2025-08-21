@@ -8,7 +8,6 @@ import {
   Location,
   LocationData,
   Opponent,
-  PlayerStats,
 } from './types';
 
 // Game constants
@@ -19,6 +18,7 @@ export const ELEMENTS: Record<Element, ElementData> = {
 };
 
 export const LOCATIONS: Record<Location, LocationData> = {
+  free: { name: 'Free', emoji: '🎯', mana: 0 },
   swamp: { name: 'Swamp', emoji: '🐸', mana: 100 },
   village: { name: 'Village', emoji: '🏘️', mana: 300 },
   castle: { name: 'Castle', emoji: '🏰', mana: 500 },
@@ -384,13 +384,6 @@ export const getAchievementDefinitions = (): Achievement[] => [
     desc: 'Win after losing 5 in a row',
     condition: p => p.winStreak >= 1 && p.maxLossStreak >= 5,
   },
-  {
-    id: 'high_roller',
-    icon: '🎰',
-    name: 'High Roller',
-    desc: 'Win a battle with 500+ mana wager',
-    condition: p => p.maxWager >= 500,
-  },
 ];
 
 // Get available elementals for a given element
@@ -495,32 +488,6 @@ export const calculateBattleResult = (
   }
 };
 
-// Calculate draw result when same elements are used (deprecated - use calculateBattleResult)
-export const calculateDrawResult = (
-  baseWager: number,
-  playerElement: Element,
-  playerElemental: ElementalRarity | null,
-  opponentElement: Element,
-  opponentElemental: ElementalRarity | null
-): {
-  playerManaChange: number;
-  opponentManaChange: number;
-  winner: BattleResult;
-} => {
-  const result = calculateBattleResult(
-    baseWager,
-    playerElement,
-    playerElemental,
-    opponentElement,
-    opponentElemental
-  );
-  return {
-    playerManaChange: result.playerManaChange,
-    opponentManaChange: result.opponentManaChange,
-    winner: result.winner,
-  };
-};
-
 // Check if player can afford location
 export const canAffordLocation = (
   playerMana: number,
@@ -529,85 +496,11 @@ export const canAffordLocation = (
   return playerMana >= LOCATIONS[location].mana;
 };
 
-// Get achievement progress text
-export const getAchievementProgress = (
-  achievement: Achievement,
-  player: PlayerStats
-): string | null => {
-  if (
-    achievement.id.includes('wins') ||
-    achievement.id === 'veteran' ||
-    achievement.id === 'champion' ||
-    achievement.id === 'legend' ||
-    achievement.id === 'immortal'
-  ) {
-    const target =
-      achievement.id === 'veteran'
-        ? 5
-        : achievement.id === 'champion'
-          ? 10
-          : achievement.id === 'legend'
-            ? 25
-            : achievement.id === 'immortal'
-              ? 50
-              : 1;
-    return `${player.wins}/${target}`;
-  }
-
-  if (achievement.id.includes('streak')) {
-    const target =
-      achievement.id === 'win_streak_3'
-        ? 3
-        : achievement.id === 'win_streak_5'
-          ? 5
-          : 10;
-    return `${player.winStreak}/${target}`;
-  }
-
-  if (achievement.id.includes('mana')) {
-    const target =
-      achievement.id === 'mana_master'
-        ? 1000
-        : achievement.id === 'mana_lord'
-          ? 2500
-          : 5000;
-    return `${player.mana}/${target}`;
-  }
-
-  if (achievement.id.includes('_master') && !achievement.id.includes('mana')) {
-    const element = achievement.id.split('_')[0] as Element;
-    return `${player.elementStats[element] || 0}/10`;
-  }
-
-  if (
-    achievement.id.includes('level') ||
-    achievement.id === 'experienced' ||
-    achievement.id === 'expert' ||
-    achievement.id === 'master'
-  ) {
-    const target =
-      achievement.id === 'experienced'
-        ? 5
-        : achievement.id === 'expert'
-          ? 10
-          : 15;
-    return `Level ${player.level}/${target}`;
-  }
-
-  if (
-    achievement.id.includes('battles') ||
-    achievement.id === 'warrior' ||
-    achievement.id === 'gladiator' ||
-    achievement.id === 'arena_master'
-  ) {
-    const target =
-      achievement.id === 'warrior'
-        ? 25
-        : achievement.id === 'gladiator'
-          ? 50
-          : 100;
-    return `${player.totalBattles}/${target}`;
-  }
-
-  return null;
+// Get available mana after location cost
+export const getAvailableMana = (
+  playerMana: number,
+  selectedLocation: Location | null
+): number => {
+  if (!selectedLocation) return playerMana;
+  return playerMana - LOCATIONS[selectedLocation].mana;
 };

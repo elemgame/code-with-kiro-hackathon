@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import AchievementNotification from './components/AchievementNotification';
+import AudioPlayer from './components/AudioPlayer';
 import BattleAnimationPixi from './components/BattleAnimationPixi';
 import BattleComponent from './components/BattleComponent';
 import BattleResultPage from './components/BattleResultPage';
 import Navigation from './components/Navigation';
 import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
+import SettingsMenu from './components/SettingsMenu';
 import {
   ELEMENTS,
   LOCATIONS,
@@ -45,7 +47,6 @@ const INITIAL_PLAYER: PlayerStats = {
   elementStats: { earth: 0, water: 0, fire: 0 },
   achievements: [],
   lastManaChange: 0,
-  maxWager: 0,
   totalManaWon: 0,
   totalManaLost: 0,
 };
@@ -63,6 +64,11 @@ const App: React.FC = () => {
   });
   const [newAchievements, setNewAchievements] = useState<string[]>([]);
   const [levelUp, setLevelUp] = useState<number | null>(null);
+  const [musicEnabled, setMusicEnabled] = useState(false); // Начинаем с выключенной
+  const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.2);
 
   // Load game state from localStorage on mount
   useEffect(() => {
@@ -78,6 +84,18 @@ const App: React.FC = () => {
         // Failed to load saved game state - using defaults
       }
     }
+
+    // Load audio settings from localStorage
+    const savedAudioSettings = localStorage.getItem('audioSettings');
+    if (savedAudioSettings) {
+      try {
+        const settings = JSON.parse(savedAudioSettings);
+        if (settings.musicVolume !== undefined)
+          setMusicVolume(settings.musicVolume);
+      } catch (error) {
+        // Failed to load audio settings - using defaults
+      }
+    }
   }, []);
 
   // Save game state to localStorage whenever player data changes
@@ -87,6 +105,16 @@ const App: React.FC = () => {
       JSON.stringify(gameState.player)
     );
   }, [gameState.player]);
+
+  // Save audio settings to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(
+      'audioSettings',
+      JSON.stringify({
+        musicVolume,
+      })
+    );
+  }, [musicVolume]);
 
   const updatePlayer = useCallback((updates: Partial<PlayerStats>) => {
     setGameState(prev => {
@@ -429,9 +457,48 @@ const App: React.FC = () => {
     setNewAchievements(prev => prev.filter(id => id !== achievementId));
   }, []);
 
+  // Handle user interaction to enable music
+  const handleUserInteraction = useCallback(() => {
+    if (!userInteracted) {
+      setUserInteracted(true);
+      setMusicEnabled(true);
+    }
+  }, [userInteracted]);
+
+  // Enable music after user interaction
+  useEffect(() => {
+    const handleKeyDown = () => {
+      if (!userInteracted) {
+        setUserInteracted(true);
+        setMusicEnabled(true);
+      }
+    };
+
+    if (!userInteracted) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('click', handleUserInteraction);
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('click', handleUserInteraction);
+      };
+    }
+    return undefined;
+  }, [userInteracted, handleUserInteraction]);
+
   return (
     <>
-      <div className='app'>
+      {/* Audio Player */}
+      <AudioPlayer isPlaying={musicEnabled} volume={musicVolume} />
+
+      {/* Settings Menu */}
+      <SettingsMenu
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        musicVolume={musicVolume}
+        onMusicVolumeChange={setMusicVolume}
+      />
+
+      <div className='app' onClick={handleUserInteraction}>
         <div className='app-content'>
           {activeTab === 'profile' &&
             gameState.gamePhase !== 'result' &&
@@ -514,7 +581,11 @@ const App: React.FC = () => {
       </div>
 
       {/* Navigation outside of app container */}
-      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
+      <Navigation
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        onOpenSettings={() => setSettingsOpen(true)}
+      />
     </>
   );
 };
