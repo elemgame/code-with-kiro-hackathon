@@ -1,29 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import AchievementNotification from './components/AchievementNotification';
+import AudioPlayer from './components/AudioPlayer';
 import BattleAnimationPixi from './components/BattleAnimationPixi';
 import BattleComponent from './components/BattleComponent';
 import BattleResultPage from './components/BattleResultPage';
 import Navigation from './components/Navigation';
 import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
+import SettingsMenu from './components/SettingsMenu';
 import {
-  ELEMENTS,
-  LOCATIONS,
-  calculateBattleResult,
-  canAffordLocation,
-  generateOpponent,
-  getAchievementDefinitions,
-  getRandomElement,
-  getRank,
-  getTitle,
+    ELEMENTS,
+    LOCATIONS,
+    calculateBattleResult,
+    canAffordLocation,
+    generateOpponent,
+    getAchievementDefinitions,
+    getRandomElement,
+    getRank,
+    getTitle,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -63,6 +65,12 @@ const App: React.FC = () => {
   });
   const [newAchievements, setNewAchievements] = useState<string[]>([]);
   const [levelUp, setLevelUp] = useState<number | null>(null);
+  const [musicEnabled, setMusicEnabled] = useState(false); // Начинаем с выключенной
+  const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.2);
+
 
   // Load game state from localStorage on mount
   useEffect(() => {
@@ -78,6 +86,17 @@ const App: React.FC = () => {
         // Failed to load saved game state - using defaults
       }
     }
+
+               // Load audio settings from localStorage
+           const savedAudioSettings = localStorage.getItem('audioSettings');
+           if (savedAudioSettings) {
+             try {
+               const settings = JSON.parse(savedAudioSettings);
+               if (settings.musicVolume !== undefined) setMusicVolume(settings.musicVolume);
+             } catch (error) {
+               // Failed to load audio settings - using defaults
+             }
+           }
   }, []);
 
   // Save game state to localStorage whenever player data changes
@@ -87,6 +106,13 @@ const App: React.FC = () => {
       JSON.stringify(gameState.player)
     );
   }, [gameState.player]);
+
+           // Save audio settings to localStorage whenever they change
+         useEffect(() => {
+           localStorage.setItem('audioSettings', JSON.stringify({
+             musicVolume,
+           }));
+         }, [musicVolume]);
 
   const updatePlayer = useCallback((updates: Partial<PlayerStats>) => {
     setGameState(prev => {
@@ -429,9 +455,106 @@ const App: React.FC = () => {
     setNewAchievements(prev => prev.filter(id => id !== achievementId));
   }, []);
 
-  return (
+  // Обработчик пользовательского взаимодействия для включения музыки
+  const handleUserInteraction = useCallback(() => {
+    if (!userInteracted) {
+
+      setUserInteracted(true);
+      setMusicEnabled(true);
+    }
+  }, [userInteracted]);
+
+  // Обработчик событий клавиатуры
+  const handleKeyDown = useCallback(() => {
+    if (!userInteracted) {
+
+      setUserInteracted(true);
+      setMusicEnabled(true);
+    }
+  }, [userInteracted]);
+
+  // Добавляем глобальные обработчики событий
+  useEffect(() => {
+    if (!userInteracted) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+    return undefined;
+  }, [userInteracted, handleKeyDown]);
+
+  // Автоматическая эмуляция пользовательского взаимодействия для включения музыки
+  useEffect(() => {
+    if (!userInteracted) {
+      const autoEnableTimeout = setTimeout(() => {
+
+
+        // Создаем временный невидимый элемент для эмуляции клика
+        const hiddenButton = document.createElement('button');
+        hiddenButton.style.position = 'absolute';
+        hiddenButton.style.left = '-9999px';
+        hiddenButton.style.opacity = '0';
+        hiddenButton.style.pointerEvents = 'none';
+
+        // Добавляем обработчик клика
+        hiddenButton.addEventListener('click', () => {
+          if (!userInteracted) {
+
+            setUserInteracted(true);
+            setMusicEnabled(true);
+          }
+        });
+
+        // Добавляем в DOM и кликаем
+        document.body.appendChild(hiddenButton);
+
+        // Программно кликаем на элемент
+        setTimeout(() => {
+          hiddenButton.click();
+          // Удаляем элемент после использования
+          setTimeout(() => {
+            if (document.body.contains(hiddenButton)) {
+              document.body.removeChild(hiddenButton);
+            }
+          }, 100);
+        }, 100);
+
+        // Принудительно включаем музыку через 2 секунды, если эмуляция не сработала
+        setTimeout(() => {
+          if (!userInteracted) {
+
+            setUserInteracted(true);
+            setMusicEnabled(true);
+          }
+        }, 2000);
+
+      }, 1000); // Начинаем процесс через 1 секунду после загрузки
+
+      return () => clearTimeout(autoEnableTimeout);
+    }
+    return undefined;
+  }, [userInteracted]);
+
+
+
+    return (
     <>
-      <div className='app'>
+
+
+
+      {/* Audio Player */}
+      <AudioPlayer isPlaying={musicEnabled} volume={musicVolume} />
+
+      {/* Settings Menu */}
+                           <SettingsMenu
+               isOpen={settingsOpen}
+               onClose={() => setSettingsOpen(false)}
+               musicVolume={musicVolume}
+               onMusicVolumeChange={setMusicVolume}
+             />
+
+      <div className='app' onClick={handleUserInteraction}>
         <div className='app-content'>
           {activeTab === 'profile' &&
             gameState.gamePhase !== 'result' &&
@@ -466,13 +589,13 @@ const App: React.FC = () => {
             gameState.gamePhase !== 'result' &&
             gameState.gamePhase !== 'battleAnimation' && <RulesTab />}
 
-          {gameState.gamePhase === 'battleAnimation' && (
-            <BattleAnimationPixi
-              gameState={gameState}
-              opponentElement={gameState.opponentElement as Element}
-              onAnimationComplete={onBattleAnimationComplete}
-            />
-          )}
+                           {gameState.gamePhase === 'battleAnimation' && (
+                   <BattleAnimationPixi
+                     gameState={gameState}
+                     opponentElement={gameState.opponentElement as Element}
+                     onAnimationComplete={onBattleAnimationComplete}
+                   />
+                 )}
 
           {gameState.gamePhase === 'result' && (
             <BattleResultPage
@@ -511,10 +634,16 @@ const App: React.FC = () => {
             </div>
           </div>
         )}
+
+
       </div>
 
       {/* Navigation outside of app container */}
-      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
+      <Navigation
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        onOpenSettings={() => setSettingsOpen(true)}
+      />
     </>
   );
 };

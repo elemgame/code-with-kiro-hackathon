@@ -3,9 +3,14 @@ import React from 'react';
 interface NavigationProps {
   activeTab: 'profile' | 'battle' | 'rules';
   onTabChange: (tab: 'profile' | 'battle' | 'rules') => void;
+  onOpenSettings?: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
+const Navigation: React.FC<NavigationProps> = ({
+  activeTab,
+  onTabChange,
+  onOpenSettings
+}) => {
   const handleTabClick = (tab: 'profile' | 'battle' | 'rules') => {
     onTabChange(tab);
 
@@ -39,6 +44,16 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
           <div className='nav-icon'>📜</div>
           <div className='nav-label'>Rules</div>
         </div>
+
+        {onOpenSettings && (
+          <div
+            className='nav-item'
+            onClick={onOpenSettings}
+          >
+            <div className='nav-icon'>⚙️</div>
+            <div className='nav-label'>Settings</div>
+          </div>
+        )}
       </div>
     </nav>
   );
