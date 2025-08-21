@@ -82,22 +82,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
         </div>
       </div>
 
-      {player.selectedLocation && (
-        <div className="battle-status">
-          <div className="status-item">
-            <div className="status-label">Location</div>
-            <div className="status-value">
-              {LOCATIONS[player.selectedLocation].name}
-            </div>
-          </div>
-          <div className="status-item">
-            <div className="status-label">Cost</div>
-            <div className="status-value">
-              {LOCATIONS[player.selectedLocation].mana} Mana
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 
@@ -142,20 +127,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
         ))}
       </div>
 
-      <div className="battle-status">
-        <div className="status-item">
-          <div className="status-label">Location</div>
-          <div className="status-value">
-            {player.selectedLocation ? LOCATIONS[player.selectedLocation].name : 'None'}
-          </div>
-        </div>
-        <div className="status-item">
-          <div className="status-label">Cost</div>
-          <div className="status-value">
-            {player.selectedLocation ? LOCATIONS[player.selectedLocation].mana : 0} Mana
-          </div>
-        </div>
-      </div>
+
 
       <button
         className="battle-btn"
@@ -216,20 +188,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
           })}
         </div>
 
-        <div className="battle-status">
-          <div className="status-item">
-            <div className="status-label">Element</div>
-            <div className="status-value">
-              {player.selectedElement ? ELEMENTS[player.selectedElement].name : 'None'}
-            </div>
-          </div>
-          <div className="status-item">
-            <div className="status-label">Location</div>
-            <div className="status-value">
-              {player.selectedLocation ? LOCATIONS[player.selectedLocation].name : 'None'}
-            </div>
-          </div>
-        </div>
+
 
         <button
           className="battle-btn"
