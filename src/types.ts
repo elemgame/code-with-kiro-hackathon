@@ -1,6 +1,6 @@
 // Game types
 export type Element = 'earth' | 'water' | 'fire';
-export type Location = 'swamp' | 'village' | 'castle';
+export type Location = 'swamp' | 'village' | 'castle' | 'free';
 export type ElementalRarity = 'common' | 'rare' | 'epic' | 'immortal';
 
 export interface ElementData {
@@ -27,6 +27,8 @@ export interface PlayerStats {
   mana: number;
   wins: number;
   losses: number;
+  battles: number;
+  victories: number;
   selectedElement: Element | null;
   selectedLocation: Location | null;
   selectedElemental: ElementalRarity | null;

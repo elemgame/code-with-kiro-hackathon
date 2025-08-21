@@ -19,6 +19,7 @@ export const ELEMENTS: Record<Element, ElementData> = {
 };
 
 export const LOCATIONS: Record<Location, LocationData> = {
+  free: { name: 'Free', emoji: '🎯', mana: 0 },
   swamp: { name: 'Swamp', emoji: '🐸', mana: 100 },
   village: { name: 'Village', emoji: '🏘️', mana: 300 },
   castle: { name: 'Castle', emoji: '🏰', mana: 500 },
@@ -527,6 +528,15 @@ export const canAffordLocation = (
   location: Location
 ): boolean => {
   return playerMana >= LOCATIONS[location].mana;
+};
+
+// Get available mana after location cost
+export const getAvailableMana = (
+  playerMana: number,
+  selectedLocation: Location | null
+): number => {
+  if (!selectedLocation) return playerMana;
+  return playerMana - LOCATIONS[selectedLocation].mana;
 };
 
 // Get achievement progress text

@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-  ELEMENTS,
-  LOCATIONS,
-  canAffordLocation,
-  getAvailableElementals,
-  getElementalData,
+    ELEMENTS,
+    LOCATIONS,
+    canAffordLocation,
+    getAvailableElementals,
+    getAvailableMana,
+    getElementalData,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
 import Modal from './Modal';
@@ -30,41 +31,32 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
   onStartBattle,
   onReturnToMenu: _onReturnToMenu,
   onReturnToLocationSelection,
+  onReturnToElementSelection,
 }) => {
   const { player, currentOpponent, opponentElement, gamePhase } = gameState;
 
   const renderLocationSelection = () => (
-    <div style={{ textAlign: 'center' }}>
-      <div
-        style={{
-          display: 'inline-block',
-          fontSize: '8rem',
-          marginTop: '0.25rem',
-          marginBottom: '3rem',
-          opacity: 0.8,
-          padding: '0.1rem',
-          lineHeight: 0.8,
-        }}
-      >
-        🏟️
+    <div className="battle-section">
+      <div className="mana-display">
+        <div className="mana-label">Your Mana</div>
+        <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
       </div>
-      <h3 style={{ color: 'var(--secondary-gold)', marginBottom: '0.75rem' }}>
-        Ready for Battle
-      </h3>
 
-      <div style={{ marginBottom: '2rem' }}>
-        <div
-          style={{
-            fontSize: '0.9rem',
-            fontWeight: 600,
-            color: 'var(--text-secondary)',
-            textAlign: 'center',
-            marginBottom: '1rem',
-          }}
-        >
-          Choose Your Battle Location
+      <div className="battle-header">
+        <div className="battle-icon">🏟️</div>
+                 <h3 className="battle-title">Battle Arena</h3>
+        <p className="battle-subtitle">Choose Your Battle Location</p>
+
+        <div className="battle-step-indicator">
+          <div className="step-dot active"></div>
+          <div className="step-dot"></div>
+          <div className="step-dot"></div>
         </div>
-        <div className='location-grid'>
+      </div>
+
+      <div className="location-section">
+
+        <div className="location-grid">
           {Object.entries(LOCATIONS).map(([key, location]) => (
             <div
               key={key}
@@ -82,261 +74,235 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                   : 'not-allowed',
               }}
             >
-              <span className='location-emoji'>{location.emoji}</span>
-              <div className='location-name'>{location.name}</div>
-              <div className='location-mana'>{location.mana} Mana</div>
+              <span className="location-emoji">{location.emoji}</span>
+              <div className="location-name">{location.name}</div>
+              <div className="location-mana">{location.mana} Mana</div>
             </div>
           ))}
         </div>
       </div>
 
-      <button className='btn-primary' disabled={true}>
-        🔮 Choose Location First
-      </button>
+      {player.selectedLocation && (
+        <div className="battle-status">
+          <div className="status-item">
+            <div className="status-label">Location</div>
+            <div className="status-value">
+              {LOCATIONS[player.selectedLocation].name}
+            </div>
+          </div>
+          <div className="status-item">
+            <div className="status-label">Cost</div>
+            <div className="status-value">
+              {LOCATIONS[player.selectedLocation].mana} Mana
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 
   const renderElementSelection = () => (
-    <div style={{ textAlign: 'center' }}>
-      <div
-        style={{
-          display: 'inline-block',
-          fontSize: '8rem',
-          marginTop: '0.25rem',
-          marginBottom: '3rem',
-          opacity: 0.8,
-          padding: '0.1rem',
-          lineHeight: 0.8,
-        }}
-      >
-        🏟️
+    <div className="battle-section">
+      <div className="mana-display">
+        <div className="mana-label">Your Mana</div>
+        <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
       </div>
-      <h3 style={{ color: 'var(--secondary-gold)', marginBottom: '0.75rem' }}>
-        Ready for Battle
-      </h3>
 
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '1rem',
-          position: 'relative',
-        }}
-      >
-        <button
-          onClick={onReturnToLocationSelection}
-          style={{
-            position: 'absolute',
-            left: 0,
-            background: 'transparent',
-            border: '1px solid var(--text-muted)',
-            color: 'var(--text-muted)',
-            padding: '0.5rem',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '0.8rem',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          ← Back
+      <div className="battle-navigation">
+        <button className="back-btn" onClick={onReturnToLocationSelection}>
+          ←
         </button>
-        <div
-          style={{
-            fontSize: '0.9rem',
-            fontWeight: 600,
-            color: 'var(--text-secondary)',
-          }}
-        >
-          Choose Your Element
+        <div className="battle-progress">
+          Step 2 of 3
         </div>
       </div>
 
-      <div className='element-grid' style={{ marginBottom: '2rem' }}>
+      <div className="battle-header">
+        <div className="battle-icon">⚔️</div>
+        <h3 className="battle-title">Element</h3>
+        <p className="battle-subtitle">Choose the element that will guide your battle</p>
+
+        <div className="battle-step-indicator">
+          <div className="step-dot completed"></div>
+          <div className="step-dot active"></div>
+          <div className="step-dot"></div>
+        </div>
+      </div>
+
+      <div className="element-grid">
         {Object.entries(ELEMENTS).map(([key, element]) => (
           <div
             key={key}
             className={`element-btn ${player.selectedElement === key ? 'selected' : ''}`}
             onClick={() => onSelectElement(key as Element)}
           >
-            <span className='element-emoji'>{element.emoji}</span>
-            <div className='element-name'>{element.name}</div>
+            <span className="element-emoji">{element.emoji}</span>
+            <div className="element-name">{element.name}</div>
           </div>
         ))}
       </div>
 
+      <div className="battle-status">
+        <div className="status-item">
+          <div className="status-label">Location</div>
+          <div className="status-value">
+            {player.selectedLocation ? LOCATIONS[player.selectedLocation].name : 'None'}
+          </div>
+        </div>
+        <div className="status-item">
+          <div className="status-label">Cost</div>
+          <div className="status-value">
+            {player.selectedLocation ? LOCATIONS[player.selectedLocation].mana : 0} Mana
+          </div>
+        </div>
+      </div>
+
       <button
-        className='btn-primary'
-        onClick={onStartMatchmaking}
+        className="battle-btn"
         disabled={!player.selectedElement}
+        onClick={onStartMatchmaking}
       >
-        {player.selectedElement && player.selectedLocation
-          ? `🔮 Seek Challenger (${LOCATIONS[player.selectedLocation].mana} mana)`
-          : '🔮 Choose Element First'}
+        🔮 Start Matchmaking
       </button>
     </div>
   );
 
+  const renderElementalSelection = () => {
+    if (!player.selectedElement) return null;
+    const availableElementals = getAvailableElementals(player.selectedElement);
+    const selectedElement = player.selectedElement; // Сохраняем в переменную для TypeScript
+
+    return (
+      <div className="battle-section">
+        <div className="mana-display">
+          <div className="mana-label">Your Mana</div>
+          <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
+        </div>
+
+        <div className="battle-navigation">
+          <button className="back-btn" onClick={onReturnToElementSelection}>
+            ←
+          </button>
+          <div className="battle-progress">
+            Step 3 of 3
+          </div>
+        </div>
+
+        <div className="battle-header">
+          <div className="battle-icon">🌟</div>
+          <h3 className="battle-title">Elemental</h3>
+          <p className="battle-subtitle">Select a powerful elemental to aid in battle</p>
+
+          <div className="battle-step-indicator">
+            <div className="step-dot completed"></div>
+            <div className="step-dot completed"></div>
+            <div className="step-dot active"></div>
+          </div>
+        </div>
+
+        <div className="elemental-grid">
+          {availableElementals.map((elemental) => {
+            const elementalData = getElementalData(selectedElement, elemental);
+            return (
+              <div
+                key={elemental}
+                className={`elemental-btn ${elemental} ${player.selectedElemental === elemental ? 'selected' : ''}`}
+                onClick={() => onSelectElemental(elemental)}
+              >
+                <span className="elemental-emoji">{elementalData.emoji}</span>
+                <div className="elemental-rarity-badge">{elementalData.rarity}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="battle-status">
+          <div className="status-item">
+            <div className="status-label">Element</div>
+            <div className="status-value">
+              {player.selectedElement ? ELEMENTS[player.selectedElement].name : 'None'}
+            </div>
+          </div>
+          <div className="status-item">
+            <div className="status-label">Location</div>
+            <div className="status-value">
+              {player.selectedLocation ? LOCATIONS[player.selectedLocation].name : 'None'}
+            </div>
+          </div>
+        </div>
+
+        <button
+          className="battle-btn"
+          disabled={!player.selectedElemental}
+          onClick={onStartBattle}
+        >
+          ⚔️ Start Battle
+        </button>
+      </div>
+    );
+  };
+
   const renderBattleDisplay = () => (
-    <div style={{ textAlign: 'center' }}>
-      <div className='battle-display'>
-        <div className='battle-choice'>
-          <div className='battle-emoji'>
+    <div className="battle-section">
+      <div className="mana-display">
+        <div className="mana-label">Your Mana</div>
+        <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
+      </div>
+
+      <div className="battle-header">
+        <div className="battle-icon">⚔️</div>
+        <h3 className="battle-title">Battle in Progress</h3>
+        <p className="battle-subtitle">Your elemental forces clash with the opponent</p>
+      </div>
+
+      <div className="battle-display">
+        <div className="battle-choice">
+          <div className="battle-emoji animate">
             {player.selectedElement
               ? ELEMENTS[player.selectedElement].emoji
               : '❓'}
           </div>
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-            You
-          </div>
+          <div className="battle-player-name">You</div>
         </div>
-        <div className='battle-vs'>VS</div>
-        <div className='battle-choice'>
-          <div className='battle-emoji'>
+        <div className="battle-vs">VS</div>
+        <div className="battle-choice">
+          <div className="battle-emoji animate">
             {opponentElement ? ELEMENTS[opponentElement].emoji : '❓'}
           </div>
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+          <div className="battle-player-name">
             {currentOpponent?.name || 'Opponent'}
           </div>
         </div>
+      </div>
+
+      <div className="progress-dots">
+        <div className="progress-dot active"></div>
+        <div className="progress-dot active"></div>
+        <div className="progress-dot active"></div>
       </div>
     </div>
   );
 
   return (
     <>
-      <main
-        style={{
-          padding: '1rem',
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        {/* Quick Stats Bar */}
-        <div className='card' style={{ marginBottom: '1rem' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <span style={{ fontSize: '1.2rem' }}>💰</span>
-              <div>
-                <div
-                  style={{
-                    fontSize: '0.7rem',
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Mana
-                </div>
-                <div
-                  style={{ fontWeight: 600, color: 'var(--secondary-gold)' }}
-                >
-                  {player.mana}
-                </div>
-              </div>
-            </div>
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <span style={{ fontSize: '1.2rem' }}>🏆</span>
-              <div>
-                <div
-                  style={{
-                    fontSize: '0.7rem',
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Wins
-                </div>
-                <div style={{ fontWeight: 600, color: 'var(--success)' }}>
-                  {player.wins}
-                </div>
-              </div>
-            </div>
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <span style={{ fontSize: '1.2rem' }}>🔥</span>
-              <div>
-                <div
-                  style={{
-                    fontSize: '0.7rem',
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Streak
-                </div>
-                <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                  {player.winStreak}
-                </div>
-              </div>
-            </div>
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <span style={{ fontSize: '1.2rem' }}>💀</span>
-              <div>
-                <div
-                  style={{
-                    fontSize: '0.7rem',
-                    color: 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Defeats
-                </div>
-                <div style={{ fontWeight: 600, color: 'var(--error)' }}>
-                  {player.losses}
-                </div>
-              </div>
-            </div>
-          </div>
+      {gamePhase === 'menu' && renderLocationSelection()}
+      {gamePhase === 'elementSelection' && renderElementSelection()}
+      {gamePhase === 'elementalSelection' && renderElementalSelection()}
+      {gamePhase === 'battle' && renderBattleDisplay()}
+
+      {/* Fallback for unknown phases */}
+      {![
+        'menu',
+        'elementSelection',
+        'elementalSelection',
+        'battle',
+        'result',
+        'matchmaking',
+      ].includes(gamePhase) && (
+        <div style={{ textAlign: 'center', color: 'var(--error)' }}>
+          Unknown game phase: {gamePhase}
         </div>
-
-        {/* Battle Arena Card */}
-        <div
-          className='card'
-          style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
-        >
-          <div className='card-title'>⚔️ Battle Arena</div>
-
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}
-          >
-            {gamePhase === 'menu' && renderLocationSelection()}
-            {gamePhase === 'elementSelection' && renderElementSelection()}
-            {gamePhase === 'battle' && renderBattleDisplay()}
-
-            {/* Fallback for unknown phases */}
-            {![
-              'menu',
-              'elementSelection',
-              'battle',
-              'result',
-              'matchmaking',
-            ].includes(gamePhase) && (
-              <div style={{ textAlign: 'center', color: 'var(--error)' }}>
-                Unknown game phase: {gamePhase}
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
+      )}
 
       {/* Modals */}
       <Modal
@@ -363,79 +329,6 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       </Modal>
 
       <Modal
-        isOpen={gamePhase === 'elementalSelection' && currentOpponent !== null}
-        onClose={() => {
-          // Modal cannot be closed during elemental selection
-        }}
-        title='⚔️ Challenger Found'
-      >
-        {currentOpponent && (
-          <>
-            {/* Elemental Selection */}
-            <div style={{ marginBottom: '1.5rem' }}>
-              <div
-                style={{
-                  fontSize: '0.9rem',
-                  fontWeight: 600,
-                  color: 'var(--text-secondary)',
-                  textAlign: 'center',
-                  marginBottom: '1rem',
-                }}
-              >
-                Choose Your{' '}
-                {player.selectedElement
-                  ? ELEMENTS[player.selectedElement].name
-                  : ''}{' '}
-                Elemental
-              </div>
-              {player.selectedElement && (
-                <div className='elemental-grid'>
-                  {getAvailableElementals(player.selectedElement).map(
-                    rarity => {
-                      const elemental = getElementalData(
-                        player.selectedElement as Element,
-                        rarity
-                      );
-                      return (
-                        <button
-                          key={rarity}
-                          className={`elemental-btn ${rarity} ${player.selectedElemental === rarity ? 'selected' : ''}`}
-                          onClick={() => onSelectElemental(rarity)}
-                        >
-                          <div className='elemental-emoji'>
-                            {elemental.emoji}
-                          </div>
-                          <div className='elemental-name'>
-                            {elemental.rarity}
-                          </div>
-                          <div className='elemental-protection'>
-                            {Math.round(elemental.protection * 100)}% protection
-                          </div>
-                        </button>
-                      );
-                    }
-                  )}
-                </div>
-              )}
-            </div>
-
-            <button
-              className='btn-primary'
-              onClick={() => {
-                if (!player.selectedElemental) {
-                  onSelectElemental('common');
-                }
-                setTimeout(onStartBattle, 100);
-              }}
-              style={{ width: '100%' }}
-            >
-              🔮 Select
-            </button>
-          </>
-        )}
-      </Modal>
-
-      <Modal
         isOpen={gamePhase === 'battle'}
         onClose={() => {
           // Modal cannot be closed during battle
@@ -449,34 +342,14 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                 ? ELEMENTS[player.selectedElement].emoji
                 : '❓'}
             </div>
-            <div
-              style={{
-                fontFamily: "'Cinzel', serif",
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--secondary-gold)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-              }}
-            >
-              You
-            </div>
+            <div className='battle-player-name'>You</div>
           </div>
           <div className='battle-vs'>VS</div>
           <div className='battle-choice'>
             <div className='battle-emoji'>
               {opponentElement ? ELEMENTS[opponentElement].emoji : '❓'}
             </div>
-            <div
-              style={{
-                fontFamily: "'Cinzel', serif",
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--secondary-gold)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-              }}
-            >
+            <div className='battle-player-name'>
               {currentOpponent?.name || 'Opponent'}
             </div>
           </div>

@@ -33,6 +33,8 @@ const INITIAL_PLAYER: PlayerStats = {
   mana: 500,
   wins: 0,
   losses: 0,
+  battles: 0,
+  victories: 0,
   selectedElement: null,
   selectedLocation: null,
   selectedElemental: null,

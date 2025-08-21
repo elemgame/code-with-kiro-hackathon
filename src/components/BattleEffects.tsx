@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 interface BattleEffectsProps {
   isActive: boolean;
@@ -10,11 +10,11 @@ const BattleEffects: React.FC<BattleEffectsProps> = ({ isActive, element }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<PIXI.Application | null>(null);
 
-  const elementColors = {
+  const elementColors = useMemo(() => ({
     fire: { primary: 0xff4757, secondary: 0xff6b6b, glow: 0xff3838 },
     water: { primary: 0x3742fa, secondary: 0x5352ed, glow: 0x2f3542 },
     earth: { primary: 0x2ed573, secondary: 0x26de81, glow: 0x20bf6b },
-  };
+  }), []);
 
   useEffect(() => {
     if (!canvasRef.current || !isActive || !PIXI) return undefined;
