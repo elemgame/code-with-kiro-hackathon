@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-    ELEMENTS,
-    LOCATIONS,
-    canAffordLocation,
-    getAvailableElementals,
-    getAvailableMana,
-    getElementalData,
+  ELEMENTS,
+  LOCATIONS,
+  canAffordLocation,
+  getAvailableElementals,
+  getAvailableMana,
+  getElementalData,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
 import Modal from './Modal';
@@ -36,27 +36,28 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
   const { player, currentOpponent, opponentElement, gamePhase } = gameState;
 
   const renderLocationSelection = () => (
-    <div className="battle-section">
-      <div className="mana-display">
-        <div className="mana-label">Your Mana</div>
-        <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
-      </div>
-
-      <div className="battle-header">
-        <div className="battle-icon">🏟️</div>
-                 <h3 className="battle-title">Battle Arena</h3>
-        <p className="battle-subtitle">Choose Your Battle Location</p>
-
-        <div className="battle-step-indicator">
-          <div className="step-dot active"></div>
-          <div className="step-dot"></div>
-          <div className="step-dot"></div>
+    <div className='battle-section'>
+      <div className='mana-display'>
+        <div className='mana-label'>Your Mana</div>
+        <div className='mana-value'>
+          {getAvailableMana(player.mana, player.selectedLocation)}
         </div>
       </div>
 
-      <div className="location-section">
+      <div className='battle-header'>
+        <div className='battle-icon'>🏟️</div>
+        <h3 className='battle-title'>Battle Arena</h3>
+        <p className='battle-subtitle'>Choose Your Battle Location</p>
 
-        <div className="location-grid">
+        <div className='battle-step-indicator'>
+          <div className='step-dot active'></div>
+          <div className='step-dot'></div>
+          <div className='step-dot'></div>
+        </div>
+      </div>
+
+      <div className='location-section'>
+        <div className='location-grid'>
           {Object.entries(LOCATIONS).map(([key, location]) => (
             <div
               key={key}
@@ -74,63 +75,61 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                   : 'not-allowed',
               }}
             >
-              <span className="location-emoji">{location.emoji}</span>
-              <div className="location-name">{location.name}</div>
-              <div className="location-mana">{location.mana} Mana</div>
+              <span className='location-emoji'>{location.emoji}</span>
+              <div className='location-name'>{location.name}</div>
+              <div className='location-mana'>{location.mana} Mana</div>
             </div>
           ))}
         </div>
       </div>
-
-
     </div>
   );
 
   const renderElementSelection = () => (
-    <div className="battle-section">
-      <div className="mana-display">
-        <div className="mana-label">Your Mana</div>
-        <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
+    <div className='battle-section'>
+      <div className='mana-display'>
+        <div className='mana-label'>Your Mana</div>
+        <div className='mana-value'>
+          {getAvailableMana(player.mana, player.selectedLocation)}
+        </div>
       </div>
 
-      <div className="battle-navigation">
-        <button className="back-btn" onClick={onReturnToLocationSelection}>
+      <div className='battle-navigation'>
+        <button className='back-btn' onClick={onReturnToLocationSelection}>
           ←
         </button>
-        <div className="battle-progress">
-          Step 2 of 3
+        <div className='battle-progress'>Step 2 of 3</div>
+      </div>
+
+      <div className='battle-header'>
+        <div className='battle-icon'>⚔️</div>
+        <h3 className='battle-title'>Element</h3>
+        <p className='battle-subtitle'>
+          Choose the element that will guide your battle
+        </p>
+
+        <div className='battle-step-indicator'>
+          <div className='step-dot completed'></div>
+          <div className='step-dot active'></div>
+          <div className='step-dot'></div>
         </div>
       </div>
 
-      <div className="battle-header">
-        <div className="battle-icon">⚔️</div>
-        <h3 className="battle-title">Element</h3>
-        <p className="battle-subtitle">Choose the element that will guide your battle</p>
-
-        <div className="battle-step-indicator">
-          <div className="step-dot completed"></div>
-          <div className="step-dot active"></div>
-          <div className="step-dot"></div>
-        </div>
-      </div>
-
-      <div className="element-grid">
+      <div className='element-grid'>
         {Object.entries(ELEMENTS).map(([key, element]) => (
           <div
             key={key}
             className={`element-btn ${player.selectedElement === key ? 'selected' : ''}`}
             onClick={() => onSelectElement(key as Element)}
           >
-            <span className="element-emoji">{element.emoji}</span>
-            <div className="element-name">{element.name}</div>
+            <span className='element-emoji'>{element.emoji}</span>
+            <div className='element-name'>{element.name}</div>
           </div>
         ))}
       </div>
 
-
-
       <button
-        className="battle-btn"
+        className='battle-btn'
         disabled={!player.selectedElement}
         onClick={onStartMatchmaking}
       >
@@ -145,35 +144,37 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
     const selectedElement = player.selectedElement; // Сохраняем в переменную для TypeScript
 
     return (
-      <div className="battle-section">
-        <div className="mana-display">
-          <div className="mana-label">Your Mana</div>
-          <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
+      <div className='battle-section'>
+        <div className='mana-display'>
+          <div className='mana-label'>Your Mana</div>
+          <div className='mana-value'>
+            {getAvailableMana(player.mana, player.selectedLocation)}
+          </div>
         </div>
 
-        <div className="battle-navigation">
-          <button className="back-btn" onClick={onReturnToElementSelection}>
+        <div className='battle-navigation'>
+          <button className='back-btn' onClick={onReturnToElementSelection}>
             ←
           </button>
-          <div className="battle-progress">
-            Step 3 of 3
+          <div className='battle-progress'>Step 3 of 3</div>
+        </div>
+
+        <div className='battle-header'>
+          <div className='battle-icon'>🌟</div>
+          <h3 className='battle-title'>Elemental</h3>
+          <p className='battle-subtitle'>
+            Select a powerful elemental to aid in battle
+          </p>
+
+          <div className='battle-step-indicator'>
+            <div className='step-dot completed'></div>
+            <div className='step-dot completed'></div>
+            <div className='step-dot active'></div>
           </div>
         </div>
 
-        <div className="battle-header">
-          <div className="battle-icon">🌟</div>
-          <h3 className="battle-title">Elemental</h3>
-          <p className="battle-subtitle">Select a powerful elemental to aid in battle</p>
-
-          <div className="battle-step-indicator">
-            <div className="step-dot completed"></div>
-            <div className="step-dot completed"></div>
-            <div className="step-dot active"></div>
-          </div>
-        </div>
-
-        <div className="elemental-grid">
-          {availableElementals.map((elemental) => {
+        <div className='elemental-grid'>
+          {availableElementals.map(elemental => {
             const elementalData = getElementalData(selectedElement, elemental);
             return (
               <div
@@ -181,17 +182,17 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                 className={`elemental-btn ${elemental} ${player.selectedElemental === elemental ? 'selected' : ''}`}
                 onClick={() => onSelectElemental(elemental)}
               >
-                <span className="elemental-emoji">{elementalData.emoji}</span>
-                <div className="elemental-rarity-badge">{elementalData.rarity}</div>
+                <span className='elemental-emoji'>{elementalData.emoji}</span>
+                <div className='elemental-rarity-badge'>
+                  {elementalData.rarity}
+                </div>
               </div>
             );
           })}
         </div>
 
-
-
         <button
-          className="battle-btn"
+          className='battle-btn'
           disabled={!player.selectedElemental}
           onClick={onStartBattle}
         >
@@ -202,42 +203,46 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
   };
 
   const renderBattleDisplay = () => (
-    <div className="battle-section">
-      <div className="mana-display">
-        <div className="mana-label">Your Mana</div>
-        <div className="mana-value">{getAvailableMana(player.mana, player.selectedLocation)}</div>
+    <div className='battle-section'>
+      <div className='mana-display'>
+        <div className='mana-label'>Your Mana</div>
+        <div className='mana-value'>
+          {getAvailableMana(player.mana, player.selectedLocation)}
+        </div>
       </div>
 
-      <div className="battle-header">
-        <div className="battle-icon">⚔️</div>
-        <h3 className="battle-title">Battle in Progress</h3>
-        <p className="battle-subtitle">Your elemental forces clash with the opponent</p>
+      <div className='battle-header'>
+        <div className='battle-icon'>⚔️</div>
+        <h3 className='battle-title'>Battle in Progress</h3>
+        <p className='battle-subtitle'>
+          Your elemental forces clash with the opponent
+        </p>
       </div>
 
-      <div className="battle-display">
-        <div className="battle-choice">
-          <div className="battle-emoji animate">
+      <div className='battle-display'>
+        <div className='battle-choice'>
+          <div className='battle-emoji animate'>
             {player.selectedElement
               ? ELEMENTS[player.selectedElement].emoji
               : '❓'}
           </div>
-          <div className="battle-player-name">You</div>
+          <div className='battle-player-name'>You</div>
         </div>
-        <div className="battle-vs">VS</div>
-        <div className="battle-choice">
-          <div className="battle-emoji animate">
+        <div className='battle-vs'>VS</div>
+        <div className='battle-choice'>
+          <div className='battle-emoji animate'>
             {opponentElement ? ELEMENTS[opponentElement].emoji : '❓'}
           </div>
-          <div className="battle-player-name">
+          <div className='battle-player-name'>
             {currentOpponent?.name || 'Opponent'}
           </div>
         </div>
       </div>
 
-      <div className="progress-dots">
-        <div className="progress-dot active"></div>
-        <div className="progress-dot active"></div>
-        <div className="progress-dot active"></div>
+      <div className='progress-dots'>
+        <div className='progress-dot active'></div>
+        <div className='progress-dot active'></div>
+        <div className='progress-dot active'></div>
       </div>
     </div>
   );

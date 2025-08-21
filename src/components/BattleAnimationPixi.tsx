@@ -67,10 +67,11 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
 
       // Animate particles
       const animateParticles = () => {
-        particles.children.forEach((particle) => {
+        particles.children.forEach(particle => {
           if (particle instanceof PIXI.Sprite) {
             particle.y -= 0.5;
-            particle.alpha = Math.sin(Date.now() * 0.001 + particle.x * 0.01) * 0.3 + 0.2;
+            particle.alpha =
+              Math.sin(Date.now() * 0.001 + particle.x * 0.01) * 0.3 + 0.2;
 
             if (particle.y < -10) {
               particle.y = app.screen.height + 10;
@@ -90,8 +91,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
       return undefined;
     }
   }, []);
-
-
 
   // Animation timeline
   useEffect(() => {
@@ -144,7 +143,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
       >
         {/* Card glow effect */}
         <div
-          className="card-glow"
+          className='card-glow'
           style={{
             position: 'absolute',
             top: 0,
@@ -153,7 +152,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
             bottom: 0,
             background: `radial-gradient(circle at center, ${elementInfo.color}30 0%, transparent 70%)`,
             borderRadius: '20px',
-            animation: isAnimating ? 'glowPulse 1s ease-in-out infinite' : 'none',
+            animation: isAnimating
+              ? 'glowPulse 1s ease-in-out infinite'
+              : 'none',
           }}
         />
 
@@ -176,7 +177,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         </div>
 
         {/* Player info */}
-        <h3 style={{ margin: '0 0 10px', fontSize: '1.2rem', fontWeight: 'bold' }}>
+        <h3
+          style={{ margin: '0 0 10px', fontSize: '1.2rem', fontWeight: 'bold' }}
+        >
           {player.name}
         </h3>
 
@@ -185,12 +188,14 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         </div>
 
         {/* Element info */}
-        <div style={{
-          background: `${elementInfo.color}30`,
-          padding: '8px',
-          borderRadius: '10px',
-          marginBottom: '10px'
-        }}>
+        <div
+          style={{
+            background: `${elementInfo.color}30`,
+            padding: '8px',
+            borderRadius: '10px',
+            marginBottom: '10px',
+          }}
+        >
           <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
             {elementInfo.emoji}
           </div>
@@ -218,7 +223,8 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         width: '100%',
         height: '100%',
         zIndex: 10000,
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+        background:
+          'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -233,8 +239,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         isActive={phase === 'clash' || phase === 'elementals'}
         element={gameState.player.selectedElement || 'fire'}
       />
-
-
 
       {/* Animated background */}
       <div
@@ -337,13 +341,15 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
               </div>
 
               <UserCard
-                player={gameState.currentOpponent || {
-                  name: 'Mysterious Opponent',
-                  avatar: '👤',
-                  level: 1,
-                  rarity: 'common',
-                  wager: 0,
-                }}
+                player={
+                  gameState.currentOpponent || {
+                    name: 'Mysterious Opponent',
+                    avatar: '👤',
+                    level: 1,
+                    rarity: 'common',
+                    wager: 0,
+                  }
+                }
                 element={opponentElement}
                 isOpponent={true}
                 isAnimating={true}
@@ -409,7 +415,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
             >
               ✨
             </div>
-            <div style={{ fontSize: '1.5rem', marginTop: '2rem', opacity: 0.8 }}>
+            <div
+              style={{ fontSize: '1.5rem', marginTop: '2rem', opacity: 0.8 }}
+            >
               The ancient spirits answer the call!
             </div>
           </div>
@@ -453,7 +461,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
             >
               🏆
             </div>
-            <div style={{ fontSize: '1.5rem', marginTop: '2rem', opacity: 0.8 }}>
+            <div
+              style={{ fontSize: '1.5rem', marginTop: '2rem', opacity: 0.8 }}
+            >
               The victor emerges from the chaos!
             </div>
           </div>

@@ -27,8 +27,6 @@ export interface PlayerStats {
   mana: number;
   wins: number;
   losses: number;
-  battles: number;
-  victories: number;
   selectedElement: Element | null;
   selectedLocation: Location | null;
   selectedElemental: ElementalRarity | null;
@@ -43,7 +41,6 @@ export interface PlayerStats {
   elementStats: Record<Element, number>;
   achievements: string[];
   lastManaChange: number;
-  maxWager: number;
   totalManaWon: number;
   totalManaLost: number;
 }

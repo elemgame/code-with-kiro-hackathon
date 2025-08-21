@@ -9,7 +9,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({
   activeTab,
   onTabChange,
-  onOpenSettings
+  onOpenSettings,
 }) => {
   const handleTabClick = (tab: 'profile' | 'battle' | 'rules') => {
     onTabChange(tab);
@@ -46,10 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({
         </div>
 
         {onOpenSettings && (
-          <div
-            className='nav-item'
-            onClick={onOpenSettings}
-          >
+          <div className='nav-item' onClick={onOpenSettings}>
             <div className='nav-icon'>⚙️</div>
             <div className='nav-label'>Settings</div>
           </div>

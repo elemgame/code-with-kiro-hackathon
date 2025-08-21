@@ -5,19 +5,19 @@ interface AudioPlayerProps {
   volume?: number;
 }
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ isPlaying, volume = 0.3 }) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({
+  isPlaying,
+  volume = 0.3,
+}) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
-
-
   // Список фэнтези треков (мемоизированный для оптимизации)
-  const tracks = useMemo(() => [
-    `${process.env.PUBLIC_URL}/audio/forest.ogg`
-  ], []);
-
-
+  const tracks = useMemo(
+    () => [`${process.env.PUBLIC_URL}/audio/forest.ogg`],
+    []
+  );
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -30,15 +30,15 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ isPlaying, volume = 0.3 }) =>
 
       audioRef.current.addEventListener('ended', () => {
         // Переключаемся на следующий трек
-        setCurrentTrack((prev) => {
+        setCurrentTrack(prev => {
           const nextTrack = (prev + 1) % tracks.length;
           return nextTrack >= 0 && nextTrack < tracks.length ? nextTrack : 0;
         });
       });
 
-      audioRef.current.addEventListener('error', (_e) => {
+      audioRef.current.addEventListener('error', _e => {
         // Пробуем следующий трек при ошибке
-        setCurrentTrack((prev) => {
+        setCurrentTrack(prev => {
           const nextTrack = (prev + 1) % tracks.length;
           return nextTrack >= 0 && nextTrack < tracks.length ? nextTrack : 0;
         });
@@ -54,7 +54,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ isPlaying, volume = 0.3 }) =>
   }, [tracks.length]);
 
   useEffect(() => {
-    if (audioRef.current && tracks.length > 0 && currentTrack >= 0 && currentTrack < tracks.length) {
+    if (
+      audioRef.current &&
+      tracks.length > 0 &&
+      currentTrack >= 0 &&
+      currentTrack < tracks.length
+    ) {
       const trackSrc = tracks[currentTrack];
       if (trackSrc) {
         audioRef.current.src = trackSrc;
@@ -74,7 +79,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ isPlaying, volume = 0.3 }) =>
   useEffect(() => {
     if (audioRef.current && isLoaded) {
       if (isPlaying) {
-        audioRef.current.play().catch((_error) => {
+        audioRef.current.play().catch(_error => {
           // Ошибка воспроизведения - игнорируем
         });
       } else {
