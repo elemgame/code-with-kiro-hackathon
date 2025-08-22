@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import React, { useEffect, useRef, useState } from 'react';
-import { Element, GameState, Opponent, PlayerStats } from '../types';
+import { Element, GameState } from '../types';
 
 import BattleEffects from './BattleEffects';
 
@@ -120,10 +120,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
 
   // Create user card component
   const UserCard: React.FC<{
-    player: PlayerStats | Opponent;
     element: Element;
     isAnimating?: boolean;
-  }> = ({ player, element, isAnimating = false }) => {
+  }> = ({ element, isAnimating = false }) => {
     const elementInfo = elementData[element];
 
     return (
@@ -131,7 +130,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         className={`user-card ${isAnimating ? 'card-animate' : ''}`}
         style={{
           background: `linear-gradient(135deg, ${elementInfo.color}20 0%, ${elementInfo.color}10 100%)`,
-          border: `1.5px solid ${elementInfo.color}`,
           borderRadius: '10px',
           padding: '10px',
           width: '140px',
@@ -164,7 +162,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
             background: `${elementInfo.color}30`,
             padding: '8px',
             borderRadius: '8px',
-            marginBottom: '8px',
           }}
         >
           <div style={{ fontSize: '2rem', marginBottom: '5px' }}>
@@ -174,13 +171,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
             {elementInfo.name}
           </div>
         </div>
-
-        {/* Stats */}
-        {'mana' in player && (
-          <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>
-            Mana: {player.mana}
-          </div>
-        )}
       </div>
     );
   };
@@ -296,7 +286,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
               }}
             >
               <UserCard
-                player={gameState.player}
                 element={gameState.player.selectedElement || 'fire'}
                 isAnimating={true}
               />
@@ -312,15 +301,6 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
               </div>
 
               <UserCard
-                player={
-                  gameState.currentOpponent || {
-                    name: 'Mysterious Opponent',
-                    avatar: '👤',
-                    level: 1,
-                    rarity: 'common',
-                    wager: 0,
-                  }
-                }
                 element={opponentElement}
                 isAnimating={true}
               />
