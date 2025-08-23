@@ -231,6 +231,7 @@ html {
 }
 
 html::-webkit-scrollbar {
+
   display: none;
   /* WebKit browsers */
 }
