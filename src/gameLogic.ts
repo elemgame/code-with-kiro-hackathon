@@ -1,10 +1,13 @@
 import {
   Achievement,
   BattleResult,
+  CollectedElemental,
   Element,
+  ElementalCollection,
   ElementalData,
   ElementalRarity,
   ElementData,
+  EvolutionData,
   Location,
   LocationData,
   Opponent,
@@ -24,6 +27,7 @@ export const LOCATIONS: Record<Location, LocationData> = {
   castle: { name: 'Castle', emoji: '🏰', mana: 500 },
 };
 
+// Enhanced elemental types with evolution data
 export const ELEMENTAL_TYPES: Record<
   Element,
   Record<ElementalRarity, ElementalData>
@@ -34,24 +38,28 @@ export const ELEMENTAL_TYPES: Record<
       emoji: '🗿',
       rarity: 'Common',
       protection: 0.1,
+      evolutionCost: 50,
     },
     rare: {
       name: 'Stone Guardian',
       emoji: '🏔️',
       rarity: 'Rare',
       protection: 0.2,
+      evolutionCost: 150,
     },
     epic: {
       name: 'Mountain Lord',
       emoji: '⛰️',
       rarity: 'Epic',
       protection: 0.4,
+      evolutionCost: 500,
     },
     immortal: {
       name: 'Earth Titan',
       emoji: '🌋',
       rarity: 'Immortal',
       protection: 0.8,
+      evolutionCost: 1000,
     },
   },
   water: {
@@ -60,19 +68,28 @@ export const ELEMENTAL_TYPES: Record<
       emoji: '💧',
       rarity: 'Common',
       protection: 0.1,
+      evolutionCost: 50,
     },
-    rare: { name: 'Sea Sprite', emoji: '🌊', rarity: 'Rare', protection: 0.2 },
+    rare: {
+      name: 'Sea Sprite',
+      emoji: '🌊',
+      rarity: 'Rare',
+      protection: 0.2,
+      evolutionCost: 150,
+    },
     epic: {
       name: 'Ocean Master',
       emoji: '🌀',
       rarity: 'Epic',
       protection: 0.4,
+      evolutionCost: 500,
     },
     immortal: {
       name: 'Leviathan',
       emoji: '🐋',
       rarity: 'Immortal',
       protection: 0.8,
+      evolutionCost: 1000,
     },
   },
   fire: {
@@ -81,26 +98,771 @@ export const ELEMENTAL_TYPES: Record<
       emoji: '🔥',
       rarity: 'Common',
       protection: 0.1,
+      evolutionCost: 50,
     },
     rare: {
       name: 'Flame Dancer',
       emoji: '🔥',
       rarity: 'Rare',
       protection: 0.2,
+      evolutionCost: 150,
     },
     epic: {
       name: 'Inferno Lord',
       emoji: '🌋',
       rarity: 'Epic',
       protection: 0.4,
+      evolutionCost: 500,
     },
     immortal: {
       name: 'Phoenix King',
       emoji: '🔥',
       rarity: 'Immortal',
       protection: 0.8,
+      evolutionCost: 1000,
     },
   },
+};
+
+// Evolution stages for each elemental (max 4 levels)
+export const EVOLUTION_STAGES: Record<
+  Element,
+  Record<ElementalRarity, EvolutionData[]>
+> = {
+  earth: {
+    common: [
+      {
+        stage: 0,
+        name: 'Earth Golem',
+        emoji: '🗿',
+        protection: 0.1,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Stone Warrior',
+        emoji: '🗿',
+        protection: 0.15,
+        cost: 50,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Guardian',
+        emoji: '💎',
+        protection: 0.2,
+        cost: 100,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Guardian',
+        emoji: '🗿',
+        protection: 0.25,
+        cost: 200,
+        requiredLevel: 4,
+      },
+    ],
+    rare: [
+      {
+        stage: 0,
+        name: 'Stone Guardian',
+        emoji: '🏔️',
+        protection: 0.2,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Mountain Sentinel',
+        emoji: '🏔️',
+        protection: 0.25,
+        cost: 150,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Sentinel',
+        emoji: '💎',
+        protection: 0.3,
+        cost: 300,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Sentinel',
+        emoji: '🏔️',
+        protection: 0.35,
+        cost: 600,
+        requiredLevel: 4,
+      },
+    ],
+    epic: [
+      {
+        stage: 0,
+        name: 'Mountain Lord',
+        emoji: '⛰️',
+        protection: 0.4,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Volcano Lord',
+        emoji: '🌋',
+        protection: 0.5,
+        cost: 500,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Lord',
+        emoji: '💎',
+        protection: 0.6,
+        cost: 1000,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Lord',
+        emoji: '⛰️',
+        protection: 0.7,
+        cost: 2000,
+        requiredLevel: 4,
+      },
+    ],
+    immortal: [
+      {
+        stage: 0,
+        name: 'Earth Titan',
+        emoji: '🌋',
+        protection: 0.8,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Mountain Titan',
+        emoji: '🏔️',
+        protection: 0.85,
+        cost: 1000,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Titan',
+        emoji: '💎',
+        protection: 0.9,
+        cost: 2000,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Titan',
+        emoji: '🌋',
+        protection: 0.95,
+        cost: 4000,
+        requiredLevel: 4,
+      },
+    ],
+  },
+  water: {
+    common: [
+      {
+        stage: 0,
+        name: 'Water Nymph',
+        emoji: '💧',
+        protection: 0.1,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Water Spirit',
+        emoji: '💧',
+        protection: 0.15,
+        cost: 50,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Nymph',
+        emoji: '💎',
+        protection: 0.2,
+        cost: 100,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Nymph',
+        emoji: '💧',
+        protection: 0.25,
+        cost: 200,
+        requiredLevel: 4,
+      },
+    ],
+    rare: [
+      {
+        stage: 0,
+        name: 'Sea Sprite',
+        emoji: '🌊',
+        protection: 0.2,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Ocean Sprite',
+        emoji: '🌊',
+        protection: 0.25,
+        cost: 150,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Sprite',
+        emoji: '💎',
+        protection: 0.3,
+        cost: 300,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Sprite',
+        emoji: '🌊',
+        protection: 0.35,
+        cost: 600,
+        requiredLevel: 4,
+      },
+    ],
+    epic: [
+      {
+        stage: 0,
+        name: 'Ocean Master',
+        emoji: '🌀',
+        protection: 0.4,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Storm Master',
+        emoji: '⚡',
+        protection: 0.5,
+        cost: 500,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Master',
+        emoji: '💎',
+        protection: 0.6,
+        cost: 1000,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Master',
+        emoji: '🌀',
+        protection: 0.7,
+        cost: 2000,
+        requiredLevel: 4,
+      },
+    ],
+    immortal: [
+      {
+        stage: 0,
+        name: 'Leviathan',
+        emoji: '🐋',
+        protection: 0.8,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Storm Leviathan',
+        emoji: '⚡',
+        protection: 0.85,
+        cost: 1000,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Leviathan',
+        emoji: '💎',
+        protection: 0.9,
+        cost: 2000,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Leviathan',
+        emoji: '🐋',
+        protection: 0.95,
+        cost: 4000,
+        requiredLevel: 4,
+      },
+    ],
+  },
+  fire: {
+    common: [
+      {
+        stage: 0,
+        name: 'Fire Sprite',
+        emoji: '🔥',
+        protection: 0.1,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Flame Spirit',
+        emoji: '🔥',
+        protection: 0.15,
+        cost: 50,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Sprite',
+        emoji: '💎',
+        protection: 0.2,
+        cost: 100,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Sprite',
+        emoji: '🔥',
+        protection: 0.25,
+        cost: 200,
+        requiredLevel: 4,
+      },
+    ],
+    rare: [
+      {
+        stage: 0,
+        name: 'Flame Dancer',
+        emoji: '🔥',
+        protection: 0.2,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Inferno Dancer',
+        emoji: '🔥',
+        protection: 0.25,
+        cost: 150,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Dancer',
+        emoji: '💎',
+        protection: 0.3,
+        cost: 300,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Dancer',
+        emoji: '🔥',
+        protection: 0.35,
+        cost: 600,
+        requiredLevel: 4,
+      },
+    ],
+    epic: [
+      {
+        stage: 0,
+        name: 'Inferno Lord',
+        emoji: '🌋',
+        protection: 0.4,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Volcano Lord',
+        emoji: '🌋',
+        protection: 0.5,
+        cost: 500,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Lord',
+        emoji: '💎',
+        protection: 0.6,
+        cost: 1000,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Lord',
+        emoji: '🌋',
+        protection: 0.7,
+        cost: 2000,
+        requiredLevel: 4,
+      },
+    ],
+    immortal: [
+      {
+        stage: 0,
+        name: 'Phoenix King',
+        emoji: '🔥',
+        protection: 0.8,
+        cost: 0,
+        requiredLevel: 1,
+      },
+      {
+        stage: 1,
+        name: 'Storm Phoenix',
+        emoji: '⚡',
+        protection: 0.85,
+        cost: 1000,
+        requiredLevel: 2,
+      },
+      {
+        stage: 2,
+        name: 'Crystal Phoenix',
+        emoji: '💎',
+        protection: 0.9,
+        cost: 2000,
+        requiredLevel: 3,
+      },
+      {
+        stage: 3,
+        name: 'Ancient Phoenix',
+        emoji: '🔥',
+        protection: 0.95,
+        cost: 4000,
+        requiredLevel: 4,
+      },
+    ],
+  },
+};
+
+// Collection system functions
+export const generateElementalId = (
+  element: Element,
+  rarity: ElementalRarity
+): string => {
+  return `${element}_${rarity}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+};
+
+export const createInitialCollection = (): ElementalCollection => {
+  const elementals: Record<string, CollectedElemental> = {};
+
+  // Add one free common elemental for each element
+  Object.keys(ELEMENTS).forEach(element => {
+    const elementalId = generateElementalId(element as Element, 'common');
+    elementals[elementalId] = {
+      id: elementalId,
+      element: element as Element,
+      rarity: 'common',
+      level: 1,
+      experience: 0,
+      isOwned: true,
+      timesUsed: 0,
+    };
+  });
+
+  return {
+    elementals,
+    totalOwned: 3,
+    totalImmortal: 0,
+    totalEpic: 0,
+    collectionProgress: { earth: 1, water: 1, fire: 1 },
+  };
+};
+
+export const getElementalProtection = (
+  elemental: CollectedElemental
+): number => {
+  // Protection is fixed for each rarity and doesn't change with level
+  return ELEMENTAL_TYPES[elemental.element][elemental.rarity].protection;
+};
+
+export const addExperienceToElemental = (
+  elemental: CollectedElemental,
+  exp: number
+): CollectedElemental => {
+  const expNeeded = elemental.level * 100;
+  const newExperience = elemental.experience + exp;
+
+  if (newExperience >= expNeeded) {
+    return {
+      ...elemental,
+      level: elemental.level + 1,
+      experience: newExperience - expNeeded,
+    };
+  }
+
+  return {
+    ...elemental,
+    experience: newExperience,
+  };
+};
+
+export const getLevelUpCost = (elemental: CollectedElemental): number => {
+  // Base cost multipliers for each rarity
+  const rarityMultipliers = {
+    common: 25, // Common: 25 mana per level
+    rare: 50, // Rare: 50 mana per level
+    epic: 100, // Epic: 100 mana per level
+    immortal: 200, // Immortal: 200 mana per level
+  };
+
+  const baseCost = rarityMultipliers[elemental.rarity] || 25;
+  return elemental.level * baseCost;
+};
+
+export const getRarityUpgradeCost = (
+  currentRarity: ElementalRarity
+): number => {
+  // Cost to upgrade from current rarity to next rarity
+  const upgradeCosts = {
+    common: 100, // Common → Rare: 100 mana
+    rare: 300, // Rare → Epic: 300 mana
+    epic: 800, // Epic → Immortal: 800 mana
+    immortal: 0, // Immortal cannot be upgraded further
+  };
+
+  return upgradeCosts[currentRarity] || 0;
+};
+
+export const canLevelUpElemental = (
+  elemental: CollectedElemental,
+  playerMana: number
+): boolean => {
+  // Immortal elementals cannot be leveled up
+  if (elemental.rarity === 'immortal') {
+    return false;
+  }
+
+  const maxLevel = getMaxLevelForRarity(elemental.rarity);
+  const canUpgradeRarity = elemental.level >= maxLevel;
+
+  // If upgrading rarity, use rarity upgrade cost
+  if (canUpgradeRarity) {
+    const upgradeCost = getRarityUpgradeCost(elemental.rarity);
+    return playerMana >= upgradeCost;
+  }
+
+  // If normal level up, use level up cost
+  const levelUpCost = getLevelUpCost(elemental);
+  return elemental.level < maxLevel && playerMana >= levelUpCost;
+};
+
+export const getMaxLevelForRarity = (rarity: ElementalRarity): number => {
+  switch (rarity) {
+    case 'common':
+    case 'rare':
+    case 'epic':
+      return 4; // Common, Rare, Epic can reach level 4 before upgrading
+    case 'immortal':
+      return 1; // Immortal elementals cannot be leveled up
+    default:
+      return 4;
+  }
+};
+
+export const levelUpElemental = (
+  elemental: CollectedElemental
+): CollectedElemental => {
+  const newLevel = elemental.level + 1;
+  const maxLevel = getMaxLevelForRarity(elemental.rarity);
+
+  // If reaching max level, upgrade rarity and create new elemental with new ID
+  // New elemental starts with no cooldown (cooldown reset as reward for rarity upgrade)
+  if (newLevel > maxLevel) {
+    const newRarity = getNextRarity(elemental.rarity);
+    const newElementalId = generateElementalId(elemental.element, newRarity);
+
+    return {
+      id: newElementalId,
+      element: elemental.element,
+      rarity: newRarity,
+      level: 1,
+      experience: 0,
+      isOwned: true,
+      timesUsed: 0,
+    };
+  }
+
+  // Normal level up - cooldown remains active (no reset)
+  return {
+    ...elemental,
+    level: newLevel,
+    experience: 0,
+  };
+};
+
+export const getNextRarity = (
+  currentRarity: ElementalRarity
+): ElementalRarity => {
+  switch (currentRarity) {
+    case 'common':
+      return 'rare';
+    case 'rare':
+      return 'epic';
+    case 'epic':
+      return 'immortal';
+    case 'immortal':
+      return 'immortal'; // Immortal stays immortal
+    default:
+      return 'common';
+  }
+};
+
+// Cooldown system functions
+export const getElementalCooldownHours = (rarity: ElementalRarity): number => {
+  switch (rarity) {
+    case 'common':
+      return 2; // Common: 2 hours
+    case 'rare':
+      return 4; // Rare: 4 hours
+    case 'epic':
+      return 8; // Epic: 8 hours
+    case 'immortal':
+      return 16; // Immortal: 16 hours
+    default:
+      return 2; // Default for any other rarity
+  }
+};
+
+export const setElementalCooldown = (
+  elemental: CollectedElemental
+): CollectedElemental => {
+  const cooldownHours = getElementalCooldownHours(elemental.rarity);
+  const cooldownEndTime = Date.now() + cooldownHours * 60 * 60 * 1000; // Convert hours to milliseconds
+
+  return {
+    ...elemental,
+    cooldownEndTime,
+    lastUsed: Date.now(),
+  };
+};
+
+export const isElementalOnCooldown = (
+  elemental: CollectedElemental
+): boolean => {
+  if (!elemental.cooldownEndTime) return false;
+  return Date.now() < elemental.cooldownEndTime;
+};
+
+export const getElementalCooldownRemaining = (
+  elemental: CollectedElemental
+): number => {
+  if (!elemental.cooldownEndTime) return 0;
+  const remaining = elemental.cooldownEndTime - Date.now();
+  return Math.max(0, remaining);
+};
+
+export const formatCooldownTime = (milliseconds: number): string => {
+  if (milliseconds <= 0) return 'Ready';
+
+  const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+  const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${minutes}m`;
+  }
+};
+
+export const getElementalCooldownProgress = (
+  elemental: CollectedElemental
+): number => {
+  if (!elemental.cooldownEndTime || !elemental.lastUsed) return 0;
+
+  const totalCooldown = elemental.cooldownEndTime - elemental.lastUsed;
+  const elapsed = Date.now() - elemental.lastUsed;
+
+  return Math.min(100, Math.max(0, (elapsed / totalCooldown) * 100));
+};
+
+export const getRandomElementalReward = (): {
+  element: Element;
+  rarity: ElementalRarity;
+} => {
+  const elements: Element[] = ['earth', 'water', 'fire'];
+  const rarities: ElementalRarity[] = ['common', 'rare', 'epic', 'immortal'];
+
+  // Weighted probabilities (increased chances for better rarities)
+  const weights = {
+    common: 0.4,
+    rare: 0.35,
+    epic: 0.2,
+    immortal: 0.04,
+  };
+
+  const random = Math.random();
+  let cumulativeWeight = 0;
+  let selectedRarity: ElementalRarity = 'common';
+
+  for (const rarity of rarities) {
+    cumulativeWeight += weights[rarity];
+    if (random <= cumulativeWeight) {
+      selectedRarity = rarity;
+      break;
+    }
+  }
+
+  const element =
+    elements[Math.floor(Math.random() * elements.length)] || 'earth';
+
+  return { element, rarity: selectedRarity };
+};
+
+export const addElementalToCollection = (
+  collection: ElementalCollection,
+  element: Element,
+  rarity: ElementalRarity
+): ElementalCollection => {
+  const elementalId = generateElementalId(element, rarity);
+  const newElemental: CollectedElemental = {
+    id: elementalId,
+    element,
+    rarity,
+    level: 1,
+    experience: 0,
+    isOwned: true,
+    timesUsed: 0,
+  };
+
+  const newElementals = {
+    ...collection.elementals,
+    [elementalId]: newElemental,
+  };
+  const totalOwned = Object.values(newElementals).filter(e => e.isOwned).length;
+  const totalImmortal = Object.values(newElementals).filter(
+    e => e.isOwned && e.rarity === 'immortal'
+  ).length;
+  const totalEpic = Object.values(newElementals).filter(
+    e => e.isOwned && e.rarity === 'epic'
+  ).length;
+
+  // Update collection progress
+  const elementCount = Object.values(newElementals).filter(
+    e => e.isOwned && e.element === element
+  ).length;
+  const newProgress = {
+    ...collection.collectionProgress,
+    [element]: elementCount,
+  };
+
+  return {
+    elementals: newElementals,
+    totalOwned,
+    totalImmortal,
+    totalEpic,
+    collectionProgress: newProgress,
+  };
 };
 
 export const OPPONENT_NAMES = [
@@ -272,8 +1034,8 @@ export const getAchievementDefinitions = (): Achievement[] => [
     id: 'mana_master',
     icon: '💎',
     name: 'Mana Master',
-    desc: 'Accumulate 1000 mana',
-    condition: p => p.mana >= 1000,
+    desc: 'Accumulate 2000 mana',
+    condition: p => p.mana >= 2000,
   },
   {
     id: 'mana_lord',
@@ -384,6 +1146,48 @@ export const getAchievementDefinitions = (): Achievement[] => [
     desc: 'Win after losing 5 in a row',
     condition: p => p.winStreak >= 1 && p.maxLossStreak >= 5,
   },
+
+  // Collection achievements
+  {
+    id: 'collector',
+    icon: '📦',
+    name: 'Collector',
+    desc: 'Own 10 elementals',
+    condition: p => p.totalElementalsCollected >= 10,
+  },
+  {
+    id: 'elemental_master',
+    icon: '🌟',
+    name: 'Elemental Master',
+    desc: 'Own 25 elementals',
+    condition: p => p.totalElementalsCollected >= 25,
+  },
+  {
+    id: 'immortal_hunter',
+    icon: '🌋',
+    name: 'Immortal Hunter',
+    desc: 'Own an immortal elemental',
+    condition: p => p.immortalElementalsOwned >= 1,
+  },
+  {
+    id: 'immortal_collector',
+    icon: '🌋🌋',
+    name: 'Immortal Collector',
+    desc: 'Own 3 immortal elementals',
+    condition: p => p.immortalElementalsOwned >= 3,
+  },
+  {
+    id: 'level_master',
+    icon: '✨',
+    name: 'Level Master',
+    desc: 'Level up an elemental to max level',
+    condition: p => {
+      const maxLevelElementals = Object.values(
+        p.elementalCollection.elementals
+      ).filter(e => e.level >= 4);
+      return maxLevelElementals.length >= 1;
+    },
+  },
 ];
 
 // Get available elementals for a given element
@@ -410,26 +1214,106 @@ export const calculateProtectedMana = (
   return Math.floor(wager * elemental.protection);
 };
 
+// Get elemental protection from collection
+export const getElementalProtectionFromCollection = (
+  collection: ElementalCollection,
+  element: Element,
+  rarity: ElementalRarity
+): number => {
+  const elemental = Object.values(collection.elementals).find(
+    e => e.isOwned && e.element === element && e.rarity === rarity
+  );
+
+  if (!elemental) return 0;
+
+  return getElementalProtection(elemental);
+};
+
 // Calculate battle result with elementals protecting the losing side
 export const calculateBattleResult = (
   baseWager: number,
   playerElement: Element,
   playerElemental: ElementalRarity | null,
   opponentElement: Element,
-  opponentElemental: ElementalRarity | null
+  opponentElemental: ElementalRarity | null,
+  playerCollection?: ElementalCollection
 ): {
   playerManaChange: number;
   opponentManaChange: number;
   winner: BattleResult;
   protectionSaved: number;
 } => {
+  // Special handling for zero wager battles (Free location)
+  if (baseWager === 0) {
+    // For zero wager battles, we only determine winner/loser/draw, no mana changes
+    const elementWinner = getWinner(playerElement, opponentElement);
+
+    if (elementWinner === 'player') {
+      return {
+        playerManaChange: 0,
+        opponentManaChange: 0,
+        winner: 'player',
+        protectionSaved: 0,
+      };
+    } else if (elementWinner === 'opponent') {
+      return {
+        playerManaChange: 0,
+        opponentManaChange: 0,
+        winner: 'opponent',
+        protectionSaved: 0,
+      };
+    } else {
+      // Same elements - elementals decide the outcome
+      const playerProtection = playerElemental
+        ? getElementalData(playerElement, playerElemental).protection
+        : 0;
+      const opponentProtection = opponentElemental
+        ? getElementalData(opponentElement, opponentElemental).protection
+        : 0;
+
+      if (playerProtection === opponentProtection) {
+        return {
+          playerManaChange: 0,
+          opponentManaChange: 0,
+          winner: 'draw',
+          protectionSaved: 0,
+        };
+      } else if (playerProtection > opponentProtection) {
+        return {
+          playerManaChange: 0,
+          opponentManaChange: 0,
+          winner: 'player',
+          protectionSaved: 0,
+        };
+      } else {
+        return {
+          playerManaChange: 0,
+          opponentManaChange: 0,
+          winner: 'opponent',
+          protectionSaved: 0,
+        };
+      }
+    }
+  }
+
   // First determine element winner
   const elementWinner = getWinner(playerElement, opponentElement);
 
   // Get protection percentages
-  const playerProtection = playerElemental
-    ? getElementalData(playerElement, playerElemental).protection
-    : 0;
+  let playerProtection = 0;
+  if (playerElemental && playerCollection) {
+    playerProtection = getElementalProtectionFromCollection(
+      playerCollection,
+      playerElement,
+      playerElemental
+    );
+  } else if (playerElemental) {
+    playerProtection = getElementalData(
+      playerElement,
+      playerElemental
+    ).protection;
+  }
+
   const opponentProtection = opponentElemental
     ? getElementalData(opponentElement, opponentElemental).protection
     : 0;
@@ -457,7 +1341,7 @@ export const calculateBattleResult = (
   } else {
     // Same elements - elementals decide the outcome
     if (playerProtection === opponentProtection) {
-      // Equal protection - true draw
+      // Equal protection - true draw, both keep their wagers
       return {
         playerManaChange: 0,
         opponentManaChange: 0,
@@ -465,7 +1349,7 @@ export const calculateBattleResult = (
         protectionSaved: 0,
       };
     } else if (playerProtection > opponentProtection) {
-      // Player has stronger elemental - player wins, opponent's elemental protects
+      // Player has stronger elemental - player wins
       const advantage = playerProtection - opponentProtection;
       const manaToTake = Math.floor(baseWager * advantage);
       return {
@@ -475,14 +1359,15 @@ export const calculateBattleResult = (
         protectionSaved: 0,
       };
     } else {
-      // Opponent has stronger elemental - opponent wins, player's elemental protects
+      // Opponent has stronger elemental - opponent wins
       const advantage = opponentProtection - playerProtection;
       const manaToLose = Math.floor(baseWager * advantage);
+      const playerSaved = Math.floor(baseWager * playerProtection);
       return {
         playerManaChange: -manaToLose,
         opponentManaChange: manaToLose,
         winner: 'opponent',
-        protectionSaved: Math.floor(baseWager * playerProtection),
+        protectionSaved: playerSaved,
       };
     }
   }

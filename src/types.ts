@@ -20,6 +20,38 @@ export interface ElementalData {
   emoji: string;
   rarity: string;
   protection: number;
+  evolutionCost?: number;
+  legendary?: boolean;
+}
+
+// New collection system types
+export interface CollectedElemental {
+  id: string;
+  element: Element;
+  rarity: ElementalRarity;
+  level: number;
+  experience: number;
+  isOwned: boolean;
+  lastUsed?: number;
+  timesUsed: number;
+  cooldownEndTime?: number; // Timestamp when cooldown ends
+}
+
+export interface ElementalCollection {
+  elementals: Record<string, CollectedElemental>;
+  totalOwned: number;
+  totalImmortal: number;
+  totalEpic: number;
+  collectionProgress: Record<Element, number>;
+}
+
+export interface EvolutionData {
+  stage: number;
+  name: string;
+  emoji: string;
+  protection: number;
+  cost: number;
+  requiredLevel: number;
 }
 
 export interface PlayerStats {
@@ -43,6 +75,11 @@ export interface PlayerStats {
   lastManaChange: number;
   totalManaWon: number;
   totalManaLost: number;
+  // New collection fields
+  elementalCollection: ElementalCollection;
+  totalElementalsCollected: number;
+  immortalElementalsOwned: number;
+  epicElementalsOwned: number;
 }
 
 export interface Opponent {
@@ -82,7 +119,8 @@ export type GamePhase =
   | 'matchmaking'
   | 'battle'
   | 'battleAnimation'
-  | 'result';
+  | 'result'
+  | 'collection'; // New phase for collection view
 export type BattleResult = 'player' | 'opponent' | 'draw';
 
 export interface GameState {
@@ -92,4 +130,5 @@ export interface GameState {
   gamePhase: GamePhase;
   battleLog: BattleLog | null;
   initialBattleMana?: number;
+  battleResult?: BattleResult;
 }
