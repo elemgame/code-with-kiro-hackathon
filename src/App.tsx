@@ -61,7 +61,8 @@ const INITIAL_PLAYER: PlayerStats = {
   totalManaLost: 0,
   elementalCollection: createInitialCollection(),
   totalElementalsCollected: 3,
-  legendaryElementalsOwned: 0,
+  immortalElementalsOwned: 0,
+  epicElementalsOwned: 0,
 };
 
 const App: React.FC = () => {
@@ -212,8 +213,9 @@ const App: React.FC = () => {
       if (newPlayer.elementalCollection) {
         newPlayer.totalElementalsCollected =
           newPlayer.elementalCollection.totalOwned;
-        newPlayer.legendaryElementalsOwned =
-          newPlayer.elementalCollection.totalLegendary;
+        newPlayer.immortalElementalsOwned =
+          newPlayer.elementalCollection.totalImmortal;
+        newPlayer.epicElementalsOwned = newPlayer.elementalCollection.totalEpic;
       }
 
       // Check achievements
@@ -634,8 +636,11 @@ const App: React.FC = () => {
 
         // Update collection statistics
         const totalOwned = Object.keys(updatedElementals).length;
-        const legendaryCount = Object.values(updatedElementals).filter(
-          e => e.rarity === 'legendary'
+        const immortalCount = Object.values(updatedElementals).filter(
+          e => e.rarity === 'immortal'
+        ).length;
+        const epicCount = Object.values(updatedElementals).filter(
+          e => e.rarity === 'epic'
         ).length;
 
         // Force React to re-render by creating a new object reference
@@ -645,12 +650,14 @@ const App: React.FC = () => {
             ...prev.player,
             mana: prev.player.mana - levelUpCost,
             totalElementalsCollected: totalOwned,
-            legendaryElementalsOwned: legendaryCount,
+            immortalElementalsOwned: immortalCount,
+            epicElementalsOwned: epicCount,
             elementalCollection: {
               ...prev.player.elementalCollection,
               elementals: updatedElementals,
               totalOwned,
-              totalLegendary: legendaryCount,
+              totalImmortal: immortalCount,
+              totalEpic: epicCount,
             },
           },
         };
@@ -664,8 +671,8 @@ const App: React.FC = () => {
 
       // Update collection statistics
       const totalOwned = Object.keys(updatedElementals).length;
-      const legendaryCount = Object.values(updatedElementals).filter(
-        e => e.rarity === 'legendary'
+      const immortalCount = Object.values(updatedElementals).filter(
+        e => e.rarity === 'immortal'
       ).length;
 
       return {
@@ -674,12 +681,12 @@ const App: React.FC = () => {
           ...prev.player,
           mana: prev.player.mana - levelUpCost,
           totalElementalsCollected: totalOwned,
-          legendaryElementalsOwned: legendaryCount,
+          immortalElementalsOwned: immortalCount,
           elementalCollection: {
             ...prev.player.elementalCollection,
             elementals: updatedElementals,
             totalOwned,
-            totalLegendary: legendaryCount,
+            totalImmortal: immortalCount,
           },
         },
       };

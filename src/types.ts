@@ -1,12 +1,7 @@
 // Game types
 export type Element = 'earth' | 'water' | 'fire';
 export type Location = 'swamp' | 'village' | 'castle' | 'free';
-export type ElementalRarity =
-  | 'common'
-  | 'rare'
-  | 'epic'
-  | 'immortal'
-  | 'legendary';
+export type ElementalRarity = 'common' | 'rare' | 'epic' | 'immortal';
 
 export interface ElementData {
   name: string;
@@ -45,7 +40,8 @@ export interface CollectedElemental {
 export interface ElementalCollection {
   elementals: Record<string, CollectedElemental>;
   totalOwned: number;
-  totalLegendary: number;
+  totalImmortal: number;
+  totalEpic: number;
   collectionProgress: Record<Element, number>;
 }
 
@@ -82,7 +78,8 @@ export interface PlayerStats {
   // New collection fields
   elementalCollection: ElementalCollection;
   totalElementalsCollected: number;
-  legendaryElementalsOwned: number;
+  immortalElementalsOwned: number;
+  epicElementalsOwned: number;
 }
 
 export interface Opponent {

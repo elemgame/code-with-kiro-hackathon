@@ -61,14 +61,6 @@ export const ELEMENTAL_TYPES: Record<
       protection: 0.8,
       evolutionCost: 1000,
     },
-    legendary: {
-      name: 'Ancient Earth Dragon',
-      emoji: '🐉',
-      rarity: 'Legendary',
-      protection: 1.0,
-      evolutionCost: 2500,
-      legendary: true,
-    },
   },
   water: {
     common: {
@@ -99,14 +91,6 @@ export const ELEMENTAL_TYPES: Record<
       protection: 0.8,
       evolutionCost: 1000,
     },
-    legendary: {
-      name: "Poseidon's Avatar",
-      emoji: '🌊',
-      rarity: 'Legendary',
-      protection: 1.0,
-      evolutionCost: 2500,
-      legendary: true,
-    },
   },
   fire: {
     common: {
@@ -136,14 +120,6 @@ export const ELEMENTAL_TYPES: Record<
       rarity: 'Immortal',
       protection: 0.8,
       evolutionCost: 1000,
-    },
-    legendary: {
-      name: 'Solar Flare',
-      emoji: '☀️',
-      rarity: 'Legendary',
-      protection: 1.0,
-      evolutionCost: 2500,
-      legendary: true,
     },
   },
 };
@@ -290,40 +266,6 @@ export const EVOLUTION_STAGES: Record<
         requiredLevel: 4,
       },
     ],
-    legendary: [
-      {
-        stage: 0,
-        name: 'Ancient Earth Dragon',
-        emoji: '🐉',
-        protection: 1.0,
-        cost: 0,
-        requiredLevel: 1,
-      },
-      {
-        stage: 1,
-        name: 'Crystal Dragon',
-        emoji: '💎',
-        protection: 1.1,
-        cost: 2500,
-        requiredLevel: 2,
-      },
-      {
-        stage: 2,
-        name: 'Cosmic Dragon',
-        emoji: '⭐',
-        protection: 1.2,
-        cost: 5000,
-        requiredLevel: 3,
-      },
-      {
-        stage: 3,
-        name: 'Eternal Dragon',
-        emoji: '🐉',
-        protection: 1.3,
-        cost: 10000,
-        requiredLevel: 4,
-      },
-    ],
   },
   water: {
     common: [
@@ -459,40 +401,6 @@ export const EVOLUTION_STAGES: Record<
         emoji: '🐋',
         protection: 0.95,
         cost: 4000,
-        requiredLevel: 4,
-      },
-    ],
-    legendary: [
-      {
-        stage: 0,
-        name: "Poseidon's Avatar",
-        emoji: '🌊',
-        protection: 1.0,
-        cost: 0,
-        requiredLevel: 1,
-      },
-      {
-        stage: 1,
-        name: 'Storm Avatar',
-        emoji: '⚡',
-        protection: 1.1,
-        cost: 2500,
-        requiredLevel: 2,
-      },
-      {
-        stage: 2,
-        name: 'Cosmic Avatar',
-        emoji: '⭐',
-        protection: 1.2,
-        cost: 5000,
-        requiredLevel: 3,
-      },
-      {
-        stage: 3,
-        name: 'Eternal Avatar',
-        emoji: '🌊',
-        protection: 1.3,
-        cost: 10000,
         requiredLevel: 4,
       },
     ],
@@ -634,40 +542,6 @@ export const EVOLUTION_STAGES: Record<
         requiredLevel: 4,
       },
     ],
-    legendary: [
-      {
-        stage: 0,
-        name: 'Solar Flare',
-        emoji: '☀️',
-        protection: 1.0,
-        cost: 0,
-        requiredLevel: 1,
-      },
-      {
-        stage: 1,
-        name: 'Nova Flare',
-        emoji: '⭐',
-        protection: 1.1,
-        cost: 2500,
-        requiredLevel: 2,
-      },
-      {
-        stage: 2,
-        name: 'Cosmic Flare',
-        emoji: '⭐',
-        protection: 1.2,
-        cost: 5000,
-        requiredLevel: 3,
-      },
-      {
-        stage: 3,
-        name: 'Eternal Flare',
-        emoji: '☀️',
-        protection: 1.3,
-        cost: 10000,
-        requiredLevel: 4,
-      },
-    ],
   },
 };
 
@@ -699,7 +573,8 @@ export const createInitialCollection = (): ElementalCollection => {
   return {
     elementals,
     totalOwned: 3,
-    totalLegendary: 0,
+    totalImmortal: 0,
+    totalEpic: 0,
     collectionProgress: { earth: 1, water: 1, fire: 1 },
   };
 };
@@ -743,7 +618,7 @@ export const canLevelUpElemental = (
   const cost = getLevelUpCost(elemental);
   const maxLevel = getMaxLevelForRarity(elemental.rarity);
   const canUpgradeRarity =
-    elemental.level >= maxLevel && elemental.rarity !== 'legendary';
+    elemental.level >= maxLevel && elemental.rarity !== 'immortal';
 
   return (elemental.level < maxLevel || canUpgradeRarity) && playerMana >= cost;
 };
@@ -794,9 +669,7 @@ export const getNextRarity = (
     case 'epic':
       return 'immortal';
     case 'immortal':
-      return 'legendary';
-    case 'legendary':
-      return 'legendary'; // Legendary stays legendary
+      return 'immortal'; // Immortal stays immortal
     default:
       return 'common';
   }
@@ -875,13 +748,7 @@ export const getRandomElementalReward = (): {
   rarity: ElementalRarity;
 } => {
   const elements: Element[] = ['earth', 'water', 'fire'];
-  const rarities: ElementalRarity[] = [
-    'common',
-    'rare',
-    'epic',
-    'immortal',
-    'legendary',
-  ];
+  const rarities: ElementalRarity[] = ['common', 'rare', 'epic', 'immortal'];
 
   // Weighted probabilities (increased chances for better rarities)
   const weights = {
@@ -889,7 +756,6 @@ export const getRandomElementalReward = (): {
     rare: 0.35,
     epic: 0.2,
     immortal: 0.04,
-    legendary: 0.01,
   };
 
   const random = Math.random();
@@ -931,8 +797,11 @@ export const addElementalToCollection = (
     [elementalId]: newElemental,
   };
   const totalOwned = Object.values(newElementals).filter(e => e.isOwned).length;
-  const totalLegendary = Object.values(newElementals).filter(
-    e => e.isOwned && e.rarity === 'legendary'
+  const totalImmortal = Object.values(newElementals).filter(
+    e => e.isOwned && e.rarity === 'immortal'
+  ).length;
+  const totalEpic = Object.values(newElementals).filter(
+    e => e.isOwned && e.rarity === 'epic'
   ).length;
 
   // Update collection progress
@@ -947,7 +816,8 @@ export const addElementalToCollection = (
   return {
     elementals: newElementals,
     totalOwned,
-    totalLegendary,
+    totalImmortal,
+    totalEpic,
     collectionProgress: newProgress,
   };
 };
@@ -1250,18 +1120,18 @@ export const getAchievementDefinitions = (): Achievement[] => [
     condition: p => p.totalElementalsCollected >= 25,
   },
   {
-    id: 'legendary_hunter',
-    icon: '🐉',
-    name: 'Legendary Hunter',
-    desc: 'Own a legendary elemental',
-    condition: p => p.legendaryElementalsOwned >= 1,
+    id: 'immortal_hunter',
+    icon: '🌋',
+    name: 'Immortal Hunter',
+    desc: 'Own an immortal elemental',
+    condition: p => p.immortalElementalsOwned >= 1,
   },
   {
-    id: 'legendary_collector',
-    icon: '🐉🐉',
-    name: 'Legendary Collector',
-    desc: 'Own 3 legendary elementals',
-    condition: p => p.legendaryElementalsOwned >= 3,
+    id: 'immortal_collector',
+    icon: '🌋🌋',
+    name: 'Immortal Collector',
+    desc: 'Own 3 immortal elementals',
+    condition: p => p.immortalElementalsOwned >= 3,
   },
   {
     id: 'level_master',
