@@ -608,23 +608,66 @@ export const addExperienceToElemental = (
 };
 
 export const getLevelUpCost = (elemental: CollectedElemental): number => {
-  return elemental.level * 25; // 25 mana per level
+  // Base cost multipliers for each rarity
+  const rarityMultipliers = {
+    common: 25, // Common: 25 mana per level
+    rare: 50, // Rare: 50 mana per level
+    epic: 100, // Epic: 100 mana per level
+    immortal: 200, // Immortal: 200 mana per level
+  };
+
+  const baseCost = rarityMultipliers[elemental.rarity] || 25;
+  return elemental.level * baseCost;
+};
+
+export const getRarityUpgradeCost = (
+  currentRarity: ElementalRarity
+): number => {
+  // Cost to upgrade from current rarity to next rarity
+  const upgradeCosts = {
+    common: 100, // Common → Rare: 100 mana
+    rare: 300, // Rare → Epic: 300 mana
+    epic: 800, // Epic → Immortal: 800 mana
+    immortal: 0, // Immortal cannot be upgraded further
+  };
+
+  return upgradeCosts[currentRarity] || 0;
 };
 
 export const canLevelUpElemental = (
   elemental: CollectedElemental,
   playerMana: number
 ): boolean => {
-  const cost = getLevelUpCost(elemental);
-  const maxLevel = getMaxLevelForRarity(elemental.rarity);
-  const canUpgradeRarity =
-    elemental.level >= maxLevel && elemental.rarity !== 'immortal';
+  // Immortal elementals cannot be leveled up
+  if (elemental.rarity === 'immortal') {
+    return false;
+  }
 
-  return (elemental.level < maxLevel || canUpgradeRarity) && playerMana >= cost;
+  const maxLevel = getMaxLevelForRarity(elemental.rarity);
+  const canUpgradeRarity = elemental.level >= maxLevel;
+
+  // If upgrading rarity, use rarity upgrade cost
+  if (canUpgradeRarity) {
+    const upgradeCost = getRarityUpgradeCost(elemental.rarity);
+    return playerMana >= upgradeCost;
+  }
+
+  // If normal level up, use level up cost
+  const levelUpCost = getLevelUpCost(elemental);
+  return elemental.level < maxLevel && playerMana >= levelUpCost;
 };
 
-export const getMaxLevelForRarity = (_rarity: ElementalRarity): number => {
-  return 4; // All rarities can reach level 4 before upgrading
+export const getMaxLevelForRarity = (rarity: ElementalRarity): number => {
+  switch (rarity) {
+    case 'common':
+    case 'rare':
+    case 'epic':
+      return 4; // Common, Rare, Epic can reach level 4 before upgrading
+    case 'immortal':
+      return 1; // Immortal elementals cannot be leveled up
+    default:
+      return 4;
+  }
 };
 
 export const levelUpElemental = (
@@ -676,25 +719,25 @@ export const getNextRarity = (
 };
 
 // Cooldown system functions
-export const getElementalCooldownHours = (level: number): number => {
-  switch (level) {
-    case 1:
-      return 2; // Level 1: 2 hours
-    case 2:
-      return 4; // Level 2: 4 hours
-    case 3:
-      return 8; // Level 3: 8 hours
-    case 4:
-      return 16; // Level 4: 16 hours
+export const getElementalCooldownHours = (rarity: ElementalRarity): number => {
+  switch (rarity) {
+    case 'common':
+      return 2; // Common: 2 hours
+    case 'rare':
+      return 4; // Rare: 4 hours
+    case 'epic':
+      return 8; // Epic: 8 hours
+    case 'immortal':
+      return 16; // Immortal: 16 hours
     default:
-      return 2; // Default for any other level
+      return 2; // Default for any other rarity
   }
 };
 
 export const setElementalCooldown = (
   elemental: CollectedElemental
 ): CollectedElemental => {
-  const cooldownHours = getElementalCooldownHours(elemental.level);
+  const cooldownHours = getElementalCooldownHours(elemental.rarity);
   const cooldownEndTime = Date.now() + cooldownHours * 60 * 60 * 1000; // Convert hours to milliseconds
 
   return {

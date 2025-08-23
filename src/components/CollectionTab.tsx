@@ -7,6 +7,7 @@ import {
   getElementalProtection,
   getLevelUpCost,
   getMaxLevelForRarity,
+  getRarityUpgradeCost,
   isElementalOnCooldown,
 } from '../gameLogic';
 import {
@@ -108,14 +109,20 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     const canUpgradeRarity =
       elemental.level >= maxLevel && elemental.rarity !== 'immortal';
 
+    // Determine the correct cost based on upgrade type
+    const cost = canUpgradeRarity
+      ? getRarityUpgradeCost(elemental.rarity)
+      : getLevelUpCost(elemental);
+
     return {
       currentName: elementalData.name,
       currentEmoji: elementalData.emoji,
       currentProtection: protection,
       canLevelUp: canLevelUpElemental(elemental, player.mana),
-      levelUpCost: getLevelUpCost(elemental),
+      levelUpCost: cost,
       maxLevel,
       canUpgradeRarity,
+      isImmortal: elemental.rarity === 'immortal',
     };
   };
 
@@ -301,7 +308,16 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
 
               {/* Modern Action Buttons */}
               <div className='elemental-actions-modern'>
-                {displayData.canLevelUp && (
+                {displayData.isImmortal ? (
+                  <button
+                    className='action-btn-modern max-level-btn-modern'
+                    disabled
+                  >
+                    <span className='btn-icon'>🏆</span>
+                    <span className='btn-text'>MAX LVL</span>
+                    <span className='btn-cost'>Immortal</span>
+                  </button>
+                ) : displayData.canLevelUp ? (
                   <button
                     className={`action-btn-modern ${displayData.canUpgradeRarity ? 'upgrade-btn-modern' : 'level-up-btn-modern'}`}
                     onClick={() => onLevelUpElemental(elemental.id)}
@@ -314,7 +330,7 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
                       {displayData.levelUpCost} Mana
                     </span>
                   </button>
-                )}
+                ) : null}
               </div>
             </div>
           );

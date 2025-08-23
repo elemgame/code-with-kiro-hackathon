@@ -23,9 +23,11 @@ import {
   generateOpponent,
   getAchievementDefinitions,
   getLevelUpCost,
+  getMaxLevelForRarity,
   getRandomElement,
   getRandomElementalReward,
   getRank,
+  getRarityUpgradeCost,
   getTitle,
   levelUpElemental,
   setElementalCooldown,
@@ -610,22 +612,19 @@ const App: React.FC = () => {
       if (!elemental || !canLevelUpElemental(elemental, prev.player.mana))
         return prev;
 
-      const levelUpCost = getLevelUpCost(elemental);
+      const maxLevel = getMaxLevelForRarity(elemental.rarity);
+      const canUpgradeRarity =
+        elemental.level >= maxLevel && elemental.rarity !== 'immortal';
+
+      // Determine the correct cost based on upgrade type
+      const cost = canUpgradeRarity
+        ? getRarityUpgradeCost(elemental.rarity)
+        : getLevelUpCost(elemental);
+
       const leveledElemental = levelUpElemental(elemental);
 
       // If rarity was upgraded, replace the old elemental with the new one
       if (leveledElemental.id !== elementalId) {
-        console.log('Rarity upgrade detected!', {
-          oldId: elementalId,
-          newId: leveledElemental.id,
-          oldRarity: elemental.rarity,
-          newRarity: leveledElemental.rarity,
-          oldName: ELEMENTAL_TYPES[elemental.element][elemental.rarity].name,
-          newName:
-            ELEMENTAL_TYPES[leveledElemental.element][leveledElemental.rarity]
-              .name,
-        });
-
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { [elementalId]: removed, ...remainingElementals } =
           prev.player.elementalCollection.elementals;
@@ -648,7 +647,7 @@ const App: React.FC = () => {
           ...prev,
           player: {
             ...prev.player,
-            mana: prev.player.mana - levelUpCost,
+            mana: prev.player.mana - cost,
             totalElementalsCollected: totalOwned,
             immortalElementalsOwned: immortalCount,
             epicElementalsOwned: epicCount,
@@ -679,7 +678,7 @@ const App: React.FC = () => {
         ...prev,
         player: {
           ...prev.player,
-          mana: prev.player.mana - levelUpCost,
+          mana: prev.player.mana - cost,
           totalElementalsCollected: totalOwned,
           immortalElementalsOwned: immortalCount,
           elementalCollection: {

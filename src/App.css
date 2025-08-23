@@ -6574,6 +6574,16 @@ body::-webkit-scrollbar {
   box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
 
+.max-level-btn-modern {
+  background: linear-gradient(135deg, #daa520, #b8860b, #daa520);
+  background-size: 200% 200%;
+  animation: golden-shimmer 3s ease-in-out infinite;
+  box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+  cursor: default;
+  opacity: 1;
+  border: 1px solid rgba(218, 165, 32, 0.3);
+}
+
 .action-btn-modern:hover {
   transform: translateY(-2px);
 }
@@ -6584,6 +6594,12 @@ body::-webkit-scrollbar {
 
 .upgrade-btn-modern:hover {
   box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+}
+
+.max-level-btn-modern:hover {
+  transform: none;
+  box-shadow: 0 6px 20px rgba(218, 165, 32, 0.5);
+  animation: golden-shimmer 2s ease-in-out infinite;
 }
 
 .action-btn-modern:active {
@@ -6854,5 +6870,18 @@ body::-webkit-scrollbar {
     font-size: 0.7rem;
     white-space: nowrap;
     overflow: hidden;
+  }
+}
+
+/* Golden shimmer animation for MAX LVL button */
+@keyframes golden-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
