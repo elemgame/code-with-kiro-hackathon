@@ -72,8 +72,7 @@ const BattleResultPage: React.FC<BattleResultPageProps> = ({
               >
                 {battleLog.baseWager === 0
                   ? 'No change (free)'
-                  : `${battleLog.finalChange > 0 ? '+' : ''}${battleLog.finalChange}`
-                }
+                  : `${battleLog.finalChange > 0 ? '+' : ''}${battleLog.finalChange}`}
               </span>
             </div>
             <div className='results-stat-row'>
@@ -148,9 +147,17 @@ const BattleResultPage: React.FC<BattleResultPageProps> = ({
                 {battleLog.playerElement === battleLog.opponentElement
                   ? `Same elements - ${battleLog.winner === 'player' ? 'You Win!' : battleLog.winner === 'opponent' ? 'You Lose!' : 'Draw!'}`
                   : `${ELEMENTS[battleLog.playerElement].name} ${
-                      battleLog.winner === 'player' ? 'beats' : battleLog.winner === 'opponent' ? 'loses to' : 'draws with'
+                      battleLog.winner === 'player'
+                        ? 'beats'
+                        : battleLog.winner === 'opponent'
+                          ? 'loses to'
+                          : 'draws with'
                     } ${ELEMENTS[battleLog.opponentElement].name} - ${
-                      battleLog.winner === 'player' ? 'You Win!' : battleLog.winner === 'opponent' ? 'You Lose!' : 'Draw!'
+                      battleLog.winner === 'player'
+                        ? 'You Win!'
+                        : battleLog.winner === 'opponent'
+                          ? 'You Lose!'
+                          : 'Draw!'
                     }`}
               </div>
             </div>
@@ -206,7 +213,9 @@ const BattleResultPage: React.FC<BattleResultPageProps> = ({
               <div className='final-calculation-row'>
                 <span className='final-calculation-label'>Base wager:</span>
                 <span className='final-calculation-value'>
-                  {battleLog.baseWager === 0 ? 'Free battle (0 mana)' : `${battleLog.baseWager} mana`}
+                  {battleLog.baseWager === 0
+                    ? 'Free battle (0 mana)'
+                    : `${battleLog.baseWager} mana`}
                 </span>
               </div>
               {battleLog.protectionSaved > 0 && (
@@ -228,8 +237,7 @@ const BattleResultPage: React.FC<BattleResultPageProps> = ({
                 >
                   {battleLog.baseWager === 0
                     ? 'No mana change (free battle)'
-                    : `${battleLog.finalChange > 0 ? '+' : ''}${battleLog.finalChange} mana`
-                  }
+                    : `${battleLog.finalChange > 0 ? '+' : ''}${battleLog.finalChange} mana`}
                 </span>
               </div>
             </div>

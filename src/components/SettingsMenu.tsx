@@ -5,6 +5,7 @@ interface SettingsMenuProps {
   onClose: () => void;
   musicVolume: number;
   onMusicVolumeChange: (volume: number) => void;
+  onOpenRules?: () => void;
 }
 
 const SettingsMenu: React.FC<SettingsMenuProps> = ({
@@ -12,6 +13,7 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onClose,
   musicVolume,
   onMusicVolumeChange,
+  onOpenRules,
 }) => {
   const [previousVolume, setPreviousVolume] = useState<number>(musicVolume);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -75,6 +77,21 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
               </span>
             </div>
           </div>
+
+          {/* Rules Button */}
+          {onOpenRules && (
+            <div className='setting-group'>
+              <div className='setting-header'>
+                <span className='setting-icon'>📜</span>
+                <span className='setting-label'>Game Information</span>
+              </div>
+
+              <button className='rules-button' onClick={onOpenRules}>
+                <span className='rules-icon'>📖</span>
+                <span>View Game Rules</span>
+              </button>
+            </div>
+          )}
 
           {/* Additional Settings */}
           <div className='setting-group'>

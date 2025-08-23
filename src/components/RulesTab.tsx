@@ -79,7 +79,8 @@ const RulesTab: React.FC = () => {
               <span className='cycle-text'>🗿 → 💧 → 🔥 → 🗿</span>
             </div>
             <p className='cycle-description'>
-              Each element has an advantage over another in a rock-paper-scissors cycle
+              Each element has an advantage over another in a
+              rock-paper-scissors cycle
             </p>
           </div>
         </div>
@@ -129,7 +130,9 @@ const RulesTab: React.FC = () => {
           <div className='info-content'>
             <div className='info-item'>
               <span className='info-label'>Win:</span>
-              <span className='info-value'>Gain opponent's mana wager</span>
+              <span className='info-value'>
+                Gain opponent&apos;s mana wager
+              </span>
             </div>
             <div className='info-item'>
               <span className='info-label'>Lose:</span>
@@ -187,7 +190,8 @@ const RulesTab: React.FC = () => {
             </p>
             <div className='protection-example'>
               <span className='example-text'>
-                Lose 500 mana with Epic elemental → Keep 200 mana (40% protected)
+                Lose 500 mana with Epic elemental → Keep 200 mana (40%
+                protected)
               </span>
             </div>
           </div>

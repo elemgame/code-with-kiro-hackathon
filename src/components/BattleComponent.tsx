@@ -1,11 +1,13 @@
 import React from 'react';
 import {
-    ELEMENTS,
-    LOCATIONS,
-    canAffordLocation,
-    getAvailableElementals,
-    getAvailableMana,
-    getElementalData,
+  ELEMENTS,
+  LOCATIONS,
+  canAffordLocation,
+  formatCooldownTime,
+  getAvailableMana,
+  getElementalCooldownRemaining,
+  getElementalData,
+  isElementalOnCooldown,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
 import Modal from './Modal';
@@ -148,8 +150,12 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
   const renderElementalSelection = () => {
     if (!player.selectedElement) return null;
-    const availableElementals = getAvailableElementals(player.selectedElement);
-    const selectedElement = player.selectedElement; // Сохраняем в переменную для TypeScript
+    const selectedElement = player.selectedElement;
+
+    // Get owned elementals for the selected element
+    const ownedElementals = Object.values(
+      player.elementalCollection.elementals
+    ).filter(e => e.isOwned && e.element === selectedElement);
 
     return (
       <div className='battle-section'>
@@ -171,7 +177,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
           <div className='battle-icon'>🌟</div>
           <h3 className='battle-title'>Elemental</h3>
           <p className='battle-subtitle'>
-            Select a powerful elemental to aid in battle
+            Select a powerful elemental from your collection
           </p>
 
           <div className='battle-step-indicator'>
@@ -181,28 +187,57 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
           </div>
         </div>
 
-        <div className='elemental-grid'>
-          {availableElementals.map(elemental => {
-            const elementalData = getElementalData(selectedElement, elemental);
-            return (
-              <div
-                key={elemental}
-                className={`elemental-btn ${elemental} ${player.selectedElemental === elemental ? 'selected' : ''}`}
-                onClick={() => onSelectElemental(elemental)}
-              >
-                <span className='elemental-emoji'>{elementalData.emoji}</span>
-                <div className='elemental-rarity-badge'>
-                  {elementalData.rarity}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {ownedElementals.length > 0 ? (
+          <div className='elemental-grid'>
+            {ownedElementals.map(elemental => {
+              const elementalData = getElementalData(
+                selectedElement,
+                elemental.rarity
+              );
+              const isSelected = player.selectedElemental === elemental.rarity;
+              const isOnCooldown = isElementalOnCooldown(elemental);
+              const cooldownRemaining =
+                getElementalCooldownRemaining(elemental);
+              const cooldownText = formatCooldownTime(cooldownRemaining);
 
-        <button
-          className='battle-btn'
-          onClick={onStartBattle}
-        >
+              return (
+                <div
+                  key={elemental.id}
+                  className={`elemental-btn ${elemental.rarity} ${isSelected ? 'selected' : ''} ${isOnCooldown ? 'on-cooldown' : ''}`}
+                  onClick={() =>
+                    !isOnCooldown && onSelectElemental(elemental.rarity)
+                  }
+                  style={{ cursor: isOnCooldown ? 'not-allowed' : 'pointer' }}
+                >
+                  <span className='elemental-emoji'>{elementalData.emoji}</span>
+                  <div className='elemental-info'>
+                    <div className='elemental-rarity-badge'>
+                      {elementalData.rarity}
+                    </div>
+                    <div className='elemental-level'>Lv.{elemental.level}</div>
+                    {isOnCooldown && (
+                      <div className='cooldown-indicator'>
+                        <span className='cooldown-text'>{cooldownText}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className='no-elementals'>
+            <div className='no-elementals-icon'>📦</div>
+            <h3>No Elementals Available</h3>
+            <p>
+              You don&apos;t have any {ELEMENTS[selectedElement].name}{' '}
+              elementals in your collection.
+            </p>
+            <p>Win battles to collect more elementals!</p>
+          </div>
+        )}
+
+        <button className='battle-btn' onClick={onStartBattle}>
           ⚔️ Start Battle
         </button>
       </div>

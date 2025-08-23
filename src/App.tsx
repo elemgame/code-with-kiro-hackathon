@@ -5,32 +5,42 @@ import AudioPlayer from './components/AudioPlayer';
 import BattleAnimationPixi from './components/BattleAnimationPixi';
 import BattleComponent from './components/BattleComponent';
 import BattleResultPage from './components/BattleResultPage';
+import CollectionTab from './components/CollectionTab';
 import Navigation from './components/Navigation';
 import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
 import SettingsMenu from './components/SettingsMenu';
 import {
-    ELEMENTS,
-    LOCATIONS,
-    calculateBattleResult,
-    canAffordLocation,
-    generateOpponent,
-    getAchievementDefinitions,
-    getRandomElement,
-    getRank,
-    getTitle,
+  ELEMENTAL_TYPES,
+  ELEMENTS,
+  LOCATIONS,
+  addElementalToCollection,
+  addExperienceToElemental,
+  calculateBattleResult,
+  canAffordLocation,
+  canLevelUpElemental,
+  createInitialCollection,
+  generateOpponent,
+  getAchievementDefinitions,
+  getLevelUpCost,
+  getRandomElement,
+  getRandomElementalReward,
+  getRank,
+  getTitle,
+  levelUpElemental,
+  setElementalCooldown,
 } from './gameLogic';
 import {
-    Element,
-    ElementalRarity,
-    GameState,
-    Location,
-    PlayerStats,
+  Element,
+  ElementalRarity,
+  GameState,
+  Location,
+  PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
   name: 'Warrior',
-  mana: 500,
+  mana: 1000,
   wins: 0,
   losses: 0,
   selectedElement: null,
@@ -49,12 +59,15 @@ const INITIAL_PLAYER: PlayerStats = {
   lastManaChange: 0,
   totalManaWon: 0,
   totalManaLost: 0,
+  elementalCollection: createInitialCollection(),
+  totalElementalsCollected: 3,
+  legendaryElementalsOwned: 0,
 };
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'profile' | 'battle' | 'rules'>(
-    'battle'
-  );
+  const [activeTab, setActiveTab] = useState<
+    'profile' | 'battle' | 'collection'
+  >('battle');
   const [gameState, setGameState] = useState<GameState>({
     player: INITIAL_PLAYER,
     currentOpponent: null,
@@ -68,6 +81,7 @@ const App: React.FC = () => {
   const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
 
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.2);
 
   // Load game state from localStorage on mount
@@ -188,6 +202,14 @@ const App: React.FC = () => {
         }
       }
 
+      // Update collection stats
+      if (newPlayer.elementalCollection) {
+        newPlayer.totalElementalsCollected =
+          newPlayer.elementalCollection.totalOwned;
+        newPlayer.legendaryElementalsOwned =
+          newPlayer.elementalCollection.totalLegendary;
+      }
+
       // Check achievements
       const achievementDefinitions = getAchievementDefinitions();
       const unlockedAchievements: string[] = [];
@@ -296,7 +318,8 @@ const App: React.FC = () => {
               gameState.player.selectedElement as Element,
               null, // no elemental for Free battles
               opponentElement,
-              opponent.elemental || null
+              opponent.elemental || null,
+              gameState.player.elementalCollection
             );
 
             setGameState(prev => ({
@@ -322,6 +345,7 @@ const App: React.FC = () => {
     gameState.player.selectedLocation,
     gameState.player.selectedElement,
     gameState.player.mana,
+    gameState.player.elementalCollection,
   ]);
 
   const startBattle = useCallback(() => {
@@ -345,7 +369,8 @@ const App: React.FC = () => {
       gameState.player.selectedElement as Element,
       gameState.player.selectedElemental,
       opponentElement,
-      gameState.currentOpponent?.elemental || null
+      gameState.currentOpponent?.elemental || null,
+      gameState.player.elementalCollection
     );
 
     // Only subtract wager if it's greater than 0
@@ -389,7 +414,8 @@ const App: React.FC = () => {
       gameState.player.selectedElement as Element,
       gameState.player.selectedElemental,
       opponentElement,
-      gameState.currentOpponent?.elemental || null
+      gameState.currentOpponent?.elemental || null,
+      gameState.player.elementalCollection
     );
 
     const finalManaChange = battleResult.playerManaChange;
@@ -439,7 +465,49 @@ const App: React.FC = () => {
       winner: actualWinner,
     };
 
-    setGameState(prev => ({ ...prev, battleLog, gamePhase: 'result' }));
+    // Add experience to used elemental and chance to get new elemental
+    let updatedCollection = gameState.player.elementalCollection;
+
+    // Add experience to used elemental if one was used
+    if (gameState.player.selectedElemental) {
+      const usedElemental = Object.values(updatedCollection.elementals).find(
+        e =>
+          e.element === gameState.player.selectedElement &&
+          e.rarity === gameState.player.selectedElemental
+      );
+
+      if (usedElemental) {
+        const expGain = actualWinner === 'player' ? 50 : 25;
+        const updatedElemental = addExperienceToElemental(
+          usedElemental,
+          expGain
+        );
+        updatedElemental.timesUsed += 1;
+        const elementalWithCooldown = setElementalCooldown(updatedElemental);
+        updatedCollection.elementals[usedElemental.id] = elementalWithCooldown;
+      }
+    }
+
+    // Chance to get new elemental (higher chance for wins)
+    const elementalChance = actualWinner === 'player' ? 0.3 : 0.1;
+    if (Math.random() < elementalChance) {
+      const reward = getRandomElementalReward();
+      updatedCollection = addElementalToCollection(
+        updatedCollection,
+        reward.element,
+        reward.rarity
+      );
+    }
+
+    setGameState(prev => ({
+      ...prev,
+      battleLog,
+      gamePhase: 'result',
+      player: {
+        ...prev.player,
+        elementalCollection: updatedCollection,
+      },
+    }));
   }, [
     gameState.player.selectedElement,
     gameState.player.selectedLocation,
@@ -455,6 +523,7 @@ const App: React.FC = () => {
     gameState.initialBattleMana,
     gameState.opponentElement,
     gameState.battleResult,
+    gameState.player.elementalCollection,
     updatePlayer,
   ]);
 
@@ -477,7 +546,7 @@ const App: React.FC = () => {
 
   // Handle tab changes - if on result page, return to menu first
   const handleTabChange = useCallback(
-    (tab: 'profile' | 'battle' | 'rules') => {
+    (tab: 'profile' | 'battle' | 'collection') => {
       if (gameState.gamePhase === 'result') {
         // If on result page, return to menu first
         setGameState(prev => ({
@@ -501,6 +570,90 @@ const App: React.FC = () => {
 
   const dismissAchievement = useCallback((achievementId: string) => {
     setNewAchievements(prev => prev.filter(id => id !== achievementId));
+  }, []);
+
+  const levelUpElementalById = useCallback((elementalId: string) => {
+    setGameState(prev => {
+      const elemental = prev.player.elementalCollection.elementals[elementalId];
+      if (!elemental || !canLevelUpElemental(elemental, prev.player.mana))
+        return prev;
+
+      const levelUpCost = getLevelUpCost(elemental);
+      const leveledElemental = levelUpElemental(elemental);
+
+      // If rarity was upgraded, replace the old elemental with the new one
+      if (leveledElemental.id !== elementalId) {
+        console.log('Rarity upgrade detected!', {
+          oldId: elementalId,
+          newId: leveledElemental.id,
+          oldRarity: elemental.rarity,
+          newRarity: leveledElemental.rarity,
+          oldName: ELEMENTAL_TYPES[elemental.element][elemental.rarity].name,
+          newName:
+            ELEMENTAL_TYPES[leveledElemental.element][leveledElemental.rarity]
+              .name,
+        });
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [elementalId]: removed, ...remainingElementals } =
+          prev.player.elementalCollection.elementals;
+        const updatedElementals = {
+          ...remainingElementals,
+          [leveledElemental.id]: leveledElemental,
+        };
+
+        // Update collection statistics
+        const totalOwned = Object.keys(updatedElementals).length;
+        const legendaryCount = Object.values(updatedElementals).filter(
+          e => e.rarity === 'legendary'
+        ).length;
+
+        // Force React to re-render by creating a new object reference
+        return {
+          ...prev,
+          player: {
+            ...prev.player,
+            mana: prev.player.mana - levelUpCost,
+            totalElementalsCollected: totalOwned,
+            legendaryElementalsOwned: legendaryCount,
+            elementalCollection: {
+              ...prev.player.elementalCollection,
+              elementals: updatedElementals,
+              totalOwned,
+              totalLegendary: legendaryCount,
+            },
+          },
+        };
+      }
+
+      // Normal level up - just update the existing elemental
+      const updatedElementals = {
+        ...prev.player.elementalCollection.elementals,
+        [elementalId]: leveledElemental,
+      };
+
+      // Update collection statistics
+      const totalOwned = Object.keys(updatedElementals).length;
+      const legendaryCount = Object.values(updatedElementals).filter(
+        e => e.rarity === 'legendary'
+      ).length;
+
+      return {
+        ...prev,
+        player: {
+          ...prev.player,
+          mana: prev.player.mana - levelUpCost,
+          totalElementalsCollected: totalOwned,
+          legendaryElementalsOwned: legendaryCount,
+          elementalCollection: {
+            ...prev.player.elementalCollection,
+            elementals: updatedElementals,
+            totalOwned,
+            totalLegendary: legendaryCount,
+          },
+        },
+      };
+    });
   }, []);
 
   // Handle user interaction to enable music
@@ -542,7 +695,34 @@ const App: React.FC = () => {
         onClose={() => setSettingsOpen(false)}
         musicVolume={musicVolume}
         onMusicVolumeChange={setMusicVolume}
+        onOpenRules={() => {
+          setSettingsOpen(false);
+          setRulesOpen(true);
+        }}
       />
+
+      {/* Rules Modal */}
+      {rulesOpen && (
+        <div className='settings-overlay' onClick={() => setRulesOpen(false)}>
+          <div
+            className='settings-menu rules-modal'
+            onClick={e => e.stopPropagation()}
+          >
+            <div className='settings-header'>
+              <h2>Game Rules</h2>
+              <button
+                className='close-button'
+                onClick={() => setRulesOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className='rules-content'>
+              <RulesTab />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className='app' onClick={handleUserInteraction}>
         <div className='app-content'>
@@ -575,9 +755,14 @@ const App: React.FC = () => {
               />
             )}
 
-          {activeTab === 'rules' &&
+          {activeTab === 'collection' &&
             gameState.gamePhase !== 'result' &&
-            gameState.gamePhase !== 'battleAnimation' && <RulesTab />}
+            gameState.gamePhase !== 'battleAnimation' && (
+              <CollectionTab
+                player={gameState.player}
+                onLevelUpElemental={levelUpElementalById}
+              />
+            )}
 
           {gameState.gamePhase === 'battleAnimation' && (
             <BattleAnimationPixi

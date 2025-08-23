@@ -300,10 +300,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
                 ⚔️
               </div>
 
-              <UserCard
-                element={opponentElement}
-                isAnimating={true}
-              />
+              <UserCard element={opponentElement} isAnimating={true} />
             </div>
           </div>
         )}
@@ -406,33 +403,38 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
               style={{
                 fontSize: '4rem',
                 animation: 'resultPulse 3s ease-in-out infinite',
-                filter: battleResult === 'player'
-                  ? 'drop-shadow(0 0 20px rgba(16, 185, 129, 0.8))'
-                  : battleResult === 'opponent'
-                  ? 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.8))'
-                  : 'drop-shadow(0 0 20px rgba(218, 165, 32, 0.8))',
+                filter:
+                  battleResult === 'player'
+                    ? 'drop-shadow(0 0 20px rgba(16, 185, 129, 0.8))'
+                    : battleResult === 'opponent'
+                      ? 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.8))'
+                      : 'drop-shadow(0 0 20px rgba(218, 165, 32, 0.8))',
               }}
             >
-              {battleResult === 'player' ? '🏆' : battleResult === 'opponent' ? '💀' : '🤝'}
+              {battleResult === 'player'
+                ? '🏆'
+                : battleResult === 'opponent'
+                  ? '💀'
+                  : '🤝'}
             </div>
             <div
               style={{
                 fontSize: '1rem',
                 marginTop: '1.5rem',
                 opacity: 0.8,
-                color: battleResult === 'player'
-                  ? '#10b981'
-                  : battleResult === 'opponent'
-                  ? '#ef4444'
-                  : '#daa520'
+                color:
+                  battleResult === 'player'
+                    ? '#10b981'
+                    : battleResult === 'opponent'
+                      ? '#ef4444'
+                      : '#daa520',
               }}
             >
               {battleResult === 'player'
                 ? 'Victory! You have emerged triumphant!'
                 : battleResult === 'opponent'
-                ? 'Defeat! The opponent was stronger this time.'
-                : 'Draw! The battle ended in a stalemate.'
-              }
+                  ? 'Defeat! The opponent was stronger this time.'
+                  : 'Draw! The battle ended in a stalemate.'}
             </div>
           </div>
         )}
