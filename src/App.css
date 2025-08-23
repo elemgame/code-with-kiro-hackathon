@@ -1,4 +1,4 @@
-import url('https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --primary-gold: #daa520;
@@ -1611,6 +1611,55 @@ body::-webkit-scrollbar {
 .achievement-popup-desc {
   font-size: 0.85rem;
   opacity: 0.9;
+}
+
+/* Elemental Reward Notification */
+.achievement-popup.elemental-reward {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.4);
+  position: relative;
+}
+
+.achievement-notification:nth-child(2) {
+  top: 100px;
+}
+
+.achievement-popup.elemental-reward .achievement-popup-icon {
+  animation: pulse 2s infinite;
+}
+
+.achievement-dismiss-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.achievement-dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* Responsive Design */

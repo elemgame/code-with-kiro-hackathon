@@ -77,6 +77,12 @@ const App: React.FC = () => {
   });
   const [newAchievements, setNewAchievements] = useState<string[]>([]);
   const [levelUp, setLevelUp] = useState<number | null>(null);
+  const [newElementalReward, setNewElementalReward] = useState<{
+    element: Element;
+    rarity: ElementalRarity;
+    name: string;
+    emoji: string;
+  } | null>(null);
   const [musicEnabled, setMusicEnabled] = useState(false); // Начинаем с выключенной
   const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
 
@@ -489,14 +495,23 @@ const App: React.FC = () => {
     }
 
     // Chance to get new elemental (higher chance for wins)
-    const elementalChance = actualWinner === 'player' ? 0.3 : 0.1;
+    const elementalChance = actualWinner === 'player' ? 0.6 : 0.3;
     if (Math.random() < elementalChance) {
       const reward = getRandomElementalReward();
+      const elementalData = ELEMENTAL_TYPES[reward.element][reward.rarity];
       updatedCollection = addElementalToCollection(
         updatedCollection,
         reward.element,
         reward.rarity
       );
+
+      // Show notification for new elemental
+      setNewElementalReward({
+        element: reward.element,
+        rarity: reward.rarity,
+        name: elementalData.name,
+        emoji: elementalData.emoji,
+      });
     }
 
     setGameState(prev => ({
@@ -571,6 +586,21 @@ const App: React.FC = () => {
   const dismissAchievement = useCallback((achievementId: string) => {
     setNewAchievements(prev => prev.filter(id => id !== achievementId));
   }, []);
+
+  const dismissElementalReward = useCallback(() => {
+    setNewElementalReward(null);
+  }, []);
+
+  // Auto-dismiss elemental reward notification after 5 seconds
+  useEffect(() => {
+    if (newElementalReward) {
+      const timer = setTimeout(() => {
+        setNewElementalReward(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [newElementalReward]);
 
   const levelUpElementalById = useCallback((elementalId: string) => {
     setGameState(prev => {
@@ -806,6 +836,32 @@ const App: React.FC = () => {
                 <div className='achievement-popup-desc'>
                   You&apos;ve gained a new level!
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* New Elemental Reward Notification */}
+        {newElementalReward && (
+          <div className='achievement-notification show'>
+            <div className='achievement-popup elemental-reward'>
+              <div className='achievement-popup-icon'>
+                {newElementalReward.emoji}
+              </div>
+              <div>
+                <div className='achievement-popup-title'>New Elemental!</div>
+                <div className='achievement-popup-name'>
+                  {newElementalReward.name}
+                </div>
+                <div className='achievement-popup-desc'>
+                  You&apos;ve found a new {newElementalReward.rarity} elemental!
+                </div>
+                <button
+                  className='achievement-dismiss-btn'
+                  onClick={dismissElementalReward}
+                >
+                  ✕
+                </button>
               </div>
             </div>
           </div>

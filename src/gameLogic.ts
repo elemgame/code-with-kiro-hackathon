@@ -883,11 +883,11 @@ export const getRandomElementalReward = (): {
     'legendary',
   ];
 
-  // Weighted probabilities
+  // Weighted probabilities (increased chances for better rarities)
   const weights = {
-    common: 0.5,
-    rare: 0.3,
-    epic: 0.15,
+    common: 0.4,
+    rare: 0.35,
+    epic: 0.2,
     immortal: 0.04,
     legendary: 0.01,
   };
@@ -1121,8 +1121,8 @@ export const getAchievementDefinitions = (): Achievement[] => [
     id: 'mana_master',
     icon: '💎',
     name: 'Mana Master',
-    desc: 'Accumulate 1000 mana',
-    condition: p => p.mana >= 1000,
+    desc: 'Accumulate 2000 mana',
+    condition: p => p.mana >= 2000,
   },
   {
     id: 'mana_lord',
