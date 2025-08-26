@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface SettingsMenuProps {
   isOpen: boolean;
@@ -17,6 +17,18 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
 }) => {
   const [previousVolume, setPreviousVolume] = useState<number>(musicVolume);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
 
   const handleVolumeClick = () => {
     if (isMuted) {

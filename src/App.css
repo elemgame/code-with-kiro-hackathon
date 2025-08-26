@@ -830,7 +830,7 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1500;
+  z-index: 999998;
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -844,10 +844,36 @@ body::-webkit-scrollbar {
 
 /* Prevent body scroll when modal is active */
 body.modal-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
 }
+
+body.modal-open .app {
+  overflow: hidden !important;
+}
+
+/* Additional scroll prevention for level up modal */
+body.modal-open * {
+  overflow: hidden !important;
+}
+
+/* Specific scroll prevention for collection container when modal is open */
+body.modal-open .collection-container-modern {
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+
+
+
+
+
 
 .modal {
   background: var(--glass-bg);
@@ -860,13 +886,16 @@ body.modal-open {
   max-height: calc(100vh - 40px);
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  transform: scale(0.9) translateY(20px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  position: fixed;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 1501;
 }
 
 .modal-overlay.active .modal {
-  transform: scale(1) translateY(0);
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .modal.loading-modal {
@@ -1048,7 +1077,11 @@ body.modal-open {
   border: 1px solid rgba(218, 165, 32, 0.3);
   animation: slideIn 0.4s ease-out;
   backdrop-filter: blur(20px);
-  position: relative;
+  position: fixed;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
 }
 
 .settings-menu::before {
@@ -1076,11 +1109,11 @@ body.modal-open {
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-50px) scale(0.9);
+    transform: translate(-50%, -50%) scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -1711,8 +1744,9 @@ body.modal-open {
 @media (max-width: 480px) {
   .modal {
     max-width: calc(100vw - 2rem);
-    margin: 1rem;
     padding: 1.25rem;
+    top: 50vh;
+    transform: translate(-50%, -50%) scale(0.9);
   }
 
   .element-grid {
@@ -1734,13 +1768,18 @@ body.modal-open {
     border-radius: 16px;
     padding: 1.25rem;
   }
+
+  .modal-overlay.active .modal {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 @media (max-width: 360px) {
   .modal {
     max-width: calc(100vw - 1rem);
-    margin: 0.5rem;
     padding: 1rem;
+    top: 50vh;
+    transform: translate(-50%, -50%) scale(0.9);
   }
 
   .enhanced-stats-grid {
@@ -1749,6 +1788,10 @@ body.modal-open {
 
   .stat-card {
     padding: 0.75rem;
+  }
+
+  .modal-overlay.active .modal {
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -6468,60 +6511,75 @@ body.modal-open {
 .collectible-cards-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.2rem;
+  gap: 1rem;
   padding: 0.2rem;
   margin: 0 0.2rem;
   justify-items: center;
+  justify-content: flex-start; /* Выравнивание по левой стороне */
 }
 
 /* Responsive Grid - Mobile First Approach */
-@media (min-width: 400px) {
+/* До 610 пикселей - 1 столбец */
+@media (max-width: 609px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+    justify-content: flex-start; /* Выравнивание по левой стороне */
+  }
+
+  .collectible-card {
+    /* Убираем масштабирование */
+    transform: none;
+  }
+}
+
+/* Начиная с 610 пикселей - 2 столбца */
+@media (min-width: 610px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.2rem;
+    gap: 1rem;
     padding: 0.2rem;
     margin: 0 0.2rem;
+    justify-content: flex-start; /* Выравнивание по левой стороне */
   }
 
   .collectible-card {
-    transform: scale(0.9);
-    transform-origin: center top;
+    /* Убираем масштабирование */
+    transform: none;
   }
 }
 
-@media (min-width: 768px) {
+/* Начиная с 901 пикселя - 3 столбца */
+@media (min-width: 901px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.2rem;
+    gap: 1rem;
     padding: 0.2rem;
     margin: 0 0.2rem;
+    justify-content: flex-start; /* Выравнивание по левой стороне */
   }
 
   .collectible-card {
-    transform: scale(0.95);
-    transform-origin: center top;
+    /* Убираем масштабирование */
+    transform: none;
   }
 }
 
-@media (min-width: 1024px) {
+/* Начиная с 1201 пикселя - 4 столбца */
+@media (min-width: 1201px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+    justify-content: flex-start; /* Выравнивание по левой стороне */
   }
 
   .collectible-card {
-    transform: scale(1);
-    transform-origin: center top;
-  }
-}
-
-@media (min-width: 1440px) {
-  .collectible-cards-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .collectible-card {
-    transform: scale(1.05);
-    transform-origin: center top;
+    /* Убираем масштабирование */
+    transform: none;
   }
 }
 
@@ -6529,9 +6587,10 @@ body.modal-open {
 @media (max-width: 399px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
-    gap: 0.2rem;
+    gap: 1rem;
     padding: 0.2rem;
     margin: 0 0.2rem;
+    justify-content: flex-start; /* Выравнивание по левой стороне */
   }
 }
 
@@ -6539,16 +6598,17 @@ body.modal-open {
 @media (max-width: 360px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
-    gap: 0.2rem;
+    gap: 1rem;
     padding: 0.2rem;
     margin: 0 0.2rem;
+    justify-content: flex-start; /* Выравнивание по левой стороне */
   }
 
   .collectible-card {
     width: 200px;
     height: 340px;
-    transform: scale(0.85);
-    transform-origin: center top;
+    /* Убираем масштабирование */
+    transform: none;
   }
 }
 
@@ -6659,11 +6719,11 @@ body.modal-open {
   0%,
   100% {
     opacity: 0.3;
-    transform: scale(1);
+    transform: none;
   }
   50% {
     opacity: 0.6;
-    transform: scale(1.02);
+    transform: none;
   }
 }
 
@@ -6671,11 +6731,11 @@ body.modal-open {
   0%,
   100% {
     opacity: 0.4;
-    transform: scale(1);
+    transform: none;
   }
   50% {
     opacity: 0.7;
-    transform: scale(1.03);
+    transform: none;
   }
 }
 
@@ -6683,11 +6743,11 @@ body.modal-open {
   0%,
   100% {
     opacity: 0.5;
-    transform: scale(1);
+    transform: none;
   }
   50% {
     opacity: 0.8;
-    transform: scale(1.04);
+    transform: none;
   }
 }
 
@@ -6695,11 +6755,11 @@ body.modal-open {
   0%,
   100% {
     opacity: 0.6;
-    transform: scale(1);
+    transform: none;
   }
   50% {
     opacity: 0.9;
-    transform: scale(1.05);
+    transform: none;
   }
 }
 
@@ -6773,11 +6833,11 @@ body.modal-open {
   0%,
   100% {
     opacity: 0.2;
-    transform: scale(1);
+    transform: none;
   }
   50% {
     opacity: 0.4;
-    transform: scale(1.1);
+    transform: none;
   }
 }
 
@@ -6794,9 +6854,49 @@ body.modal-open {
 }
 
 .collectible-card:hover {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  /* Убираем эффект приближения */
+  transform: none;
+  /* Добавляем свечение в зависимости от редкости */
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 25px var(--rarity-glow),
+    0 0 50px var(--rarity-glow),
+    0 0 75px var(--rarity-glow);
   border-color: var(--rarity-color);
+  /* Добавляем плавный переход для свечения */
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Специальные эффекты свечения для разных редкостей */
+.collectible-card.rarity-common:hover {
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(156, 163, 175, 0.4),
+    0 0 40px rgba(156, 163, 175, 0.3);
+}
+
+.collectible-card.rarity-rare:hover {
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(59, 130, 246, 0.5),
+    0 0 50px rgba(59, 130, 246, 0.4),
+    0 0 75px rgba(59, 130, 246, 0.3);
+}
+
+.collectible-card.rarity-epic:hover {
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(139, 92, 246, 0.6),
+    0 0 60px rgba(139, 92, 246, 0.5),
+    0 0 90px rgba(139, 92, 246, 0.4);
+}
+
+.collectible-card.rarity-immortal:hover {
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 35px rgba(245, 158, 11, 0.7),
+    0 0 70px rgba(245, 158, 11, 0.6),
+    0 0 105px rgba(245, 158, 11, 0.5);
 }
 
 /* Card Label */
@@ -6924,7 +7024,7 @@ body.modal-open {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   color: white;
   transition: all 0.3s ease;
-  z-index: 10001;
+  z-index: 10;
   user-select: none;
 }
 
@@ -7302,7 +7402,7 @@ body.modal-open {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 10001;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7350,204 +7450,318 @@ body.modal-open {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Confirmation Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+/* Level Up Confirmation Modal - Project Style */
+.level-up-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
   background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  backdrop-filter: blur(5px);
-  pointer-events: auto;
+  backdrop-filter: blur(20px);
+  z-index: 999999 !important;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px;
+}
+
+.level-up-modal-overlay.active {
   opacity: 1;
   visibility: visible;
 }
 
-.confirm-modal {
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 0;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+.level-up-modal {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  max-width: 420px;
+  width: 100%;
+  max-height: calc(100vh - 40px);
   overflow: hidden;
-  position: relative;
-  z-index: 100000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000000;
+  position: relative !important;
+  transform: scale(0.9);
 }
 
-.modal-header {
-  background: linear-gradient(135deg, #2d3748, #4a5568);
-  padding: 1rem 1.5rem;
+.level-up-modal-overlay.active .level-up-modal {
+  transform: scale(1);
+}
+
+.level-up-modal-header {
+  background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+  padding: 1.25rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.modal-header h3 {
+.level-up-modal-header h3 {
   margin: 0;
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: 'Volkhov', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.modal-close {
-  background: none;
+.level-up-modal-close {
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: #1a1a1a;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
+  font-weight: 600;
 }
 
-.modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+.level-up-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
 }
 
-.modal-content {
+.level-up-modal-content {
   padding: 1.5rem;
 }
 
-.elemental-info {
+.level-up-elemental-info {
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.elemental-name {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: white;
-  margin-bottom: 0.5rem;
-}
+       .level-up-elemental-details {
+         color: var(--text-secondary);
+         font-family: 'Inter', sans-serif;
+         font-size: 1.1rem;
+         font-weight: 700;
+         line-height: 1.4;
+       }
 
-.elemental-details {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-}
-
-.rarity-upgrade {
+.level-up-rarity-upgrade {
   display: block;
-  margin-top: 0.5rem;
-  color: #f59e0b;
+  margin-top: 0.75rem;
+  color: var(--warning);
   font-weight: 600;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
 }
 
-.cost-info {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1rem;
+.level-up-cost-info {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  padding: 1.25rem;
   margin-bottom: 1.5rem;
 }
 
-.cost-amount,
-.balance-info,
-.remaining-balance {
+.level-up-cost-amount,
+.level-up-balance-info,
+.level-up-remaining-balance {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-family: 'Inter', sans-serif;
 }
 
-.cost-amount:last-child,
-.balance-info:last-child,
-.remaining-balance:last-child {
+.level-up-cost-amount:last-child,
+.level-up-balance-info:last-child,
+.level-up-remaining-balance:last-child {
   margin-bottom: 0;
 }
 
-.cost-label,
-.balance-label,
-.remaining-label {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+.level-up-cost-label,
+.level-up-balance-label,
+.level-up-remaining-label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.cost-value {
-  color: #f59e0b;
-  font-weight: 600;
-  font-size: 1rem;
-}
+       .level-up-cost-value {
+         color: #ff4444;
+         font-weight: 600;
+         font-size: 1.05rem;
+       }
 
-.balance-value {
-  color: #10b981;
-  font-weight: 600;
-  font-size: 1rem;
-}
+       .level-up-balance-value {
+         color: var(--success);
+         font-weight: 600;
+         font-size: 1.05rem;
+       }
 
-.remaining-value {
-  color: #10b981;
-  font-weight: 600;
-  font-size: 1rem;
-}
+       .level-up-remaining-value {
+         color: var(--primary-gold);
+         font-weight: 600;
+         font-size: 1.05rem;
+       }
 
-.remaining-value.warning {
-  color: #ef4444;
-}
+       .level-up-remaining-value.warning {
+         color: #ff4444;
+         font-weight: 700;
+         text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
+       }
 
-.modal-actions {
+.level-up-modal-actions {
   display: flex;
   gap: 1rem;
-  padding: 1rem 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 1.25rem 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.cancel-btn,
-.confirm-btn {
+.level-up-cancel-btn,
+.level-up-confirm-btn {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.5rem;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: var(--border-radius-lg);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
 }
 
-.cancel-btn {
+.level-up-cancel-btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.level-up-cancel-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.cancel-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
-
-.confirm-btn {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-}
-
-.confirm-btn:hover {
+  color: var(--text-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.confirm-btn.disabled {
+.level-up-confirm-btn {
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: white;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.level-up-confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.level-up-confirm-btn.disabled {
   background: linear-gradient(135deg, #6b7280, #4b5563);
   color: rgba(255, 255, 255, 0.5);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
-.confirm-btn.disabled:hover {
+.level-up-confirm-btn.disabled:hover {
   transform: none;
   box-shadow: none;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.level-up-confirm-btn.upgrade {
+  background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+  color: #1a1a1a;
+  border: 1px solid rgba(218, 165, 32, 0.3);
+  box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
+}
+
+.level-up-confirm-btn.upgrade:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+}
+
+/* Responsive styles for level up modal */
+@media (max-width: 480px) {
+  .level-up-modal {
+    max-width: calc(100vw - 2rem);
+  }
+
+  .level-up-modal-content {
+    padding: 1.25rem;
+  }
+
+  .level-up-modal-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .level-up-modal-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .level-up-elemental-name {
+    font-size: 1.2rem;
+  }
+
+  .level-up-modal-actions {
+    padding: 1rem 1.25rem;
+  }
+
+  .level-up-cancel-btn,
+  .level-up-confirm-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .level-up-modal {
+    max-width: calc(100vw - 1rem);
+  }
+
+  .level-up-modal-content {
+    padding: 1rem;
+  }
+
+  .level-up-modal-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .level-up-modal-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .level-up-elemental-name {
+    font-size: 1.1rem;
+  }
+
+  .level-up-modal-actions {
+    padding: 0.875rem 1rem;
+  }
+
+  .level-up-cancel-btn,
+  .level-up-confirm-btn {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.85rem;
+  }
 }
 
 /* Responsive styles for compact button */

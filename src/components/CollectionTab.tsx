@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import {
-  CollectedElemental,
-  PlayerStats,
-  ElementalDisplayData,
+    CollectedElemental,
+    ElementalDisplayData,
+    PlayerStats,
 } from '../types';
 import CollectibleCard from './CollectibleCard';
 
@@ -35,12 +36,35 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     return () => clearInterval(interval);
   }, [forceUpdate]);
 
-  // Cleanup modal-open class on unmount
+  // Manage modal-open class for confirm modal
   useEffect(() => {
+    if (showConfirmModal) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, []);
+  }, [showConfirmModal]);
+
+  // Handle escape key for modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showConfirmModal) {
+        handleCancelLevelUp();
+      }
+    };
+
+    if (showConfirmModal) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [showConfirmModal]);
 
   const ownedElementals = Object.values(
     player.elementalCollection.elementals
@@ -61,7 +85,6 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     setSelectedElemental(elemental);
     setSelectedDisplayData(displayData);
     setShowConfirmModal(true);
-    document.body.classList.add('modal-open');
   };
 
   const handleConfirmLevelUp = () => {
@@ -70,7 +93,6 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
       setShowConfirmModal(false);
       setSelectedElemental(null);
       setSelectedDisplayData(null);
-      document.body.classList.remove('modal-open');
     }
   };
 
@@ -78,16 +100,9 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     setShowConfirmModal(false);
     setSelectedElemental(null);
     setSelectedDisplayData(null);
-    document.body.classList.remove('modal-open');
   };
 
-  const getElementalDisplayName = (elemental: CollectedElemental): string => {
-    const elementName =
-      elemental.element.charAt(0).toUpperCase() + elemental.element.slice(1);
-    const rarityName =
-      elemental.rarity.charAt(0).toUpperCase() + elemental.rarity.slice(1);
-    return `${elementName} ${rarityName}`;
-  };
+
 
   return (
     <main className='collection-container-modern'>
@@ -233,84 +248,84 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
         </div>
       )}
 
-      {/* Confirmation Modal */}
-      {showConfirmModal && selectedElemental && selectedDisplayData && (
-        <div className='modal-overlay active' onClick={handleCancelLevelUp}>
-          <div className='confirm-modal' onClick={e => e.stopPropagation()}>
-            <div className='modal-header'>
-              <h3>
-                Confirm{' '}
-                {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
-              </h3>
-              <button className='modal-close' onClick={handleCancelLevelUp}>
-                ×
-              </button>
-            </div>
+             {/* Level Up Confirmation Modal */}
+       {showConfirmModal && selectedElemental && selectedDisplayData &&
+         ReactDOM.createPortal(
+           <div className='level-up-modal-overlay active' onClick={handleCancelLevelUp}>
+             <div className='level-up-modal' onClick={e => e.stopPropagation()}>
+               <div className='level-up-modal-header'>
+                 <h3>
+                   Confirm{' '}
+                   {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
+                 </h3>
+                 <button className='level-up-modal-close' onClick={handleCancelLevelUp}>
+                   ×
+                 </button>
+               </div>
 
-            <div className='modal-content'>
-              <div className='elemental-info'>
-                <div className='elemental-name'>
-                  {getElementalDisplayName(selectedElemental)}
-                </div>
-                <div className='elemental-details'>
-                  <span>
-                    Level {selectedElemental.level} →{' '}
-                    {selectedElemental.level + 1}
-                  </span>
-                  {selectedDisplayData.canUpgradeRarity && (
-                    <span className='rarity-upgrade'>
-                      {selectedElemental.rarity.charAt(0).toUpperCase() +
-                        selectedElemental.rarity.slice(1)}{' '}
-                      →
-                      {selectedElemental.rarity === 'common'
-                        ? ' Rare'
-                        : selectedElemental.rarity === 'rare'
-                          ? ' Epic'
-                          : selectedElemental.rarity === 'epic'
-                            ? ' Immortal'
-                            : ''}
-                    </span>
-                  )}
-                </div>
-              </div>
+                               <div className='level-up-modal-content'>
+                  <div className='level-up-elemental-info'>
+                    <div className='level-up-elemental-details'>
+                      <span>
+                        Level {selectedElemental.level} →{' '}
+                        {selectedElemental.level + 1}
+                      </span>
+                      {selectedDisplayData.canUpgradeRarity && (
+                        <span className='level-up-rarity-upgrade'>
+                          {selectedElemental.rarity.charAt(0).toUpperCase() +
+                            selectedElemental.rarity.slice(1)}{' '}
+                          →
+                          {selectedElemental.rarity === 'common'
+                            ? ' Rare'
+                            : selectedElemental.rarity === 'rare'
+                              ? ' Epic'
+                              : selectedElemental.rarity === 'epic'
+                                ? ' Immortal'
+                                : ''}
+                        </span>
+                      )}
+                    </div>
+                  </div>
 
-              <div className='cost-info'>
-                <div className='cost-amount'>
-                  <span className='cost-label'>Cost:</span>
-                  <span className='cost-value'>
-                    {selectedDisplayData.levelUpCost} Mana
-                  </span>
-                </div>
-                <div className='balance-info'>
-                  <span className='balance-label'>Your Balance:</span>
-                  <span className='balance-value'>{player.mana} Mana</span>
-                </div>
-                <div className='remaining-balance'>
-                  <span className='remaining-label'>Remaining:</span>
-                  <span
-                    className={`remaining-value ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'warning' : ''}`}
-                  >
-                    {player.mana - selectedDisplayData.levelUpCost} Mana
-                  </span>
-                </div>
-              </div>
-            </div>
+                 <div className='level-up-cost-info'>
+                   <div className='level-up-cost-amount'>
+                     <span className='level-up-cost-label'>Cost:</span>
+                     <span className='level-up-cost-value'>
+                       {selectedDisplayData.levelUpCost} Mana
+                     </span>
+                   </div>
+                   <div className='level-up-balance-info'>
+                     <span className='level-up-balance-label'>Your Balance:</span>
+                     <span className='level-up-balance-value'>{player.mana} Mana</span>
+                   </div>
+                   <div className='level-up-remaining-balance'>
+                     <span className='level-up-remaining-label'>Remaining:</span>
+                     <span
+                       className={`level-up-remaining-value ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'warning' : ''}`}
+                     >
+                       {player.mana - selectedDisplayData.levelUpCost} Mana
+                     </span>
+                   </div>
+                 </div>
+               </div>
 
-            <div className='modal-actions'>
-              <button className='cancel-btn' onClick={handleCancelLevelUp}>
-                Cancel
-              </button>
-              <button
-                className={`confirm-btn ${selectedDisplayData.canUpgradeRarity ? 'upgrade' : ''} ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'disabled' : ''}`}
-                onClick={handleConfirmLevelUp}
-                disabled={player.mana - selectedDisplayData.levelUpCost < 100}
-              >
-                {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+               <div className='level-up-modal-actions'>
+                 <button className='level-up-cancel-btn' onClick={handleCancelLevelUp}>
+                   Cancel
+                 </button>
+                 <button
+                   className={`level-up-confirm-btn ${selectedDisplayData.canUpgradeRarity ? 'upgrade' : ''} ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'disabled' : ''}`}
+                   onClick={handleConfirmLevelUp}
+                   disabled={player.mana - selectedDisplayData.levelUpCost < 100}
+                 >
+                   {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
+                 </button>
+               </div>
+             </div>
+           </div>,
+           document.body
+         )
+       }
     </main>
   );
 };

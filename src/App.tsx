@@ -11,33 +11,33 @@ import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
 import SettingsMenu from './components/SettingsMenu';
 import {
-  ELEMENTAL_TYPES,
-  ELEMENTS,
-  LOCATIONS,
-  addElementalToCollection,
-  addExperienceToElemental,
-  calculateBattleResult,
-  canAffordLocation,
-  canLevelUpElemental,
-  createInitialCollection,
-  generateOpponent,
-  getAchievementDefinitions,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRandomElement,
-  getRandomElementalReward,
-  getRank,
-  getRarityUpgradeCost,
-  getTitle,
-  levelUpElemental,
-  setElementalCooldown,
+    ELEMENTAL_TYPES,
+    ELEMENTS,
+    LOCATIONS,
+    addElementalToCollection,
+    addExperienceToElemental,
+    calculateBattleResult,
+    canAffordLocation,
+    canLevelUpElemental,
+    createInitialCollection,
+    generateOpponent,
+    getAchievementDefinitions,
+    getLevelUpCost,
+    getMaxLevelForRarity,
+    getRandomElement,
+    getRandomElementalReward,
+    getRank,
+    getRarityUpgradeCost,
+    getTitle,
+    levelUpElemental,
+    setElementalCooldown,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -138,6 +138,19 @@ const App: React.FC = () => {
       })
     );
   }, [musicVolume]);
+
+  // Manage modal-open class for rules modal
+  useEffect(() => {
+    if (rulesOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [rulesOpen]);
 
   const updatePlayer = useCallback((updates: Partial<PlayerStats>) => {
     setGameState(prev => {
