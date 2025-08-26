@@ -842,6 +842,13 @@ body::-webkit-scrollbar {
   visibility: visible;
 }
 
+/* Prevent body scroll when modal is active */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
 .modal {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
@@ -5294,7 +5301,7 @@ body::-webkit-scrollbar {
   }
 
   .level-indicator::before {
-    content: "LVL ";
+    content: 'LVL ';
     font-weight: 600;
   }
 
@@ -5556,8 +5563,6 @@ body::-webkit-scrollbar {
   .nav-container {
     padding: 0 0.5rem;
   }
-
-
 }
 
 /* Updated responsive styles for larger emojis */
@@ -6462,10 +6467,89 @@ body::-webkit-scrollbar {
 /* Collectible Cards Grid */
 .collectible-cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  padding: 1rem;
-  margin: 0 1rem;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.2rem;
+  padding: 0.2rem;
+  margin: 0 0.2rem;
+  justify-items: center;
+}
+
+/* Responsive Grid - Mobile First Approach */
+@media (min-width: 400px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+  }
+
+  .collectible-card {
+    transform: scale(0.9);
+    transform-origin: center top;
+  }
+}
+
+@media (min-width: 768px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+  }
+
+  .collectible-card {
+    transform: scale(0.95);
+    transform-origin: center top;
+  }
+}
+
+@media (min-width: 1024px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .collectible-card {
+    transform: scale(1);
+    transform-origin: center top;
+  }
+}
+
+@media (min-width: 1440px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .collectible-card {
+    transform: scale(1.05);
+    transform-origin: center top;
+  }
+}
+
+/* Extra small screens - ensure single column */
+@media (max-width: 399px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+  }
+}
+
+/* Very small screens - scale entire card proportionally */
+@media (max-width: 360px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+  }
+
+  .collectible-card {
+    width: 200px;
+    height: 340px;
+    transform: scale(0.85);
+    transform-origin: center top;
+  }
 }
 
 /* Collectible Card Styles */
@@ -6478,10 +6562,11 @@ body::-webkit-scrollbar {
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  min-height: 380px;
-  height: 100%;
+  width: 280px;
+  height: 380px;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 /* Rarity Border System - Innovative Visual Design */
@@ -6571,7 +6656,8 @@ body::-webkit-scrollbar {
 
 /* Rarity Glow Animations */
 @keyframes commonGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
@@ -6582,7 +6668,8 @@ body::-webkit-scrollbar {
 }
 
 @keyframes rareGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
@@ -6593,7 +6680,8 @@ body::-webkit-scrollbar {
 }
 
 @keyframes epicGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
     transform: scale(1);
   }
@@ -6604,7 +6692,8 @@ body::-webkit-scrollbar {
 }
 
 @keyframes immortalGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
     transform: scale(1);
   }
@@ -6622,7 +6711,12 @@ body::-webkit-scrollbar {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(79, 160, 175, 0.1) 50%, transparent 70%);
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(79, 160, 175, 0.1) 50%,
+    transparent 70%
+  );
   animation: rareShine 4s ease-in-out infinite;
   pointer-events: none;
 }
@@ -6634,7 +6728,11 @@ body::-webkit-scrollbar {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.2) 0%, transparent 70%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(155, 89, 182, 0.2) 0%,
+    transparent 70%
+  );
   animation: epicPulse 3s ease-in-out infinite;
   pointer-events: none;
 }
@@ -6647,30 +6745,57 @@ body::-webkit-scrollbar {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 30% 30%, rgba(243, 156, 18, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 70% 70%, rgba(230, 126, 34, 0.3) 0%, transparent 50%);
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(243, 156, 18, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(230, 126, 34, 0.3) 0%,
+      transparent 50%
+    );
   animation: immortalAura 2s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes rareShine {
-  0%, 100% { transform: translateX(-100%); }
-  50% { transform: translateX(100%); }
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes epicPulse {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.1); }
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
 }
 
 @keyframes immortalAura {
-  0%, 100% { opacity: 0.3; transform: rotate(0deg); }
-  50% { opacity: 0.6; transform: rotate(180deg); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: rotate(0deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: rotate(180deg);
+  }
 }
 
 .collectible-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   border-color: var(--rarity-color);
 }
 
@@ -6697,7 +6822,11 @@ body::-webkit-scrollbar {
 /* Artwork Area - Main Focus */
 .card-artwork {
   position: relative;
-  background: linear-gradient(135deg, var(--element-color), var(--element-color)40);
+  background: linear-gradient(
+    135deg,
+    var(--element-color),
+    var(--element-color) 40
+  );
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   width: 100%;
   height: 274px;
@@ -6767,7 +6896,11 @@ body::-webkit-scrollbar {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 70%);
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.1),
+    transparent 70%
+  );
   z-index: 0;
 }
 
@@ -6815,15 +6948,17 @@ body::-webkit-scrollbar {
   color: white;
 }
 
-
-
 /* Character Name Block */
 .character-name-block {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0;
   margin: 0;
-  padding: 8px 12px;
+  padding: 6px 10px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -6836,13 +6971,22 @@ body::-webkit-scrollbar {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 70%
+  );
   animation: shimmer 2s infinite;
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .character-name-text {
@@ -6861,8 +7005,13 @@ body::-webkit-scrollbar {
 .character-divider {
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  margin: 6px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  margin: 4px 0;
 }
 
 .character-divider + .character-divider {
@@ -6882,10 +7031,8 @@ body::-webkit-scrollbar {
   letter-spacing: 1px;
   font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 4px;
 }
-
-
 
 .card-bottom-indicators {
   position: absolute;
@@ -6898,8 +7045,6 @@ body::-webkit-scrollbar {
   padding: 0 16px;
   z-index: 10;
 }
-
-
 
 .level-indicator-bottom-right {
   color: #ff6b6b;
@@ -6914,8 +7059,6 @@ body::-webkit-scrollbar {
   backdrop-filter: blur(4px);
 }
 
-
-
 .character-description-text {
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.7rem;
@@ -6927,11 +7070,6 @@ body::-webkit-scrollbar {
 }
 
 /* Top Corner Indicators */
-
-
-
-
-
 
 /* Bottom Section */
 .card-bottom {
@@ -7126,7 +7264,8 @@ body::-webkit-scrollbar {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.7;
     text-shadow: 0 0 8px rgba(255, 107, 107, 0.8);
   }
@@ -7137,8 +7276,16 @@ body::-webkit-scrollbar {
 }
 
 @keyframes glow {
-  from { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 5px rgba(16, 185, 129, 0.5); }
-  to { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(16, 185, 129, 0.8); }
+  from {
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.9),
+      0 0 5px rgba(16, 185, 129, 0.5);
+  }
+  to {
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.9),
+      0 0 10px rgba(16, 185, 129, 0.8);
+  }
 }
 
 /* Compact Action Button on Artwork */
@@ -7306,18 +7453,24 @@ body::-webkit-scrollbar {
   margin-bottom: 1.5rem;
 }
 
-.cost-amount, .balance-info, .remaining-balance {
+.cost-amount,
+.balance-info,
+.remaining-balance {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.cost-amount:last-child, .balance-info:last-child, .remaining-balance:last-child {
+.cost-amount:last-child,
+.balance-info:last-child,
+.remaining-balance:last-child {
   margin-bottom: 0;
 }
 
-.cost-label, .balance-label, .remaining-label {
+.cost-label,
+.balance-label,
+.remaining-label {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.9rem;
 }
@@ -7352,7 +7505,8 @@ body::-webkit-scrollbar {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.cancel-btn, .confirm-btn {
+.cancel-btn,
+.confirm-btn {
   flex: 1;
   padding: 0.75rem 1rem;
   border: none;
@@ -7857,10 +8011,10 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
+  border-radius: 15px;
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -7868,18 +8022,51 @@ body::-webkit-scrollbar {
 .collection-title-modern {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .title-icon {
-  font-size: 1.5rem;
+  font-size: 1.56rem;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+/* Responsive title icon for small screens */
+@media (max-width: 768px) {
+  .title-icon {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-icon {
+    font-size: 1.04rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .title-icon {
+    font-size: 0.78rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .title-icon {
+    font-size: 0.52rem !important;
+  }
+}
+
+/* Keep small icon for larger screens too */
+@media (min-width: 769px) {
+  .title-icon {
+    font-size: 1.3rem;
+  }
 }
 
 .title-content h1 {
   font-family: 'Volkhov', serif;
-  font-size: 1.5rem;
+  font-size: 1.56rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
@@ -7889,37 +8076,69 @@ body::-webkit-scrollbar {
   background-clip: text;
 }
 
+/* Responsive title for small screens */
+@media (max-width: 768px) {
+  .title-content h1 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-content h1 {
+    font-size: 1.04rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .title-content h1 {
+    font-size: 0.78rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .title-content h1 {
+    font-size: 0.52rem !important;
+  }
+}
+
+/* Keep small title for larger screens too */
+@media (min-width: 769px) {
+  .title-content h1 {
+    font-size: 1.3rem;
+  }
+}
+
 .collection-stats-modern {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
 }
 
 .stat-card.compact {
-  padding: 0.6rem 1rem;
-  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  gap: 0.25rem;
 }
 
 .stat-card.compact .stat-icon {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .stat-card.compact .stat-value {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .stat-card.compact .stat-label {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
 }
 
 .stat-card:hover {
@@ -7946,7 +8165,7 @@ body::-webkit-scrollbar {
 }
 
 .stat-icon {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
@@ -7955,7 +8174,7 @@ body::-webkit-scrollbar {
 }
 
 .stat-value {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
@@ -7987,7 +8206,7 @@ body::-webkit-scrollbar {
 }
 
 .filter-label {
-  font-size: 0.9rem;
+  font-size: 0.54rem;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -8170,104 +8389,104 @@ body::-webkit-scrollbar {
   font-weight: 700;
   font-size: 0.7rem;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    display: none; /* Скрываем бейдж сверху */
-  }
+  display: none; /* Скрываем бейдж сверху */
+}
 
-  /* Уровень возле линии прогресса - аккуратно и не заметно */
-  .level-progress-modern {
-    margin-bottom: 0.75rem;
-    position: relative;
-  }
+/* Уровень возле линии прогресса - аккуратно и не заметно */
+.level-progress-modern {
+  margin-bottom: 0.75rem;
+  position: relative;
+}
 
-  .level-indicator {
-    position: absolute;
-    top: -0.2rem;
-    right: 0;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
-    padding: 0.1rem 0.3rem;
-    border-radius: 6px;
-    font-size: 0.6rem;
-    font-weight: 500;
-    opacity: 0.7;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
+.level-indicator {
+  position: absolute;
+  top: -0.2rem;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  padding: 0.1rem 0.3rem;
+  border-radius: 6px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  opacity: 0.7;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-  .progress-bar-modern {
-    width: 100% !important;
-    height: 49px !important; /* Уменьшаем еще на 10% (54px * 0.9 = 48.6px ≈ 49px) */
-    min-height: 49px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 15px !important; /* Уменьшаем скругление */
-    overflow: hidden !important;
-    margin-bottom: 0.4rem !important;
-    position: relative !important;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-    box-sizing: border-box !important;
-  }
+.progress-bar-modern {
+  width: 100% !important;
+  height: 49px !important; /* Уменьшаем еще на 10% (54px * 0.9 = 48.6px ≈ 49px) */
+  min-height: 49px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 15px !important; /* Уменьшаем скругление */
+  overflow: hidden !important;
+  margin-bottom: 0.4rem !important;
+  position: relative !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  box-sizing: border-box !important;
+}
 
-  .progress-fill-modern {
-    height: 100%;
-    background: linear-gradient(90deg, #fbbf24, #f59e0b);
-    border-radius: 10px;
-    transition: width 0.3s ease;
-    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
-    position: relative;
-  }
+.progress-fill-modern {
+  height: 100%;
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+  position: relative;
+}
 
-  /* Убираем псевдоэлемент - текст будет добавляться через React */
+/* Убираем псевдоэлемент - текст будет добавляться через React */
 
-  /* Стили для динамического текста уровня */
-  .level-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
-    z-index: 10;
-    opacity: 1;
-    pointer-events: none;
-    white-space: nowrap;
-  }
+/* Стили для динамического текста уровня */
+.level-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  z-index: 10;
+  opacity: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
 
-  .progress-text {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+.progress-text {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
 
-  /* Скрываем надпись "LEVEL PROGRESS" и оставляем только "LVL" */
-  .progress-text {
-    display: none;
-  }
+/* Скрываем надпись "LEVEL PROGRESS" и оставляем только "LVL" */
+.progress-text {
+  display: none;
+}
 
-  /* Стили для индикатора "LVL" возле прогресс-бара */
-  .level-indicator {
-    position: absolute;
-    top: -0.2rem;
-    right: 0;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
-    padding: 0.1rem 0.3rem;
-    border-radius: 6px;
-    font-size: 0.6rem;
-    font-weight: 500;
-    opacity: 0.7;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
+/* Стили для индикатора "LVL" возле прогресс-бара */
+.level-indicator {
+  position: absolute;
+  top: -0.2rem;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  padding: 0.1rem 0.3rem;
+  border-radius: 6px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  opacity: 0.7;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-  .level-indicator::before {
-    content: "LVL ";
-    font-weight: 600;
+.level-indicator::before {
+  content: 'LVL ';
+  font-weight: 600;
 }
 
 .elemental-stats-modern {
@@ -8932,7 +9151,11 @@ body::-webkit-scrollbar {
   }
 
   .total-count-card {
-    background: linear-gradient(135deg, rgba(218, 165, 32, 0.2), rgba(255, 215, 0, 0.1));
+    background: linear-gradient(
+      135deg,
+      rgba(218, 165, 32, 0.2),
+      rgba(255, 215, 0, 0.1)
+    );
     border: 1px solid rgba(218, 165, 32, 0.3);
     border-radius: 12px;
     padding: 0.75rem 1rem;
@@ -9114,7 +9337,7 @@ body::-webkit-scrollbar {
   }
 
   .level-indicator::before {
-    content: "LVL ";
+    content: 'LVL ';
     font-weight: 600;
   }
 
@@ -9147,10 +9370,9 @@ body::-webkit-scrollbar {
 
   /* Collectible Cards - Responsive */
   .collectible-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 0.8rem;
-    margin: 0 0.8rem;
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
   }
 
   .collectible-card {
@@ -9201,10 +9423,9 @@ body::-webkit-scrollbar {
 
   /* Collectible Cards - Very Small Screens */
   .collectible-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.6rem;
-    padding: 0.4rem;
-    margin: 0 0.4rem;
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin: 0 0.2rem;
   }
 
   .collection-header {
@@ -9219,8 +9440,8 @@ body::-webkit-scrollbar {
   }
 
   .collectible-card {
-    min-height: 280px;
-    height: 100%;
+    width: 240px;
+    height: 340px;
   }
 
   .artwork-image {
@@ -9493,8 +9714,6 @@ body::-webkit-scrollbar {
   .nav-container {
     padding: 0 0.4rem;
   }
-
-
 }
 
 /* Golden shimmer animation for MAX LVL button */

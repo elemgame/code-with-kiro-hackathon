@@ -92,6 +92,17 @@ export interface Opponent {
   elemental?: ElementalRarity;
 }
 
+export interface ElementalDisplayData {
+  currentName: string;
+  currentEmoji: string;
+  currentProtection: number;
+  canLevelUp: boolean;
+  levelUpCost: number;
+  maxLevel: number;
+  canUpgradeRarity: boolean;
+  isImmortal: boolean;
+}
+
 export interface Achievement {
   id: string;
   icon: string;
