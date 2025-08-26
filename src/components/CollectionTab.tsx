@@ -1,21 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  canLevelUpElemental,
-  ELEMENTAL_TYPES,
-  formatCooldownTime,
-  getElementalCooldownRemaining,
-  getElementalProtection,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRarityUpgradeCost,
-  isElementalOnCooldown,
-} from '../gameLogic';
+import React, { useEffect, useState } from 'react';
 import {
   CollectedElemental,
-  Element,
-  ElementalRarity,
   PlayerStats,
+  ElementalDisplayData,
 } from '../types';
+import CollectibleCard from './CollectibleCard';
 
 interface CollectionTabProps {
   player: PlayerStats;
@@ -26,12 +15,32 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
   player,
   onLevelUpElemental,
 }) => {
-  const [selectedElement, setSelectedElement] = useState<Element | 'all'>(
-    'all'
-  );
-  const [selectedRarity, setSelectedRarity] = useState<ElementalRarity | 'all'>(
-    'all'
-  );
+  const [selectedElement, setSelectedElement] = useState<
+    'earth' | 'water' | 'fire' | 'all'
+  >('all');
+  const [selectedRarity, setSelectedRarity] = useState<
+    'common' | 'rare' | 'epic' | 'immortal' | 'all'
+  >('all');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedElemental, setSelectedElemental] =
+    useState<CollectedElemental | null>(null);
+  const [selectedDisplayData, setSelectedDisplayData] =
+    useState<ElementalDisplayData | null>(null);
+  const [, forceUpdate] = useState(0);
+  // Update time every second for cooldown timers
+  useEffect(() => {
+    const interval = setInterval(() => {
+      forceUpdate(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [forceUpdate]);
+
+  // Cleanup modal-open class on unmount
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, []);
 
   const ownedElementals = Object.values(
     player.elementalCollection.elementals
@@ -45,85 +54,39 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     return true;
   });
 
-  const getRarityColor = (rarity: ElementalRarity): string => {
-    switch (rarity) {
-      case 'common':
-        return '#9ca3af';
-      case 'rare':
-        return '#3b82f6';
-      case 'epic':
-        return '#8b5cf6';
-      case 'immortal':
-        return '#f59e0b';
-      default:
-        return '#9ca3af';
+  const handleLevelUpClick = (
+    elemental: CollectedElemental,
+    displayData: ElementalDisplayData
+  ) => {
+    setSelectedElemental(elemental);
+    setSelectedDisplayData(displayData);
+    setShowConfirmModal(true);
+    document.body.classList.add('modal-open');
+  };
+
+  const handleConfirmLevelUp = () => {
+    if (selectedElemental && selectedDisplayData) {
+      onLevelUpElemental(selectedElemental.id);
+      setShowConfirmModal(false);
+      setSelectedElemental(null);
+      setSelectedDisplayData(null);
+      document.body.classList.remove('modal-open');
     }
   };
 
-  const getRarityName = (rarity: ElementalRarity): string => {
-    switch (rarity) {
-      case 'common':
-        return 'Common';
-      case 'rare':
-        return 'Rare';
-      case 'epic':
-        return 'Epic';
-      case 'immortal':
-        return 'Immortal';
-      default:
-        return 'Common';
-    }
+  const handleCancelLevelUp = () => {
+    setShowConfirmModal(false);
+    setSelectedElemental(null);
+    setSelectedDisplayData(null);
+    document.body.classList.remove('modal-open');
   };
 
-  const MarqueeText: React.FC<{ text: string; className: string }> = ({
-    text,
-    className,
-  }) => {
-    const textRef = useRef<HTMLDivElement>(null);
-    const [needsMarquee, setNeedsMarquee] = useState(false);
-
-    useEffect(() => {
-      if (textRef.current) {
-        const element = textRef.current;
-        const isOverflowing = element.scrollWidth > element.clientWidth;
-        setNeedsMarquee(isOverflowing);
-      }
-    }, [text]);
-
-    return (
-      <div
-        ref={textRef}
-        className={className}
-        data-text={text}
-        data-overflow={needsMarquee}
-      >
-        {text}
-      </div>
-    );
-  };
-
-  const getElementalDisplayData = (elemental: CollectedElemental) => {
-    const elementalData = ELEMENTAL_TYPES[elemental.element][elemental.rarity];
-    const protection = getElementalProtection(elemental);
-    const maxLevel = getMaxLevelForRarity(elemental.rarity);
-    const canUpgradeRarity =
-      elemental.level >= maxLevel && elemental.rarity !== 'immortal';
-
-    // Determine the correct cost based on upgrade type
-    const cost = canUpgradeRarity
-      ? getRarityUpgradeCost(elemental.rarity)
-      : getLevelUpCost(elemental);
-
-    return {
-      currentName: elementalData.name,
-      currentEmoji: elementalData.emoji,
-      currentProtection: protection,
-      canLevelUp: canLevelUpElemental(elemental, player.mana),
-      levelUpCost: cost,
-      maxLevel,
-      canUpgradeRarity,
-      isImmortal: elemental.rarity === 'immortal',
-    };
+  const getElementalDisplayName = (elemental: CollectedElemental): string => {
+    const elementName =
+      elemental.element.charAt(0).toUpperCase() + elemental.element.slice(1);
+    const rarityName =
+      elemental.rarity.charAt(0).toUpperCase() + elemental.rarity.slice(1);
+    return `${elementName} ${rarityName}`;
   };
 
   return (
@@ -232,109 +195,16 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
         </div>
       </div>
 
-      {/* Modern Elementals Grid */}
-      <div className='elementals-grid-modern'>
-        {filteredElementals.map(elemental => {
-          const displayData = getElementalDisplayData(elemental);
-          const maxLevel = getMaxLevelForRarity(elemental.rarity);
-          // Show level progress instead of experience progress
-          const levelProgress = (elemental.level / maxLevel) * 100;
-
-          return (
-            <div
-              key={elemental.id}
-              className='elemental-card-modern'
-              style={
-                {
-                  '--rarity-color': getRarityColor(elemental.rarity),
-                  '--rarity-glow': `${getRarityColor(elemental.rarity)}40`,
-                } as React.CSSProperties
-              }
-            >
-              {/* Modern Elemental Header */}
-              <div className='elemental-header-modern'>
-                <div className='elemental-emoji-modern'>
-                  {displayData.currentEmoji}
-                </div>
-                <div className='elemental-info-modern'>
-                  <MarqueeText
-                    text={displayData.currentName}
-                    className='elemental-name-modern'
-                  />
-                  <div className='elemental-rarity-modern'>
-                    {getRarityName(elemental.rarity)}
-                  </div>
-                </div>
-                <div className='elemental-level-modern'>
-                  <span>Lv.{elemental.level}</span>
-                </div>
-              </div>
-
-              {/* Modern Elemental Stats */}
-              <div className='elemental-stats-modern'>
-                <div className='stat-item-modern'>
-                  <div className='stat-icon'>🛡️</div>
-                  <div className='stat-content'>
-                    <div className='stat-value'>
-                      {(displayData.currentProtection * 100).toFixed(0)}%
-                    </div>
-                    <div className='stat-label'>Protection</div>
-                  </div>
-                </div>
-                <div
-                  className={`cooldown-indicator-modern ${isElementalOnCooldown(elemental) ? 'active' : 'inactive'}`}
-                >
-                  <div className='cooldown-icon'>⏰</div>
-                  <div className='cooldown-text'>
-                    {isElementalOnCooldown(elemental)
-                      ? formatCooldownTime(
-                          getElementalCooldownRemaining(elemental)
-                        )
-                      : '0h 0m'}
-                  </div>
-                </div>
-              </div>
-
-              {/* Modern Level Progress Bar */}
-              <div className='level-progress-modern'>
-                <div className='progress-bar-modern'>
-                  <div
-                    className='progress-fill-modern'
-                    style={{ width: `${levelProgress}%` }}
-                  />
-                </div>
-                <div className='progress-text'>Level Progress</div>
-              </div>
-
-              {/* Modern Action Buttons */}
-              <div className='elemental-actions-modern'>
-                {displayData.isImmortal ? (
-                  <button
-                    className='action-btn-modern max-level-btn-modern'
-                    disabled
-                  >
-                    <span className='btn-icon'>🏆</span>
-                    <span className='btn-text'>MAX LVL</span>
-                    <span className='btn-cost'>Immortal</span>
-                  </button>
-                ) : displayData.canLevelUp ? (
-                  <button
-                    className={`action-btn-modern ${displayData.canUpgradeRarity ? 'upgrade-btn-modern' : 'level-up-btn-modern'}`}
-                    onClick={() => onLevelUpElemental(elemental.id)}
-                  >
-                    <span className='btn-icon'>⚡</span>
-                    <span className='btn-text'>
-                      {displayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
-                    </span>
-                    <span className='btn-cost'>
-                      {displayData.levelUpCost} Mana
-                    </span>
-                  </button>
-                ) : null}
-              </div>
-            </div>
-          );
-        })}
+      {/* Collectible Cards Grid */}
+      <div className='collectible-cards-grid'>
+        {filteredElementals.map(elemental => (
+          <CollectibleCard
+            key={elemental.id}
+            elemental={elemental}
+            onLevelUpClick={handleLevelUpClick}
+            playerMana={player.mana}
+          />
+        ))}
       </div>
 
       {/* Modern Empty State */}
@@ -359,6 +229,85 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
             >
               Show All Rarities
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && selectedElemental && selectedDisplayData && (
+        <div className='modal-overlay active' onClick={handleCancelLevelUp}>
+          <div className='confirm-modal' onClick={e => e.stopPropagation()}>
+            <div className='modal-header'>
+              <h3>
+                Confirm{' '}
+                {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
+              </h3>
+              <button className='modal-close' onClick={handleCancelLevelUp}>
+                ×
+              </button>
+            </div>
+
+            <div className='modal-content'>
+              <div className='elemental-info'>
+                <div className='elemental-name'>
+                  {getElementalDisplayName(selectedElemental)}
+                </div>
+                <div className='elemental-details'>
+                  <span>
+                    Level {selectedElemental.level} →{' '}
+                    {selectedElemental.level + 1}
+                  </span>
+                  {selectedDisplayData.canUpgradeRarity && (
+                    <span className='rarity-upgrade'>
+                      {selectedElemental.rarity.charAt(0).toUpperCase() +
+                        selectedElemental.rarity.slice(1)}{' '}
+                      →
+                      {selectedElemental.rarity === 'common'
+                        ? ' Rare'
+                        : selectedElemental.rarity === 'rare'
+                          ? ' Epic'
+                          : selectedElemental.rarity === 'epic'
+                            ? ' Immortal'
+                            : ''}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className='cost-info'>
+                <div className='cost-amount'>
+                  <span className='cost-label'>Cost:</span>
+                  <span className='cost-value'>
+                    {selectedDisplayData.levelUpCost} Mana
+                  </span>
+                </div>
+                <div className='balance-info'>
+                  <span className='balance-label'>Your Balance:</span>
+                  <span className='balance-value'>{player.mana} Mana</span>
+                </div>
+                <div className='remaining-balance'>
+                  <span className='remaining-label'>Remaining:</span>
+                  <span
+                    className={`remaining-value ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'warning' : ''}`}
+                  >
+                    {player.mana - selectedDisplayData.levelUpCost} Mana
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className='modal-actions'>
+              <button className='cancel-btn' onClick={handleCancelLevelUp}>
+                Cancel
+              </button>
+              <button
+                className={`confirm-btn ${selectedDisplayData.canUpgradeRarity ? 'upgrade' : ''} ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'disabled' : ''}`}
+                onClick={handleConfirmLevelUp}
+                disabled={player.mana - selectedDisplayData.levelUpCost < 100}
+              >
+                {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
+              </button>
+            </div>
           </div>
         </div>
       )}

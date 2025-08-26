@@ -42,7 +42,7 @@ import {
 
 const INITIAL_PLAYER: PlayerStats = {
   name: 'Warrior',
-  mana: 1000,
+  mana: 1600,
   wins: 0,
   losses: 0,
   selectedElement: null,
