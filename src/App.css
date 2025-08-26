@@ -6475,7 +6475,7 @@ body.modal-open {
 }
 
 /* Responsive Grid - Mobile First Approach */
-@media (min-width: 400px) {
+@media (min-width: 600px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.2rem;
@@ -6526,7 +6526,7 @@ body.modal-open {
 }
 
 /* Extra small screens - ensure single column */
-@media (max-width: 399px) {
+@media (max-width: 599px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
     gap: 0.2rem;
