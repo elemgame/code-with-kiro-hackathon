@@ -91,6 +91,44 @@
   }
 }
 
+/* Extra small screens - less than 420px */
+@media (max-width: 420px) {
+  :root {
+    /* Ultra small mobile - even smaller fonts and spacing */
+    --font-size-xs: 0.5rem;
+    --font-size-sm: 0.625rem;
+    --font-size-base: 0.75rem;
+    --font-size-lg: 0.875rem;
+    --font-size-xl: 1rem;
+    --font-size-2xl: 1.125rem;
+    --font-size-3xl: 1.375rem;
+    --font-size-4xl: 1.625rem;
+    --font-size-5xl: 2rem;
+
+    --spacing-xs: 0.1rem;
+    --spacing-sm: 0.2rem;
+    --spacing-md: 0.4rem;
+    --spacing-lg: 0.6rem;
+    --spacing-xl: 0.8rem;
+    --spacing-2xl: 1.2rem;
+
+    --icon-size-sm: 1.25rem;
+    --icon-size-md: 1.75rem;
+    --icon-size-lg: 2.25rem;
+    --icon-size-xl: 4rem;
+
+    --button-height-sm: 1.75rem;
+    --button-height-md: 2.25rem;
+    --button-height-lg: 2.75rem;
+
+    --border-radius-sm: 4px;
+    --border-radius-md: 6px;
+    --border-radius-lg: 8px;
+    --border-radius-xl: 10px;
+    --border-radius-2xl: 12px;
+  }
+}
+
 @media (min-width: 481px) and (max-width: 768px) {
   :root {
     /* Mobile - smaller fonts and spacing */
@@ -4751,38 +4789,74 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 420px) {
+  /* Battle section - increased spacing and larger emojis */
+  .battle-section {
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: var(--spacing-sm);
+  }
+
+  .battle-display {
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+  }
+
+  .battle-choice {
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    min-width: 100px;
+  }
+
+  .battle-emoji {
+    font-size: 3.5rem !important;
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+
+  .battle-vs {
+    font-size: 1.5rem;
+  }
+
+  .battle-player-name {
+    font-size: 0.8rem;
+  }
+
+  /* Element grid - increased spacing */
   .element-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
   }
 
   .element-btn {
-    height: 100px;
-    padding: var(--spacing-sm);
+    height: 110px;
+    padding: var(--spacing-md);
   }
 
   .element-emoji {
-    font-size: var(--icon-size-sm);
-    margin-bottom: var(--spacing-xs);
+    font-size: 2.5rem !important;
+    margin-bottom: var(--spacing-sm);
   }
 
   .element-name {
     font-size: var(--font-size-xs);
   }
 
+  /* Elemental grid - increased spacing */
   .elemental-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
   }
 
   .elemental-btn {
-    height: 100px;
-    padding: var(--spacing-sm);
+    height: 110px;
+    padding: var(--spacing-md);
   }
 
   .elemental-emoji {
-    font-size: var(--icon-size-sm);
-    margin-bottom: var(--spacing-xs);
+    font-size: 2.5rem !important;
+    margin-bottom: var(--spacing-sm);
   }
 
   .elemental-rarity-badge {
@@ -4790,6 +4864,34 @@ body::-webkit-scrollbar {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
 
+  /* Location grid - increased spacing */
+  .location-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+  }
+
+  .location-btn {
+    height: 95px;
+    padding: var(--spacing-md);
+  }
+
+  .location-emoji {
+    font-size: 2.2rem !important;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .location-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .location-mana {
+    font-size: 0.7rem;
+    opacity: 0.9;
+  }
+
+  /* Battle navigation and header */
   .battle-navigation {
     top: 5rem;
     padding: 0 var(--spacing-md);
@@ -4804,6 +4906,14 @@ body::-webkit-scrollbar {
     margin-bottom: var(--spacing-sm);
   }
 
+  /* Увеличиваем эмодзи арены для маленьких экранов */
+  .battle-icon {
+    font-size: 5.5rem !important;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+  }
+
   .battle-title {
     font-size: var(--font-size-2xl);
     margin-bottom: var(--spacing-xs);
@@ -4813,6 +4923,641 @@ body::-webkit-scrollbar {
     font-size: var(--font-size-sm);
     margin-bottom: var(--spacing-xs);
   }
+
+  /* Mana display */
+  .mana-display {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .mana-label {
+    font-size: var(--font-size-sm);
+  }
+
+  .mana-value {
+    font-size: var(--font-size-lg);
+  }
+
+  /* Battle button */
+  .battle-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    margin-top: var(--spacing-md);
+  }
+
+  /* Step indicator */
+  .battle-step-indicator {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .step-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Back button */
+  .back-btn {
+    width: var(--button-height-md);
+    height: var(--button-height-md);
+    font-size: var(--font-size-lg);
+  }
+
+  /* Battle progress */
+  .battle-progress {
+    font-size: var(--font-size-sm);
+  }
+
+  /* Navigation - smaller icons and text */
+  .nav-icon {
+    font-size: 1.25rem;
+  }
+
+  .nav-label {
+    font-size: 0.6rem;
+  }
+
+  .nav-item {
+    padding: 0.4rem;
+    min-width: 50px;
+  }
+
+  /* Profile section - smaller elements */
+  .profile-container {
+    padding: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .profile-hero {
+    padding: 1rem 0.75rem 0.75rem;
+  }
+
+  .hero-content {
+    gap: 0.75rem;
+  }
+
+  .avatar-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .avatar-emoji {
+    font-size: 1.5rem;
+  }
+
+  .player-name-modern {
+    font-size: 1.25rem;
+  }
+
+  .player-title-modern {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .player-rank-modern {
+    padding: 0.4rem 0.8rem;
+  }
+
+  .rank-text {
+    font-size: 0.7rem;
+  }
+
+  .stats-grid-modern {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-card-modern {
+    padding: 0.75rem;
+    min-height: 80px;
+  }
+
+  .stat-value-modern {
+    font-size: 1.25rem;
+  }
+
+  .stat-label-modern {
+    font-size: 0.65rem;
+  }
+
+  .achievements-modern {
+    padding: 0.75rem;
+  }
+
+  .achievement-card-modern {
+    padding: 0.75rem;
+  }
+
+  .achievement-icon-modern {
+    width: 32px;
+    height: 32px;
+    font-size: 1.25rem;
+  }
+
+  .achievement-name-modern {
+    font-size: 0.8rem;
+  }
+
+  .achievement-desc-modern {
+    font-size: 0.7rem;
+  }
+
+  /* Collection section - smaller cards */
+  .collection-container-modern {
+    padding: 0.5rem;
+  }
+
+  /* Уменьшенные карточки статистики для маленьких экранов */
+  .stat-card {
+    padding: 0.6rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .stat-icon {
+    font-size: 1.2rem;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+    margin-bottom: 0.05rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    margin-top: 0.05rem;
+  }
+
+  .collection-stats-modern {
+    gap: 0.5rem;
+  }
+
+  /* Адаптивные стили для списка редкостей на маленьких экранах */
+  .rarity-stats-container {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .total-count-card {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .total-count-icon {
+    font-size: 1.25rem;
+  }
+
+  .total-count-label {
+    font-size: 0.8rem;
+  }
+
+  .total-count-value {
+    font-size: 1.25rem;
+  }
+
+  .rarity-list {
+    gap: 0.4rem;
+  }
+
+  .rarity-item {
+    padding: 0.5rem 0.7rem;
+  }
+
+  .rarity-info {
+    gap: 0.5rem;
+  }
+
+  .rarity-icon {
+    font-size: 1rem;
+  }
+
+  .rarity-name {
+    font-size: 0.75rem;
+  }
+
+  .rarity-count {
+    gap: 0.3rem;
+  }
+
+  .rarity-number {
+    font-size: 1rem;
+  }
+
+  .rarity-percentage {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.3rem;
+  }
+
+  /* Выравнивание эмодзи и текста в карточках статистики */
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .stat-card.compact {
+    padding: 0.6rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .stat-card.compact .stat-icon {
+    font-size: 1.2rem;
+  }
+
+  .stat-card.compact .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .stat-card.compact .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .stat-card.epic {
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.2),
+      rgba(124, 58, 237, 0.2)
+    );
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+
+  .stat-card.immortal {
+    background: linear-gradient(
+      135deg,
+      rgba(245, 158, 11, 0.2),
+      rgba(217, 119, 6, 0.2)
+    );
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    flex-shrink: 0;
+  }
+
+  .stat-content {
+    text-align: left;
+    flex: 1;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 0.1rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.1rem;
+  }
+
+  .collection-header-modern {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title-content h1 {
+    font-size: 1.25rem;
+  }
+
+  .title-icon {
+    font-size: 1.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .elementals-grid-modern {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .elemental-card-modern {
+    padding: 0.3rem;
+    min-height: 180px;
+  }
+
+  .elemental-emoji-modern {
+    font-size: 1.5rem;
+  }
+
+  .elemental-name-modern {
+    font-size: 0.8rem;
+  }
+
+  .elemental-level-modern {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.6rem;
+  }
+
+  /* Адаптивные стили для индикатора уровня на маленьких экранах */
+  .level-indicator {
+    font-size: 0.55rem;
+    padding: 0.08rem 0.25rem;
+    top: -0.15rem;
+  }
+
+  .progress-bar-modern {
+    height: 36px !important; /* Уменьшаем еще на 10% (40px * 0.9 = 36px) */
+    min-height: 36px !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  /* Убираем стили для псевдоэлемента */
+
+  .level-text {
+    font-size: 0.6rem;
+  }
+
+  .progress-text {
+    display: none; /* Скрываем текст "Level Progress" */
+  }
+
+  /* Адаптивные стили для "LVL" индикатора на маленьких экранах */
+  .level-indicator {
+    font-size: 0.55rem;
+    padding: 0.08rem 0.25rem;
+    top: -0.15rem;
+  }
+
+  .level-indicator::before {
+    content: "LVL ";
+    font-weight: 600;
+  }
+
+  .stat-item-modern {
+    padding: 0.3rem;
+    gap: 0.2rem;
+  }
+
+  .stat-value {
+    font-size: 0.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+  }
+
+  .action-btn-modern {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.7rem;
+    gap: 0.2rem;
+  }
+
+  .btn-icon {
+    font-size: 0.8rem;
+  }
+
+  .btn-cost {
+    font-size: 0.7rem;
+  }
+
+  /* Rules section - smaller elements */
+  .rules-container {
+    padding: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .rules-card {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .rules-card-header {
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .rules-card-icon {
+    font-size: 1.25rem;
+  }
+
+  .rules-card-title {
+    font-size: 1rem;
+  }
+
+  .rules-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .rules-step-card {
+    padding: 0.75rem;
+  }
+
+  .step-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .step-title {
+    font-size: 0.8rem;
+  }
+
+  .step-description {
+    font-size: 0.65rem;
+  }
+
+  .element-relationships {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .element-card {
+    padding: 0.75rem;
+  }
+
+  .element-emoji {
+    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .element-name {
+    font-size: 0.9rem;
+  }
+
+  .location-card {
+    padding: 0.75rem;
+  }
+
+  .location-icon {
+    font-size: 1.5rem;
+  }
+
+  .location-name {
+    font-size: 0.9rem;
+  }
+
+  .elementals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .elemental-card {
+    padding: 0.75rem;
+  }
+
+  .elemental-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .progression-card {
+    padding: 0.75rem;
+  }
+
+  .progression-icon {
+    font-size: 1.5rem;
+  }
+
+  .progression-title {
+    font-size: 0.9rem;
+  }
+
+  .progression-description {
+    font-size: 0.7rem;
+  }
+
+  /* Modal adjustments */
+  .modal {
+    max-width: calc(100vw - 1rem);
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Settings menu adjustments */
+  .settings-menu {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .settings-content {
+    padding: 1.5rem;
+  }
+
+  .setting-group {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .setting-label {
+    font-size: 1rem;
+  }
+
+  .setting-description {
+    font-size: 0.8rem;
+  }
+
+  /* Card adjustments */
+  .card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Profile card adjustments */
+  .profile-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .profile-header {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .avatar-ring {
+    width: 50px;
+    height: 50px;
+  }
+
+  .avatar-inner {
+    font-size: 1.4rem;
+  }
+
+  .player-name {
+    font-size: 1rem;
+  }
+
+  .player-title {
+    font-size: 0.75rem;
+  }
+
+  /* Stats adjustments */
+  .enhanced-stats-grid {
+    gap: 0.5rem;
+  }
+
+  .stat-card {
+    padding: 0.75rem;
+  }
+
+  .stat-icon {
+    font-size: 1.8rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+  }
+
+  /* Achievement adjustments */
+  .achievement-item {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .achievement-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+  }
+
+  .achievement-name {
+    font-size: 0.7rem;
+  }
+
+  .achievement-desc {
+    font-size: 0.65rem;
+  }
+
+  /* Button adjustments */
+  .btn-primary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Navigation adjustments */
+  .nav-container {
+    padding: 0 0.5rem;
+  }
+
+
 }
 
 /* Updated responsive styles for larger emojis */
@@ -5618,7 +6363,7 @@ body::-webkit-scrollbar {
 
 /* Collection Tab Styles */
 .collection-container {
-  padding: var(--spacing-lg);
+  padding: 0;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
@@ -5628,6 +6373,7 @@ body::-webkit-scrollbar {
 
 .collection-header {
   text-align: center;
+  margin: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-lg);
   background: var(--glass-bg);
@@ -5665,7 +6411,7 @@ body::-webkit-scrollbar {
 .collection-filters {
   display: flex;
   gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  margin: 0 var(--spacing-lg) var(--spacing-xl) var(--spacing-lg);
   padding: var(--spacing-lg);
   background: var(--glass-bg);
   border-radius: var(--border-radius-lg);
@@ -5711,6 +6457,980 @@ body::-webkit-scrollbar {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-xl);
+}
+
+/* Collectible Cards Grid */
+.collectible-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+  margin: 0 1rem;
+}
+
+/* Collectible Card Styles */
+.collectible-card {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  min-height: 380px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Rarity Border System - Innovative Visual Design */
+.collectible-card.rarity-common {
+  border: 3px solid #8b8b8b;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(139, 139, 139, 0.2),
+    inset 0 0 20px rgba(139, 139, 139, 0.1);
+}
+
+.collectible-card.rarity-common::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #8b8b8b, #a0a0a0, #8b8b8b);
+  border-radius: 14px;
+  z-index: -1;
+  animation: commonGlow 3s ease-in-out infinite;
+}
+
+.collectible-card.rarity-rare {
+  border: 3px solid #4fa0af;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(79, 160, 175, 0.4),
+    inset 0 0 25px rgba(79, 160, 175, 0.2);
+}
+
+.collectible-card.rarity-rare::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #4fa0af, #6bb6c4, #4fa0af);
+  border-radius: 14px;
+  z-index: -1;
+  animation: rareGlow 2.5s ease-in-out infinite;
+}
+
+.collectible-card.rarity-epic {
+  border: 3px solid #9b59b6;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(155, 89, 182, 0.5),
+    inset 0 0 30px rgba(155, 89, 182, 0.3);
+}
+
+.collectible-card.rarity-epic::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #9b59b6, #8e44ad, #9b59b6);
+  border-radius: 14px;
+  z-index: -1;
+  animation: epicGlow 2s ease-in-out infinite;
+}
+
+.collectible-card.rarity-immortal {
+  border: 3px solid #f39c12;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 35px rgba(243, 156, 18, 0.6),
+    inset 0 0 35px rgba(243, 156, 18, 0.4);
+}
+
+.collectible-card.rarity-immortal::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #f39c12, #e67e22, #f39c12);
+  border-radius: 14px;
+  z-index: -1;
+  animation: immortalGlow 1.5s ease-in-out infinite;
+}
+
+/* Rarity Glow Animations */
+@keyframes commonGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes rareGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes epicGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes immortalGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+/* Additional Rarity Effects */
+.collectible-card.rarity-rare .card-artwork::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(79, 160, 175, 0.1) 50%, transparent 70%);
+  animation: rareShine 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.collectible-card.rarity-epic .card-artwork::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.2) 0%, transparent 70%);
+  animation: epicPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.collectible-card.rarity-immortal .card-artwork::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(243, 156, 18, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(230, 126, 34, 0.3) 0%, transparent 50%);
+  animation: immortalAura 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes rareShine {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+@keyframes epicPulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.1); }
+}
+
+@keyframes immortalAura {
+  0%, 100% { opacity: 0.3; transform: rotate(0deg); }
+  50% { opacity: 0.6; transform: rotate(180deg); }
+}
+
+.collectible-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  border-color: var(--rarity-color);
+}
+
+/* Card Label */
+.card-label {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  min-width: fit-content;
+  max-width: none;
+  overflow: visible;
+}
+
+/* Artwork Area - Main Focus */
+.card-artwork {
+  position: relative;
+  background: linear-gradient(135deg, var(--element-color), var(--element-color)40);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 274px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.artwork-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.artwork-container.on-cooldown .artwork-image {
+  filter: brightness(0.5);
+}
+
+.artwork-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
+  /* SVG specific styles */
+  fill: currentColor;
+  stroke: none;
+  /* Ensure SVG is visible */
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+}
+
+.artwork-emoji {
+  font-size: 4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  display: none; /* Hide emoji by default, show only if SVG fails */
+}
+
+.artwork-emoji.show {
+  display: block;
+}
+
+.artwork-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 70%);
+  z-index: 0;
+}
+
+.artwork-rarity-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: auto;
+  min-width: 60px;
+  height: 28px;
+  border-radius: 14px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: white;
+  transition: all 0.3s ease;
+  z-index: 10001;
+  user-select: none;
+}
+
+.artwork-rarity-indicator.rarity-common {
+  background: rgba(156, 163, 175, 0.6);
+  color: white;
+}
+
+.artwork-rarity-indicator.rarity-rare {
+  background: rgba(59, 130, 246, 0.6);
+  color: white;
+}
+
+.artwork-rarity-indicator.rarity-epic {
+  background: rgba(139, 92, 246, 0.6);
+  color: white;
+}
+
+.artwork-rarity-indicator.rarity-immortal {
+  background: rgba(245, 158, 11, 0.6);
+  color: white;
+}
+
+
+
+/* Character Name Block */
+.character-name-block {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  margin: 0;
+  padding: 8px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.character-name-block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.character-name-text {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.character-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  margin: 6px 0;
+}
+
+.character-divider + .character-divider {
+  margin-top: 2rem;
+}
+
+.character-divider + .character-divider + .character-divider {
+  margin-top: 2rem;
+  opacity: 0;
+}
+
+.level-text-description {
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  letter-spacing: 1px;
+  font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+  text-align: center;
+  margin-top: 8px;
+}
+
+
+
+.card-bottom-indicators {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 10;
+}
+
+
+
+.level-indicator-bottom-right {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+  letter-spacing: 1px;
+  font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  padding: 4px 8px;
+  backdrop-filter: blur(4px);
+}
+
+
+
+.character-description-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-align: center;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+
+/* Top Corner Indicators */
+
+
+
+
+
+
+/* Bottom Section */
+.card-bottom {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rarity-indicators {
+  display: none; /* Hidden - replaced with border system */
+}
+
+.rarity-star {
+  display: none; /* Hidden - replaced with border system */
+}
+
+.card-stats {
+  display: flex;
+  flex-direction: column;
+  gap: -8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  line-height: 0.6;
+  padding: -4px 0;
+  margin: -4px 0;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.stat-value {
+  color: white;
+  font-weight: 600;
+}
+
+/* Action Button */
+.card-action-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.card-action-btn.level-up {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.card-action-btn.upgrade {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.card-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card-action-btn.disabled {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.card-action-btn.disabled:hover {
+  transform: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card-action-btn.disabled .btn-icon {
+  opacity: 0.5;
+}
+
+.card-action-btn.disabled .btn-cost {
+  opacity: 0.5;
+}
+
+/* Level and Cooldown Indicators */
+.level-indicator {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+  border: 2px solid rgba(251, 191, 36, 0.8);
+  border-radius: 12px;
+  padding: 12px 20px;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);
+  backdrop-filter: blur(8px);
+  min-width: 60px;
+  text-align: center;
+}
+
+.level-text {
+  color: #fbbf24;
+  font-size: 1rem;
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.5px;
+  font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+  white-space: nowrap;
+}
+
+.cooldown-indicator {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.8);
+  border-radius: 8px;
+  padding: 6px 8px;
+  z-index: 10000;
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
+  backdrop-filter: blur(5px);
+  min-width: 80px;
+  text-align: center;
+}
+
+.cooldown-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.cooldown-time-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 16px;
+}
+
+.time-value {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.8);
+  font-family: 'Courier New', monospace;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+.time-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  margin-top: 2px;
+}
+
+.cooldown-separator {
+  color: rgba(255, 107, 107, 0.8);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.8);
+  margin: 0 2px;
+  animation: pulse 1s ease-in-out infinite;
+  font-family: 'Courier New', monospace;
+}
+
+.cooldown-ready {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ready-text {
+  color: #10b981;
+  font-size: 1rem;
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+  letter-spacing: 1px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+    text-shadow: 0 0 8px rgba(255, 107, 107, 0.8);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(255, 107, 107, 1);
+  }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 5px rgba(16, 185, 129, 0.5); }
+  to { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(16, 185, 129, 0.8); }
+}
+
+/* Compact Action Button on Artwork */
+.compact-action-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: auto;
+  min-width: 60px;
+  height: 28px;
+  border-radius: 14px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(16, 185, 129, 0.6);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.compact-action-btn.level-up {
+  background: rgba(16, 185, 129, 0.6);
+  color: white;
+}
+
+.compact-action-btn.upgrade {
+  background: rgba(245, 158, 11, 0.6);
+  color: white;
+  border: 1px solid rgba(245, 158, 11, 0.8);
+}
+
+.compact-action-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.compact-action-btn.upgrade:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.compact-action-btn.disabled {
+  background: rgba(107, 114, 128, 0.4);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.compact-action-btn.disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Confirmation Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  backdrop-filter: blur(5px);
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+.confirm-modal {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 0;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: relative;
+  z-index: 100000;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #2d3748, #4a5568);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.modal-content {
+  padding: 1.5rem;
+}
+
+.elemental-info {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.elemental-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.elemental-details {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.rarity-upgrade {
+  display: block;
+  margin-top: 0.5rem;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.cost-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cost-amount, .balance-info, .remaining-balance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.cost-amount:last-child, .balance-info:last-child, .remaining-balance:last-child {
+  margin-bottom: 0;
+}
+
+.cost-label, .balance-label, .remaining-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.cost-value {
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.balance-value {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.remaining-value {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.remaining-value.warning {
+  color: #ef4444;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn, .confirm-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.confirm-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.confirm-btn.disabled {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.confirm-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive styles for compact button */
+@media (max-width: 420px) {
+  .compact-action-btn {
+    min-width: 50px;
+    height: 24px;
+    font-size: 0.65rem;
+    padding: 0 8px;
+    bottom: 6px;
+    right: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .compact-action-btn {
+    min-width: 45px;
+    height: 22px;
+    font-size: 0.6rem;
+    padding: 0 6px;
+    bottom: 4px;
+    right: 4px;
+  }
+}
+
+.btn-icon {
+  font-size: 1rem;
+}
+
+.btn-text {
+  flex: 1;
+  text-align: center;
+}
+
+.btn-cost {
+  font-size: 0.7rem;
+  opacity: 0.9;
 }
 
 /* Tablet optimization */
@@ -5980,7 +7700,18 @@ body::-webkit-scrollbar {
 /* Responsive Design for Collection */
 @media (max-width: 768px) {
   .collection-container {
-    padding: var(--spacing-md);
+    padding: 0;
+  }
+
+  .collection-header {
+    margin: 0.8rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+  }
+
+  .collection-filters {
+    margin: 0 0.8rem 1rem 0.8rem;
+    padding: 0.8rem;
   }
 
   .collection-title h1 {
@@ -6027,7 +7758,18 @@ body::-webkit-scrollbar {
 
 @media (max-width: 480px) {
   .collection-container {
-    padding: var(--spacing-sm);
+    padding: 0;
+  }
+
+  .collection-header {
+    margin: 0.6rem;
+    margin-bottom: 0.8rem;
+    padding: 0.6rem;
+  }
+
+  .collection-filters {
+    margin: 0 0.6rem 0.8rem 0.6rem;
+    padding: 0.6rem;
   }
 
   .collection-title h1 {
@@ -6078,7 +7820,7 @@ body::-webkit-scrollbar {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(255, 255, 255, 0.05);
   color: white;
   padding: 4px 8px;
   border-radius: var(--border-radius-sm);
@@ -6302,12 +8044,14 @@ body::-webkit-scrollbar {
 
 .elementals-grid-modern {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, 274px);
   gap: 1.5rem;
   margin-bottom: 2rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  justify-content: center;
+  align-items: start;
 }
 
 .elemental-card-modern {
@@ -6320,7 +8064,15 @@ body::-webkit-scrollbar {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  min-height: 240px;
+  width: 274px !important;
+  height: 274px !important;
+  min-width: 274px !important;
+  max-width: 274px !important;
+  min-height: 274px !important;
+  max-height: 274px !important;
+  margin-bottom: 20rem;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .elemental-card-modern::before {
@@ -6418,6 +8170,104 @@ body::-webkit-scrollbar {
   font-weight: 700;
   font-size: 0.7rem;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    display: none; /* Скрываем бейдж сверху */
+  }
+
+  /* Уровень возле линии прогресса - аккуратно и не заметно */
+  .level-progress-modern {
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .level-indicator {
+    position: absolute;
+    top: -0.2rem;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 0.1rem 0.3rem;
+    border-radius: 6px;
+    font-size: 0.6rem;
+    font-weight: 500;
+    opacity: 0.7;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .progress-bar-modern {
+    width: 100% !important;
+    height: 49px !important; /* Уменьшаем еще на 10% (54px * 0.9 = 48.6px ≈ 49px) */
+    min-height: 49px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important; /* Уменьшаем скругление */
+    overflow: hidden !important;
+    margin-bottom: 0.4rem !important;
+    position: relative !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    box-sizing: border-box !important;
+  }
+
+  .progress-fill-modern {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    position: relative;
+  }
+
+  /* Убираем псевдоэлемент - текст будет добавляться через React */
+
+  /* Стили для динамического текста уровня */
+  .level-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    z-index: 10;
+    opacity: 1;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .progress-text {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  /* Скрываем надпись "LEVEL PROGRESS" и оставляем только "LVL" */
+  .progress-text {
+    display: none;
+  }
+
+  /* Стили для индикатора "LVL" возле прогресс-бара */
+  .level-indicator {
+    position: absolute;
+    top: -0.2rem;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 0.1rem 0.3rem;
+    border-radius: 6px;
+    font-size: 0.6rem;
+    font-weight: 500;
+    opacity: 0.7;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .level-indicator::before {
+    content: "LVL ";
+    font-weight: 600;
 }
 
 .elemental-stats-modern {
@@ -6535,13 +8385,7 @@ body::-webkit-scrollbar {
 }
 
 .progress-text {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  overflow: hidden;
+  display: none; /* Скрываем текст "Level Progress" */
 }
 
 .elemental-actions-modern {
@@ -6790,6 +8634,7 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 360px) {
+  /* Ultra small screens - even more compact */
   .collection-container-modern {
     padding: 0.25rem;
   }
@@ -6867,10 +8712,789 @@ body::-webkit-scrollbar {
   }
 
   .progress-text {
-    font-size: 0.7rem;
-    white-space: nowrap;
-    overflow: hidden;
+    display: none; /* Скрываем текст "Level Progress" */
   }
+
+  /* Battle section - even more compact */
+  .battle-section {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-xs);
+  }
+
+  /* Еще больше увеличиваем эмодзи арены для очень маленьких экранов */
+  .battle-icon {
+    font-size: 6rem !important;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+  }
+
+  .battle-display {
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+  }
+
+  .battle-choice {
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    min-width: 80px;
+  }
+
+  .battle-emoji {
+    font-size: 3rem !important;
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+  }
+
+  .battle-vs {
+    font-size: 1.25rem;
+  }
+
+  .battle-player-name {
+    font-size: 0.7rem;
+  }
+
+  /* Element and Elemental grids - even more compact */
+  .element-grid,
+  .elemental-grid,
+  .location-grid {
+    gap: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+  }
+
+  .element-btn,
+  .elemental-btn {
+    height: 95px;
+    padding: var(--spacing-sm);
+  }
+
+  .location-btn {
+    height: 85px;
+    padding: var(--spacing-sm);
+  }
+
+  .element-emoji,
+  .elemental-emoji {
+    font-size: 2rem !important;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .location-emoji {
+    font-size: 1.8rem !important;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  /* Navigation - even smaller */
+  .nav-icon {
+    font-size: 1.1rem;
+  }
+
+  .nav-label {
+    font-size: 0.55rem;
+  }
+
+  .nav-item {
+    padding: 0.3rem;
+    min-width: 45px;
+  }
+
+  /* Profile - even more compact */
+  .profile-container {
+    padding: 0.4rem;
+    gap: 0.6rem;
+  }
+
+  .profile-hero {
+    padding: 0.8rem 0.6rem 0.6rem;
+  }
+
+  .avatar-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .avatar-emoji {
+    font-size: 1.25rem;
+  }
+
+  .player-name-modern {
+    font-size: 1.1rem;
+  }
+
+  .stats-grid-modern {
+    gap: 0.4rem;
+  }
+
+  .stat-card-modern {
+    padding: 0.6rem;
+    min-height: 70px;
+  }
+
+  .stat-value-modern {
+    font-size: 1.1rem;
+  }
+
+  .stat-label-modern {
+    font-size: 0.6rem;
+  }
+
+  /* Collection - even more compact */
+  .collection-container-modern {
+    padding: 0.25rem;
+  }
+
+  /* Еще более компактные карточки статистики для очень маленьких экранов */
+  .stat-card {
+    padding: 0.4rem 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .stat-icon {
+    font-size: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+    margin-bottom: 0.02rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    margin-top: 0.02rem;
+  }
+
+  .collection-stats-modern {
+    gap: 0.4rem;
+  }
+
+  /* Еще более компактные стили для списка редкостей на очень маленьких экранах */
+  .rarity-stats-container {
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .total-count-card {
+    padding: 0.5rem 0.7rem;
+  }
+
+  .total-count-icon {
+    font-size: 1.1rem;
+  }
+
+  .total-count-label {
+    font-size: 0.7rem;
+  }
+
+  .total-count-value {
+    font-size: 1.1rem;
+  }
+
+  .rarity-list {
+    gap: 0.3rem;
+  }
+
+  .rarity-item {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .rarity-info {
+    gap: 0.4rem;
+  }
+
+  .rarity-icon {
+    font-size: 0.9rem;
+  }
+
+  .rarity-name {
+    font-size: 0.7rem;
+  }
+
+  .rarity-count {
+    gap: 0.25rem;
+  }
+
+  .rarity-number {
+    font-size: 0.9rem;
+  }
+
+  .rarity-percentage {
+    font-size: 0.6rem;
+    padding: 0.1rem 0.25rem;
+  }
+
+  /* Красивый список редкостей с общим количеством */
+  .rarity-stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .total-count-card {
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.2), rgba(255, 215, 0, 0.1));
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+  }
+
+  .total-count-icon {
+    font-size: 1.5rem;
+    color: var(--secondary-gold);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+
+  .total-count-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .total-count-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .total-count-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-gold);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .rarity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .rarity-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+  }
+
+  .rarity-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+  }
+
+  .rarity-item.common {
+    border-left: 3px solid #9ca3af;
+  }
+
+  .rarity-item.rare {
+    border-left: 3px solid #3b82f6;
+  }
+
+  .rarity-item.epic {
+    border-left: 3px solid #8b5cf6;
+  }
+
+  .rarity-item.immortal {
+    border-left: 3px solid #f59e0b;
+  }
+
+  .rarity-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .rarity-icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+
+  .rarity-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .rarity-count {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .rarity-number {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .rarity-percentage {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+  }
+
+  .collection-header-modern {
+    padding: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .title-content h1 {
+    font-size: 1.1rem;
+  }
+
+  .title-icon {
+    font-size: 1.5rem;
+    margin-top: 0.6rem;
+  }
+
+  .elementals-grid-modern {
+    gap: 0.3rem;
+  }
+
+  .elemental-card-modern {
+    padding: 0.25rem;
+    min-height: 160px;
+  }
+
+  .elemental-emoji-modern {
+    font-size: 1.25rem;
+  }
+
+  .elemental-name-modern {
+    font-size: 0.7rem;
+  }
+
+  .elemental-level-modern {
+    padding: 0.15rem 0.3rem;
+    font-size: 0.55rem;
+  }
+
+  /* Еще более компактные стили для индикатора уровня на очень маленьких экранах */
+  .level-indicator {
+    font-size: 0.5rem;
+    padding: 0.06rem 0.2rem;
+    top: -0.1rem;
+  }
+
+  .progress-bar-modern {
+    height: 29px !important; /* Уменьшаем еще на 10% (32px * 0.9 = 28.8px ≈ 29px) */
+    min-height: 29px !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* Убираем стили для псевдоэлемента */
+
+  .level-text {
+    font-size: 0.55rem;
+  }
+
+  .progress-text {
+    display: none; /* Скрываем текст "Level Progress" */
+  }
+
+  /* Еще более компактные стили для "LVL" индикатора на очень маленьких экранах */
+  .level-indicator {
+    font-size: 0.5rem;
+    padding: 0.06rem 0.2rem;
+    top: -0.1rem;
+  }
+
+  .level-indicator::before {
+    content: "LVL ";
+    font-weight: 600;
+  }
+
+  .stat-item-modern {
+    padding: 0.25rem;
+    gap: 0.15rem;
+  }
+
+  .stat-value {
+    font-size: 0.65rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
+  }
+
+  .action-btn-modern {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+    gap: 0.15rem;
+  }
+
+  .btn-icon {
+    font-size: 0.7rem;
+  }
+
+  .btn-cost {
+    font-size: 0.65rem;
+  }
+
+  /* Collectible Cards - Responsive */
+  .collectible-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0.8rem;
+    margin: 0 0.8rem;
+  }
+
+  .collectible-card {
+    min-height: 320px;
+    height: 100%;
+  }
+
+  .artwork-image {
+    border-radius: 6px;
+    /* SVG responsive */
+    width: 90%;
+    height: 90%;
+  }
+
+  .artwork-emoji {
+    font-size: 3rem;
+  }
+
+  .name-text {
+    font-size: 0.8rem;
+  }
+
+  .card-stats {
+    gap: -2px;
+  }
+
+  .card-bottom {
+    padding: 4px;
+  }
+
+  .rarity-indicators {
+    gap: 2px;
+    margin-bottom: 3px;
+  }
+
+  .stat-row {
+    padding: -8px 0;
+    margin: -8px 0;
+  }
+
+  .stat-row {
+    font-size: 0.7rem;
+  }
+
+  .rarity-star {
+    font-size: 0.7rem;
+  }
+
+  /* Collectible Cards - Very Small Screens */
+  .collectible-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    padding: 0.4rem;
+    margin: 0 0.4rem;
+  }
+
+  .collection-header {
+    margin: 0.4rem;
+    margin-bottom: 0.6rem;
+    padding: 0.4rem;
+  }
+
+  .collection-filters {
+    margin: 0 0.4rem 0.6rem 0.4rem;
+    padding: 0.4rem;
+  }
+
+  .collectible-card {
+    min-height: 280px;
+    height: 100%;
+  }
+
+  .artwork-image {
+    border-radius: 4px;
+    /* SVG responsive */
+    width: 85%;
+    height: 85%;
+  }
+
+  .artwork-emoji {
+    font-size: 2.5rem;
+  }
+
+  .name-text {
+    font-size: 0.75rem;
+  }
+
+  .card-stats {
+    gap: -12px;
+  }
+
+  .card-bottom {
+    padding: 3px;
+  }
+
+  .rarity-indicators {
+    gap: 1px;
+    margin-bottom: 2px;
+  }
+
+  .stat-row {
+    padding: -6px 0;
+    margin: -6px 0;
+    font-size: 0.6rem;
+    line-height: 0.5;
+  }
+
+  .stat-row {
+    font-size: 0.65rem;
+  }
+
+  .rarity-star {
+    font-size: 0.65rem;
+  }
+
+  /* Rules - even more compact */
+  .rules-container {
+    padding: 0.4rem;
+    gap: 0.6rem;
+  }
+
+  .rules-card {
+    padding: 0.6rem;
+    border-radius: 10px;
+  }
+
+  .rules-card-header {
+    margin-bottom: 0.6rem;
+    gap: 0.4rem;
+  }
+
+  .rules-card-icon {
+    font-size: 1.1rem;
+  }
+
+  .rules-card-title {
+    font-size: 0.9rem;
+  }
+
+  .rules-steps-grid {
+    gap: 0.4rem;
+  }
+
+  .rules-step-card {
+    padding: 0.6rem;
+  }
+
+  .step-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .step-title {
+    font-size: 0.7rem;
+  }
+
+  .step-description {
+    font-size: 0.6rem;
+  }
+
+  .element-relationships {
+    gap: 0.4rem;
+  }
+
+  .element-card {
+    padding: 0.6rem;
+  }
+
+  .element-emoji {
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .element-name {
+    font-size: 0.8rem;
+  }
+
+  .location-card {
+    padding: 0.6rem;
+  }
+
+  .location-icon {
+    font-size: 1.25rem;
+  }
+
+  .location-name {
+    font-size: 0.8rem;
+  }
+
+  .elementals-grid {
+    gap: 0.4rem;
+  }
+
+  .elemental-card {
+    padding: 0.6rem;
+  }
+
+  .elemental-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .progression-card {
+    padding: 0.6rem;
+  }
+
+  .progression-icon {
+    font-size: 1.25rem;
+  }
+
+  .progression-title {
+    font-size: 0.8rem;
+  }
+
+  .progression-description {
+    font-size: 0.6rem;
+  }
+
+  /* Modal - even more compact */
+  .modal {
+    max-width: calc(100vw - 0.5rem);
+    margin: 0.25rem;
+    padding: 0.8rem;
+  }
+
+  .modal-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Settings - even more compact */
+  .settings-menu {
+    width: 98%;
+    max-height: 95vh;
+  }
+
+  .settings-content {
+    padding: 1rem;
+  }
+
+  .setting-group {
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
+  }
+
+  .setting-label {
+    font-size: 0.9rem;
+  }
+
+  .setting-description {
+    font-size: 0.7rem;
+  }
+
+  /* Cards - even more compact */
+  .card {
+    padding: 0.8rem;
+    border-radius: 10px;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .profile-card {
+    padding: 0.8rem;
+    border-radius: 12px;
+  }
+
+  .profile-header {
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .avatar-ring {
+    width: 40px;
+    height: 40px;
+  }
+
+  .avatar-inner {
+    font-size: 1.2rem;
+  }
+
+  .player-name {
+    font-size: 0.9rem;
+  }
+
+  .player-title {
+    font-size: 0.7rem;
+  }
+
+  /* Stats - even more compact */
+  .enhanced-stats-grid {
+    gap: 0.4rem;
+  }
+
+  .stat-card {
+    padding: 0.6rem;
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
+  }
+
+  /* Achievements - even more compact */
+  .achievement-item {
+    padding: 0.4rem;
+    gap: 0.4rem;
+  }
+
+  .achievement-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+  }
+
+  .achievement-name {
+    font-size: 0.65rem;
+  }
+
+  .achievement-desc {
+    font-size: 0.6rem;
+  }
+
+  /* Buttons - even more compact */
+  .btn-primary {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+
+  /* Navigation - even more compact */
+  .nav-container {
+    padding: 0 0.4rem;
+  }
+
+
 }
 
 /* Golden shimmer animation for MAX LVL button */
@@ -6885,3 +9509,5 @@ body::-webkit-scrollbar {
     background-position: 0% 50%;
   }
 }
+
+/* Динамический текст уровня добавляется через React компонент */
