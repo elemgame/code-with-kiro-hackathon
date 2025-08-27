@@ -6,6 +6,7 @@ interface SettingsMenuProps {
   musicVolume: number;
   onMusicVolumeChange: (volume: number) => void;
   onOpenRules?: () => void;
+  onResetCache?: () => void;
 }
 
 const SettingsMenu: React.FC<SettingsMenuProps> = ({
@@ -14,6 +15,7 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
   musicVolume,
   onMusicVolumeChange,
   onOpenRules,
+  onResetCache,
 }) => {
   const [previousVolume, setPreviousVolume] = useState<number>(musicVolume);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -128,6 +130,29 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Cache Reset */}
+          {onResetCache && (
+            <div className='setting-group'>
+              <div className='setting-header'>
+                <span className='setting-icon'>🗑️</span>
+                <span className='setting-label'>Data Management</span>
+              </div>
+
+              <button
+                className='reset-cache-button'
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to reset all game data? This will restore the game to its initial state and cannot be undone.')) {
+                    onResetCache();
+                    onClose();
+                  }
+                }}
+              >
+                <span className='reset-icon'>🔄</span>
+                <span>Reset Game Data</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

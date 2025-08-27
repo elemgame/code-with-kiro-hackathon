@@ -11,33 +11,33 @@ import ProfileTab from './components/ProfileTab';
 import RulesTab from './components/RulesTab';
 import SettingsMenu from './components/SettingsMenu';
 import {
-  ELEMENTAL_TYPES,
-  ELEMENTS,
-  LOCATIONS,
-  addElementalToCollection,
-  addExperienceToElemental,
-  calculateBattleResult,
-  canAffordLocation,
-  canLevelUpElemental,
-  createInitialCollection,
-  generateOpponent,
-  getAchievementDefinitions,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRandomElement,
-  getRandomElementalReward,
-  getRank,
-  getRarityUpgradeCost,
-  getTitle,
-  levelUpElemental,
-  setElementalCooldown,
+    ELEMENTAL_TYPES,
+    ELEMENTS,
+    LOCATIONS,
+    addElementalToCollection,
+    addExperienceToElemental,
+    calculateBattleResult,
+    canAffordLocation,
+    canLevelUpElemental,
+    createInitialCollection,
+    generateOpponent,
+    getAchievementDefinitions,
+    getLevelUpCost,
+    getMaxLevelForRarity,
+    getRandomElement,
+    getRandomElementalReward,
+    getRank,
+    getRarityUpgradeCost,
+    getTitle,
+    levelUpElemental,
+    setElementalCooldown,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -681,6 +681,35 @@ const App: React.FC = () => {
     });
   }, []);
 
+  // Reset cache and restore initial game state
+  const resetGameCache = useCallback(() => {
+    // Clear all localStorage data
+    localStorage.removeItem('elementalGameState');
+    localStorage.removeItem('audioSettings');
+
+    // Reset game state to initial values
+    setGameState({
+      player: INITIAL_PLAYER,
+      currentOpponent: null,
+      opponentElement: null,
+      gamePhase: 'menu',
+      battleLog: null,
+    });
+
+    // Reset audio settings to defaults
+    setMusicVolume(0.2);
+    setMusicEnabled(false);
+    setUserInteracted(false);
+
+    // Reset other states
+    setNewAchievements([]);
+    setLevelUp(null);
+    setNewElementalReward(null);
+    setActiveTab('battle');
+    setSettingsOpen(false);
+    setRulesOpen(false);
+  }, []);
+
   // Handle user interaction to enable music
   const handleUserInteraction = useCallback(() => {
     if (!userInteracted) {
@@ -724,6 +753,7 @@ const App: React.FC = () => {
           setSettingsOpen(false);
           setRulesOpen(true);
         }}
+        onResetCache={resetGameCache}
       />
 
       {/* Rules Modal */}

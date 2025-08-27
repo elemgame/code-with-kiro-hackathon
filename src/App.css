@@ -1548,6 +1548,43 @@ body.modal-open .collection-container-modern {
   font-size: var(--font-size-lg);
 }
 
+/* Reset Cache Button Styles */
+.reset-cache-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-md);
+  background: linear-gradient(
+    135deg,
+    var(--error),
+    #dc2626
+  );
+  border: none;
+  border-radius: var(--border-radius-md);
+  color: white;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reset-cache-button:hover {
+  background: linear-gradient(
+    135deg,
+    #dc2626,
+    var(--error)
+  );
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.reset-icon {
+  font-size: var(--font-size-lg);
+}
+
 /* Rarity Upgrade Styles */
 .rarity-upgrade-info {
   padding: var(--spacing-sm);
