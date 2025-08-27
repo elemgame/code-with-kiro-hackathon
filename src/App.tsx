@@ -8,36 +8,36 @@ import BattleResultPage from './components/BattleResultPage';
 import CollectionTab from './components/CollectionTab';
 import Navigation from './components/Navigation';
 import ProfileTab from './components/ProfileTab';
-import RulesTab from './components/RulesTab';
+import RulesPage from './components/RulesPage';
 import SettingsMenu from './components/SettingsMenu';
 import {
-    ELEMENTAL_TYPES,
-    ELEMENTS,
-    LOCATIONS,
-    addElementalToCollection,
-    addExperienceToElemental,
-    calculateBattleResult,
-    canAffordLocation,
-    canLevelUpElemental,
-    createInitialCollection,
-    generateOpponent,
-    getAchievementDefinitions,
-    getLevelUpCost,
-    getMaxLevelForRarity,
-    getRandomElement,
-    getRandomElementalReward,
-    getRank,
-    getRarityUpgradeCost,
-    getTitle,
-    levelUpElemental,
-    setElementalCooldown,
+  ELEMENTAL_TYPES,
+  ELEMENTS,
+  LOCATIONS,
+  addElementalToCollection,
+  addExperienceToElemental,
+  calculateBattleResult,
+  canAffordLocation,
+  canLevelUpElemental,
+  createInitialCollection,
+  generateOpponent,
+  getAchievementDefinitions,
+  getLevelUpCost,
+  getMaxLevelForRarity,
+  getRandomElement,
+  getRandomElementalReward,
+  getRank,
+  getRarityUpgradeCost,
+  getTitle,
+  levelUpElemental,
+  setElementalCooldown,
 } from './gameLogic';
 import {
-    Element,
-    ElementalRarity,
-    GameState,
-    Location,
-    PlayerStats,
+  Element,
+  ElementalRarity,
+  GameState,
+  Location,
+  PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -90,7 +90,7 @@ const App: React.FC = () => {
   const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
 
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [rulesOpen, setRulesOpen] = useState(false);
+  const [rulesPageOpen, setRulesPageOpen] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.2);
 
   // Load game state from localStorage on mount
@@ -139,9 +139,9 @@ const App: React.FC = () => {
     );
   }, [musicVolume]);
 
-  // Manage modal-open class for rules modal
+  // Manage modal-open class for rules page
   useEffect(() => {
-    if (rulesOpen) {
+    if (rulesPageOpen) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
@@ -150,7 +150,7 @@ const App: React.FC = () => {
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, [rulesOpen]);
+  }, [rulesPageOpen]);
 
   const updatePlayer = useCallback((updates: Partial<PlayerStats>) => {
     setGameState(prev => {
@@ -707,7 +707,7 @@ const App: React.FC = () => {
     setNewElementalReward(null);
     setActiveTab('battle');
     setSettingsOpen(false);
-    setRulesOpen(false);
+    setRulesPageOpen(false);
   }, []);
 
   // Handle user interaction to enable music
@@ -751,32 +751,14 @@ const App: React.FC = () => {
         onMusicVolumeChange={setMusicVolume}
         onOpenRules={() => {
           setSettingsOpen(false);
-          setRulesOpen(true);
+          setRulesPageOpen(true);
         }}
         onResetCache={resetGameCache}
       />
 
-      {/* Rules Modal */}
-      {rulesOpen && (
-        <div className='settings-overlay' onClick={() => setRulesOpen(false)}>
-          <div
-            className='settings-menu rules-modal'
-            onClick={e => e.stopPropagation()}
-          >
-            <div className='settings-header'>
-              <h2>Game Rules</h2>
-              <button
-                className='close-button'
-                onClick={() => setRulesOpen(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className='rules-content'>
-              <RulesTab />
-            </div>
-          </div>
-        </div>
+      {/* Rules Page */}
+      {rulesPageOpen && (
+        <RulesPage onBackToSettings={() => setRulesPageOpen(false)} />
       )}
 
       <div className='app' onClick={handleUserInteraction}>
