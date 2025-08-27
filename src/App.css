@@ -869,12 +869,6 @@ body.modal-open .collection-container-modern {
   position: relative !important;
 }
 
-
-
-
-
-
-
 .modal {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
@@ -6881,7 +6875,9 @@ body.modal-open .collection-container-modern {
     0 0 75px var(--rarity-glow);
   border-color: var(--rarity-color);
   /* Добавляем плавный переход для свечения */
-  transition: all 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    all 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* Специальные эффекты свечения для разных редкостей при наведении */
@@ -7563,63 +7559,63 @@ body.modal-open .collection-container-modern {
   transform: scale(1.1);
 }
 
-       .level-up-modal-content {
-         padding: 1.5rem;
-       }
+.level-up-modal-content {
+  padding: 1.5rem;
+}
 
-       /* Elemental-themed backgrounds */
-       .level-up-modal.element-earth .level-up-elemental-info {
-         background: rgba(34, 197, 94, 0.2);
-         border: 1px solid rgba(34, 197, 94, 0.4);
-         border-radius: var(--border-radius-lg);
-         padding: 1rem;
-         margin-bottom: 1rem;
-       }
+/* Elemental-themed backgrounds */
+.level-up-modal.element-earth .level-up-elemental-info {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
 
-       .level-up-modal.element-fire .level-up-elemental-info {
-         background: rgba(220, 38, 38, 0.2);
-         border: 1px solid rgba(220, 38, 38, 0.4);
-         border-radius: var(--border-radius-lg);
-         padding: 1rem;
-         margin-bottom: 1rem;
-       }
+.level-up-modal.element-fire .level-up-elemental-info {
+  background: rgba(220, 38, 38, 0.2);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
 
-       .level-up-modal.element-water .level-up-elemental-info {
-         background: rgba(59, 130, 246, 0.2);
-         border: 1px solid rgba(59, 130, 246, 0.4);
-         border-radius: var(--border-radius-lg);
-         padding: 1rem;
-         margin-bottom: 1rem;
-       }
+.level-up-modal.element-water .level-up-elemental-info {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
 
-       /* Elemental-themed backgrounds for collectible cards */
-       .collectible-card.element-earth .character-name-block {
-         background: rgba(34, 197, 94, 0.15);
-         border: 1px solid rgba(34, 197, 94, 0.3);
-       }
+/* Elemental-themed backgrounds for collectible cards */
+.collectible-card.element-earth .character-name-block {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
 
-       .collectible-card.element-fire .character-name-block {
-         background: rgba(220, 38, 38, 0.15);
-         border: 1px solid rgba(220, 38, 38, 0.3);
-       }
+.collectible-card.element-fire .character-name-block {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
 
-       .collectible-card.element-water .character-name-block {
-         background: rgba(59, 130, 246, 0.15);
-         border: 1px solid rgba(59, 130, 246, 0.3);
-       }
+.collectible-card.element-water .character-name-block {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
 
 .level-up-elemental-info {
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
-       .level-up-elemental-details {
-         color: var(--text-secondary);
-         font-family: 'Inter', sans-serif;
-         font-size: 1.1rem;
-         font-weight: 700;
-         line-height: 1.4;
-       }
+.level-up-elemental-details {
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
 
 .level-up-rarity-upgrade {
   display: block;
@@ -7663,29 +7659,29 @@ body.modal-open .collection-container-modern {
   font-weight: 500;
 }
 
-       .level-up-cost-value {
-         color: #ff4444;
-         font-weight: 600;
-         font-size: 1.05rem;
-       }
+.level-up-cost-value {
+  color: #ff4444;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
 
-       .level-up-balance-value {
-         color: var(--success);
-         font-weight: 600;
-         font-size: 1.05rem;
-       }
+.level-up-balance-value {
+  color: var(--success);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
 
-       .level-up-remaining-value {
-         color: var(--primary-gold);
-         font-weight: 600;
-         font-size: 1.05rem;
-       }
+.level-up-remaining-value {
+  color: var(--primary-gold);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
 
-       .level-up-remaining-value.warning {
-         color: #ff4444;
-         font-weight: 700;
-         text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
-       }
+.level-up-remaining-value.warning {
+  color: #ff4444;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
+}
 
 .level-up-modal-actions {
   display: flex;

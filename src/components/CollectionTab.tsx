@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import {
-    CollectedElemental,
-    ElementalDisplayData,
-    PlayerStats,
+  CollectedElemental,
+  ElementalDisplayData,
+  PlayerStats,
 } from '../types';
 import CollectibleCard from './CollectibleCard';
 
@@ -101,8 +101,6 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     setSelectedElemental(null);
     setSelectedDisplayData(null);
   };
-
-
 
   return (
     <main className='collection-container-modern'>
@@ -248,84 +246,105 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
         </div>
       )}
 
-             {/* Level Up Confirmation Modal */}
-       {showConfirmModal && selectedElemental && selectedDisplayData &&
-         ReactDOM.createPortal(
-           <div className='level-up-modal-overlay active' onClick={handleCancelLevelUp}>
-             <div className={`level-up-modal element-${selectedElemental.element}`} onClick={e => e.stopPropagation()}>
-               <div className='level-up-modal-header'>
-                 <h3>
-                   Confirm{' '}
-                   {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
-                 </h3>
-                 <button className='level-up-modal-close' onClick={handleCancelLevelUp}>
-                   ×
-                 </button>
-               </div>
+      {/* Level Up Confirmation Modal */}
+      {showConfirmModal &&
+        selectedElemental &&
+        selectedDisplayData &&
+        ReactDOM.createPortal(
+          <div
+            className='level-up-modal-overlay active'
+            onClick={handleCancelLevelUp}
+          >
+            <div
+              className={`level-up-modal element-${selectedElemental.element}`}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className='level-up-modal-header'>
+                <h3>
+                  Confirm{' '}
+                  {selectedDisplayData.canUpgradeRarity
+                    ? 'Upgrade'
+                    : 'Level Up'}
+                </h3>
+                <button
+                  className='level-up-modal-close'
+                  onClick={handleCancelLevelUp}
+                >
+                  ×
+                </button>
+              </div>
 
-                               <div className='level-up-modal-content'>
-                  <div className='level-up-elemental-info'>
-                    <div className='level-up-elemental-details'>
-                      <span>
-                        Level {selectedElemental.level} →{' '}
-                        {selectedElemental.level + 1}
+              <div className='level-up-modal-content'>
+                <div className='level-up-elemental-info'>
+                  <div className='level-up-elemental-details'>
+                    <span>
+                      Level {selectedElemental.level} →{' '}
+                      {selectedElemental.level + 1}
+                    </span>
+                    {selectedDisplayData.canUpgradeRarity && (
+                      <span className='level-up-rarity-upgrade'>
+                        {selectedElemental.rarity.charAt(0).toUpperCase() +
+                          selectedElemental.rarity.slice(1)}{' '}
+                        →
+                        {selectedElemental.rarity === 'common'
+                          ? ' Rare'
+                          : selectedElemental.rarity === 'rare'
+                            ? ' Epic'
+                            : selectedElemental.rarity === 'epic'
+                              ? ' Immortal'
+                              : ''}
                       </span>
-                      {selectedDisplayData.canUpgradeRarity && (
-                        <span className='level-up-rarity-upgrade'>
-                          {selectedElemental.rarity.charAt(0).toUpperCase() +
-                            selectedElemental.rarity.slice(1)}{' '}
-                          →
-                          {selectedElemental.rarity === 'common'
-                            ? ' Rare'
-                            : selectedElemental.rarity === 'rare'
-                              ? ' Epic'
-                              : selectedElemental.rarity === 'epic'
-                                ? ' Immortal'
-                                : ''}
-                        </span>
-                      )}
-                    </div>
+                    )}
                   </div>
+                </div>
 
-                 <div className='level-up-cost-info'>
-                   <div className='level-up-cost-amount'>
-                     <span className='level-up-cost-label'>Cost:</span>
-                     <span className='level-up-cost-value'>
-                       {selectedDisplayData.levelUpCost} Mana
-                     </span>
-                   </div>
-                   <div className='level-up-balance-info'>
-                     <span className='level-up-balance-label'>Your Balance:</span>
-                     <span className='level-up-balance-value'>{player.mana} Mana</span>
-                   </div>
-                   <div className='level-up-remaining-balance'>
-                     <span className='level-up-remaining-label'>Remaining:</span>
-                     <span
-                       className={`level-up-remaining-value ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'warning' : ''}`}
-                     >
-                       {player.mana - selectedDisplayData.levelUpCost} Mana
-                     </span>
-                   </div>
-                 </div>
-               </div>
+                <div className='level-up-cost-info'>
+                  <div className='level-up-cost-amount'>
+                    <span className='level-up-cost-label'>Cost:</span>
+                    <span className='level-up-cost-value'>
+                      {selectedDisplayData.levelUpCost} Mana
+                    </span>
+                  </div>
+                  <div className='level-up-balance-info'>
+                    <span className='level-up-balance-label'>
+                      Your Balance:
+                    </span>
+                    <span className='level-up-balance-value'>
+                      {player.mana} Mana
+                    </span>
+                  </div>
+                  <div className='level-up-remaining-balance'>
+                    <span className='level-up-remaining-label'>Remaining:</span>
+                    <span
+                      className={`level-up-remaining-value ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'warning' : ''}`}
+                    >
+                      {player.mana - selectedDisplayData.levelUpCost} Mana
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-               <div className='level-up-modal-actions'>
-                 <button className='level-up-cancel-btn' onClick={handleCancelLevelUp}>
-                   Cancel
-                 </button>
-                 <button
-                   className={`level-up-confirm-btn ${selectedDisplayData.canUpgradeRarity ? 'upgrade' : ''} ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'disabled' : ''}`}
-                   onClick={handleConfirmLevelUp}
-                   disabled={player.mana - selectedDisplayData.levelUpCost < 100}
-                 >
-                   {selectedDisplayData.canUpgradeRarity ? 'Upgrade' : 'Level Up'}
-                 </button>
-               </div>
-             </div>
-           </div>,
-           document.body
-         )
-       }
+              <div className='level-up-modal-actions'>
+                <button
+                  className='level-up-cancel-btn'
+                  onClick={handleCancelLevelUp}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={`level-up-confirm-btn ${selectedDisplayData.canUpgradeRarity ? 'upgrade' : ''} ${player.mana - selectedDisplayData.levelUpCost < 100 ? 'disabled' : ''}`}
+                  onClick={handleConfirmLevelUp}
+                  disabled={player.mana - selectedDisplayData.levelUpCost < 100}
+                >
+                  {selectedDisplayData.canUpgradeRarity
+                    ? 'Upgrade'
+                    : 'Level Up'}
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </main>
   );
 };

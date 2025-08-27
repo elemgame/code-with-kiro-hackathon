@@ -243,8 +243,6 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
     );
   };
 
-
-
   return (
     <>
       {gamePhase === 'menu' && renderLocationSelection()}
@@ -252,12 +250,9 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       {gamePhase === 'elementalSelection' && renderElementalSelection()}
 
       {/* Fallback for unknown phases */}
-      {![
-        'menu',
-        'elementSelection',
-        'elementalSelection',
-        'result',
-      ].includes(gamePhase) && (
+      {!['menu', 'elementSelection', 'elementalSelection', 'result'].includes(
+        gamePhase
+      ) && (
         <div style={{ textAlign: 'center', color: 'var(--error)' }}>
           Unknown game phase: {gamePhase}
         </div>

@@ -20,7 +20,10 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
   const [phase, setPhase] = useState<
     'intro' | 'cards' | 'elementals' | 'result'
   >('intro');
-  const [elementalPhase, setElementalPhase] = useState<'player' | 'opponent' | 'battle' | 'winner'>('player');
+  const [elementalPhase, setElementalPhase] = useState<
+    'player' | 'opponent' | 'battle' | 'winner'
+  >('player');
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<PIXI.Application | null>(null);
@@ -43,7 +46,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         height: window.innerHeight,
         backgroundColor: 0x0a0a0a,
         antialias: true,
-        resolution: window.devicePixelRatio || 1,
+        resolution: Math.min(window.devicePixelRatio || 1, 2), // Limit resolution for performance
       });
 
       if (app.view && app.view instanceof HTMLCanvasElement) {
@@ -57,8 +60,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
       app.stage.addChild(particles);
       particlesRef.current = particles;
 
-      // Create magic particles
-      for (let i = 0; i < 100; i++) {
+      // Create magic particles (reduced for mobile performance)
+      const particleCount = isMobile ? 50 : 100;
+      for (let i = 0; i < particleCount; i++) {
         const particle = new PIXI.Sprite(PIXI.Texture.WHITE);
         particle.width = particle.height = Math.random() * 2 + 0.5;
         particle.x = Math.random() * app.screen.width;
@@ -93,6 +97,16 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
     } catch (_error) {
       return undefined;
     }
+  }, [isMobile]);
+
+  // Handle window resize for mobile detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Animation timeline
@@ -105,16 +119,18 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
     const shouldShowElementals = hasPlayerElemental && hasOpponentElemental;
 
     const timeline = [
-      { delay: 1000, action: () => setPhase('intro') },
-      { delay: 4000, action: () => setPhase('cards') },
-      ...(shouldShowElementals ? [
-        { delay: 8000, action: () => setPhase('elementals') },
-        { delay: 20000, action: () => setPhase('result') },
-        { delay: 24000, action: onAnimationComplete },
-      ] : [
-        { delay: 8000, action: () => setPhase('result') },
-        { delay: 12000, action: onAnimationComplete },
-      ]),
+      { delay: 2000, action: () => setPhase('intro') },
+      { delay: 5000, action: () => setPhase('cards') },
+      ...(shouldShowElementals
+        ? [
+            { delay: 9000, action: () => setPhase('elementals') },
+            { delay: 21000, action: () => setPhase('result') },
+            { delay: 25000, action: onAnimationComplete },
+          ]
+        : [
+            { delay: 9000, action: () => setPhase('result') },
+            { delay: 13000, action: onAnimationComplete },
+          ]),
     ];
 
     timeline.forEach(({ delay, action }) => {
@@ -125,7 +141,11 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
     return () => {
       timeoutIds.forEach(id => clearTimeout(id));
     };
-  }, [onAnimationComplete, gameState.player.selectedElemental, gameState.currentOpponent?.elemental]);
+  }, [
+    onAnimationComplete,
+    gameState.player.selectedElemental,
+    gameState.currentOpponent?.elemental,
+  ]);
 
   // Elemental sub-phase timeline
   useEffect(() => {
@@ -160,7 +180,11 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
     return () => {
       timeoutIds.forEach(id => clearTimeout(id));
     };
-  }, [phase, gameState.player.selectedElemental, gameState.currentOpponent?.elemental]);
+  }, [
+    phase,
+    gameState.player.selectedElemental,
+    gameState.currentOpponent?.elemental,
+  ]);
 
   // Create user card component
   const UserCard: React.FC<{
@@ -175,8 +199,8 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         style={{
           background: `linear-gradient(135deg, ${elementInfo.color}20 0%, ${elementInfo.color}10 100%)`,
           borderRadius: '10px',
-          padding: '10px',
-          width: '140px',
+          padding: isMobile ? '8px' : '10px',
+          width: isMobile ? '120px' : '140px',
           textAlign: 'center',
           color: 'white',
           position: 'relative',
@@ -204,14 +228,21 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
         <div
           style={{
             background: `${elementInfo.color}30`,
-            padding: '8px',
+            padding: isMobile ? '6px' : '8px',
             borderRadius: '8px',
           }}
         >
-          <div style={{ fontSize: '2rem', marginBottom: '5px' }}>
+          <div
+            style={{
+              fontSize: isMobile ? '1.5rem' : '2rem',
+              marginBottom: '5px',
+            }}
+          >
             {elementInfo.emoji}
           </div>
-          <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>
+          <div
+            style={{ fontSize: isMobile ? '0.7rem' : '0.8rem', opacity: 0.9 }}
+          >
             {elementInfo.name}
           </div>
         </div>
@@ -266,8 +297,8 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
       <div
         style={{
           position: 'absolute',
-          width: '300px',
-          height: '300px',
+          width: isMobile ? '200px' : '300px',
+          height: isMobile ? '200px' : '300px',
           border: '2px solid rgba(255, 255, 255, 0.1)',
           borderRadius: '50%',
           animation: 'rotate 20s linear infinite',
@@ -276,8 +307,8 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
       <div
         style={{
           position: 'absolute',
-          width: '250px',
-          height: '250px',
+          width: isMobile ? '150px' : '250px',
+          height: isMobile ? '150px' : '250px',
           border: '1px solid rgba(255, 255, 255, 0.05)',
           borderRadius: '50%',
           animation: 'rotate 15s linear infinite reverse',
@@ -298,18 +329,25 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
           <div style={{ animation: 'fadeIn 1s ease-in' }}>
             <h1
               style={{
-                fontSize: '2.5rem',
-                marginBottom: '1.5rem',
+                fontSize: isMobile ? '1.8rem' : '2.5rem',
+                marginBottom: isMobile ? '1rem' : '1.5rem',
                 textShadow: '0 0 20px rgba(255, 255, 255, 0.8)',
                 background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                padding: isMobile ? '0 1rem' : '0',
               }}
             >
-              ⚔️ EPIC BATTLE ⚔️
+              ⚔️ BATTLE ⚔️
             </h1>
-            <div style={{ fontSize: '1rem', opacity: 0.8 }}>
+            <div
+              style={{
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                opacity: 0.8,
+                padding: isMobile ? '0 1rem' : '0',
+              }}
+            >
               Prepare for the ultimate elemental clash!
             </div>
           </div>
@@ -317,7 +355,13 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
 
         {phase === 'cards' && (
           <div style={{ animation: 'fadeIn 1s ease-in' }}>
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '2rem' }}>
+            <h2
+              style={{
+                fontSize: isMobile ? '1.4rem' : '1.8rem',
+                marginBottom: isMobile ? '1.5rem' : '2rem',
+                padding: isMobile ? '0 1rem' : '0',
+              }}
+            >
               Champions Enter the Arena!
             </h2>
             <div
@@ -325,8 +369,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '2.5rem',
+                gap: isMobile ? '1.5rem' : '2.5rem',
                 flexWrap: 'wrap',
+                padding: isMobile ? '0 1rem' : '0',
               }}
             >
               <UserCard
@@ -336,7 +381,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
 
               <div
                 style={{
-                  fontSize: '2rem',
+                  fontSize: isMobile ? '1.5rem' : '2rem',
                   animation: 'pulse 1s ease-in-out infinite',
                   textShadow: '0 0 15px rgba(255, 255, 255, 0.8)',
                 }}
@@ -349,13 +394,17 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
           </div>
         )}
 
-
-
-                {phase === 'elementals' && (
+        {phase === 'elementals' && (
           <div style={{ animation: 'fadeIn 1s ease-in' }}>
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '2rem' }}>
+            <h2
+              style={{
+                fontSize: isMobile ? '1.4rem' : '1.8rem',
+                marginBottom: isMobile ? '1.5rem' : '2rem',
+                padding: isMobile ? '0 1rem' : '0',
+              }}
+            >
               {elementalPhase === 'player' && 'Your Elemental Appears!'}
-              {elementalPhase === 'opponent' && 'Opponent\'s Elemental Appears!'}
+              {elementalPhase === 'opponent' && "Opponent's Elemental Appears!"}
               {elementalPhase === 'battle' && 'Elementals Battle!'}
               {elementalPhase === 'winner' && 'Battle Result!'}
             </h2>
@@ -364,8 +413,9 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '3rem',
+                gap: isMobile ? '1.5rem' : '3rem',
                 flexWrap: 'wrap',
+                padding: isMobile ? '0 1rem' : '0',
               }}
             >
               {/* Player's Elemental Card */}
@@ -378,161 +428,171 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
                     border: '2px solid rgba(255, 255, 255, 0.2)',
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
                     backdropFilter: 'blur(20px)',
-                                         animation:
-                       elementalPhase === 'player' ? 'elementalSummon 1s ease-in-out' :
-                       elementalPhase === 'battle' ? 'playerBattle 0.25s ease-in-out infinite' :
-                       elementalPhase === 'winner' ? (battleResult === 'player' ? 'winnerScale 1s ease-in-out' : 'loserScale 1s ease-in-out') :
-                       'none',
-                     width: '160px',
-                     height: '200px',
-                     display: 'flex',
-                     flexDirection: 'column',
-                     alignItems: 'center',
-                     justifyContent: 'center',
-                     position: 'relative',
-                     overflow: 'hidden',
-                     opacity: elementalPhase === 'player' || elementalPhase === 'battle' || elementalPhase === 'winner' ? 1 : 0.3,
-                     transform: elementalPhase === 'player' ? 'scale(0)' : 'scale(1)',
+                    animation:
+                      elementalPhase === 'player'
+                        ? 'elementalSummon 1s ease-in-out'
+                        : elementalPhase === 'battle'
+                          ? 'playerBattle 0.25s ease-in-out infinite'
+                          : elementalPhase === 'winner'
+                            ? battleResult === 'player'
+                              ? 'winnerScale 1s ease-in-out'
+                              : battleResult === 'opponent'
+                                ? 'loserScale 1s ease-in-out'
+                                : 'drawScale 1s ease-in-out'
+                            : 'none',
+                    width: isMobile ? '120px' : '160px',
+                    height: isMobile ? '150px' : '200px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    opacity:
+                      elementalPhase === 'player' ||
+                      elementalPhase === 'battle' ||
+                      elementalPhase === 'winner'
+                        ? 1
+                        : 0.3,
+                    transform:
+                      elementalPhase === 'player' ? 'scale(0)' : 'scale(1)',
                   }}
                 >
-                                     {/* Win/Lose indicator */}
-                   {elementalPhase === 'winner' && (
-                     <div
-                       style={{
-                         position: 'absolute',
-                         top: '-40px',
-                         left: '50%',
-                         transform: 'translateX(-50%)',
-                         fontSize: '1.2rem',
-                         fontWeight: 'bold',
-                         color: battleResult === 'player' ? '#10b981' : '#ef4444',
-                         textShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
-                         animation: 'fadeIn 0.5s ease-in-out',
-                         zIndex: 10,
-                       }}
-                     >
-                       {battleResult === 'player' ? 'WIN!' : 'LOSE!'}
-                     </div>
-                   )}
+                  {/* Win/Lose indicator */}
+                  {elementalPhase === 'winner' && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: isMobile ? '-30px' : '-40px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: isMobile ? '1rem' : '1.2rem',
+                        fontWeight: 'bold',
+                        color:
+                          battleResult === 'player'
+                            ? '#10b981'
+                            : battleResult === 'opponent'
+                              ? '#ef4444'
+                              : '#daa520',
+                        textShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
+                        animation: 'fadeIn 0.5s ease-in-out',
+                        zIndex: 10,
+                      }}
+                    >
+                      {battleResult === 'player'
+                        ? 'WIN!'
+                        : battleResult === 'opponent'
+                          ? 'LOSE!'
+                          : 'DRAW!'}
+                    </div>
+                  )}
 
-                   {/* Rarity glow effect */}
-                   <div
-                     style={{
-                       position: 'absolute',
-                       top: 0,
-                       left: 0,
-                       right: 0,
-                       bottom: 0,
-                       background: `radial-gradient(circle at center, ${
-                         gameState.player.selectedElemental === 'common' ? '#9ca3af40' :
-                         gameState.player.selectedElemental === 'rare' ? '#3b82f640' :
-                         gameState.player.selectedElemental === 'epic' ? '#8b5cf640' :
-                         '#f59e0b40'
-                       } 0%, transparent 70%)`,
-                       borderRadius: '16px',
-                     }}
-                   />
-
-                                     {/* Elemental image */}
-                   <img
-                     src={`${process.env.PUBLIC_URL}/resources/elmental/${gameState.player.selectedElement || 'fire'}_${gameState.player.selectedElemental?.charAt(0).toUpperCase() + gameState.player.selectedElemental?.slice(1) || 'Common'}.png`}
-                     alt={`${gameState.player.selectedElement || 'fire'} ${gameState.player.selectedElemental || 'common'}`}
-                     style={{
-                       width: '70px',
-                       height: '70px',
-                       marginBottom: '1rem',
-                       filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
-                       zIndex: 1,
-                     }}
-                     onError={(e) => {
-                       const target = e.target as HTMLImageElement;
-                       target.style.display = 'none';
-                       const emojiDiv = target.nextElementSibling as HTMLDivElement;
-                       if (emojiDiv) {
-                         emojiDiv.style.display = 'block';
-                       }
-                     }}
-                   />
-                   <div
-                     style={{
-                       fontSize: '3rem',
-                       marginBottom: '1rem',
-                       filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
-                       zIndex: 1,
-                       display: 'none',
-                     }}
-                   >
-                     {(() => {
-                       const element = gameState.player.selectedElement || 'fire';
-                       const rarity = gameState.player.selectedElemental;
-                       const elementalData = {
-                         fire: {
-                           common: '🔥',
-                           rare: '🔥',
-                           epic: '🔥',
-                           immortal: '🔥'
-                         },
-                         water: {
-                           common: '💧',
-                           rare: '💧',
-                           epic: '💧',
-                           immortal: '💧'
-                         },
-                         earth: {
-                           common: '🌍',
-                           rare: '🌍',
-                           epic: '🌍',
-                           immortal: '🌍'
-                         }
-                       };
-                       return elementalData[element][rarity];
-                     })()}
-                   </div>
-
-                  {/* Elemental name */}
+                  {/* Rarity glow effect */}
                   <div
                     style={{
-                      fontSize: '1rem',
-                      fontWeight: 'bold',
-                      color: 'white',
-                      textAlign: 'center',
-                      marginBottom: '0.5rem',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: `radial-gradient(circle at center, ${
+                        gameState.player.selectedElemental === 'common'
+                          ? '#9ca3af40'
+                          : gameState.player.selectedElemental === 'rare'
+                            ? '#3b82f640'
+                            : gameState.player.selectedElemental === 'epic'
+                              ? '#8b5cf640'
+                              : '#f59e0b40'
+                      } 0%, transparent 70%)`,
+                      borderRadius: '16px',
+                    }}
+                  />
+
+                  {/* Elemental image */}
+                  <img
+                    src={`${process.env.PUBLIC_URL}/resources/elmental/${gameState.player.selectedElement || 'fire'}_${gameState.player.selectedElemental?.charAt(0).toUpperCase() + gameState.player.selectedElemental?.slice(1) || 'Common'}.png`}
+                    alt={`${gameState.player.selectedElement || 'fire'} ${gameState.player.selectedElemental || 'common'}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '12px',
+                      filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
                       zIndex: 1,
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                    }}
+                    onError={e => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const emojiDiv =
+                        target.nextElementSibling as HTMLDivElement;
+                      if (emojiDiv) {
+                        emojiDiv.style.display = 'block';
+                      }
+                    }}
+                  />
+                  <div
+                    style={{
+                      fontSize: isMobile ? '2rem' : '3rem',
+                      marginBottom: isMobile ? '0.5rem' : '1rem',
+                      filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
+                      zIndex: 1,
+                      display: 'none',
                     }}
                   >
                     {(() => {
-                      const element = gameState.player.selectedElement || 'fire';
+                      const element =
+                        gameState.player.selectedElement || 'fire';
                       const rarity = gameState.player.selectedElemental;
-                      const elementNames = {
-                        fire: 'Fire',
-                        water: 'Water',
-                        earth: 'Earth'
+                      const elementalData = {
+                        fire: {
+                          common: '🔥',
+                          rare: '🔥',
+                          epic: '🔥',
+                          immortal: '🔥',
+                        },
+                        water: {
+                          common: '💧',
+                          rare: '💧',
+                          epic: '💧',
+                          immortal: '💧',
+                        },
+                        earth: {
+                          common: '🌍',
+                          rare: '🌍',
+                          epic: '🌍',
+                          immortal: '🌍',
+                        },
                       };
-                      const rarityNames = {
-                        common: 'Common',
-                        rare: 'Rare',
-                        epic: 'Epic',
-                        immortal: 'Immortal'
-                      };
-                      return `${elementNames[element]} ${rarityNames[rarity]}`;
+                      return elementalData[element][rarity];
                     })()}
                   </div>
 
                   {/* Rarity badge */}
                   <div
                     style={{
+                      position: 'absolute',
+                      bottom: isMobile ? '8px' : '12px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
                       padding: '0.25rem 0.75rem',
                       borderRadius: '12px',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textTransform: 'uppercase',
                       background:
-                        gameState.player.selectedElemental === 'common' ? '#9ca3af' :
-                        gameState.player.selectedElemental === 'rare' ? '#3b82f6' :
-                        gameState.player.selectedElemental === 'epic' ? '#8b5cf6' :
-                        '#f59e0b',
+                        gameState.player.selectedElemental === 'common'
+                          ? '#9ca3af'
+                          : gameState.player.selectedElemental === 'rare'
+                            ? '#3b82f6'
+                            : gameState.player.selectedElemental === 'epic'
+                              ? '#8b5cf6'
+                              : '#f59e0b',
                       color: 'white',
-                      zIndex: 1,
+                      zIndex: 2,
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
                     }}
                   >
                     {gameState.player.selectedElemental}
@@ -543,7 +603,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
               {/* VS indicator */}
               <div
                 style={{
-                  fontSize: '2rem',
+                  fontSize: isMobile ? '1.5rem' : '2rem',
                   animation: 'pulse 1s ease-in-out infinite',
                   textShadow: '0 0 15px rgba(255, 255, 255, 0.8)',
                   color: '#ff6b6b',
@@ -552,171 +612,180 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
                 ⚔️
               </div>
 
-                             {/* Opponent's Elemental Card */}
-               {gameState.currentOpponent?.elemental && (
-                 <div
-                   style={{
-                     background: 'rgba(255, 255, 255, 0.1)',
-                     borderRadius: '16px',
-                     padding: '1rem',
-                     border: '2px solid rgba(255, 255, 255, 0.2)',
-                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-                     backdropFilter: 'blur(20px)',
-                     animation:
-                       elementalPhase === 'opponent' ? 'elementalSummon 1s ease-in-out' :
-                       elementalPhase === 'battle' ? 'opponentBattle 0.25s ease-in-out infinite' :
-                       elementalPhase === 'winner' ? (battleResult === 'opponent' ? 'winnerScale 1s ease-in-out' : 'loserScale 1s ease-in-out') :
-                       'none',
-                     width: '160px',
-                     height: '200px',
-                     display: 'flex',
-                     flexDirection: 'column',
-                     alignItems: 'center',
-                     justifyContent: 'center',
-                     position: 'relative',
-                     overflow: 'hidden',
-                     opacity: elementalPhase === 'opponent' || elementalPhase === 'battle' || elementalPhase === 'winner' ? 1 : 0.3,
-                     transform: elementalPhase === 'opponent' ? 'scale(0)' : 'scale(1)',
-                   }}
-                 >
-                                     {/* Win/Lose indicator */}
-                   {elementalPhase === 'winner' && (
-                     <div
-                       style={{
-                         position: 'absolute',
-                         top: '-40px',
-                         left: '50%',
-                         transform: 'translateX(-50%)',
-                         fontSize: '1.2rem',
-                         fontWeight: 'bold',
-                         color: battleResult === 'opponent' ? '#10b981' : '#ef4444',
-                         textShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
-                         animation: 'fadeIn 0.5s ease-in-out',
-                         zIndex: 10,
-                       }}
-                     >
-                       {battleResult === 'opponent' ? 'WIN!' : 'LOSE!'}
-                     </div>
-                   )}
+              {/* Opponent's Elemental Card */}
+              {gameState.currentOpponent?.elemental && (
+                <div
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '16px',
+                    padding: '1rem',
+                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                    backdropFilter: 'blur(20px)',
+                    animation:
+                      elementalPhase === 'opponent'
+                        ? 'elementalSummon 1s ease-in-out'
+                        : elementalPhase === 'battle'
+                          ? 'opponentBattle 0.25s ease-in-out infinite'
+                          : elementalPhase === 'winner'
+                            ? battleResult === 'opponent'
+                              ? 'winnerScale 1s ease-in-out'
+                              : battleResult === 'player'
+                                ? 'loserScale 1s ease-in-out'
+                                : 'drawScale 1s ease-in-out'
+                            : 'none',
+                    width: isMobile ? '120px' : '160px',
+                    height: isMobile ? '150px' : '200px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    opacity:
+                      elementalPhase === 'opponent' ||
+                      elementalPhase === 'battle' ||
+                      elementalPhase === 'winner'
+                        ? 1
+                        : 0.3,
+                    transform:
+                      elementalPhase === 'opponent' ? 'scale(0)' : 'scale(1)',
+                  }}
+                >
+                  {/* Win/Lose indicator */}
+                  {elementalPhase === 'winner' && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: isMobile ? '-30px' : '-40px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: isMobile ? '1rem' : '1.2rem',
+                        fontWeight: 'bold',
+                        color:
+                          battleResult === 'opponent'
+                            ? '#10b981'
+                            : battleResult === 'player'
+                              ? '#ef4444'
+                              : '#daa520',
+                        textShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
+                        animation: 'fadeIn 0.5s ease-in-out',
+                        zIndex: 10,
+                      }}
+                    >
+                      {battleResult === 'opponent'
+                        ? 'WIN!'
+                        : battleResult === 'player'
+                          ? 'LOSE!'
+                          : 'DRAW!'}
+                    </div>
+                  )}
 
-                   {/* Rarity glow effect */}
-                   <div
-                     style={{
-                       position: 'absolute',
-                       top: 0,
-                       left: 0,
-                       right: 0,
-                       bottom: 0,
-                       background: `radial-gradient(circle at center, ${
-                         gameState.currentOpponent.elemental === 'common' ? '#9ca3af40' :
-                         gameState.currentOpponent.elemental === 'rare' ? '#3b82f640' :
-                         gameState.currentOpponent.elemental === 'epic' ? '#8b5cf640' :
-                         '#f59e0b40'
-                       } 0%, transparent 70%)`,
-                       borderRadius: '16px',
-                     }}
-                   />
-
-                                     {/* Elemental image */}
-                   <img
-                     src={`${process.env.PUBLIC_URL}/resources/elmental/${opponentElement}_${gameState.currentOpponent.elemental?.charAt(0).toUpperCase() + gameState.currentOpponent.elemental?.slice(1) || 'Common'}.png`}
-                     alt={`${opponentElement} ${gameState.currentOpponent.elemental || 'common'}`}
-                     style={{
-                       width: '70px',
-                       height: '70px',
-                       marginBottom: '1rem',
-                       filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
-                       zIndex: 1,
-                     }}
-                     onError={(e) => {
-                       const target = e.target as HTMLImageElement;
-                       target.style.display = 'none';
-                       const emojiDiv = target.nextElementSibling as HTMLDivElement;
-                       if (emojiDiv) {
-                         emojiDiv.style.display = 'block';
-                       }
-                     }}
-                   />
-                   <div
-                     style={{
-                       fontSize: '3rem',
-                       marginBottom: '1rem',
-                       filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
-                       zIndex: 1,
-                       display: 'none',
-                     }}
-                   >
-                     {(() => {
-                       const element = opponentElement;
-                       const rarity = gameState.currentOpponent.elemental;
-                       const elementalData = {
-                         fire: {
-                           common: '🔥',
-                           rare: '🔥',
-                           epic: '🔥',
-                           immortal: '🔥'
-                         },
-                         water: {
-                           common: '💧',
-                           rare: '💧',
-                           epic: '💧',
-                           immortal: '💧'
-                         },
-                         earth: {
-                           common: '🌍',
-                           rare: '🌍',
-                           epic: '🌍',
-                           immortal: '🌍'
-                         }
-                       };
-                       return elementalData[element][rarity];
-                     })()}
-                   </div>
-
-                  {/* Elemental name */}
+                  {/* Rarity glow effect */}
                   <div
                     style={{
-                      fontSize: '1rem',
-                      fontWeight: 'bold',
-                      color: 'white',
-                      textAlign: 'center',
-                      marginBottom: '0.5rem',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: `radial-gradient(circle at center, ${
+                        gameState.currentOpponent.elemental === 'common'
+                          ? '#9ca3af40'
+                          : gameState.currentOpponent.elemental === 'rare'
+                            ? '#3b82f640'
+                            : gameState.currentOpponent.elemental === 'epic'
+                              ? '#8b5cf640'
+                              : '#f59e0b40'
+                      } 0%, transparent 70%)`,
+                      borderRadius: '16px',
+                    }}
+                  />
+
+                  {/* Elemental image */}
+                  <img
+                    src={`${process.env.PUBLIC_URL}/resources/elmental/${opponentElement}_${gameState.currentOpponent.elemental?.charAt(0).toUpperCase() + gameState.currentOpponent.elemental?.slice(1) || 'Common'}.png`}
+                    alt={`${opponentElement} ${gameState.currentOpponent.elemental || 'common'}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '12px',
+                      filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
                       zIndex: 1,
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                    }}
+                    onError={e => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const emojiDiv =
+                        target.nextElementSibling as HTMLDivElement;
+                      if (emojiDiv) {
+                        emojiDiv.style.display = 'block';
+                      }
+                    }}
+                  />
+                  <div
+                    style={{
+                      fontSize: '3rem',
+                      marginBottom: '1rem',
+                      filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
+                      zIndex: 1,
+                      display: 'none',
                     }}
                   >
                     {(() => {
                       const element = opponentElement;
                       const rarity = gameState.currentOpponent.elemental;
-                      const elementNames = {
-                        fire: 'Fire',
-                        water: 'Water',
-                        earth: 'Earth'
+                      const elementalData = {
+                        fire: {
+                          common: '🔥',
+                          rare: '🔥',
+                          epic: '🔥',
+                          immortal: '🔥',
+                        },
+                        water: {
+                          common: '💧',
+                          rare: '💧',
+                          epic: '💧',
+                          immortal: '💧',
+                        },
+                        earth: {
+                          common: '🌍',
+                          rare: '🌍',
+                          epic: '🌍',
+                          immortal: '🌍',
+                        },
                       };
-                      const rarityNames = {
-                        common: 'Common',
-                        rare: 'Rare',
-                        epic: 'Epic',
-                        immortal: 'Immortal'
-                      };
-                      return `${elementNames[element]} ${rarityNames[rarity]}`;
+                      return elementalData[element][rarity];
                     })()}
                   </div>
 
                   {/* Rarity badge */}
                   <div
                     style={{
+                      position: 'absolute',
+                      bottom: isMobile ? '8px' : '12px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
                       padding: '0.25rem 0.75rem',
                       borderRadius: '12px',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textTransform: 'uppercase',
                       background:
-                        gameState.currentOpponent.elemental === 'common' ? '#9ca3af' :
-                        gameState.currentOpponent.elemental === 'rare' ? '#3b82f6' :
-                        gameState.currentOpponent.elemental === 'epic' ? '#8b5cf6' :
-                        '#f59e0b',
+                        gameState.currentOpponent.elemental === 'common'
+                          ? '#9ca3af'
+                          : gameState.currentOpponent.elemental === 'rare'
+                            ? '#3b82f6'
+                            : gameState.currentOpponent.elemental === 'epic'
+                              ? '#8b5cf6'
+                              : '#f59e0b',
                       color: 'white',
-                      zIndex: 1,
+                      zIndex: 2,
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
                     }}
                   >
                     {gameState.currentOpponent.elemental}
@@ -725,42 +794,214 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
               )}
             </div>
             <div
-              style={{ fontSize: '1rem', marginTop: '1.5rem', opacity: 0.8 }}
+              style={{
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                marginTop: isMobile ? '1rem' : '1.5rem',
+                opacity: 0.8,
+                padding: isMobile ? '0 1rem' : '0',
+              }}
             >
               The ancient spirits answer the call!
             </div>
           </div>
         )}
 
-
-
         {phase === 'result' && (
           <div style={{ animation: 'fadeIn 1s ease-in' }}>
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '1.5rem' }}>
-              Battle Complete!
-            </h2>
-            <div
+            <h2
               style={{
-                fontSize: '4rem',
-                animation: 'resultPulse 3s ease-in-out infinite',
-                filter:
-                  battleResult === 'player'
-                    ? 'drop-shadow(0 0 20px rgba(16, 185, 129, 0.8))'
-                    : battleResult === 'opponent'
-                      ? 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.8))'
-                      : 'drop-shadow(0 0 20px rgba(218, 165, 32, 0.8))',
+                fontSize: isMobile ? '1.4rem' : '1.8rem',
+                marginBottom: isMobile ? '1rem' : '1.5rem',
+                padding: isMobile ? '0 1rem' : '0',
               }}
             >
-              {battleResult === 'player'
-                ? '🏆'
-                : battleResult === 'opponent'
-                  ? '💀'
-                  : '🤝'}
-            </div>
+              Battle Complete!
+            </h2>
+
+            {/* Show elemental card in center for player victory */}
+            {battleResult === 'player' &&
+              gameState.player.selectedElemental && (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginBottom: isMobile ? '1rem' : '1.5rem',
+                    position: 'relative',
+                  }}
+                >
+                  {/* WIN! indicator above the card */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: isMobile ? '-30px' : '-40px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      fontSize: isMobile ? '1rem' : '1.2rem',
+                      fontWeight: 'bold',
+                      color: '#10b981',
+                      textShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
+                      animation: 'fadeIn 0.5s ease-in-out',
+                      zIndex: 10,
+                    }}
+                  >
+                    WIN!
+                  </div>
+
+                  <div
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      borderRadius: '16px',
+                      padding: '1rem',
+                      border: '2px solid rgba(255, 255, 255, 0.2)',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                      backdropFilter: 'blur(20px)',
+                      animation: 'winnerScale 2s ease-in-out infinite',
+                      width: isMobile ? '120px' : '160px',
+                      height: isMobile ? '150px' : '200px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {/* Rarity glow effect */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: `radial-gradient(circle at center, ${
+                          gameState.player.selectedElemental === 'common'
+                            ? '#9ca3af40'
+                            : gameState.player.selectedElemental === 'rare'
+                              ? '#3b82f640'
+                              : gameState.player.selectedElemental === 'epic'
+                                ? '#8b5cf640'
+                                : '#f59e0b40'
+                        } 0%, transparent 70%)`,
+                        borderRadius: '16px',
+                      }}
+                    />
+
+                    {/* Elemental image */}
+                    <img
+                      src={`${process.env.PUBLIC_URL}/resources/elmental/${gameState.player.selectedElement || 'fire'}_${gameState.player.selectedElemental?.charAt(0).toUpperCase() + gameState.player.selectedElemental?.slice(1) || 'Common'}.png`}
+                      alt={`${gameState.player.selectedElement || 'fire'} ${gameState.player.selectedElemental || 'common'}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '12px',
+                        filter:
+                          'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
+                        zIndex: 1,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                      }}
+                      onError={e => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const emojiDiv =
+                          target.nextElementSibling as HTMLDivElement;
+                        if (emojiDiv) {
+                          emojiDiv.style.display = 'block';
+                        }
+                      }}
+                    />
+                    <div
+                      style={{
+                        fontSize: isMobile ? '2rem' : '3rem',
+                        marginBottom: isMobile ? '0.5rem' : '1rem',
+                        filter:
+                          'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))',
+                        zIndex: 1,
+                        display: 'none',
+                      }}
+                    >
+                      {(() => {
+                        const element =
+                          gameState.player.selectedElement || 'fire';
+                        const rarity = gameState.player.selectedElemental;
+                        const elementalData = {
+                          fire: {
+                            common: '🔥',
+                            rare: '🔥',
+                            epic: '🔥',
+                            immortal: '🔥',
+                          },
+                          water: {
+                            common: '💧',
+                            rare: '💧',
+                            epic: '💧',
+                            immortal: '💧',
+                          },
+                          earth: {
+                            common: '🌍',
+                            rare: '🌍',
+                            epic: '🌍',
+                            immortal: '🌍',
+                          },
+                        };
+                        return elementalData[element][rarity];
+                      })()}
+                    </div>
+
+                    {/* Rarity badge */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: isMobile ? '8px' : '12px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '12px',
+                        fontSize: '0.7rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        background:
+                          gameState.player.selectedElemental === 'common'
+                            ? '#9ca3af'
+                            : gameState.player.selectedElemental === 'rare'
+                              ? '#3b82f6'
+                              : gameState.player.selectedElemental === 'epic'
+                                ? '#8b5cf6'
+                                : '#f59e0b',
+                        color: 'white',
+                        zIndex: 2,
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                      }}
+                    >
+                      {gameState.player.selectedElemental}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            {/* Show result icon only for defeat and draw */}
+            {(battleResult === 'opponent' || battleResult === 'draw') && (
+              <div
+                style={{
+                  fontSize: isMobile ? '3rem' : '4rem',
+                  animation: 'resultPulse 3s ease-in-out infinite',
+                  filter:
+                    battleResult === 'opponent'
+                      ? 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.8))'
+                      : 'drop-shadow(0 0 20px rgba(218, 165, 32, 0.8))',
+                }}
+              >
+                {battleResult === 'opponent' ? '💀' : '🤝'}
+              </div>
+            )}
+
             <div
               style={{
-                fontSize: '1rem',
-                marginTop: '1.5rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                marginTop: isMobile ? '1rem' : '1.5rem',
                 opacity: 0.8,
                 color:
                   battleResult === 'player'
@@ -768,6 +1009,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
                     : battleResult === 'opponent'
                       ? '#ef4444'
                       : '#daa520',
+                padding: isMobile ? '0 1rem' : '0',
               }}
             >
               {battleResult === 'player'
@@ -801,10 +1043,10 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
           50% { opacity: 0.6; }
         }
 
-                 @keyframes elementFloat {
+        @keyframes elementFloat {
            0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
            50% { transform: translateY(-10px) scale(1.02); opacity: 1; }
-         }
+        }
 
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
@@ -812,7 +1054,7 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
           75% { transform: translateX(8px); }
         }
 
-                          @keyframes elementalSummon {
+        @keyframes elementalSummon {
            0% { transform: scale(0); opacity: 0; }
            50% { transform: scale(1.1); opacity: 1; }
            100% { transform: scale(1); opacity: 1; }
@@ -834,11 +1076,17 @@ const BattleAnimationPixi: React.FC<BattleAnimationPixiProps> = ({
             100% { transform: scale(1.1); }
           }
 
-          @keyframes loserScale {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.9); }
-            100% { transform: scale(0.9); }
-          }
+                     @keyframes loserScale {
+             0% { transform: scale(1); }
+             50% { transform: scale(0.9); }
+             100% { transform: scale(0.9); }
+         }
+
+           @keyframes drawScale {
+             0% { transform: scale(1); }
+             50% { transform: scale(1.05); }
+             100% { transform: scale(1.05); }
+        }
 
         @keyframes epicClash {
           0%, 100% { transform: scale(1); }

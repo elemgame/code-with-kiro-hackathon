@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-    canLevelUpElemental,
-    ELEMENTAL_TYPES,
-    getElementalCooldownRemaining,
-    getElementalProtection,
-    getLevelUpCost,
-    getMaxLevelForRarity,
-    getRarityUpgradeCost,
-    isElementalOnCooldown,
+  canLevelUpElemental,
+  ELEMENTAL_TYPES,
+  getElementalCooldownRemaining,
+  getElementalProtection,
+  getLevelUpCost,
+  getMaxLevelForRarity,
+  getRarityUpgradeCost,
+  isElementalOnCooldown,
 } from '../gameLogic';
 import {
-    CollectedElemental,
-    Element,
-    ElementalDisplayData,
-    ElementalRarity,
+  CollectedElemental,
+  Element,
+  ElementalDisplayData,
+  ElementalRarity,
 } from '../types';
 
 interface CollectibleCardProps {
@@ -453,17 +453,28 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
           {elemental.element === 'earth' ? (
             <>
               A mighty guardian of stone and soil, protecting allies with{' '}
-              <strong>{(displayData.currentProtection * 100).toFixed(0)}%</strong> defense.
+              <strong>
+                {(displayData.currentProtection * 100).toFixed(0)}%
+              </strong>{' '}
+              defense.
             </>
           ) : elemental.element === 'water' ? (
             <>
-              A flowing spirit of healing and purification, restoring strength with{' '}
-              <strong>{(displayData.currentProtection * 100).toFixed(0)}%</strong> protection.
+              A flowing spirit of healing and purification, restoring strength
+              with{' '}
+              <strong>
+                {(displayData.currentProtection * 100).toFixed(0)}%
+              </strong>{' '}
+              protection.
             </>
           ) : (
             <>
-              A fierce warrior of flame and destruction, burning through enemies with{' '}
-              <strong>{(displayData.currentProtection * 100).toFixed(0)}%</strong> power.
+              A fierce warrior of flame and destruction, burning through enemies
+              with{' '}
+              <strong>
+                {(displayData.currentProtection * 100).toFixed(0)}%
+              </strong>{' '}
+              power.
             </>
           )}
         </div>
