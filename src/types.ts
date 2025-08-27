@@ -127,8 +127,6 @@ export type GamePhase =
   | 'locationSelection'
   | 'elementSelection'
   | 'elementalSelection'
-  | 'matchmaking'
-  | 'battle'
   | 'battleAnimation'
   | 'result'
   | 'collection'; // New phase for collection view

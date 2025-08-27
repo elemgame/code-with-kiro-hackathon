@@ -10,7 +10,6 @@ import {
   isElementalOnCooldown,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
-import Modal from './Modal';
 
 interface BattleComponentProps {
   gameState: GameState;
@@ -19,7 +18,7 @@ interface BattleComponentProps {
   onSelectElemental: (elemental: ElementalRarity) => void;
   onReturnToLocationSelection: () => void;
   onReturnToElementSelection: () => void;
-  onStartMatchmaking: () => void;
+  onStartMatchmaking: () => void; // Keep name for backward compatibility
   onStartBattle: () => void;
   onReturnToMenu: () => void;
 }
@@ -35,7 +34,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
   onReturnToLocationSelection,
   onReturnToElementSelection,
 }) => {
-  const { player, currentOpponent, opponentElement, gamePhase } = gameState;
+  const { player, gamePhase } = gameState;
 
   const renderLocationSelection = () => {
     return (
@@ -142,7 +141,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
           disabled={!player.selectedElement}
           onClick={onStartMatchmaking}
         >
-          {isFreeLocation ? '⚔️ Start Battle' : '🔮 Start Matchmaking'}
+          {isFreeLocation ? '⚔️ Start Battle' : '🌟 Select Elemental'}
         </button>
       </div>
     );
@@ -244,60 +243,20 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
     );
   };
 
-  const renderBattleDisplay = () => (
-    <div className='battle-section'>
-      <div className='mana-display'>
-        <div className='mana-label'>Your Mana</div>
-        <div className='mana-value'>
-          {getAvailableMana(player.mana, player.selectedLocation)}
-        </div>
-      </div>
 
-      <div className='battle-header'>
-        <div className='battle-icon'>⚔️</div>
-        <h3 className='battle-title'>Battle in Progress</h3>
-        <p className='battle-subtitle'>
-          Your elemental forces clash with the opponent
-        </p>
-      </div>
-
-      <div className='battle-display'>
-        <div className='battle-choice'>
-          <div className='battle-emoji animate'>
-            {player.selectedElement
-              ? ELEMENTS[player.selectedElement].emoji
-              : '❓'}
-          </div>
-          <div className='battle-player-name'>You</div>
-        </div>
-        <div className='battle-vs'>VS</div>
-        <div className='battle-choice'>
-          <div className='battle-emoji animate'>
-            {opponentElement ? ELEMENTS[opponentElement].emoji : '❓'}
-          </div>
-          <div className='battle-player-name'>
-            {currentOpponent?.name || 'Opponent'}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <>
       {gamePhase === 'menu' && renderLocationSelection()}
       {gamePhase === 'elementSelection' && renderElementSelection()}
       {gamePhase === 'elementalSelection' && renderElementalSelection()}
-      {gamePhase === 'battle' && renderBattleDisplay()}
 
       {/* Fallback for unknown phases */}
       {![
         'menu',
         'elementSelection',
         'elementalSelection',
-        'battle',
         'result',
-        'matchmaking',
       ].includes(gamePhase) && (
         <div style={{ textAlign: 'center', color: 'var(--error)' }}>
           Unknown game phase: {gamePhase}
@@ -305,51 +264,6 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       )}
 
       {/* Modals */}
-      <Modal
-        isOpen={gamePhase === 'matchmaking'}
-        onClose={() => {
-          // Modal cannot be closed during matchmaking
-        }}
-        title='🔮 Seeking Opponent'
-        className='loading-modal'
-      >
-        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <div style={{ marginBottom: '0.5rem' }}>
-            Consulting the mystical orb...
-          </div>
-          <div style={{ fontSize: '0.85rem', fontStyle: 'italic' }}>
-            Finding a worthy challenger
-          </div>
-        </div>
-      </Modal>
-
-      <Modal
-        isOpen={gamePhase === 'battle'}
-        onClose={() => {
-          // Modal cannot be closed during battle
-        }}
-        title='⚔️ Battle'
-      >
-        <div className='battle-display'>
-          <div className='battle-choice'>
-            <div className='battle-emoji'>
-              {player.selectedElement
-                ? ELEMENTS[player.selectedElement].emoji
-                : '❓'}
-            </div>
-            <div className='battle-player-name'>You</div>
-          </div>
-          <div className='battle-vs'>VS</div>
-          <div className='battle-choice'>
-            <div className='battle-emoji'>
-              {opponentElement ? ELEMENTS[opponentElement].emoji : '❓'}
-            </div>
-            <div className='battle-player-name'>
-              {currentOpponent?.name || 'Opponent'}
-            </div>
-          </div>
-        </div>
-      </Modal>
     </>
   );
 };

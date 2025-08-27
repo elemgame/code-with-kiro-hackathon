@@ -297,7 +297,7 @@ const App: React.FC = () => {
     setGameState(prev => ({ ...prev, gamePhase: 'elementSelection' }));
   }, [updatePlayer]);
 
-  const startMatchmaking = useCallback(() => {
+  const startBattleProcess = useCallback(() => {
     if (
       !gameState.player.selectedLocation ||
       !gameState.player.selectedElement
@@ -315,55 +315,39 @@ const App: React.FC = () => {
       return;
     }
 
-    // Starting matchmaking
-    setGameState(prev => ({ ...prev, gamePhase: 'matchmaking' }));
-
-    // Simulate matchmaking delay
-    setTimeout(
-      () => {
-        const opponent = generateOpponent(
-          gameState.player.selectedLocation as Location
-        );
-
-        // For Free location, skip elemental selection and go directly to battle
-        if (wager === 0) {
-          setGameState(prev => ({
-            ...prev,
-            currentOpponent: opponent,
-            gamePhase: 'battle',
-          }));
-
-          // Start battle immediately
-          setTimeout(() => {
-            const opponentElement = opponent.element || getRandomElement();
-            const battleResult = calculateBattleResult(
-              0, // baseWager is 0 for Free location
-              gameState.player.selectedElement as Element,
-              null, // no elemental for Free battles
-              opponentElement,
-              opponent.elemental || null,
-              gameState.player.elementalCollection
-            );
-
-            setGameState(prev => ({
-              ...prev,
-              opponentElement,
-              initialBattleMana: prev.player.mana,
-              battleResult: battleResult.winner,
-              gamePhase: 'battleAnimation',
-            }));
-          }, 1000);
-        } else {
-          // For paid locations, show elemental selection
-          setGameState(prev => ({
-            ...prev,
-            currentOpponent: opponent,
-            gamePhase: 'elementalSelection',
-          }));
-        }
-      },
-      2000 + Math.random() * 2000
+    // Generate opponent immediately without matchmaking
+    const opponent = generateOpponent(
+      gameState.player.selectedLocation as Location
     );
+
+    // For Free location, skip elemental selection and go directly to battle animation
+    if (wager === 0) {
+      const opponentElement = opponent.element || getRandomElement();
+      const battleResult = calculateBattleResult(
+        0, // baseWager is 0 for Free location
+        gameState.player.selectedElement as Element,
+        null, // no elemental for Free battles
+        opponentElement,
+        opponent.elemental || null,
+        gameState.player.elementalCollection
+      );
+
+      setGameState(prev => ({
+        ...prev,
+        currentOpponent: opponent,
+        opponentElement,
+        initialBattleMana: prev.player.mana,
+        battleResult: battleResult.winner,
+        gamePhase: 'battleAnimation',
+      }));
+    } else {
+      // For paid locations, show elemental selection
+      setGameState(prev => ({
+        ...prev,
+        currentOpponent: opponent,
+        gamePhase: 'elementalSelection',
+      }));
+    }
   }, [
     gameState.player.selectedLocation,
     gameState.player.selectedElement,
@@ -399,23 +383,15 @@ const App: React.FC = () => {
     // Only subtract wager if it's greater than 0
     const newMana = baseWager > 0 ? initialMana - baseWager : initialMana;
 
-    // Save initial mana for calculations
+    // Skip battle display and go directly to animation
     setGameState(prev => ({
       ...prev,
-      gamePhase: 'battle',
+      opponentElement,
       initialBattleMana: initialMana,
       player: { ...prev.player, mana: newMana },
       battleResult: battleResult.winner,
+      gamePhase: 'battleAnimation',
     }));
-
-    // Show battle animation
-    setTimeout(() => {
-      setGameState(prev => ({
-        ...prev,
-        opponentElement,
-        gamePhase: 'battleAnimation',
-      }));
-    }, 1000);
   }, [gameState.player, gameState.currentOpponent]);
 
   const onBattleAnimationComplete = useCallback(() => {
@@ -798,7 +774,7 @@ const App: React.FC = () => {
                 onSelectElemental={selectElemental}
                 onReturnToLocationSelection={returnToLocationSelection}
                 onReturnToElementSelection={returnToElementSelection}
-                onStartMatchmaking={startMatchmaking}
+                onStartMatchmaking={startBattleProcess}
                 onStartBattle={startBattle}
                 onReturnToMenu={returnToMenu}
               />
