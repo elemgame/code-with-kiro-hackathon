@@ -252,7 +252,7 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
        {showConfirmModal && selectedElemental && selectedDisplayData &&
          ReactDOM.createPortal(
            <div className='level-up-modal-overlay active' onClick={handleCancelLevelUp}>
-             <div className='level-up-modal' onClick={e => e.stopPropagation()}>
+             <div className={`level-up-modal element-${selectedElemental.element}`} onClick={e => e.stopPropagation()}>
                <div className='level-up-modal-header'>
                  <h3>
                    Confirm{' '}

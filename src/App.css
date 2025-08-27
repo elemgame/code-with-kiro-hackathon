@@ -6629,92 +6629,108 @@ body.modal-open .collection-container-modern {
   flex-shrink: 0;
 }
 
-/* Rarity Border System - Innovative Visual Design */
-.collectible-card.rarity-common {
-  border: 3px solid #8b8b8b;
+/* Elemental Border System - Default state uses element colors */
+.collectible-card.element-earth {
+  border: 3px solid #14532d;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(139, 139, 139, 0.2),
-    inset 0 0 20px rgba(139, 139, 139, 0.1);
+    0 0 20px rgba(20, 83, 45, 0.2),
+    inset 0 0 20px rgba(20, 83, 45, 0.1);
 }
 
-.collectible-card.rarity-common::before {
+.collectible-card.element-earth::before {
   content: '';
   position: absolute;
   top: -2px;
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #8b8b8b, #a0a0a0, #8b8b8b);
+  background: linear-gradient(45deg, #14532d, #052e16, #14532d);
   border-radius: 14px;
   z-index: -1;
-  animation: commonGlow 3s ease-in-out infinite;
+  animation: earthGlow 3s ease-in-out infinite;
 }
 
-.collectible-card.rarity-rare {
-  border: 3px solid #4fa0af;
+.collectible-card.element-fire {
+  border: 3px solid #7f1d1d;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
-    0 0 25px rgba(79, 160, 175, 0.4),
-    inset 0 0 25px rgba(79, 160, 175, 0.2);
+    0 0 20px rgba(127, 29, 29, 0.2),
+    inset 0 0 20px rgba(127, 29, 29, 0.1);
 }
 
-.collectible-card.rarity-rare::before {
+.collectible-card.element-fire::before {
   content: '';
   position: absolute;
   top: -2px;
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #4fa0af, #6bb6c4, #4fa0af);
+  background: linear-gradient(45deg, #7f1d1d, #450a0a, #7f1d1d);
   border-radius: 14px;
   z-index: -1;
-  animation: rareGlow 2.5s ease-in-out infinite;
+  animation: fireGlow 2.5s ease-in-out infinite;
 }
 
-.collectible-card.rarity-epic {
-  border: 3px solid #9b59b6;
+.collectible-card.element-water {
+  border: 3px solid #1e3a8a;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(155, 89, 182, 0.5),
-    inset 0 0 30px rgba(155, 89, 182, 0.3);
+    0 0 20px rgba(30, 58, 138, 0.2),
+    inset 0 0 20px rgba(30, 58, 138, 0.1);
 }
 
-.collectible-card.rarity-epic::before {
+.collectible-card.element-water::before {
   content: '';
   position: absolute;
   top: -2px;
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #9b59b6, #8e44ad, #9b59b6);
+  background: linear-gradient(45deg, #1e3a8a, #172554, #1e3a8a);
   border-radius: 14px;
   z-index: -1;
-  animation: epicGlow 2s ease-in-out infinite;
+  animation: waterGlow 3s ease-in-out infinite;
 }
 
-.collectible-card.rarity-immortal {
-  border: 3px solid #f39c12;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 0 35px rgba(243, 156, 18, 0.6),
-    inset 0 0 35px rgba(243, 156, 18, 0.4);
+/* Elemental Glow Animations */
+@keyframes earthGlow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: none;
+  }
+  50% {
+    opacity: 0.6;
+    transform: none;
+  }
 }
 
-.collectible-card.rarity-immortal::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #f39c12, #e67e22, #f39c12);
-  border-radius: 14px;
-  z-index: -1;
-  animation: immortalGlow 1.5s ease-in-out infinite;
+@keyframes fireGlow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: none;
+  }
+  50% {
+    opacity: 0.7;
+    transform: none;
+  }
 }
 
-/* Rarity Glow Animations */
+@keyframes waterGlow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: none;
+  }
+  50% {
+    opacity: 0.6;
+    transform: none;
+  }
+}
+
+/* Rarity Glow Animations (for hover effects) */
 @keyframes commonGlow {
   0%,
   100% {
@@ -6853,6 +6869,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
+/* Hover effects - Change to rarity colors */
 .collectible-card:hover {
   /* Убираем эффект приближения */
   transform: none;
@@ -6867,8 +6884,9 @@ body.modal-open .collection-container-modern {
   transition: all 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Специальные эффекты свечения для разных редкостей */
+/* Специальные эффекты свечения для разных редкостей при наведении */
 .collectible-card.rarity-common:hover {
+  border-color: #9ca3af;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.4),
     0 0 20px rgba(156, 163, 175, 0.4),
@@ -6876,6 +6894,7 @@ body.modal-open .collection-container-modern {
 }
 
 .collectible-card.rarity-rare:hover {
+  border-color: #3b82f6;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.4),
     0 0 25px rgba(59, 130, 246, 0.5),
@@ -6884,6 +6903,7 @@ body.modal-open .collection-container-modern {
 }
 
 .collectible-card.rarity-epic:hover {
+  border-color: #8b5cf6;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.4),
     0 0 30px rgba(139, 92, 246, 0.6),
@@ -6892,6 +6912,7 @@ body.modal-open .collection-container-modern {
 }
 
 .collectible-card.rarity-immortal:hover {
+  border-color: #f59e0b;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.4),
     0 0 35px rgba(245, 158, 11, 0.7),
@@ -7167,6 +7188,11 @@ body.modal-open .collection-container-modern {
   line-height: 1.2;
   position: relative;
   z-index: 1;
+}
+
+.character-description-text strong {
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 /* Top Corner Indicators */
@@ -7537,9 +7563,50 @@ body.modal-open .collection-container-modern {
   transform: scale(1.1);
 }
 
-.level-up-modal-content {
-  padding: 1.5rem;
-}
+       .level-up-modal-content {
+         padding: 1.5rem;
+       }
+
+       /* Elemental-themed backgrounds */
+       .level-up-modal.element-earth .level-up-elemental-info {
+         background: rgba(34, 197, 94, 0.2);
+         border: 1px solid rgba(34, 197, 94, 0.4);
+         border-radius: var(--border-radius-lg);
+         padding: 1rem;
+         margin-bottom: 1rem;
+       }
+
+       .level-up-modal.element-fire .level-up-elemental-info {
+         background: rgba(220, 38, 38, 0.2);
+         border: 1px solid rgba(220, 38, 38, 0.4);
+         border-radius: var(--border-radius-lg);
+         padding: 1rem;
+         margin-bottom: 1rem;
+       }
+
+       .level-up-modal.element-water .level-up-elemental-info {
+         background: rgba(59, 130, 246, 0.2);
+         border: 1px solid rgba(59, 130, 246, 0.4);
+         border-radius: var(--border-radius-lg);
+         padding: 1rem;
+         margin-bottom: 1rem;
+       }
+
+       /* Elemental-themed backgrounds for collectible cards */
+       .collectible-card.element-earth .character-name-block {
+         background: rgba(34, 197, 94, 0.15);
+         border: 1px solid rgba(34, 197, 94, 0.3);
+       }
+
+       .collectible-card.element-fire .character-name-block {
+         background: rgba(220, 38, 38, 0.15);
+         border: 1px solid rgba(220, 38, 38, 0.3);
+       }
+
+       .collectible-card.element-water .character-name-block {
+         background: rgba(59, 130, 246, 0.15);
+         border: 1px solid rgba(59, 130, 246, 0.3);
+       }
 
 .level-up-elemental-info {
   margin-bottom: 1.5rem;

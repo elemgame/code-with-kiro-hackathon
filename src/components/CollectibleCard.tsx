@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-  canLevelUpElemental,
-  ELEMENTAL_TYPES,
-  getElementalCooldownRemaining,
-  getElementalProtection,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRarityUpgradeCost,
-  isElementalOnCooldown,
+    canLevelUpElemental,
+    ELEMENTAL_TYPES,
+    getElementalCooldownRemaining,
+    getElementalProtection,
+    getLevelUpCost,
+    getMaxLevelForRarity,
+    getRarityUpgradeCost,
+    isElementalOnCooldown,
 } from '../gameLogic';
 import {
-  CollectedElemental,
-  Element,
-  ElementalRarity,
-  ElementalDisplayData,
+    CollectedElemental,
+    Element,
+    ElementalDisplayData,
+    ElementalRarity,
 } from '../types';
 
 interface CollectibleCardProps {
@@ -328,7 +328,7 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
 
   return (
     <div
-      className={`collectible-card ${getRarityClass(elemental.rarity)}`}
+      className={`collectible-card ${getRarityClass(elemental.rarity)} element-${elemental.element}`}
       style={
         {
           '--rarity-color': getRarityColor(elemental.rarity),
@@ -450,11 +450,22 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
         </div>
         <div className='character-divider'></div>
         <div className='character-description-text'>
-          {elemental.element === 'earth'
-            ? `A mighty guardian of stone and soil, protecting allies with ${(displayData.currentProtection * 100).toFixed(0)}% defense.`
-            : elemental.element === 'water'
-              ? `A flowing spirit of healing and purification, restoring strength with ${(displayData.currentProtection * 100).toFixed(0)}% protection.`
-              : `A fierce warrior of flame and destruction, burning through enemies with ${(displayData.currentProtection * 100).toFixed(0)}% power.`}
+          {elemental.element === 'earth' ? (
+            <>
+              A mighty guardian of stone and soil, protecting allies with{' '}
+              <strong>{(displayData.currentProtection * 100).toFixed(0)}%</strong> defense.
+            </>
+          ) : elemental.element === 'water' ? (
+            <>
+              A flowing spirit of healing and purification, restoring strength with{' '}
+              <strong>{(displayData.currentProtection * 100).toFixed(0)}%</strong> protection.
+            </>
+          ) : (
+            <>
+              A fierce warrior of flame and destruction, burning through enemies with{' '}
+              <strong>{(displayData.currentProtection * 100).toFixed(0)}%</strong> power.
+            </>
+          )}
         </div>
         <div className='character-divider'></div>
         <div className='level-text-description'>LVL {elemental.level}</div>
