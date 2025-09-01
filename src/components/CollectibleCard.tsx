@@ -608,8 +608,7 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
             </>
           ) : elemental.element === 'water' ? (
             <>
-              A flowing spirit of healing and purification, restoring strength
-              with{' '}
+              A flowing spirit of healing, restoring strength with{' '}
               <strong>
                 {(displayData.currentProtection * 100).toFixed(0)}%
               </strong>{' '}
@@ -617,8 +616,7 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
             </>
           ) : (
             <>
-              A fierce warrior of flame and destruction, burning through enemies
-              with{' '}
+              A fierce warrior of flame, burning through enemies with{' '}
               <strong>
                 {(displayData.currentProtection * 100).toFixed(0)}%
               </strong>{' '}
