@@ -70,13 +70,37 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     player.elementalCollection.elementals
   ).filter(e => e.isOwned);
 
-  const filteredElementals = ownedElementals.filter(elemental => {
-    if (selectedElement !== 'all' && elemental.element !== selectedElement)
-      return false;
-    if (selectedRarity !== 'all' && elemental.rarity !== selectedRarity)
-      return false;
-    return true;
-  });
+  // Function to sort elementals by rarity (rare cards first, ignoring level)
+  const sortByRarity = (a: CollectedElemental, b: CollectedElemental) => {
+    const rarityOrder = {
+      'immortal': 4,
+      'epic': 3,
+      'rare': 2,
+      'common': 1
+    };
+
+    const rarityA = rarityOrder[a.rarity];
+    const rarityB = rarityOrder[b.rarity];
+
+    // Sort by rarity first (descending - rare cards first)
+    if (rarityA !== rarityB) {
+      return rarityB - rarityA;
+    }
+
+    // If same rarity, sort by element for consistency
+    const elementOrder = { 'fire': 1, 'water': 2, 'earth': 3 };
+    return elementOrder[a.element] - elementOrder[b.element];
+  };
+
+  const filteredElementals = ownedElementals
+    .filter(elemental => {
+      if (selectedElement !== 'all' && elemental.element !== selectedElement)
+        return false;
+      if (selectedRarity !== 'all' && elemental.rarity !== selectedRarity)
+        return false;
+      return true;
+    })
+    .sort(sortByRarity);
 
   const handleLevelUpClick = (
     elemental: CollectedElemental,
