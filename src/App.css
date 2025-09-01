@@ -7045,67 +7045,331 @@ body.modal-open .collection-container-modern {
 }
 
 /* Responsive Grid - Mobile First Approach */
-/* До 610 пикселей - 1 столбец */
-@media (max-width: 609px) {
+/* До 480 пикселей - 1 столбец */
+@media (max-width: 479px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
-    gap: 1rem;
+    gap: 0.75rem;
     padding: 0.2rem;
-    margin: 0 0.2rem;
-    justify-content: flex-start; /* Выравнивание по левой стороне */
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
   }
 
   .collectible-card {
-    /* Убираем масштабирование */
+    width: 200px;
+    height: 280px;
     transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов для маленьких экранов */
+  .collectible-card .character-name-text {
+    font-size: 0.7rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.7rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    margin-top: 2px;
   }
 }
 
-/* Начиная с 610 пикселей - 2 столбца */
-@media (min-width: 610px) {
+/* От 400 до 479 пикселей - 1 столбец (маленькие экраны) */
+@media (min-width: 400px) and (max-width: 479px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.6rem;
+    padding: 0.2rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .collectible-card {
+    width: 190px;
+    height: 260px;
+    transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов */
+  .collectible-card .character-name-text {
+    font-size: 0.65rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.45rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.6rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.55rem;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+}
+
+/* От 480 до 609 пикселей - 2 столбца */
+@media (min-width: 480px) and (max-width: 609px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0.2rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .collectible-card {
+    width: 210px;
+    height: 290px;
+    transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов */
+  .collectible-card .character-name-text {
+    font-size: 0.75rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.55rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.75rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.65rem;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+}
+
+/* От 610 до 700 пикселей - 2 столбца */
+@media (min-width: 610px) and (max-width: 700px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0.2rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .collectible-card {
+    width: 240px;
+    height: 320px;
+    transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов */
+  .collectible-card .character-name-text {
+    font-size: 0.8rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.6rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.8rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.7rem;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+}
+
+/* От 700 до 756 пикселей - 2 столбца (оптимизировано для средних экранов) */
+@media (min-width: 700px) and (max-width: 756px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    padding: 0.2rem;
-    margin: 0 0.2rem;
-    justify-content: flex-start; /* Выравнивание по левой стороне */
+    padding: 0.5rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
   }
 
   .collectible-card {
-    /* Убираем масштабирование */
+    width: 250px;
+    height: 330px;
     transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов */
+  .collectible-card .character-name-text {
+    font-size: 0.85rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.65rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.85rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.75rem;
+    line-height: 1.1;
+    margin-top: 2px;
   }
 }
 
-/* Начиная с 901 пикселя - 3 столбца */
-@media (min-width: 901px) {
+/* От 757 до 900 пикселей - 3 столбца */
+@media (min-width: 757px) and (max-width: 900px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
-    padding: 0.2rem;
-    margin: 0 0.2rem;
-    justify-content: flex-start; /* Выравнивание по левой стороне */
+    padding: 0.5rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
   }
 
   .collectible-card {
-    /* Убираем масштабирование */
+    width: 230px;
+    height: 310px;
     transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов */
+  .collectible-card .character-name-text {
+    font-size: 0.8rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.6rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.8rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.7rem;
+    line-height: 1.1;
+    margin-top: 2px;
   }
 }
 
-/* Начиная с 1201 пикселя - 4 столбца */
-@media (min-width: 1201px) {
+/* Начиная с 901 пикселя - 4 столбца */
+@media (min-width: 901px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
     padding: 0.2rem;
-    margin: 0 0.2rem;
-    justify-content: flex-start; /* Выравнивание по левой стороне */
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
   }
 
   .collectible-card {
-    /* Убираем масштабирование */
+    width: 280px;
+    height: 380px;
     transform: none;
+  }
+
+  /* Стандартные размеры шрифтов для больших экранов */
+  .collectible-card .character-name-text {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.7rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 1.1rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.85rem;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+}
+
+/* Начиная с 1201 пикселя - 4 столбца (большие экраны) */
+@media (min-width: 1201px) {
+  .collectible-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 0.2rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .collectible-card {
+    width: 300px;
+    height: 400px;
+    transform: none;
+  }
+
+  /* Увеличенные размеры шрифтов для очень больших экранов */
+  .collectible-card .character-name-text {
+    font-size: 1rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.8rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 1.2rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.95rem;
+    line-height: 1.1;
+    margin-top: 2px;
   }
 }
 
@@ -7113,10 +7377,40 @@ body.modal-open .collection-container-modern {
 @media (max-width: 399px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
-    gap: 1rem;
+    gap: 0.5rem;
     padding: 0.2rem;
-    margin: 0 0.2rem;
-    justify-content: flex-start; /* Выравнивание по левой стороне */
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .collectible-card {
+    width: 160px;
+    height: 220px;
+    transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов для очень маленьких экранов */
+  .collectible-card .character-name-text {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.4rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.55rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.5rem;
+    line-height: 1.1;
+    margin-top: 2px;
   }
 }
 
@@ -7124,17 +7418,40 @@ body.modal-open .collection-container-modern {
 @media (max-width: 360px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
-    gap: 1rem;
-    padding: 0.2rem;
-    margin: 0 0.2rem;
-    justify-content: flex-start; /* Выравнивание по левой стороне */
+    gap: 0.4rem;
+    padding: 0.15rem;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
   }
 
   .collectible-card {
-    width: 200px;
-    height: 340px;
-    /* Убираем масштабирование */
+    width: 140px;
+    height: 190px;
     transform: none;
+  }
+
+  /* Адаптивные размеры шрифтов для очень маленьких экранов */
+  .collectible-card .character-name-text {
+    font-size: 0.55rem;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .collectible-card .character-description-text {
+    font-size: 0.35rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .character-description-text strong {
+    font-size: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .collectible-card .level-text-description {
+    font-size: 0.45rem;
+    line-height: 1.1;
+    margin-top: 2px;
   }
 }
 
@@ -7148,11 +7465,37 @@ body.modal-open .collection-container-modern {
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  width: 280px;
-  height: 380px;
+  width: 220px; /* Base width, overridden by media queries */
+  height: 300px; /* Base height, overridden by media queries */
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  margin: 0 auto;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+/* Базовые размеры шрифтов для карточек (будут переопределены медиа-запросами) */
+.collectible-card .character-name-text {
+  font-size: 0.9rem;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+.collectible-card .character-description-text {
+  font-size: 0.7rem;
+  line-height: 1.1;
+}
+
+.collectible-card .character-description-text strong {
+  font-size: 1.1rem;
+  line-height: 1.1;
+}
+
+.collectible-card .level-text-description {
+  font-size: 0.85rem;
+  line-height: 1.1;
+  margin-top: 2px;
 }
 
 /* Level Up Vibration Animation */
@@ -7646,7 +7989,6 @@ body.modal-open .collection-container-modern {
 
 .character-name-text {
   color: white;
-  font-size: 0.9rem;
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   position: relative;
@@ -7654,7 +7996,6 @@ body.modal-open .collection-container-modern {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
 }
 
 .character-divider {
@@ -7680,13 +8021,11 @@ body.modal-open .collection-container-modern {
 
 .level-text-description {
   color: white;
-  font-size: 0.85rem;
   font-weight: 800;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
   letter-spacing: 1px;
   font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
   text-align: center;
-  margin-top: 4px;
 }
 
 .card-bottom-indicators {
@@ -7716,16 +8055,13 @@ body.modal-open .collection-container-modern {
 
 .character-description-text {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.7rem;
   font-weight: 400;
   text-align: center;
-  line-height: 1.2;
   position: relative;
   z-index: 1;
 }
 
 .character-description-text strong {
-  font-size: 1.1rem;
   font-weight: 700;
 }
 
