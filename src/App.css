@@ -266,6 +266,12 @@ html {
   /* Firefox */
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
+  touch-action: manipulation; /* disable pinch zoom */
+  -webkit-touch-callout: none; /* disable callout */
+  -webkit-user-select: none; /* disable text selection */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 html::-webkit-scrollbar {
@@ -278,14 +284,18 @@ body {
   background: #18182c;
   color: var(--text-primary);
   line-height: 1.6;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   scrollbar-width: none;
   /* Firefox */
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
+  touch-action: manipulation; /* disable pinch zoom */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -342,6 +352,9 @@ body::-webkit-scrollbar {
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
   padding-top: 80px; /* Add padding to account for the fixed header */
+  touch-action: pan-y; /* allow only vertical scrolling */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .app::-webkit-scrollbar {
