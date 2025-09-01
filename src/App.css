@@ -7477,7 +7477,7 @@ body.modal-open .collection-container-modern {
 
 /* Базовые размеры шрифтов для карточек (будут переопределены медиа-запросами) */
 .collectible-card .character-name-text {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1.1;
   margin-bottom: 2px;
 }
@@ -7488,12 +7488,12 @@ body.modal-open .collection-container-modern {
 }
 
 .collectible-card .character-description-text strong {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   line-height: 1.1;
 }
 
 .collectible-card .level-text-description {
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   line-height: 1.1;
   margin-top: 2px;
 }
@@ -7827,7 +7827,7 @@ body.modal-open .collection-container-modern {
   );
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   width: 100%;
-  height: 274px;
+  height: 73%;
   display: flex;
   align-items: center;
   justify-content: center;
