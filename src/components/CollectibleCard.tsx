@@ -43,15 +43,80 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
     const handleVibrate = (isUpgrade = false) => {
       setIsVibrating(true);
 
-      // Mobile device vibration
-      if ('vibrate' in navigator) {
-        if (isUpgrade) {
-          // More intense vibration for rarity upgrades
-          navigator.vibrate([150, 30, 150, 30, 150, 30, 150, 30, 150]);
-        } else {
-          // Standard vibration for level ups
-          navigator.vibrate([100, 50, 100, 50, 100, 50, 100]);
+      // Mobile device vibration - optimized for Telegram Mini Apps
+      const triggerVibration = (pattern: number | number[]) => {
+        let vibrationTriggered = false;
+
+        // Try Telegram Web App API first (most reliable for TMA)
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+          try {
+            window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            vibrationTriggered = true;
+
+            // For upgrades, trigger multiple impacts with different intensities
+            if (Array.isArray(pattern) && pattern.length > 3) {
+              setTimeout(() => {
+                try {
+                  if (window.Telegram?.WebApp?.HapticFeedback) {
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
+                  }
+                } catch (e) { /* Heavy vibration failed silently */ }
+              }, 200);
+              setTimeout(() => {
+                try {
+                  if (window.Telegram?.WebApp?.HapticFeedback) {
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+                  }
+                } catch (e) { /* Medium vibration failed silently */ }
+              }, 400);
+              setTimeout(() => {
+                try {
+                  if (window.Telegram?.WebApp?.HapticFeedback) {
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+                  }
+                } catch (e) { /* Light vibration failed silently */ }
+              }, 600);
+            }
+          } catch (error) { /* Telegram HapticFeedback failed, trying fallback */ }
         }
+
+        // Fallback to Web Vibration API
+        if (!vibrationTriggered && 'vibrate' in navigator) {
+          try {
+            navigator.vibrate(pattern);
+            vibrationTriggered = true;
+          } catch (error) { /* Web Vibration API failed */ }
+        }
+
+        // Fallback for older devices
+        if (!vibrationTriggered && 'vibrate' in window) {
+          try {
+            (window as Window & { vibrate?: (pattern: number | number[]) => void }).vibrate?.(pattern);
+            vibrationTriggered = true;
+          } catch (error) { /* Legacy vibration failed */ }
+        }
+
+        // Final fallback - try to trigger any available vibration
+        if (!vibrationTriggered) {
+          try {
+            // Try different vibration methods
+            if (navigator.vibrate) {
+              navigator.vibrate(100);
+            } else if ((window as Window & { vibrate?: (pattern: number) => void }).vibrate) {
+              (window as Window & { vibrate?: (pattern: number) => void }).vibrate?.(100);
+            } else if (window.Telegram?.WebApp?.HapticFeedback) {
+              window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+          } catch (error) { /* All vibration methods failed */ }
+        }
+      };
+
+      if (isUpgrade) {
+        // More intense vibration for rarity upgrades
+        triggerVibration([150, 30, 150, 30, 150, 30, 150, 30, 150]);
+      } else {
+        // Standard vibration for level ups
+        triggerVibration([100, 50, 100, 50, 100, 50, 100]);
       }
 
       setTimeout(() => {
