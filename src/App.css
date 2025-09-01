@@ -299,9 +299,42 @@ body::-webkit-scrollbar {
   /* WebKit browsers */
 }
 
+/* Glass Gradient Header */
+.glass-gradient-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.glass-gradient-overlay {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  mask: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.6) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.6) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
 .app {
   width: 100%;
-  background: linear-gradient(145deg, var(--dark-bg), rgba(25, 20, 35, 0.95));
+  background: #18182C;
   backdrop-filter: blur(20px);
   height: 100vh;
   overflow-y: auto;
@@ -313,6 +346,7 @@ body::-webkit-scrollbar {
   /* Firefox */
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
+  padding-top: 80px; /* Add padding to account for the fixed header */
 }
 
 .app::-webkit-scrollbar {
@@ -322,7 +356,8 @@ body::-webkit-scrollbar {
 
 .app-content {
   padding-bottom: 100px;
-  min-height: calc(100vh - 100px);
+  padding-top: 20px; /* Add some top padding for the glass header */
+  min-height: calc(100vh - 180px); /* Adjust for header + navigation */
 }
 
 /* Card Design */
@@ -1922,6 +1957,19 @@ body.modal-open .collection-container-modern {
 
 /* Responsive Design */
 @media (max-width: 480px) {
+  .glass-gradient-header {
+    height: 60px; /* Smaller header on mobile */
+  }
+
+  .app {
+    padding-top: 60px; /* Adjust padding for smaller header */
+  }
+
+  .app-content {
+    padding-top: 15px;
+    min-height: calc(100vh - 160px);
+  }
+
   .modal {
     max-width: calc(100vw - 2rem);
     padding: 1.25rem;
@@ -1955,6 +2003,19 @@ body.modal-open .collection-container-modern {
 }
 
 @media (max-width: 360px) {
+  .glass-gradient-header {
+    height: 50px; /* Even smaller header on very small screens */
+  }
+
+  .app {
+    padding-top: 50px; /* Adjust padding for smaller header */
+  }
+
+  .app-content {
+    padding-top: 10px;
+    min-height: calc(100vh - 150px);
+  }
+
   .modal {
     max-width: calc(100vw - 1rem);
     padding: 1rem;
@@ -8595,7 +8656,7 @@ body.modal-open .collection-container-modern {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+  background: #18182C;
   min-height: 100vh;
 }
 
