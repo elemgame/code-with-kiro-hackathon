@@ -2127,7 +2127,6 @@ body.modal-open .collection-container-modern {
 }
 
 .location-btn:hover {
-  transform: translateY(-4px);
   border-color: var(--primary-gold);
   box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
 }
@@ -2135,7 +2134,6 @@ body.modal-open .collection-container-modern {
 .location-btn.selected {
   border-color: var(--secondary-gold);
   background: rgba(218, 165, 32, 0.1);
-  transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
 }
 
@@ -4520,27 +4518,14 @@ body.modal-open .collection-container-modern {
 
 /* Enhanced Battle Section Styles */
 .battle-section {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.02)
-  );
+  background: #18182C;
   border-radius: var(--border-radius-2xl);
-  border: 1px solid rgba(218, 165, 32, 0.2);
-  backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
   padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-xl)
     var(--spacing-xl);
   margin: var(--spacing-md);
   max-width: calc(100vw - var(--spacing-xl));
-}
-
-.battle-section:hover {
-  border-color: rgba(218, 165, 32, 0.4);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 .battle-header {
@@ -9347,9 +9332,8 @@ body.modal-open .collection-container-modern {
 .empty-collection-modern {
   text-align: center;
   padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: #18182C;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .empty-icon-modern {
