@@ -101,6 +101,39 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         </div>
       </div>
 
+      {/* Additional Stats */}
+      <div className='additional-stats'>
+        <div className='stats-row'>
+          <div className='mini-stat'>
+            <div className='mini-stat-icon'>🎯</div>
+            <div className='mini-stat-content'>
+              <div className='mini-stat-value'>{winRate}%</div>
+              <div className='mini-stat-label'>Win Rate</div>
+            </div>
+          </div>
+
+          <div className='mini-stat'>
+            <div className='mini-stat-icon'>💎</div>
+            <div className='mini-stat-content'>
+              <div className='mini-stat-value'>
+                {player.totalManaWon.toLocaleString()}
+              </div>
+              <div className='mini-stat-label'>Mana Won</div>
+            </div>
+          </div>
+
+          <div className='mini-stat'>
+            <div className='mini-stat-icon'>🌟</div>
+            <div className='mini-stat-content'>
+              <div className='mini-stat-value'>
+                {player.favoriteElement || 'None'}
+              </div>
+              <div className='mini-stat-label'>Element</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Achievements Section */}
       <div className='achievements-modern'>
         <div className='section-header-modern'>
@@ -137,39 +170,6 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* Additional Stats */}
-      <div className='additional-stats'>
-        <div className='stats-row'>
-          <div className='mini-stat'>
-            <div className='mini-stat-icon'>🎯</div>
-            <div className='mini-stat-content'>
-              <div className='mini-stat-value'>{winRate}%</div>
-              <div className='mini-stat-label'>Win Rate</div>
-            </div>
-          </div>
-
-          <div className='mini-stat'>
-            <div className='mini-stat-icon'>💎</div>
-            <div className='mini-stat-content'>
-              <div className='mini-stat-value'>
-                {player.totalManaWon.toLocaleString()}
-              </div>
-              <div className='mini-stat-label'>Mana Won</div>
-            </div>
-          </div>
-
-          <div className='mini-stat'>
-            <div className='mini-stat-icon'>🌟</div>
-            <div className='mini-stat-content'>
-              <div className='mini-stat-value'>
-                {player.favoriteElement || 'None'}
-              </div>
-              <div className='mini-stat-label'>Element</div>
-            </div>
-          </div>
         </div>
       </div>
     </main>

@@ -275,11 +275,7 @@ html::-webkit-scrollbar {
 
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(
-    circle at center,
-    rgba(25, 25, 50, 0.9),
-    rgba(10, 10, 30, 0.95)
-  );
+  background: #18182C;
   color: var(--text-primary);
   line-height: 1.6;
   height: 100vh;
@@ -335,7 +331,6 @@ body::-webkit-scrollbar {
 .app {
   width: 100%;
   background: #18182C;
-  backdrop-filter: blur(20px);
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -358,6 +353,7 @@ body::-webkit-scrollbar {
   padding-bottom: 100px;
   padding-top: 20px; /* Add some top padding for the glass header */
   min-height: calc(100vh - 180px); /* Adjust for header + navigation */
+  background: #18182C;
 }
 
 /* Card Design */
@@ -2369,23 +2365,13 @@ body.modal-open .collection-container-modern {
 .elemental-card {
   flex: 1;
   text-align: center;
-  padding: 1rem;
-  background: linear-gradient(135deg, #2a2a2a, #1a4a5a);
+  padding: 0.75rem;
+  background: #18182C;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-.elemental-card:hover {
-  box-shadow: 0 6px 20px rgba(0, 175, 255, 0.3);
 }
 
 .elemental-card.opponent {
-  background: #2a2a2a;
-}
-
-.elemental-card.opponent:hover {
-  box-shadow: 0 6px 20px rgba(255, 76, 76, 0.3);
+  background: #18182C;
 }
 
 .elemental-card-emoji {
@@ -2405,10 +2391,9 @@ body.modal-open .collection-container-modern {
 }
 
 .final-calculation {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 1rem;
+  background: #18182C;
+  padding: 0.75rem;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .final-calculation-title {
@@ -2535,10 +2520,22 @@ body.modal-open .collection-container-modern {
 #resultsTab {
   overflow-y: auto;
   overflow-x: hidden;
+  background: #18182C;
 }
 
 #resultsTab .card {
   max-width: none;
+  background: #18182C;
+  backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  transition: none;
+}
+
+#resultsTab .card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
 }
 
 .results-header {
@@ -2597,11 +2594,10 @@ body.modal-open .collection-container-modern {
 }
 
 .results-stats {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18182C;
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .results-stats-header {
@@ -2655,31 +2651,30 @@ body.modal-open .collection-container-modern {
 }
 
 .results-battle-log {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18182C;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .battle-log-header {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: #ffd700;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   font-family: 'Inter', sans-serif;
 }
 
 .results-actions {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .results-battle-again {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 /* Extra small devices */
@@ -2734,23 +2729,23 @@ body.modal-open .collection-container-modern {
 
 /* Battle Log Element Styles */
 .element-battle-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .element-battle-title {
-  font-size: 16px;
+  font-size: 14px;
   color: #ffd700;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .element-battle-display {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .element-battle-choice {
@@ -2776,24 +2771,24 @@ body.modal-open .collection-container-modern {
 }
 
 .element-battle-result {
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
   color: white;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 12px;
-  border-radius: 16px;
+  background: #18182C;
+  padding: 10px;
+  border-radius: 12px;
   font-family: 'Inter', sans-serif;
 }
 
 /* Elementals Used Styles */
 .elementals-used-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .elementals-used-title {
-  font-size: 16px;
+  font-size: 14px;
   color: #ffd700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
 }
@@ -2801,37 +2796,28 @@ body.modal-open .collection-container-modern {
 .elementals-used-display {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .elemental-used-card {
   flex: 1;
   text-align: center;
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  padding: 12px;
+  border-radius: 12px;
+  background: #18182C;
 }
 
 .elemental-used-card.player {
-  background: linear-gradient(135deg, #2a2a2a, #1a4a5a);
-}
-
-.elemental-used-card.player:hover {
-  box-shadow: 0 6px 20px rgba(0, 175, 255, 0.3);
+  background: #18182C;
 }
 
 .elemental-used-card.opponent {
-  background: #2a2a2a;
-}
-
-.elemental-used-card.opponent:hover {
-  box-shadow: 0 6px 20px rgba(255, 76, 76, 0.3);
+  background: #18182C;
 }
 
 .elemental-used-emoji {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
 }
 
 .elemental-used-name {
@@ -2856,17 +2842,16 @@ body.modal-open .collection-container-modern {
 
 /* Final Calculation Styles */
 .final-calculation-section {
-  background: rgba(0, 0, 0, 0.4);
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: #18182C;
+  margin-top: 0.75rem;
+  padding: 12px;
+  border-radius: 12px;
 }
 
 .final-calculation-title {
-  font-size: 16px;
+  font-size: 14px;
   color: #ffd700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
 }
@@ -2874,12 +2859,12 @@ body.modal-open .collection-container-modern {
 .final-calculation-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .final-calculation-row.total {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 8px;
+  padding-top: 6px;
   margin-bottom: 0;
 }
 
@@ -3226,18 +3211,16 @@ body.modal-open .collection-container-modern {
 .stats-grid-modern {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .stat-card-modern {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18182C;
   border-radius: 16px;
   padding: 1.25rem;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -3361,11 +3344,9 @@ body.modal-open .collection-container-modern {
 
 /* Achievements Section */
 .achievements-modern {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18182C;
   border-radius: 20px;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .section-header-modern {
@@ -3410,16 +3391,13 @@ body.modal-open .collection-container-modern {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18182C;
   border-radius: 12px;
-  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
 .achievement-card-modern.unlocked {
-  border-color: var(--success);
   background: rgba(16, 185, 129, 0.1);
 }
 
@@ -3428,7 +3406,6 @@ body.modal-open .collection-container-modern {
 }
 
 .achievement-card-modern:hover {
-  transform: translateX(4px);
   background: rgba(0, 0, 0, 0.3);
 }
 
@@ -3501,32 +3478,29 @@ body.modal-open .collection-container-modern {
 
 /* Additional Stats */
 .additional-stats {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18182C;
   border-radius: 16px;
-  padding: 1.25rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .stats-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .mini-stat {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.2);
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #18182C;
   border-radius: 12px;
-  transition: all 0.3s ease;
 }
 
 .mini-stat:hover {
   background: rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
 }
 
 .mini-stat-icon {

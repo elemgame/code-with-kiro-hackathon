@@ -38,6 +38,7 @@ const BattleResultPage: React.FC<BattleResultPageProps> = ({
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
+          background: '#18182C',
         }}
       >
         {/* Result Header Card */}
@@ -100,15 +101,7 @@ const BattleResultPage: React.FC<BattleResultPageProps> = ({
           {/* Battle Log Header */}
           <div className='battle-log-header'>⚔️ Battle Log</div>
 
-          <div
-            className='results-battle-log'
-            style={{
-              background: 'rgba(0, 0, 0, 0.4)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '12px',
-              padding: '1rem',
-            }}
-          >
+          <div className='results-battle-log'>
             {/* Element Battle */}
             <div className='element-battle-section'>
               <div className='element-battle-title'>Element Battle:</div>
