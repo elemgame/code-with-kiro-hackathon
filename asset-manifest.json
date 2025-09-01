@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/code-with-kiro-hackathon/static/css/main.4126b269.css",
+    "main.css": "/code-with-kiro-hackathon/static/css/main.2a348b50.css",
     "main.js": "/code-with-kiro-hackathon/static/js/main.cb409a19.js",
     "static/js/250.e2330f0c.chunk.js": "/code-with-kiro-hackathon/static/js/250.e2330f0c.chunk.js",
     "static/js/929.3a99028b.chunk.js": "/code-with-kiro-hackathon/static/js/929.3a99028b.chunk.js",
     "index.html": "/code-with-kiro-hackathon/index.html",
-    "main.4126b269.css.map": "/code-with-kiro-hackathon/static/css/main.4126b269.css.map",
+    "main.2a348b50.css.map": "/code-with-kiro-hackathon/static/css/main.2a348b50.css.map",
     "main.cb409a19.js.map": "/code-with-kiro-hackathon/static/js/main.cb409a19.js.map",
     "250.e2330f0c.chunk.js.map": "/code-with-kiro-hackathon/static/js/250.e2330f0c.chunk.js.map",
     "929.3a99028b.chunk.js.map": "/code-with-kiro-hackathon/static/js/929.3a99028b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4126b269.css",
+    "static/css/main.2a348b50.css",
     "static/js/main.cb409a19.js"
   ]
 }
