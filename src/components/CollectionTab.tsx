@@ -93,6 +93,18 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
       setShowConfirmModal(false);
       setSelectedElemental(null);
       setSelectedDisplayData(null);
+
+      // Trigger vibration after confirmation
+      setTimeout(() => {
+        const windowWithVibration = window as Window & {
+          triggerCardVibration?: (isUpgrade?: boolean) => void;
+        };
+        if (windowWithVibration.triggerCardVibration) {
+          windowWithVibration.triggerCardVibration(
+            selectedDisplayData.canUpgradeRarity
+          );
+        }
+      }, 100); // Small delay to ensure modal is closed
     }
   };
 
@@ -104,7 +116,6 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
 
   return (
     <main className='collection-container-modern'>
-
       {/* Modern Filters */}
       <div className='collection-filters-modern'>
         <div className='filter-section'>

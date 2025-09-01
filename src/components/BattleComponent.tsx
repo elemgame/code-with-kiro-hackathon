@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-    ELEMENTS,
-    LOCATIONS,
-    canAffordLocation,
-    formatCooldownTime,
-    getAvailableMana,
-    getElementalCooldownRemaining,
-    getElementalData,
-    isElementalOnCooldown,
+  ELEMENTS,
+  LOCATIONS,
+  canAffordLocation,
+  formatCooldownTime,
+  getAvailableMana,
+  getElementalCooldownRemaining,
+  getElementalData,
+  isElementalOnCooldown,
 } from '../gameLogic';
 import { Element, ElementalRarity, GameState, Location } from '../types';
 
@@ -39,7 +39,6 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
   const renderLocationSelection = () => {
     return (
       <div className='battle-section'>
-
         <div className='battle-header'>
           <div className='battle-icon'>🏟️</div>
           <h3 className='battle-title'>Battle Arena</h3>
@@ -87,7 +86,6 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
     return (
       <div className='battle-section'>
-
         <div className='battle-navigation'>
           <button className='back-btn' onClick={onReturnToLocationSelection}>
             ←

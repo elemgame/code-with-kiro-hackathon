@@ -275,7 +275,7 @@ html::-webkit-scrollbar {
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #18182C;
+  background: #18182c;
   color: var(--text-primary);
   line-height: 1.6;
   height: 100vh;
@@ -330,7 +330,7 @@ body::-webkit-scrollbar {
 
 .app {
   width: 100%;
-  background: #18182C;
+  background: #18182c;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -353,7 +353,7 @@ body::-webkit-scrollbar {
   padding-bottom: 100px;
   padding-top: 20px; /* Add some top padding for the glass header */
   min-height: calc(100vh - 180px); /* Adjust for header + navigation */
-  background: #18182C;
+  background: #18182c;
 }
 
 /* Card Design */
@@ -422,6 +422,40 @@ body::-webkit-scrollbar {
 
   50% {
     background-position: 100% 50%;
+  }
+}
+
+@keyframes levelUpVibration {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  10% {
+    transform: translateX(-2px) translateY(-1px) rotate(-0.5deg);
+  }
+  20% {
+    transform: translateX(2px) translateY(1px) rotate(0.5deg);
+  }
+  30% {
+    transform: translateX(-3px) translateY(-2px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(3px) translateY(2px) rotate(1deg);
+  }
+  50% {
+    transform: translateX(-4px) translateY(-3px) rotate(-1.5deg);
+  }
+  60% {
+    transform: translateX(4px) translateY(3px) rotate(1.5deg);
+  }
+  70% {
+    transform: translateX(-3px) translateY(-2px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(3px) translateY(2px) rotate(1deg);
+  }
+  90% {
+    transform: translateX(-2px) translateY(-1px) rotate(-0.5deg);
   }
 }
 
@@ -2366,12 +2400,12 @@ body.modal-open .collection-container-modern {
   flex: 1;
   text-align: center;
   padding: 0.75rem;
-  background: #18182C;
+  background: #18182c;
   border-radius: 16px;
 }
 
 .elemental-card.opponent {
-  background: #18182C;
+  background: #18182c;
 }
 
 .elemental-card-emoji {
@@ -2391,7 +2425,7 @@ body.modal-open .collection-container-modern {
 }
 
 .final-calculation {
-  background: #18182C;
+  background: #18182c;
   padding: 0.75rem;
   border-radius: 16px;
 }
@@ -2520,12 +2554,12 @@ body.modal-open .collection-container-modern {
 #resultsTab {
   overflow-y: auto;
   overflow-x: hidden;
-  background: #18182C;
+  background: #18182c;
 }
 
 #resultsTab .card {
   max-width: none;
-  background: #18182C;
+  background: #18182c;
   backdrop-filter: none;
   border: none;
   box-shadow: none;
@@ -2594,7 +2628,7 @@ body.modal-open .collection-container-modern {
 }
 
 .results-stats {
-  background: #18182C;
+  background: #18182c;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -2651,7 +2685,7 @@ body.modal-open .collection-container-modern {
 }
 
 .results-battle-log {
-  background: #18182C;
+  background: #18182c;
   border-radius: 12px;
   padding: 1rem;
 }
@@ -2774,7 +2808,7 @@ body.modal-open .collection-container-modern {
   font-size: 13px;
   text-align: center;
   color: white;
-  background: #18182C;
+  background: #18182c;
   padding: 10px;
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
@@ -2804,15 +2838,15 @@ body.modal-open .collection-container-modern {
   text-align: center;
   padding: 12px;
   border-radius: 12px;
-  background: #18182C;
+  background: #18182c;
 }
 
 .elemental-used-card.player {
-  background: #18182C;
+  background: #18182c;
 }
 
 .elemental-used-card.opponent {
-  background: #18182C;
+  background: #18182c;
 }
 
 .elemental-used-emoji {
@@ -2842,7 +2876,7 @@ body.modal-open .collection-container-modern {
 
 /* Final Calculation Styles */
 .final-calculation-section {
-  background: #18182C;
+  background: #18182c;
   margin-top: 0.75rem;
   padding: 12px;
   border-radius: 12px;
@@ -3216,7 +3250,7 @@ body.modal-open .collection-container-modern {
 }
 
 .stat-card-modern {
-  background: #18182C;
+  background: #18182c;
   border-radius: 16px;
   padding: 1.25rem;
   position: relative;
@@ -3344,7 +3378,7 @@ body.modal-open .collection-container-modern {
 
 /* Achievements Section */
 .achievements-modern {
-  background: #18182C;
+  background: #18182c;
   border-radius: 20px;
   padding: 1rem;
 }
@@ -3391,7 +3425,7 @@ body.modal-open .collection-container-modern {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: #18182C;
+  background: #18182c;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
@@ -3478,7 +3512,7 @@ body.modal-open .collection-container-modern {
 
 /* Additional Stats */
 .additional-stats {
-  background: #18182C;
+  background: #18182c;
   border-radius: 16px;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
@@ -3495,7 +3529,7 @@ body.modal-open .collection-container-modern {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
-  background: #18182C;
+  background: #18182c;
   border-radius: 12px;
 }
 
@@ -4492,7 +4526,7 @@ body.modal-open .collection-container-modern {
 
 /* Enhanced Battle Section Styles */
 .battle-section {
-  background: #18182C;
+  background: #18182c;
   border-radius: var(--border-radius-2xl);
   position: relative;
   overflow: hidden;
@@ -6958,6 +6992,12 @@ body.modal-open .collection-container-modern {
   flex-shrink: 0;
 }
 
+/* Level Up Vibration Animation */
+.collectible-card.level-up-vibration {
+  animation: levelUpVibration 0.8s ease-in-out;
+  animation-iteration-count: 1;
+}
+
 /* Elemental Border System - Default state uses element colors */
 .collectible-card.element-earth {
   border: 3px solid #14532d;
@@ -8615,7 +8655,7 @@ body.modal-open .collection-container-modern {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
-  background: #18182C;
+  background: #18182c;
   min-height: 100vh;
 }
 
@@ -8806,7 +8846,7 @@ body.modal-open .collection-container-modern {
   gap: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
-  background: #18182C;
+  background: #18182c;
   border-radius: 15px;
 }
 
@@ -9306,7 +9346,7 @@ body.modal-open .collection-container-modern {
 .empty-collection-modern {
   text-align: center;
   padding: 4rem 2rem;
-  background: #18182C;
+  background: #18182c;
   border-radius: 20px;
 }
 

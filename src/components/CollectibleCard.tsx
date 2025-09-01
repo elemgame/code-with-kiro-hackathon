@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-  canLevelUpElemental,
-  ELEMENTAL_TYPES,
-  getElementalCooldownRemaining,
-  getElementalProtection,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRarityUpgradeCost,
-  isElementalOnCooldown,
+    canLevelUpElemental,
+    ELEMENTAL_TYPES,
+    getElementalCooldownRemaining,
+    getElementalProtection,
+    getLevelUpCost,
+    getMaxLevelForRarity,
+    getRarityUpgradeCost,
+    isElementalOnCooldown,
 } from '../gameLogic';
 import {
-  CollectedElemental,
-  Element,
-  ElementalDisplayData,
-  ElementalRarity,
+    CollectedElemental,
+    Element,
+    ElementalDisplayData,
+    ElementalRarity,
 } from '../types';
 
 interface CollectibleCardProps {
@@ -30,6 +30,42 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
   onLevelUpClick,
   playerMana,
 }) => {
+  const [isVibrating, setIsVibrating] = React.useState(false);
+
+  const handleLevelUpClick = () => {
+    if (displayData.canLevelUp) {
+      onLevelUpClick(elemental, displayData);
+    }
+  };
+
+  // Function to trigger vibration from parent
+  React.useEffect(() => {
+    const handleVibrate = (isUpgrade = false) => {
+      setIsVibrating(true);
+
+      // Mobile device vibration
+      if ('vibrate' in navigator) {
+        if (isUpgrade) {
+          // More intense vibration for rarity upgrades
+          navigator.vibrate([150, 30, 150, 30, 150, 30, 150, 30, 150]);
+        } else {
+          // Standard vibration for level ups
+          navigator.vibrate([100, 50, 100, 50, 100, 50, 100]);
+        }
+      }
+
+      setTimeout(() => {
+        setIsVibrating(false);
+      }, 800);
+    };
+
+    // Store the function in a way that parent can call it
+    (
+      window as Window & {
+        triggerCardVibration?: (isUpgrade?: boolean) => void;
+      }
+    ).triggerCardVibration = handleVibrate;
+  }, []);
   const getRarityColor = (rarity: ElementalRarity): string => {
     switch (rarity) {
       case 'common':
@@ -328,7 +364,7 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
 
   return (
     <div
-      className={`collectible-card ${getRarityClass(elemental.rarity)} element-${elemental.element}`}
+      className={`collectible-card ${getRarityClass(elemental.rarity)} element-${elemental.element} ${isVibrating ? 'level-up-vibration' : ''}`}
       style={
         {
           '--rarity-color': getRarityColor(elemental.rarity),
@@ -416,9 +452,7 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
           {/* Compact Action Button inside Artwork */}
           <button
             className={`compact-action-btn ${displayData.canUpgradeRarity ? 'upgrade' : 'level-up'} ${!displayData.canLevelUp ? 'disabled' : ''}`}
-            onClick={() =>
-              displayData.canLevelUp && onLevelUpClick(elemental, displayData)
-            }
+            onClick={handleLevelUpClick}
             disabled={!displayData.canLevelUp}
             title={
               displayData.isImmortal &&
