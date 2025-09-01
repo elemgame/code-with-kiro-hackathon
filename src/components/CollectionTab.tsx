@@ -97,12 +97,13 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
       // Trigger vibration after confirmation
       setTimeout(() => {
         const windowWithVibration = window as Window & {
-          triggerCardVibration?: (isUpgrade?: boolean) => void;
+          triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
         };
-        if (windowWithVibration.triggerCardVibration) {
-          windowWithVibration.triggerCardVibration(
-            selectedDisplayData.canUpgradeRarity
-          );
+        if (windowWithVibration.triggerCardVibration && selectedElemental) {
+          const cardVibrationFunction = windowWithVibration.triggerCardVibration[selectedElemental.id];
+          if (cardVibrationFunction) {
+            cardVibrationFunction(selectedDisplayData.canUpgradeRarity);
+          }
         }
       }, 100); // Small delay to ensure modal is closed
     }

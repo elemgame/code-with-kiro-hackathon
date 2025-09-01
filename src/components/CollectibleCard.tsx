@@ -59,13 +59,31 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
       }, 800);
     };
 
-    // Store the function in a way that parent can call it
+    // Store the function with unique ID for this specific card
+    const cardId = elemental.id;
     (
       window as Window & {
-        triggerCardVibration?: (isUpgrade?: boolean) => void;
+        triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
       }
-    ).triggerCardVibration = handleVibrate;
-  }, []);
+    ).triggerCardVibration = {
+      ...(window as Window & {
+        triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
+      }).triggerCardVibration,
+      [cardId]: handleVibrate,
+    };
+
+    // Cleanup function to remove this card's vibration function
+    return () => {
+      const currentVibrations = (
+        window as Window & {
+          triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
+        }
+      ).triggerCardVibration;
+      if (currentVibrations) {
+        delete currentVibrations[cardId];
+      }
+    };
+  }, [elemental.id]);
   const getRarityColor = (rarity: ElementalRarity): string => {
     switch (rarity) {
       case 'common':
