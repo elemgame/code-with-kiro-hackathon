@@ -42,11 +42,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ player, onClick }) => {
 
   return (
     <div className='profile-header-modern' style={style}>
-      <button
-        className='ph-left'
-        onClick={onClick}
-        aria-label='Open profile'
-      >
+      <button className='ph-left' onClick={onClick} aria-label='Open profile'>
         <span className='ph-avatar-wrap'>{avatarContent}</span>
         <span className='ph-name'>{player.name}</span>
       </button>

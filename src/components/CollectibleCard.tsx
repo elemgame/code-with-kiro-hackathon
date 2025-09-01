@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-    canLevelUpElemental,
-    ELEMENTAL_TYPES,
-    getElementalCooldownRemaining,
-    getElementalProtection,
-    getLevelUpCost,
-    getMaxLevelForRarity,
-    getRarityUpgradeCost,
-    isElementalOnCooldown,
+  canLevelUpElemental,
+  ELEMENTAL_TYPES,
+  getElementalCooldownRemaining,
+  getElementalProtection,
+  getLevelUpCost,
+  getMaxLevelForRarity,
+  getRarityUpgradeCost,
+  isElementalOnCooldown,
 } from '../gameLogic';
 import {
-    CollectedElemental,
-    Element,
-    ElementalDisplayData,
-    ElementalRarity,
+  CollectedElemental,
+  Element,
+  ElementalDisplayData,
+  ElementalRarity,
 } from '../types';
 
 interface CollectibleCardProps {
@@ -58,26 +58,40 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
               setTimeout(() => {
                 try {
                   if (window.Telegram?.WebApp?.HapticFeedback) {
-                    window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred(
+                      'heavy'
+                    );
                   }
-                } catch (e) { /* Heavy vibration failed silently */ }
+                } catch (e) {
+                  /* Heavy vibration failed silently */
+                }
               }, 200);
               setTimeout(() => {
                 try {
                   if (window.Telegram?.WebApp?.HapticFeedback) {
-                    window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred(
+                      'medium'
+                    );
                   }
-                } catch (e) { /* Medium vibration failed silently */ }
+                } catch (e) {
+                  /* Medium vibration failed silently */
+                }
               }, 400);
               setTimeout(() => {
                 try {
                   if (window.Telegram?.WebApp?.HapticFeedback) {
-                    window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred(
+                      'light'
+                    );
                   }
-                } catch (e) { /* Light vibration failed silently */ }
+                } catch (e) {
+                  /* Light vibration failed silently */
+                }
               }, 600);
             }
-          } catch (error) { /* Telegram HapticFeedback failed, trying fallback */ }
+          } catch (error) {
+            /* Telegram HapticFeedback failed, trying fallback */
+          }
         }
 
         // Fallback to Web Vibration API
@@ -85,15 +99,23 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
           try {
             navigator.vibrate(pattern);
             vibrationTriggered = true;
-          } catch (error) { /* Web Vibration API failed */ }
+          } catch (error) {
+            /* Web Vibration API failed */
+          }
         }
 
         // Fallback for older devices
         if (!vibrationTriggered && 'vibrate' in window) {
           try {
-            (window as Window & { vibrate?: (pattern: number | number[]) => void }).vibrate?.(pattern);
+            (
+              window as Window & {
+                vibrate?: (pattern: number | number[]) => void;
+              }
+            ).vibrate?.(pattern);
             vibrationTriggered = true;
-          } catch (error) { /* Legacy vibration failed */ }
+          } catch (error) {
+            /* Legacy vibration failed */
+          }
         }
 
         // Final fallback - try to trigger any available vibration
@@ -102,12 +124,19 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
             // Try different vibration methods
             if (navigator.vibrate) {
               navigator.vibrate(100);
-            } else if ((window as Window & { vibrate?: (pattern: number) => void }).vibrate) {
-              (window as Window & { vibrate?: (pattern: number) => void }).vibrate?.(100);
+            } else if (
+              (window as Window & { vibrate?: (pattern: number) => void })
+                .vibrate
+            ) {
+              (
+                window as Window & { vibrate?: (pattern: number) => void }
+              ).vibrate?.(100);
             } else if (window.Telegram?.WebApp?.HapticFeedback) {
               window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
             }
-          } catch (error) { /* All vibration methods failed */ }
+          } catch (error) {
+            /* All vibration methods failed */
+          }
         }
       };
 
@@ -131,9 +160,11 @@ const CollectibleCard: React.FC<CollectibleCardProps> = ({
         triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
       }
     ).triggerCardVibration = {
-      ...(window as Window & {
-        triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
-      }).triggerCardVibration,
+      ...(
+        window as Window & {
+          triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
+        }
+      ).triggerCardVibration,
       [cardId]: handleVibrate,
     };
 

@@ -354,6 +354,11 @@ body::-webkit-scrollbar {
   padding-top: 0; /* Remove extra top padding */
   min-height: calc(100vh - 180px); /* Adjust for header + navigation */
   background: #18182c;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto; /* center content on wider screens */
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 /* Modern Profile Header */
@@ -361,26 +366,34 @@ body::-webkit-scrollbar {
 .profile-header-modern {
   display: flex;
   align-items: center;
-  width: min(100% - 0.5rem, 760px); /* keep side gutters on big screens */
+  width: 100%;
+  max-width: 820px;
   margin: 0.25rem auto 0.5rem auto;
-  padding: 0; /* remove inner padding */
+  padding: 0 1rem; /* consistent gutters */
   border: none;
   background: transparent;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border-radius: 12px;
   color: var(--text-primary);
-  transition: opacity 180ms ease, transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
 }
 
-.profile-header-modern:hover { box-shadow: none; }
+.profile-header-modern:hover {
+  box-shadow: none;
+}
 
 .ph-left {
   display: inline-flex;
   align-items: center;
   gap: 0.2rem; /* 80% less gap */
-  padding: 0.375rem 0.1rem; /* 80% less inner horizontal padding */
-  border-radius: 10px;
+  padding: 0.375rem 0.75rem; /* add side paddings for Warrior button */
+  border-radius: 8px; /* slightly less rounded */
   cursor: pointer;
   background: transparent;
   border: none;
@@ -388,7 +401,9 @@ body::-webkit-scrollbar {
   text-align: left;
 }
 
-.ph-left:hover { background: rgba(255,255,255,0.06); }
+.ph-left:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
 
 .ph-avatar-wrap {
   width: 28px;
@@ -398,12 +413,18 @@ body::-webkit-scrollbar {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.ph-avatar { font-size: 0.95rem; }
-.ph-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+.ph-avatar {
+  font-size: 0.95rem;
+}
+.ph-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .ph-name {
   font-family: 'Volkhov', serif;
@@ -424,30 +445,43 @@ body::-webkit-scrollbar {
   color: var(--info);
   background: rgba(53, 183, 255, 0.08);
   border: 1px solid rgba(53, 183, 255, 0.25);
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
+  padding: 0.375rem 0.75rem; /* match profile button paddings */
+  border-radius: 8px; /* reduce rounding */
   white-space: nowrap;
 }
 
 @media (max-width: 480px) {
+  .app-content,
   .profile-header-modern {
-    width: calc(100% - 1rem); /* add safe gutters on small screens */
-    padding: 0; /* remove inner padding on mobile */
+    width: 100%;
+    max-width: 820px;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     border-radius: 10px;
   }
-  .ph-name { font-size: var(--font-size-xs); }
-  .ph-mana { font-size: var(--font-size-xs); }
+  .ph-name {
+    font-size: var(--font-size-xs);
+  }
+  .ph-mana {
+    font-size: var(--font-size-xs);
+  }
 }
 
 @media (min-width: 768px) {
+  .app-content,
   .profile-header-modern {
-    width: min(100% - 2rem, 760px);
+    max-width: 820px;
+    padding-left: 1.5rem; /* tablet gutters */
+    padding-right: 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
+  .app-content,
   .profile-header-modern {
-    width: min(100% - 3rem, 820px);
+    max-width: 820px;
+    padding-left: 2rem; /* desktop gutters */
+    padding-right: 2rem;
   }
 }
 
@@ -11027,7 +11061,11 @@ body.modal-open .collection-container-modern {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
   backdrop-filter: blur(10px);
   border-radius: var(--border-radius-md);
   margin: 0.5rem 1rem;
@@ -11044,7 +11082,11 @@ body.modal-open .collection-container-modern {
 .profile-avatar {
   width: 2.5rem;
   height: 2.5rem;
-  background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-gold) 0%,
+    var(--secondary-gold) 100%
+  );
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -11083,7 +11125,11 @@ body.modal-open .collection-container-modern {
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem 0.75rem;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.2) 0%,
+    rgba(59, 130, 246, 0.1) 100%
+  );
   border-radius: var(--border-radius-sm);
   border: 1px solid rgba(59, 130, 246, 0.3);
   min-width: 4rem;

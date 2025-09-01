@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import {
-    CollectedElemental,
-    ElementalDisplayData,
-    PlayerStats,
+  CollectedElemental,
+  ElementalDisplayData,
+  PlayerStats,
 } from '../types';
 import CollectibleCard from './CollectibleCard';
 
@@ -73,10 +73,10 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
   // Function to sort elementals by rarity (rare cards first, ignoring level)
   const sortByRarity = (a: CollectedElemental, b: CollectedElemental) => {
     const rarityOrder = {
-      'immortal': 4,
-      'epic': 3,
-      'rare': 2,
-      'common': 1
+      immortal: 4,
+      epic: 3,
+      rare: 2,
+      common: 1,
     };
 
     const rarityA = rarityOrder[a.rarity];
@@ -88,7 +88,7 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
     }
 
     // If same rarity, sort by element for consistency
-    const elementOrder = { 'fire': 1, 'water': 2, 'earth': 3 };
+    const elementOrder = { fire: 1, water: 2, earth: 3 };
     return elementOrder[a.element] - elementOrder[b.element];
   };
 
@@ -124,7 +124,8 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
           triggerCardVibration?: Record<string, (isUpgrade?: boolean) => void>;
         };
         if (windowWithVibration.triggerCardVibration && selectedElemental) {
-          const cardVibrationFunction = windowWithVibration.triggerCardVibration[selectedElemental.id];
+          const cardVibrationFunction =
+            windowWithVibration.triggerCardVibration[selectedElemental.id];
           if (cardVibrationFunction) {
             cardVibrationFunction(selectedDisplayData.canUpgradeRarity);
           }
