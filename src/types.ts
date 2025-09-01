@@ -56,6 +56,7 @@ export interface EvolutionData {
 
 export interface PlayerStats {
   name: string;
+  avatar?: string; // Optional URL or emoji for player avatar
   mana: number;
   wins: number;
   losses: number;

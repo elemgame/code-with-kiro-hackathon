@@ -8,37 +8,38 @@ import BattleResultPage from './components/BattleResultPage';
 import CollectionTab from './components/CollectionTab';
 import GlassGradientHeader from './components/GlassGradientHeader';
 import Navigation from './components/Navigation';
+import ProfileHeader from './components/ProfileHeader';
 import ProfileTab from './components/ProfileTab';
 import RulesPage from './components/RulesPage';
 import SettingsMenu from './components/SettingsMenu';
 import {
-  ELEMENTAL_TYPES,
-  ELEMENTS,
-  LOCATIONS,
-  addElementalToCollection,
-  addExperienceToElemental,
-  calculateBattleResult,
-  canAffordLocation,
-  canLevelUpElemental,
-  createInitialCollection,
-  generateOpponent,
-  getAchievementDefinitions,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRandomElement,
-  getRandomElementalReward,
-  getRank,
-  getRarityUpgradeCost,
-  getTitle,
-  levelUpElemental,
-  setElementalCooldown,
+    ELEMENTAL_TYPES,
+    ELEMENTS,
+    LOCATIONS,
+    addElementalToCollection,
+    addExperienceToElemental,
+    calculateBattleResult,
+    canAffordLocation,
+    canLevelUpElemental,
+    createInitialCollection,
+    generateOpponent,
+    getAchievementDefinitions,
+    getLevelUpCost,
+    getMaxLevelForRarity,
+    getRandomElement,
+    getRandomElementalReward,
+    getRank,
+    getRarityUpgradeCost,
+    getTitle,
+    levelUpElemental,
+    setElementalCooldown,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -767,6 +768,18 @@ const App: React.FC = () => {
 
       <div className='app' onClick={handleUserInteraction}>
         <div className='app-content'>
+          {/* Profile Header - show on battle and collection tabs, but not on profile, settings, rules, or battle results */}
+          {activeTab !== 'profile' &&
+           !settingsOpen &&
+           !rulesPageOpen &&
+           gameState.gamePhase !== 'result' &&
+           gameState.gamePhase !== 'battleAnimation' && (
+            <ProfileHeader
+              player={gameState.player}
+              onClick={() => handleTabChange('profile')}
+            />
+          )}
+
           {activeTab === 'profile' &&
             gameState.gamePhase !== 'result' &&
             gameState.gamePhase !== 'battleAnimation' && (
