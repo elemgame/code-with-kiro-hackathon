@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import {
-  CollectedElemental,
-  ElementalDisplayData,
-  PlayerStats,
+    CollectedElemental,
+    ElementalDisplayData,
+    PlayerStats,
 } from '../types';
 import CollectibleCard from './CollectibleCard';
 
@@ -104,40 +104,6 @@ const CollectionTab: React.FC<CollectionTabProps> = ({
 
   return (
     <main className='collection-container-modern'>
-      {/* Modern Header */}
-      <div className='collection-header-modern'>
-        <div className='collection-title-modern'>
-          <div className='title-icon'>📚</div>
-          <div className='title-content'>
-            <h1>Elemental Collection</h1>
-          </div>
-        </div>
-        <div className='collection-stats-modern'>
-          <div className='stat-card compact'>
-            <div className='stat-icon'>🎯</div>
-            <div className='stat-content'>
-              <div className='stat-value'>
-                {player.totalElementalsCollected}
-              </div>
-              <div className='stat-label'>Owned</div>
-            </div>
-          </div>
-          <div className='stat-card epic compact'>
-            <div className='stat-icon'>⭐</div>
-            <div className='stat-content'>
-              <div className='stat-value'>{player.epicElementalsOwned}</div>
-              <div className='stat-label'>Epic</div>
-            </div>
-          </div>
-          <div className='stat-card immortal compact'>
-            <div className='stat-icon'>🌋</div>
-            <div className='stat-content'>
-              <div className='stat-value'>{player.immortalElementalsOwned}</div>
-              <div className='stat-label'>Immortal</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Modern Filters */}
       <div className='collection-filters-modern'>
