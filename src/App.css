@@ -1053,16 +1053,16 @@ body::-webkit-scrollbar {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999998;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px;
 }
 
 .modal-overlay.active {
@@ -1115,13 +1115,13 @@ body.modal-open .collection-container-modern {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
-  padding: 1.5rem;
-  max-width: 320px;
+  padding: 1.25rem;
+  max-width: 300px;
   width: 100%;
-  max-height: calc(100vh - 40px);
+  max-height: calc(100vh - 24px);
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: fixed;
   top: 50vh;
   left: 50%;
@@ -8356,16 +8356,16 @@ body.modal-open .collection-container-modern {
   width: 100% !important;
   height: 100% !important;
   min-height: 100vh !important;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
   z-index: 999999 !important;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 20px;
+  padding: 12px;
 }
 
 .level-up-modal-overlay.active {
@@ -8378,12 +8378,12 @@ body.modal-open .collection-container-modern {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-lg);
-  max-width: 420px;
+  max-width: 320px;
   width: 100%;
-  max-height: calc(100vh - 40px);
+  max-height: calc(100vh - 24px);
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000000;
   position: relative !important;
   transform: scale(0.9);
@@ -8395,7 +8395,7 @@ body.modal-open .collection-container-modern {
 
 .level-up-modal-header {
   background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
-  padding: 1.25rem 1.5rem;
+  padding: 0.6rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8405,7 +8405,7 @@ body.modal-open .collection-container-modern {
 .level-up-modal-header h3 {
   margin: 0;
   font-family: 'Volkhov', serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1a1a1a;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -8415,11 +8415,11 @@ body.modal-open .collection-container-modern {
   background: rgba(255, 255, 255, 0.2);
   border: none;
   color: #1a1a1a;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8434,7 +8434,7 @@ body.modal-open .collection-container-modern {
 }
 
 .level-up-modal-content {
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 /* Elemental-themed backgrounds */
@@ -8479,7 +8479,7 @@ body.modal-open .collection-container-modern {
 }
 
 .level-up-elemental-info {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
@@ -8505,8 +8505,8 @@ body.modal-open .collection-container-modern {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-lg);
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  padding: 0.875rem;
+  margin-bottom: 0;
 }
 
 .level-up-cost-amount,
@@ -8515,7 +8515,7 @@ body.modal-open .collection-container-modern {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   font-family: 'Inter', sans-serif;
 }
 
@@ -8559,8 +8559,8 @@ body.modal-open .collection-container-modern {
 
 .level-up-modal-actions {
   display: flex;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
+  gap: 0.6rem;
+  padding: 0.875rem 1rem;
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -8569,11 +8569,11 @@ body.modal-open .collection-container-modern {
 .level-up-cancel-btn,
 .level-up-confirm-btn {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1rem;
   border: none;
   border-radius: var(--border-radius-lg);
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -8639,15 +8639,15 @@ body.modal-open .collection-container-modern {
 /* Responsive styles for level up modal */
 @media (max-width: 480px) {
   .level-up-modal {
-    max-width: calc(100vw - 2rem);
+    max-width: calc(100vw - 1rem);
   }
 
   .level-up-modal-content {
-    padding: 1.25rem;
+    padding: 0.875rem;
   }
 
   .level-up-modal-header {
-    padding: 1rem 1.25rem;
+    padding: 0.5rem 0.875rem;
   }
 
   .level-up-modal-header h3 {
