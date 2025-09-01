@@ -467,6 +467,27 @@ body::-webkit-scrollbar {
   }
 }
 
+/* Ultra-small screens: scale panel elements 2x for readability */
+@media (max-width: 420px) {
+  .ph-left {
+    padding: 0.5rem 1rem; /* ~30% smaller than 2x */
+  }
+  .ph-avatar-wrap {
+    width: 40px; /* ~30% smaller than 2x */
+    height: 40px; /* ~30% smaller than 2x */
+  }
+  .ph-avatar {
+    font-size: 1.35rem; /* ~30% smaller than 2x */
+  }
+  .ph-name {
+    font-size: 0.7rem; /* ~30% smaller than 2x */
+  }
+  .ph-mana {
+    font-size: 0.7rem; /* ~30% smaller than 2x */
+    padding: 0.5rem 1rem; /* ~30% smaller than 2x */
+  }
+}
+
 @media (min-width: 768px) {
   .app-content,
   .profile-header-modern {
