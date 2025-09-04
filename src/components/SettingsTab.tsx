@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface SettingsTabProps {
   musicVolume: number;
@@ -13,22 +13,6 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
   onOpenRules,
   onResetCache,
 }) => {
-  const [previousVolume, setPreviousVolume] = useState<number>(musicVolume);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
-
-  const handleVolumeClick = () => {
-    if (isMuted) {
-      // Restore previous volume
-      onMusicVolumeChange(previousVolume);
-      setIsMuted(false);
-    } else {
-      // Save current volume and mute
-      setPreviousVolume(musicVolume);
-      onMusicVolumeChange(0);
-      setIsMuted(true);
-    }
-  };
-
   return (
     <div className='settings-tab'>
       <div className='settings-container'>
@@ -38,13 +22,9 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
 
         <div className='settings-content'>
           {/* Music Settings */}
-          <div className='setting-group'>
-            <div className='setting-header'>
-              <span className='setting-icon'>🎵</span>
-              <span className='setting-label'>Music Volume</span>
-            </div>
 
-            <div className='slider-container'>
+          <div className='music-volume-container'>
+            <div className='music-volume-slider-wrapper'>
               <input
                 type='range'
                 min='0'
@@ -54,20 +34,19 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                 onChange={e => {
                   const newVolume = parseInt(e.target.value) / 100;
                   onMusicVolumeChange(newVolume);
-                  // Update muted state when slider is moved
-                  if (newVolume > 0 && isMuted) {
-                    setIsMuted(false);
-                  }
                 }}
-                className='volume-slider'
+                className='music-volume-slider'
+                style={{
+                  background: `linear-gradient(to right, var(--primary-gold) 0%, var(--primary-gold) ${Math.round(musicVolume * 100)}%, rgba(255, 255, 255, 0.1) ${Math.round(musicVolume * 100)}%, rgba(255, 255, 255, 0.1) 100%)`,
+                }}
               />
-              <span
-                className='volume-value'
-                onClick={handleVolumeClick}
-                style={{ cursor: 'pointer' }}
-              >
-                {Math.round(musicVolume * 100)}%
-              </span>
+              <div className='music-volume-label'>
+                <span className='music-icon'>🎵</span>
+                <span className='music-text'>Music Volume</span>
+                <span className='music-percentage'>
+                  {Math.round(musicVolume * 100)}%
+                </span>
+              </div>
             </div>
           </div>
 
