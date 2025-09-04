@@ -11,7 +11,7 @@ import Navigation from './components/Navigation';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileTab from './components/ProfileTab';
 import RulesPage from './components/RulesPage';
-import SettingsMenu from './components/SettingsMenu';
+import SettingsTab from './components/SettingsTab';
 import {
   ELEMENTAL_TYPES,
   ELEMENTS,
@@ -71,7 +71,7 @@ const INITIAL_PLAYER: PlayerStats = {
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    'profile' | 'battle' | 'collection'
+    'profile' | 'battle' | 'collection' | 'settings'
   >('battle');
   const [gameState, setGameState] = useState<GameState>({
     player: INITIAL_PLAYER,
@@ -91,7 +91,6 @@ const App: React.FC = () => {
   const [musicEnabled, setMusicEnabled] = useState(false); // Начинаем с выключенной
   const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
 
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [rulesPageOpen, setRulesPageOpen] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.2);
 
@@ -556,7 +555,7 @@ const App: React.FC = () => {
 
   // Handle tab changes - if on result page, return to menu first
   const handleTabChange = useCallback(
-    (tab: 'profile' | 'battle' | 'collection') => {
+    (tab: 'profile' | 'battle' | 'collection' | 'settings') => {
       if (gameState.gamePhase === 'result') {
         // If on result page, return to menu first
         setGameState(prev => ({
@@ -708,7 +707,6 @@ const App: React.FC = () => {
     setLevelUp(null);
     setNewElementalReward(null);
     setActiveTab('battle');
-    setSettingsOpen(false);
     setRulesPageOpen(false);
   }, []);
 
@@ -748,19 +746,6 @@ const App: React.FC = () => {
       {/* Audio Player */}
       <AudioPlayer isPlaying={musicEnabled} volume={musicVolume} />
 
-      {/* Settings Menu */}
-      <SettingsMenu
-        isOpen={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        musicVolume={musicVolume}
-        onMusicVolumeChange={setMusicVolume}
-        onOpenRules={() => {
-          setSettingsOpen(false);
-          setRulesPageOpen(true);
-        }}
-        onResetCache={resetGameCache}
-      />
-
       {/* Rules Page */}
       {rulesPageOpen && (
         <RulesPage onBackToSettings={() => setRulesPageOpen(false)} />
@@ -770,7 +755,7 @@ const App: React.FC = () => {
         <div className='app-content'>
           {/* Profile Header - show on battle and collection tabs, but not on profile, settings, rules, or battle results */}
           {activeTab !== 'profile' &&
-            !settingsOpen &&
+            activeTab !== 'settings' &&
             !rulesPageOpen &&
             gameState.gamePhase !== 'result' &&
             gameState.gamePhase !== 'battleAnimation' && (
@@ -815,6 +800,19 @@ const App: React.FC = () => {
               <CollectionTab
                 player={gameState.player}
                 onLevelUpElemental={levelUpElementalById}
+              />
+            )}
+
+          {activeTab === 'settings' &&
+            gameState.gamePhase !== 'result' &&
+            gameState.gamePhase !== 'battleAnimation' && (
+              <SettingsTab
+                musicVolume={musicVolume}
+                onMusicVolumeChange={setMusicVolume}
+                onOpenRules={() => {
+                  setRulesPageOpen(true);
+                }}
+                onResetCache={resetGameCache}
               />
             )}
 
@@ -893,11 +891,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Navigation outside of app container */}
-      <Navigation
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-        onOpenSettings={() => setSettingsOpen(true)}
-      />
+      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
     </>
   );
 };

@@ -1,17 +1,14 @@
 import React from 'react';
 
 interface NavigationProps {
-  activeTab: 'profile' | 'battle' | 'collection';
-  onTabChange: (tab: 'profile' | 'battle' | 'collection') => void;
-  onOpenSettings?: () => void;
+  activeTab: 'profile' | 'battle' | 'collection' | 'settings';
+  onTabChange: (tab: 'profile' | 'battle' | 'collection' | 'settings') => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({
-  activeTab,
-  onTabChange,
-  onOpenSettings,
-}) => {
-  const handleTabClick = (tab: 'profile' | 'battle' | 'collection') => {
+const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
+  const handleTabClick = (
+    tab: 'profile' | 'battle' | 'collection' | 'settings'
+  ) => {
     onTabChange(tab);
 
     // Haptic feedback simulation
@@ -46,12 +43,13 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className='nav-label'>Collection</div>
         </div>
 
-        {onOpenSettings && (
-          <div className='nav-item' onClick={onOpenSettings}>
-            <div className='nav-icon'>⚙️</div>
-            <div className='nav-label'>Settings</div>
-          </div>
-        )}
+        <div
+          className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
+          onClick={() => handleTabClick('settings')}
+        >
+          <div className='nav-icon'>⚙️</div>
+          <div className='nav-label'>Settings</div>
+        </div>
       </div>
     </nav>
   );
