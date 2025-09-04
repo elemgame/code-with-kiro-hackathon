@@ -1355,11 +1355,11 @@ body.modal-open .collection-container-modern {
 }
 
 .settings-header {
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     rgba(218, 165, 32, 0.9),
     rgba(255, 215, 0, 0.8)
-  );
+  ); */
   color: var(--dark-bg);
   padding: 8px 18px;
   border-radius: 19px 19px 0 0;
@@ -1368,7 +1368,7 @@ body.modal-open .collection-container-modern {
   align-items: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
   flex-shrink: 0;
 }
 
@@ -1379,13 +1379,13 @@ body.modal-open .collection-container-modern {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
+  /* background: linear-gradient(
     45deg,
     transparent 30%,
     rgba(255, 255, 255, 0.1) 50%,
     transparent 70%
   );
-  animation: shimmer 3s infinite;
+  animation: shimmer 3s infinite; */
 }
 
 @keyframes shimmer {
@@ -1504,7 +1504,7 @@ body.modal-open .collection-container-modern {
   margin-bottom: 12px;
 }
 
-/* .setting-header::after {
+.setting-header::after {
   content: '';
   position: absolute;
   bottom: -1px;
@@ -1513,7 +1513,7 @@ body.modal-open .collection-container-modern {
   height: 2px;
   background: var(--primary-gold);
   border-radius: 1px;
-} */
+}
 
 .setting-icon {
   font-size: 1.4rem;
@@ -1842,6 +1842,52 @@ body.modal-open .collection-container-modern {
 .reset-icon {
   font-size: 1.1rem;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Settings Tab Styles */
+.settings-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.settings-container {
+  /* flex: 1; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* padding: 1rem; */
+  /* gap: 1.5rem; */
+  /* background: var(--glass-bg); */
+  backdrop-filter: blur(20px);
+  border-radius: var(--border-radius-xl);
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
+  margin: 1rem;
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.settings-header h2 {
+  font-family: 'Volkhov', serif;
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--primary-gold);
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
 }
 
 /* Rarity Upgrade Styles */
@@ -3731,6 +3777,18 @@ body.modal-open .collection-container-modern {
     gap: 1rem;
   }
 
+  .settings-container {
+    padding: 0.75rem;
+    gap: 1rem;
+    margin: 0.5rem;
+  }
+
+  .settings-header h2 {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (max-width: 420px) {
   .profile-hero {
     padding: 1.5rem 1rem 1rem;
   }
@@ -10008,6 +10066,16 @@ body.modal-open .collection-container-modern {
     padding: 0.25rem;
   }
 
+  .settings-container {
+    padding: 0.5rem;
+    gap: 0.75rem;
+    margin: 0.25rem;
+  }
+
+  .settings-header h2 {
+    font-size: var(--font-size-xl);
+  }
+
   .title-icon {
     font-size: 2.5rem;
     margin-top: 1.25rem;
@@ -11037,7 +11105,6 @@ body.modal-open .collection-container-modern {
     padding: 0 0.4rem;
   }
 }
-
 /* Golden shimmer animation for MAX LVL button */
 @keyframes golden-shimmer {
   0% {
