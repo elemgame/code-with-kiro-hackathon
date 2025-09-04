@@ -185,10 +185,10 @@
       }
 
       .logo {
-        width: 142.5vw;
-        height: 142.5vh;
-        max-width: 1800px;
-        max-height: 1800px;
+        width: 90vw;
+        height: 90vh;
+        max-width: 1200px;
+        max-height: 1200px;
         filter: drop-shadow(0 45px 90px rgba(218, 165, 32, 0.8));
         animation: logoMorph 6s ease-in-out infinite;
         transition: all 0.3s ease;
@@ -355,12 +355,12 @@
       /* Social Media Icons */
       .social-media-container {
         position: absolute;
-        top: 15%;
+        top: 12%;
         left: 50%;
         transform: translate(-50%, -50%) !important;
         z-index: 6;
         display: flex;
-        gap: 8rem;
+        gap: 4rem;
         align-items: center;
         justify-content: center;
         padding: 0;
@@ -404,12 +404,12 @@
       }
 
       .social-icon {
-        width: 192px;
-        height: 192px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(15px);
-        border: 5px solid rgba(255, 255, 255, 0.25);
+        border: 3px solid rgba(255, 255, 255, 0.25);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -447,8 +447,8 @@
 
       /* Inline SVG sizes for social icons */
       .social-icon svg {
-        width: 108px;
-        height: 108px;
+        width: 70px;
+        height: 70px;
         display: block;
         filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
         transition: transform 0.3s ease;
@@ -514,7 +514,7 @@
         opacity: 1 !important;
         visibility: visible !important;
         transform: translate(-50%, -50%) !important;
-        top: 15% !important;
+        top: 12% !important;
       }
 
       /* Force visibility for buttons */
@@ -525,7 +525,7 @@
 
       .start-button-container.aos-animate,
       .start-button-container[data-aos] {
-        bottom: 30% !important;
+        bottom: 15% !important;
       }
 
       .social-icon.aos-animate,
@@ -537,7 +537,7 @@
       /* Start Button with Enhanced Effects */
       .start-button-container {
         position: absolute;
-        bottom: 30%;
+        bottom: 15%;
         left: 50%;
         transform: translateX(-50%);
         z-index: 5;
@@ -571,6 +571,7 @@
         overflow: hidden;
         backdrop-filter: blur(15px);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
       }
 
       .start-button:hover {
@@ -649,242 +650,445 @@
         }
       }
 
-      /* Responsive Design */
-      /* Very Large Screens */
-      @media (min-width: 1920px) {
-        .social-icon {
-          width: 240px;
-          height: 240px;
-          border: 6px solid rgba(255, 255, 255, 0.25);
-        }
-        .social-icon svg {
-          width: 132px;
-          height: 132px;
-        }
-        .social-media-container {
-          gap: 10rem;
-          top: 15% !important;
-          transform: translate(-50%, -50%) !important;
-        }
+      /* Responsive Design - Optimized for all screen sizes */
 
-        .start-button-container {
-          bottom: 30%;
-        }
-      }
-
-      /* Large Screens */
-      @media (min-width: 1440px) and (max-width: 1919px) {
-        .social-icon {
-          width: 216px;
-          height: 216px;
-          border: 5px solid rgba(255, 255, 255, 0.25);
-        }
-        .social-icon svg {
-          width: 120px;
-          height: 120px;
-        }
-        .social-media-container {
-          gap: 9rem;
-          top: 15% !important;
-          transform: translate(-50%, -50%) !important;
-        }
-
-        .start-button-container {
-          bottom: 30%;
-        }
-      }
-
-      /* Medium Screens */
-      @media (max-width: 1024px) {
+      /* Ultra Wide Screens (4K+) */
+      @media (min-width: 2560px) {
         .logo {
-          width: 120vw;
-          height: 120vh;
+          width: 70vw;
+          height: 70vh;
+          max-width: 1600px;
+          max-height: 1600px;
         }
 
         .social-icon {
-          width: 168px;
-          height: 168px;
+          width: 160px;
+          height: 160px;
           border: 4px solid rgba(255, 255, 255, 0.25);
         }
         .social-icon svg {
-          width: 96px;
-          height: 96px;
+          width: 90px;
+          height: 90px;
         }
         .social-media-container {
-          gap: 7rem;
-          top: 15% !important;
-          transform: translate(-50%, -50%) !important;
-        }
-
-        .start-button-container {
-          bottom: 30%;
-        }
-      }
-
-      /* Tablets */
-      @media (max-width: 768px) {
-        .logo {
-          width: 110vw;
-          height: 110vh;
+          gap: 6rem;
+          top: 10% !important;
         }
 
         .start-button {
-          padding: 1.5rem 4rem;
-          font-size: 1.8rem;
-          font-family: 'Cinzel', 'Times New Roman', serif;
+          padding: 2.5rem 6rem;
+          font-size: 2.4rem;
+          border-radius: 35px;
         }
 
         .start-button-container {
-          bottom: 30%;
+          bottom: 10%;
         }
 
         .social-login-button {
-          padding: 0.8rem 1.5rem;
-          font-size: 14px;
-          top: 25%;
+          padding: 1.2rem 2.5rem;
+          font-size: 18px;
+          top: 20%;
         }
       }
 
-      /* Small Screens */
-      @media (max-width: 600px) {
+      /* Very Large Screens (1920px+) */
+      @media (min-width: 1920px) and (max-width: 2559px) {
         .logo {
-          width: 95vw;
-          height: 95vh;
-        }
-
-        .start-button-container {
-          bottom: 30%;
-        }
-
-        .social-login-button {
-          top: 25%;
-        }
-
-        .social-media-container {
-          top: 15% !important;
-        }
-      }
-
-      /* Tablets */
-      @media (max-width: 768px) {
-        .social-media-container {
-          top: 15% !important;
-          left: 50%;
-          transform: translate(-50%, -50%) !important;
-          gap: 6rem;
-          opacity: 1 !important;
-          visibility: visible !important;
+          width: 75vw;
+          height: 75vh;
+          max-width: 1400px;
+          max-height: 1400px;
         }
 
         .social-icon {
-          width: 144px;
-          height: 144px;
-          opacity: 1 !important;
-          visibility: visible !important;
+          width: 140px;
+          height: 140px;
+          border: 4px solid rgba(255, 255, 255, 0.25);
         }
-
-        .icon-text {
-          font-size: 32px;
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
         .social-icon svg {
-          width: 84px;
-          height: 84px;
-          opacity: 1 !important;
-          visibility: visible !important;
+          width: 80px;
+          height: 80px;
+        }
+        .social-media-container {
+          gap: 5rem;
+          top: 11% !important;
+        }
+
+        .start-button {
+          padding: 2.2rem 5.5rem;
+          font-size: 2.2rem;
+          border-radius: 32px;
+        }
+
+        .start-button-container {
+          bottom: 12%;
+        }
+
+        .social-login-button {
+          padding: 1.1rem 2.2rem;
+          font-size: 17px;
+          top: 22%;
         }
       }
 
-      /* Mobile Devices */
-      @media (max-width: 480px) {
+      /* Large Screens (1440px-1919px) */
+      @media (min-width: 1440px) and (max-width: 1919px) {
+        .logo {
+          width: 80vw;
+          height: 80vh;
+          max-width: 1200px;
+          max-height: 1200px;
+        }
+
+        .social-icon {
+          width: 130px;
+          height: 130px;
+          border: 3px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 75px;
+          height: 75px;
+        }
+        .social-media-container {
+          gap: 4.5rem;
+          top: 12% !important;
+        }
+
+        .start-button {
+          padding: 2rem 5rem;
+          font-size: 2rem;
+          border-radius: 30px;
+        }
+
+        .start-button-container {
+          bottom: 13%;
+        }
+
+        .social-login-button {
+          padding: 1rem 2rem;
+          font-size: 16px;
+          top: 24%;
+        }
+      }
+
+      /* Desktop Screens (1200px-1439px) */
+      @media (min-width: 1200px) and (max-width: 1439px) {
+        .logo {
+          width: 85vw;
+          height: 85vh;
+          max-width: 1000px;
+          max-height: 1000px;
+        }
+
+        .social-icon {
+          width: 120px;
+          height: 120px;
+          border: 3px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 70px;
+          height: 70px;
+        }
+        .social-media-container {
+          gap: 4rem;
+          top: 13% !important;
+        }
+
+        .start-button {
+          padding: 1.8rem 4.5rem;
+          font-size: 1.9rem;
+          border-radius: 28px;
+        }
+
+        .start-button-container {
+          bottom: 14%;
+        }
+
+        .social-login-button {
+          padding: 0.9rem 1.8rem;
+          font-size: 15px;
+          top: 25%;
+        }
+      }
+
+      /* Medium Screens (1024px-1199px) */
+      @media (min-width: 1024px) and (max-width: 1199px) {
         .logo {
           width: 90vw;
           height: 90vh;
+          max-width: 900px;
+          max-height: 900px;
+        }
+
+        .social-icon {
+          width: 110px;
+          height: 110px;
+          border: 3px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 65px;
+          height: 65px;
+        }
+        .social-media-container {
+          gap: 3.5rem;
+          top: 14% !important;
+        }
+
+        .start-button {
+          padding: 1.6rem 4rem;
+          font-size: 1.8rem;
+          border-radius: 26px;
+        }
+
+        .start-button-container {
+          bottom: 15%;
+        }
+
+        .social-login-button {
+          padding: 0.8rem 1.6rem;
+          font-size: 14px;
+          top: 26%;
+        }
+      }
+
+      /* Tablets (768px-1023px) */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .logo {
+          width: 95vw;
+          height: 95vh;
+          max-width: 800px;
+          max-height: 800px;
+        }
+
+        .social-icon {
+          width: 100px;
+          height: 100px;
+          border: 3px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 60px;
+          height: 60px;
+        }
+        .social-media-container {
+          gap: 3rem;
+          top: 15% !important;
+        }
+
+        .start-button {
+          padding: 1.4rem 3.5rem;
+          font-size: 1.7rem;
+          border-radius: 24px;
+        }
+
+        .social-login-button {
+          padding: 0.7rem 1.4rem;
+          font-size: 13px;
+          top: 28%;
+        }
+
+        .start-button-container {
+          bottom: 12%;
+        }
+      }
+
+      /* Small Tablets (600px-767px) */
+      @media (min-width: 600px) and (max-width: 767px) {
+        .logo {
+          width: 110vw;
+          height: 110vh;
+          max-width: 1000px;
+          max-height: 1000px;
+        }
+
+        .social-icon {
+          width: 120px;
+          height: 120px;
+          border: 3px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 70px;
+          height: 70px;
+        }
+        .social-media-container {
+          gap: 3.5rem;
+          top: 17% !important;
         }
 
         .start-button {
           padding: 1.2rem 3rem;
           font-size: 1.6rem;
-          font-family: 'Cinzel', 'Times New Roman', serif;
-        }
-
-        .start-button-container {
-          bottom: 30%;
+          border-radius: 22px;
         }
 
         .social-login-button {
           padding: 0.6rem 1.2rem;
           font-size: 12px;
-          top: 25%;
+          top: 30%;
         }
 
-        .social-media-container {
-          top: 15% !important;
-          left: 50%;
-          transform: translate(-50%, -50%) !important;
-          gap: 3rem;
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
-        .social-icon {
-          width: 120px;
-          height: 120px;
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
-        .icon-text {
-          font-size: 28px;
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-
-        .social-icon svg {
-          width: 72px;
-          height: 72px;
-          opacity: 1 !important;
-          visibility: visible !important;
+        .start-button-container {
+          bottom: 18%;
         }
       }
 
-      /* Very Small Mobile Devices */
-      @media (max-width: 360px) {
+      /* Mobile Devices (480px-599px) */
+      @media (min-width: 480px) and (max-width: 599px) {
         .logo {
-          width: 85vw;
-          height: 85vh;
+          width: 100vw;
+          height: 100vh;
+          max-width: 800px;
+          max-height: 800px;
+        }
+
+        .social-icon {
+          width: 100px;
+          height: 100px;
+          border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 60px;
+          height: 60px;
+        }
+        .social-media-container {
+          gap: 2.5rem;
+          top: 19% !important;
         }
 
         .start-button {
           padding: 1rem 2.5rem;
           font-size: 1.4rem;
-          font-family: 'Cinzel', 'Times New Roman', serif;
-        }
-
-        .start-button-container {
-          bottom: 30%;
+          border-radius: 20px;
         }
 
         .social-login-button {
-          top: 25%;
+          padding: 0.5rem 1rem;
+          font-size: 11px;
+          top: 32%;
+          left: 3%;
         }
 
-        .social-media-container {
-          gap: 2rem;
-          top: 15% !important;
-          transform: translate(-50%, -50%) !important;
+        .start-button-container {
+          bottom: 16%;
+        }
+      }
+
+      /* Small Mobile Devices (360px-479px) */
+      @media (min-width: 360px) and (max-width: 479px) {
+        .logo {
+          width: 95vw;
+          height: 95vh;
+          max-width: 600px;
+          max-height: 600px;
         }
 
         .social-icon {
-          width: 96px;
-          height: 96px;
+          width: 85px;
+          height: 85px;
+          border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+        .social-icon svg {
+          width: 50px;
+          height: 50px;
+        }
+        .social-media-container {
+          gap: 2rem;
+          top: 21% !important;
         }
 
+        .start-button {
+          padding: 0.8rem 2rem;
+          font-size: 1.2rem;
+          border-radius: 18px;
+        }
+
+        .social-login-button {
+          padding: 0.4rem 0.8rem;
+          font-size: 10px;
+          top: 34%;
+          left: 2%;
+        }
+
+        .start-button-container {
+          bottom: 14%;
+        }
+      }
+
+      /* Very Small Mobile Devices (320px-359px) */
+      @media (max-width: 359px) {
+        .logo {
+          width: 90vw;
+          height: 90vh;
+          max-width: 500px;
+          max-height: 500px;
+        }
+
+        .social-icon {
+          width: 70px;
+          height: 70px;
+          border: 2px solid rgba(255, 255, 255, 0.25);
+        }
         .social-icon svg {
+          width: 40px;
+          height: 40px;
+        }
+        .social-media-container {
+          gap: 1.5rem;
+          top: 23% !important;
+        }
+
+        .start-button {
+          padding: 0.7rem 1.5rem;
+          font-size: 1.1rem;
+          border-radius: 16px;
+        }
+
+        .social-login-button {
+          padding: 0.3rem 0.6rem;
+          font-size: 9px;
+          top: 36%;
+          left: 1%;
+        }
+
+        .start-button-container {
+          bottom: 12%;
+        }
+      }
+
+      /* Landscape orientation adjustments for mobile */
+      @media (max-width: 767px) and (orientation: landscape) {
+        .logo {
+          width: 80vh;
+          height: 80vh;
+        }
+
+        .social-media-container {
+          top: 10% !important;
+          gap: 2rem;
+        }
+
+        .social-icon {
           width: 60px;
           height: 60px;
+        }
+        .social-icon svg {
+          width: 35px;
+          height: 35px;
+        }
+
+        .start-button {
+          padding: 0.6rem 1.5rem;
+          font-size: 1rem;
+        }
+
+        .start-button-container {
+          bottom: 10%;
+        }
+
+        .social-login-button {
+          top: 5%;
+          padding: 0.3rem 0.6rem;
+          font-size: 8px;
         }
       }
 
@@ -1063,7 +1267,7 @@
           socialContainer.style.opacity = '1';
           socialContainer.style.visibility = 'visible';
           socialContainer.style.transform = 'translate(-50%, -50%)';
-          socialContainer.style.top = '15%';
+          socialContainer.style.top = '12%';
         }
 
         socialIcons.forEach(icon => {
