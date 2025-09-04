@@ -54,7 +54,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
           {onOpenRules && (
             <button className='rules-button' onClick={onOpenRules}>
               <span className='rules-icon'>📖</span>
-              <span>View Game Rules</span>
+              <span className='span-text'>View Game Rules</span>
             </button>
           )}
 
@@ -73,7 +73,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
             }}
           >
             <span className='reset-icon'>🔄</span>
-            <span>Reset Game Data</span>
+            <span className='span-text'>Reset Game Data</span>
           </button>
         </div>
       </div>

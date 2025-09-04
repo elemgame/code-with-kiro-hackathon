@@ -1756,24 +1756,26 @@ body.modal-open .collection-container-modern {
 .rules-button {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 1rem 1.2rem;
   background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
   border: none;
   border-radius: 16px;
-  color: #1a1a1a;
+  color: #ffffff;
   font-size: 1.1rem;
   font-weight: 600;
   font-family: 'Volkhov', serif;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-transform: uppercase;
   letter-spacing: 0.3px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
-  margin-bottom: 10px;
+}
+
+.rules-button .span-text {
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.8),
     0 0 8px rgba(0, 0, 0, 0.9),
@@ -1784,7 +1786,6 @@ body.modal-open .collection-container-modern {
 }
 
 .rules-button:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
 }
 
@@ -1801,10 +1802,11 @@ body.modal-open .collection-container-modern {
 .reset-cache-button {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
   width: 100%;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--error), #c53030);
+  padding: 1rem 1.2rem;
+  background: #a92d2d;
   border: none;
   border-radius: 16px;
   color: white;
@@ -1813,11 +1815,13 @@ body.modal-open .collection-container-modern {
   font-family: 'Volkhov', serif;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-transform: uppercase;
   letter-spacing: 0.3px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.reset-cache-button .span-text {
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.8),
     0 0 8px rgba(0, 0, 0, 0.9),
@@ -1828,7 +1832,6 @@ body.modal-open .collection-container-modern {
 }
 
 .reset-cache-button:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
 }
 
@@ -1839,6 +1842,19 @@ body.modal-open .collection-container-modern {
 .reset-icon {
   font-size: 1.5rem;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Center text in buttons while keeping icons on the left */
+.rules-button span:not(.rules-icon) {
+  flex: 1;
+  text-align: center;
+  margin-right: 1.5rem; /* compensate for icon width */
+}
+
+.reset-cache-button span:not(.reset-icon) {
+  flex: 1;
+  text-align: center;
+  margin-right: 1.5rem; /* compensate for icon width */
 }
 
 /* Settings Tab Styles */
@@ -1895,16 +1911,12 @@ body.modal-open .collection-container-modern {
 .music-volume-slider-wrapper {
   position: relative;
   width: 100%;
-  height: 60px;
+  height: 80px;
   background: transparent;
   border: none;
   border-radius: 16px;
   overflow: hidden;
   transition: all 0.3s ease;
-}
-
-.music-volume-slider-wrapper:hover {
-  transform: translateY(-2px);
 }
 
 .music-volume-slider {
