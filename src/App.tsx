@@ -13,33 +13,33 @@ import ProfileTab from './components/ProfileTab';
 import RulesPage from './components/RulesPage';
 import SettingsTab from './components/SettingsTab';
 import {
-  ELEMENTAL_TYPES,
-  ELEMENTS,
-  LOCATIONS,
-  addElementalToCollection,
-  addExperienceToElemental,
-  calculateBattleResult,
-  canAffordLocation,
-  canLevelUpElemental,
-  createInitialCollection,
-  generateOpponent,
-  getAchievementDefinitions,
-  getLevelUpCost,
-  getMaxLevelForRarity,
-  getRandomElement,
-  getRandomElementalReward,
-  getRank,
-  getRarityUpgradeCost,
-  getTitle,
-  levelUpElemental,
-  setElementalCooldown,
+    ELEMENTAL_TYPES,
+    ELEMENTS,
+    LOCATIONS,
+    addElementalToCollection,
+    addExperienceToElemental,
+    calculateBattleResult,
+    canAffordLocation,
+    canLevelUpElemental,
+    createInitialCollection,
+    generateOpponent,
+    getAchievementDefinitions,
+    getLevelUpCost,
+    getMaxLevelForRarity,
+    getRandomElement,
+    getRandomElementalReward,
+    getRank,
+    getRarityUpgradeCost,
+    getTitle,
+    levelUpElemental,
+    setElementalCooldown,
 } from './gameLogic';
 import {
-  Element,
-  ElementalRarity,
-  GameState,
-  Location,
-  PlayerStats,
+    Element,
+    ElementalRarity,
+    GameState,
+    Location,
+    PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -488,24 +488,27 @@ const App: React.FC = () => {
       }
     }
 
-    // Chance to get new elemental (higher chance for wins)
-    const elementalChance = actualWinner === 'player' ? 0.6 : 0.3;
-    if (Math.random() < elementalChance) {
-      const reward = getRandomElementalReward();
-      const elementalData = ELEMENTAL_TYPES[reward.element][reward.rarity];
-      updatedCollection = addElementalToCollection(
-        updatedCollection,
-        reward.element,
-        reward.rarity
-      );
+    // Chance to get new elemental (higher chance for wins, but not in free location)
+    const isFreeLocation = gameState.player.selectedLocation === 'free';
+    if (!isFreeLocation) {
+      const elementalChance = actualWinner === 'player' ? 0.6 : 0.3;
+      if (Math.random() < elementalChance) {
+        const reward = getRandomElementalReward();
+        const elementalData = ELEMENTAL_TYPES[reward.element][reward.rarity];
+        updatedCollection = addElementalToCollection(
+          updatedCollection,
+          reward.element,
+          reward.rarity
+        );
 
-      // Show notification for new elemental
-      setNewElementalReward({
-        element: reward.element,
-        rarity: reward.rarity,
-        name: elementalData.name,
-        emoji: elementalData.emoji,
-      });
+        // Show notification for new elemental
+        setNewElementalReward({
+          element: reward.element,
+          rarity: reward.rarity,
+          name: elementalData.name,
+          emoji: elementalData.emoji,
+        });
+      }
     }
 
     setGameState(prev => ({
