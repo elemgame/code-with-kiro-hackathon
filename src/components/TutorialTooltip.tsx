@@ -62,60 +62,66 @@ const TutorialTooltip: React.FC<TutorialTooltipProps> = ({
 
   return (
     <div
-      className="tutorial-overlay"
-      role="dialog"
-      aria-labelledby="tutorial-title"
-      aria-describedby="tutorial-description"
-      aria-modal="true"
+      className='tutorial-overlay'
+      role='dialog'
+      aria-labelledby='tutorial-title'
+      aria-describedby='tutorial-description'
+      aria-modal='true'
     >
-      <div className="tutorial-backdrop" onClick={handleSkip} />
+      <div className='tutorial-backdrop' onClick={handleSkip} />
 
-      <div className="tutorial-tooltip">
-        <div className="tutorial-header">
-          <h3 id="tutorial-title" className="tutorial-title">
+      <div className='tutorial-tooltip'>
+        <div className='tutorial-header'>
+          <h3 id='tutorial-title' className='tutorial-title'>
             {step.title}
           </h3>
           <button
-            className="tutorial-close"
+            className='tutorial-close'
             onClick={handleSkip}
-            aria-label="Skip tutorial"
+            aria-label='Skip tutorial'
           >
             ✕
           </button>
         </div>
 
-        <div id="tutorial-description" className="tutorial-content">
+        <div id='tutorial-description' className='tutorial-content'>
           <p>{step.description}</p>
         </div>
 
-        <div className="tutorial-footer">
-          <div className="tutorial-progress">
-            <span className="tutorial-step-counter">
+        <div className='tutorial-footer'>
+          <div className='tutorial-progress'>
+            <span className='tutorial-step-counter'>
               {currentStep + 1} of {steps.length}
             </span>
-            <div className="tutorial-progress-bar">
+            <div className='tutorial-progress-bar'>
               <div
-                className="tutorial-progress-fill"
-                style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                className='tutorial-progress-fill'
+                style={{
+                  width: `${((currentStep + 1) / steps.length) * 100}%`,
+                }}
               />
             </div>
           </div>
 
-          <div className="tutorial-buttons">
+          <div className='tutorial-buttons'>
             {currentStep > 0 && (
               <button
-                className="tutorial-btn tutorial-btn-secondary"
+                className='tutorial-btn tutorial-btn-secondary'
                 onClick={handlePrevious}
-                aria-label="Previous step"
+                aria-label='Previous step'
               >
                 ← Previous
               </button>
             )}
 
             <button
-              className="tutorial-btn tutorial-btn-primary"
+              className='tutorial-btn tutorial-btn-primary'
               onClick={handleNext}
-              aria-label={currentStep === steps.length - 1 ? "Complete tutorial" : "Next step"}
+              aria-label={
+                currentStep === steps.length - 1
+                  ? 'Complete tutorial'
+                  : 'Next step'
+              }
             >
               {currentStep === steps.length - 1 ? 'Complete' : 'Next →'}
             </button>
@@ -131,35 +137,41 @@ export const BATTLE_TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'welcome',
     title: '🎮 Welcome to Elemental Arena!',
-    description: 'Learn how to battle with elemental forces! This tutorial will guide you through the battle process step by step.',
+    description:
+      'Learn how to battle with elemental forces! This tutorial will guide you through the battle process step by step.',
   },
   {
     id: 'location-selection',
     title: '🏟️ Choose Your Battlefield',
-    description: 'First, select a battle location. Free battles cost no mana and are perfect for practice. Paid locations offer better rewards but require mana.',
+    description:
+      'First, select a battle location. Free battles cost no mana and are perfect for practice. Paid locations offer better rewards but require mana.',
     targetSelector: '.location-grid',
   },
   {
     id: 'element-selection',
     title: '⚔️ Select Your Element',
-    description: 'Choose your battle element wisely! Earth beats Water, Water beats Fire, and Fire beats Earth. Each element has unique strengths.',
+    description:
+      'Choose your battle element wisely! Earth beats Water, Water beats Fire, and Fire beats Earth. Each element has unique strengths.',
     targetSelector: '.element-grid',
   },
   {
     id: 'elemental-selection',
     title: '🌟 Pick Your Elemental',
-    description: 'Elementals provide protection against damage. Higher rarity elementals offer better protection but have longer cooldowns after use.',
+    description:
+      'Elementals provide protection against damage. Higher rarity elementals offer better protection but have longer cooldowns after use.',
     targetSelector: '.elemental-grid',
   },
   {
     id: 'keyboard-navigation',
     title: '⌨️ Keyboard Navigation',
-    description: 'You can use arrow keys to navigate, Enter to select, and Tab to move between sections. This makes the game accessible for all players!',
+    description:
+      'You can use arrow keys to navigate, Enter to select, and Tab to move between sections. This makes the game accessible for all players!',
   },
   {
     id: 'complete',
     title: '🏆 Ready to Battle!',
-    description: 'You\'re all set! Remember: practice with free battles first, collect elementals by winning, and upgrade them in your collection. Good luck!',
+    description:
+      "You're all set! Remember: practice with free battles first, collect elementals by winning, and upgrade them in your collection. Good luck!",
   },
 ];
 
@@ -167,24 +179,28 @@ export const COLLECTION_TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'collection-welcome',
     title: '📦 Your Elemental Collection',
-    description: 'Here you can view, organize, and upgrade all your collected elementals. Each elemental is unique with its own level and stats.',
+    description:
+      'Here you can view, organize, and upgrade all your collected elementals. Each elemental is unique with its own level and stats.',
   },
   {
     id: 'filters',
     title: '🔍 Filtering Your Collection',
-    description: 'Use the filters to find specific elementals by element type or rarity. This helps you quickly locate the elemental you want to use or upgrade.',
+    description:
+      'Use the filters to find specific elementals by element type or rarity. This helps you quickly locate the elemental you want to use or upgrade.',
     targetSelector: '.collection-filters-modern',
   },
   {
     id: 'elemental-cards',
     title: '🎴 Elemental Cards',
-    description: 'Each card shows your elemental\'s stats: rarity, level, protection percentage, and usage count. Click to upgrade when you have enough mana!',
+    description:
+      "Each card shows your elemental's stats: rarity, level, protection percentage, and usage count. Click to upgrade when you have enough mana!",
     targetSelector: '.collectible-cards-grid',
   },
   {
     id: 'upgrading',
     title: '⬆️ Upgrading Elementals',
-    description: 'Level up elementals to increase their power. At max level, you can upgrade their rarity for even better protection and new abilities!',
+    description:
+      'Level up elementals to increase their power. At max level, you can upgrade their rarity for even better protection and new abilities!',
   },
 ];
 

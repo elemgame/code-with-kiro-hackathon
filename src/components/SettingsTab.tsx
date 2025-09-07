@@ -70,21 +70,31 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
             </h3>
 
             {onShowBattleTutorial && (
-              <button className='tutorial-button battle-tutorial' onClick={onShowBattleTutorial}>
+              <button
+                className='tutorial-button battle-tutorial'
+                onClick={onShowBattleTutorial}
+              >
                 <span className='tutorial-icon'>⚔️</span>
                 <div className='tutorial-content'>
                   <span className='tutorial-title'>Battle Tutorial</span>
-                  <span className='tutorial-description'>Learn how to battle and select elementals</span>
+                  <span className='tutorial-description'>
+                    Learn how to battle and select elementals
+                  </span>
                 </div>
               </button>
             )}
 
             {onShowCollectionTutorial && (
-              <button className='tutorial-button collection-tutorial' onClick={onShowCollectionTutorial}>
+              <button
+                className='tutorial-button collection-tutorial'
+                onClick={onShowCollectionTutorial}
+              >
                 <span className='tutorial-icon'>📦</span>
                 <div className='tutorial-content'>
                   <span className='tutorial-title'>Collection Tutorial</span>
-                  <span className='tutorial-description'>Discover how to manage and upgrade elementals</span>
+                  <span className='tutorial-description'>
+                    Discover how to manage and upgrade elementals
+                  </span>
                 </div>
               </button>
             )}

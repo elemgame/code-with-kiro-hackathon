@@ -403,7 +403,11 @@ button:disabled {
 
 .tutorial-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+  background: linear-gradient(
+    90deg,
+    var(--primary-gold),
+    var(--secondary-gold)
+  );
   border-radius: 2px;
   transition: width var(--animation-slow) ease-out;
 }
@@ -436,13 +440,21 @@ button:disabled {
 }
 
 .tutorial-btn-primary {
-  background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+  background: linear-gradient(
+    135deg,
+    var(--primary-gold),
+    var(--secondary-gold)
+  );
   color: white;
   font-weight: 700;
 }
 
 .tutorial-btn-primary:hover {
-  background: linear-gradient(135deg, var(--secondary-gold), var(--accent-gold));
+  background: linear-gradient(
+    135deg,
+    var(--secondary-gold),
+    var(--accent-gold)
+  );
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
 }
@@ -537,7 +549,11 @@ button:disabled {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -12559,10 +12575,36 @@ body.modal-open .collection-container-modern {
   pointer-events: auto !important;
 }
 
+/* Specific rules for elemental buttons */
+.tutorial-active .elemental-btn.tutorial-target {
+  pointer-events: auto !important;
+  z-index: 10002;
+  cursor: pointer !important;
+}
+
+.tutorial-active .elemental-btn.tutorial-target * {
+  pointer-events: auto !important;
+}
+
+.tutorial-active .elemental-btn.tutorial-target:hover {
+  pointer-events: auto !important;
+}
+
 /* Allow tutorial UI to work */
 .tutorial-active .tutorial-step-tooltip,
 .tutorial-active .tutorial-step-tooltip * {
   pointer-events: auto !important;
+}
+
+/* Override cooldown styles during tutorial for target elemental */
+.tutorial-active .elemental-btn.tutorial-target.on-cooldown {
+  opacity: 1 !important;
+  filter: none !important;
+  cursor: pointer !important;
+}
+
+.tutorial-active .elemental-btn.tutorial-target .cooldown-indicator {
+  display: none !important;
 }
 
 .tutorial-highlight-ring {
@@ -12602,7 +12644,8 @@ body.modal-open .collection-container-modern {
 }
 
 @keyframes tutorialPulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     box-shadow:
       0 0 0 4px rgba(218, 165, 32, 0.3),
@@ -12621,7 +12664,11 @@ body.modal-open .collection-container-modern {
 .tutorial-step-tooltip {
   width: 280px;
   max-width: 90vw;
-  background: linear-gradient(135deg, rgba(20, 20, 30, 0.98), rgba(40, 40, 50, 0.98));
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 30, 0.98),
+    rgba(40, 40, 50, 0.98)
+  );
   border: 2px solid var(--secondary-gold);
   border-radius: 12px;
   backdrop-filter: blur(10px);
@@ -12713,7 +12760,11 @@ body.modal-open .collection-container-modern {
 
 .tutorial-step-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--secondary-gold), var(--primary-gold));
+  background: linear-gradient(
+    90deg,
+    var(--secondary-gold),
+    var(--primary-gold)
+  );
   border-radius: 2px;
   transition: width 0.3s ease;
 }
@@ -12729,7 +12780,11 @@ body.modal-open .collection-container-modern {
   padding: 8px 16px;
   border: 1px solid var(--secondary-gold);
   border-radius: 6px;
-  background: linear-gradient(135deg, rgba(218, 165, 32, 0.1), rgba(218, 165, 32, 0.2));
+  background: linear-gradient(
+    135deg,
+    rgba(218, 165, 32, 0.1),
+    rgba(218, 165, 32, 0.2)
+  );
   color: var(--secondary-gold);
   font-size: 13px;
   font-weight: 500;
@@ -12739,7 +12794,11 @@ body.modal-open .collection-container-modern {
 }
 
 .tutorial-step-btn:hover {
-  background: linear-gradient(135deg, rgba(218, 165, 32, 0.2), rgba(218, 165, 32, 0.3));
+  background: linear-gradient(
+    135deg,
+    rgba(218, 165, 32, 0.2),
+    rgba(218, 165, 32, 0.3)
+  );
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
 }
@@ -12749,13 +12808,21 @@ body.modal-open .collection-container-modern {
 }
 
 .tutorial-step-next {
-  background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+  background: linear-gradient(
+    135deg,
+    var(--secondary-gold),
+    var(--primary-gold)
+  );
   color: black;
   font-weight: 600;
 }
 
 .tutorial-step-next:hover {
-  background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+  background: linear-gradient(
+    135deg,
+    var(--primary-gold),
+    var(--secondary-gold)
+  );
 }
 
 .tutorial-step-instruction {

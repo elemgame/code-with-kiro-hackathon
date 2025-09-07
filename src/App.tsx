@@ -12,36 +12,40 @@ import ProfileHeader from './components/ProfileHeader';
 import ProfileTab from './components/ProfileTab';
 import RulesPage from './components/RulesPage';
 import SettingsTab from './components/SettingsTab';
-import StepByStepTutorial, { BATTLE_TUTORIAL_STEPS } from './components/StepByStepTutorial';
-import TutorialTooltip, { COLLECTION_TUTORIAL_STEPS } from './components/TutorialTooltip';
+import StepByStepTutorial, {
+  BATTLE_TUTORIAL_STEPS,
+} from './components/StepByStepTutorial';
+import TutorialTooltip, {
+  COLLECTION_TUTORIAL_STEPS,
+} from './components/TutorialTooltip';
 import {
-    ELEMENTAL_TYPES,
-    ELEMENTS,
-    LOCATIONS,
-    addElementalToCollection,
-    addExperienceToElemental,
-    calculateBattleResult,
-    canAffordLocation,
-    canLevelUpElemental,
-    createInitialCollection,
-    generateOpponent,
-    getAchievementDefinitions,
-    getLevelUpCost,
-    getMaxLevelForRarity,
-    getRandomElement,
-    getRandomElementalReward,
-    getRank,
-    getRarityUpgradeCost,
-    getTitle,
-    levelUpElemental,
-    setElementalCooldown,
+  ELEMENTAL_TYPES,
+  ELEMENTS,
+  LOCATIONS,
+  addElementalToCollection,
+  addExperienceToElemental,
+  calculateBattleResult,
+  canAffordLocation,
+  canLevelUpElemental,
+  createInitialCollection,
+  generateOpponent,
+  getAchievementDefinitions,
+  getLevelUpCost,
+  getMaxLevelForRarity,
+  getRandomElement,
+  getRandomElementalReward,
+  getRank,
+  getRarityUpgradeCost,
+  getTitle,
+  levelUpElemental,
+  setElementalCooldown,
 } from './gameLogic';
 import {
-    Element,
-    ElementalRarity,
-    GameState,
-    Location,
-    PlayerStats,
+  Element,
+  ElementalRarity,
+  GameState,
+  Location,
+  PlayerStats,
 } from './types';
 
 const INITIAL_PLAYER: PlayerStats = {
@@ -100,7 +104,8 @@ const App: React.FC = () => {
   const [showBattleTutorial, setShowBattleTutorial] = useState(false);
   const [showCollectionTutorial, setShowCollectionTutorial] = useState(false);
   const [hasSeenBattleTutorial, setHasSeenBattleTutorial] = useState(false);
-  const [hasSeenCollectionTutorial, setHasSeenCollectionTutorial] = useState(false);
+  const [hasSeenCollectionTutorial, setHasSeenCollectionTutorial] =
+    useState(false);
 
   // Load game state from localStorage on mount
   useEffect(() => {
@@ -135,7 +140,9 @@ const App: React.FC = () => {
       try {
         const settings = JSON.parse(savedTutorialSettings);
         setHasSeenBattleTutorial(settings.hasSeenBattleTutorial || false);
-        setHasSeenCollectionTutorial(settings.hasSeenCollectionTutorial || false);
+        setHasSeenCollectionTutorial(
+          settings.hasSeenCollectionTutorial || false
+        );
       } catch (error) {
         // Failed to load tutorial settings - using defaults
       }
@@ -173,7 +180,11 @@ const App: React.FC = () => {
 
   // Auto-show tutorial for new users
   useEffect(() => {
-    if (activeTab === 'battle' && !hasSeenBattleTutorial && gameState.gamePhase === 'menu') {
+    if (
+      activeTab === 'battle' &&
+      !hasSeenBattleTutorial &&
+      gameState.gamePhase === 'menu'
+    ) {
       const timer = setTimeout(() => {
         setShowBattleTutorial(true);
       }, 5000); // Show after 5 second delay (after loading screen)
@@ -383,7 +394,6 @@ const App: React.FC = () => {
     gameState.player.selectedLocation,
     gameState.player.selectedElement,
     gameState.player.mana,
-    gameState.player.elementalCollection,
   ]);
 
   const startBattle = useCallback(() => {
@@ -968,21 +978,21 @@ const App: React.FC = () => {
       {/* Navigation outside of app container */}
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
 
-              {/* Tutorial Components */}
-              <StepByStepTutorial
-                isActive={showBattleTutorial}
-                currentPhase={gameState.gamePhase}
-                steps={BATTLE_TUTORIAL_STEPS}
-                onComplete={handleBattleTutorialComplete}
-                onSkip={handleBattleTutorialSkip}
-              />
+      {/* Tutorial Components */}
+      <StepByStepTutorial
+        isActive={showBattleTutorial}
+        currentPhase={gameState.gamePhase}
+        steps={BATTLE_TUTORIAL_STEPS}
+        onComplete={handleBattleTutorialComplete}
+        onSkip={handleBattleTutorialSkip}
+      />
 
-              <TutorialTooltip
-                steps={COLLECTION_TUTORIAL_STEPS}
-                isActive={showCollectionTutorial}
-                onComplete={handleCollectionTutorialComplete}
-                onSkip={handleCollectionTutorialSkip}
-              />
+      <TutorialTooltip
+        steps={COLLECTION_TUTORIAL_STEPS}
+        isActive={showCollectionTutorial}
+        onComplete={handleCollectionTutorialComplete}
+        onSkip={handleCollectionTutorialSkip}
+      />
     </>
   );
 };
