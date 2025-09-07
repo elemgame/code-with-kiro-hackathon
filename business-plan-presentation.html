@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elem Game - Бизнес-модель по Остервальдеру</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700;800&family=SF+Pro+Text:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Светлая тема (по умолчанию) */
+            --bg-primary: #f5f5f7;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-blue: #007aff;
+            --border-color: rgba(0, 0, 0, 0.04);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.12);
+        }
+
+        [data-theme="dark"] {
+            /* Темная тема */
+            --bg-primary: #000000;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --text-primary: #f2f2f7;
+            --text-secondary: #98989d;
+            --accent-blue: #0a84ff;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            line-height: 1.47059;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Фоновый элемент с элементальной тематикой */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(52, 199, 89, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 149, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 122, 255, 0.06) 0%, transparent 50%),
+                linear-gradient(135deg,
+                    rgba(52, 199, 89, 0.02) 0%,
+                    rgba(0, 122, 255, 0.03) 25%,
+                    rgba(255, 149, 0, 0.02) 50%,
+                    rgba(175, 82, 222, 0.02) 75%,
+                    rgba(255, 45, 146, 0.02) 100%);
+            animation: elementalFlow 20s ease-in-out infinite;
+        }
+
+        /* Дополнительный слой с геометрическими элементами */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(0, 122, 255, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(52, 199, 89, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, rgba(255, 149, 0, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px, 80px 80px, 100px 100px;
+            animation: geometricFloat 30s linear infinite;
+            opacity: 0.4;
+        }
+
+        /* Анимация элементального потока */
+        @keyframes elementalFlow {
+
+            0%,
+            100% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+                opacity: 0.6;
+            }
+
+            25% {
+                transform: translateX(10px) translateY(-5px) rotate(1deg);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: translateX(-5px) translateY(10px) rotate(-0.5deg);
+                opacity: 0.7;
+            }
+
+            75% {
+                transform: translateX(-10px) translateY(-10px) rotate(0.5deg);
+                opacity: 0.9;
+            }
+        }
+
+        /* Анимация геометрических элементов */
+        @keyframes geometricFloat {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            100% {
+                transform: translateX(-100px) translateY(-100px);
+            }
+        }
+
+        /* Адаптация фона для темной темы */
+        [data-theme="dark"] body::before {
+            background:
+                radial-gradient(circle at 20% 80%, rgba(48, 209, 88, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 159, 10, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(10, 132, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg,
+                    rgba(48, 209, 88, 0.04) 0%,
+                    rgba(10, 132, 255, 0.05) 25%,
+                    rgba(255, 159, 10, 0.04) 50%,
+                    rgba(191, 90, 242, 0.04) 75%,
+                    rgba(255, 55, 95, 0.04) 100%);
+        }
+
+        [data-theme="dark"] body::after {
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(10, 132, 255, 0.06) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(48, 209, 88, 0.06) 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, rgba(255, 159, 10, 0.04) 1px, transparent 1px);
+            opacity: 0.6;
+        }
+
+        /* Кнопка переключения темы */
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            box-shadow: 0 4px 20px var(--shadow-color);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--shadow-hover);
+        }
+
+        .theme-toggle .icon {
+            font-size: 1.125rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover .icon {
+            transform: rotate(180deg);
+        }
+
+        .container {
+            max-width: 765px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 4rem 3rem 6rem 3rem;
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        /* Декоративные элементы в углах */
+        .elemental-decoration {
+            position: fixed;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.1;
+            transition: opacity 0.3s ease;
+        }
+
+        .elemental-decoration.top-left {
+            top: 5%;
+            left: 5%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(52, 199, 89, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulseElement 8s ease-in-out infinite;
+        }
+
+        .elemental-decoration.top-right {
+            top: 10%;
+            right: 8%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 149, 0, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulseElement 6s ease-in-out infinite reverse;
+        }
+
+        .elemental-decoration.bottom-left {
+            bottom: 15%;
+            left: 3%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0, 122, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulseElement 10s ease-in-out infinite;
+        }
+
+        .elemental-decoration.bottom-right {
+            bottom: 8%;
+            right: 5%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(175, 82, 222, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulseElement 7s ease-in-out infinite reverse;
+        }
+
+        /* Анимация пульсации элементов */
+        @keyframes pulseElement {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.1;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 0.2;
+            }
+        }
+
+        /* Адаптация декоративных элементов для темной темы */
+        [data-theme="dark"] .elemental-decoration.top-left {
+            background: radial-gradient(circle, rgba(48, 209, 88, 0.4) 0%, transparent 70%);
+        }
+
+        [data-theme="dark"] .elemental-decoration.top-right {
+            background: radial-gradient(circle, rgba(255, 159, 10, 0.35) 0%, transparent 70%);
+        }
+
+        [data-theme="dark"] .elemental-decoration.bottom-left {
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.3) 0%, transparent 70%);
+        }
+
+        [data-theme="dark"] .elemental-decoration.bottom-right {
+            background: radial-gradient(circle, rgba(191, 90, 242, 0.4) 0%, transparent 70%);
+        }
+
+        [data-theme="dark"] .elemental-decoration {
+            opacity: 0.15;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            background: var(--bg-secondary);
+            padding: 3rem 2.5rem;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.022em;
+            line-height: 1.05;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: -0.016em;
+        }
+
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .canvas-item {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .canvas-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--shadow-hover);
+        }
+
+        .canvas-item h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.016em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .canvas-item .icon {
+            font-size: 1.375rem;
+            flex-shrink: 0;
+        }
+
+        .canvas-item ul {
+            list-style: none;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .canvas-item li {
+            padding-left: 1.125rem;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.47059;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .canvas-item li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .financial-section {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            margin-bottom: 4rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        .financial-section h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-primary);
+            letter-spacing: -0.022em;
+            line-height: 1.08349;
+        }
+
+        .financial-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .revenue-box,
+        .distribution-box {
+            background: var(--bg-tertiary);
+            padding: 1.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .revenue-box h3,
+        .distribution-box h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.016em;
+            flex-shrink: 0;
+        }
+
+        .revenue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.875rem;
+            padding: 0.625rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            gap: 1rem;
+        }
+
+        .revenue-item span:first-child {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .revenue-item span:last-child {
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        .revenue-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.0625rem;
+            color: var(--accent-blue);
+            margin-top: 0.625rem;
+            padding-top: 0.875rem;
+            border-top: 2px solid var(--accent-blue);
+            opacity: 0.9;
+        }
+
+        .highlight {
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            white-space: nowrap;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            background: var(--bg-secondary);
+            padding: 2.25rem;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .footer p {
+            font-size: 1.0625rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: -0.016em;
+            margin: 0 auto;
+        }
+
+        /* Утилитарные классы для адаптивности */
+        .text-responsive {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        .spacing-responsive {
+            margin: clamp(0.5rem, 2vw, 1rem) 0;
+        }
+
+        .padding-responsive {
+            padding: clamp(1rem, 3vw, 2rem);
+        }
+
+        /* Улучшения для доступности */
+        @media (prefers-reduced-motion: reduce) {
+            .canvas-item {
+                transition: none;
+            }
+
+            .canvas-item:hover {
+                transform: none;
+            }
+
+            body::before,
+            body::after,
+            .elemental-decoration {
+                animation: none !important;
+            }
+        }
+
+        /* Оптимизация для мобильных устройств */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 2rem 1.5rem 4rem 1.5rem;
+            }
+
+            .header {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .header h1 {
+                font-size: 2.25rem;
+            }
+
+            .header .subtitle {
+                font-size: 1.125rem;
+            }
+
+            .canvas-item {
+                padding: 1.5rem;
+                min-height: auto;
+            }
+
+            .canvas-item h3 {
+                font-size: 1.125rem;
+                margin-bottom: 1rem;
+            }
+
+            .financial-section {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .financial-section h2 {
+                font-size: 1.875rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .revenue-box,
+            .distribution-box {
+                padding: 1.5rem;
+            }
+
+            .footer {
+                padding: 2rem 1.5rem;
+                margin-top: 2.5rem;
+            }
+
+            body::before,
+            body::after {
+                opacity: 0.3;
+            }
+
+            .elemental-decoration {
+                opacity: 0.05;
+            }
+
+            [data-theme="dark"] .elemental-decoration {
+                opacity: 0.08;
+            }
+        }
+
+        /* Отключение фоновых эффектов для слабых устройств */
+        @media (max-width: 480px) {
+            body::after {
+                display: none;
+            }
+
+            .elemental-decoration.top-right,
+            .elemental-decoration.bottom-right {
+                display: none;
+            }
+        }
+
+        /* Адаптация цветов для темной темы */
+        [data-theme="dark"] .canvas-item:nth-child(1) .icon {
+            color: #0a84ff;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(2) .icon {
+            color: #30d158;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(3) .icon {
+            color: #ff9f0a;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(4) .icon {
+            color: #bf5af2;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(5) .icon {
+            color: #ff375f;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(6) .icon {
+            color: #64d2ff;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(7) .icon {
+            color: #ffd60a;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(8) .icon {
+            color: #ff453a;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(9) .icon {
+            color: #32d74b;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(1) li:before {
+            color: #0a84ff;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(2) li:before {
+            color: #30d158;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(3) li:before {
+            color: #ff9f0a;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(4) li:before {
+            color: #bf5af2;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(5) li:before {
+            color: #ff375f;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(6) li:before {
+            color: #64d2ff;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(7) li:before {
+            color: #ffd60a;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(8) li:before {
+            color: #ff453a;
+        }
+
+        [data-theme="dark"] .canvas-item:nth-child(9) li:before {
+            color: #32d74b;
+        }
+
+        /* Apple-style accent colors for different sections */
+        .canvas-item:nth-child(1) .icon {
+            color: #007aff;
+        }
+
+        .canvas-item:nth-child(2) .icon {
+            color: #34c759;
+        }
+
+        .canvas-item:nth-child(3) .icon {
+            color: #ff9500;
+        }
+
+        .canvas-item:nth-child(4) .icon {
+            color: #af52de;
+        }
+
+        .canvas-item:nth-child(5) .icon {
+            color: #ff2d92;
+        }
+
+        .canvas-item:nth-child(6) .icon {
+            color: #5ac8fa;
+        }
+
+        .canvas-item:nth-child(7) .icon {
+            color: #ffcc02;
+        }
+
+        .canvas-item:nth-child(8) .icon {
+            color: #ff3b30;
+        }
+
+        .canvas-item:nth-child(9) .icon {
+            color: #30d158;
+        }
+
+        .canvas-item:nth-child(1) li:before {
+            color: #007aff;
+        }
+
+        .canvas-item:nth-child(2) li:before {
+            color: #34c759;
+        }
+
+        .canvas-item:nth-child(3) li:before {
+            color: #ff9500;
+        }
+
+        .canvas-item:nth-child(4) li:before {
+            color: #af52de;
+        }
+
+        .canvas-item:nth-child(5) li:before {
+            color: #ff2d92;
+        }
+
+        .canvas-item:nth-child(6) li:before {
+            color: #5ac8fa;
+        }
+
+        .canvas-item:nth-child(7) li:before {
+            color: #ffcc02;
+        }
+
+        .canvas-item:nth-child(8) li:before {
+            color: #ff3b30;
+        }
+
+        .canvas-item:nth-child(9) li:before {
+            color: #30d158;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: none;
+                padding: 20px;
+            }
+
+            .canvas-item,
+            .financial-section,
+            .header,
+            .footer {
+                background: white !important;
+                box-shadow: none !important;
+                border: 1px solid #d2d2d7 !important;
+            }
+        }
+
+        /* Улучшенные медиа-запросы для полной адаптивности */
+        @media (max-width: 1024px) {
+            .canvas-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .canvas-grid {
+                grid-template-columns: 1fr;
+                gap: clamp(1rem, 3vw, 1.25rem);
+            }
+
+            .financial-grid {
+                grid-template-columns: 1fr;
+                gap: clamp(1.25rem, 4vw, 2rem);
+            }
+
+            .canvas-item {
+                min-height: auto;
+            }
+
+            .revenue-item {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .revenue-item span:first-child {
+                flex-basis: 100%;
+                margin-bottom: 0.25rem;
+            }
+
+            .revenue-item span:last-child {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: clamp(1.5rem, 4vw, 2.5rem) clamp(0.75rem, 2vw, 1.25rem);
+            }
+
+            .canvas-item h3 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .canvas-item .icon {
+                align-self: center;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .revenue-item {
+                font-size: 0.8rem;
+                padding: 0.5rem 0;
+            }
+
+            .canvas-item li {
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+        }
+
+        /* Улучшения для больших экранов */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1400px;
+            }
+
+            .canvas-grid {
+                gap: 2rem;
+            }
+
+            .canvas-item {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Оптимизация для планшетов в альбомной ориентации */
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+            .canvas-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .financial-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Улучшения для печати */
+        @media print {
+            body {
+                background: white !important;
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+
+            .container {
+                max-width: none;
+                padding: 1rem;
+            }
+
+            .canvas-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                page-break-inside: avoid;
+            }
+
+            .canvas-item,
+            .financial-section,
+            .header,
+            .footer {
+                background: white !important;
+                box-shadow: none !important;
+                border: 1px solid #d2d2d7 !important;
+                page-break-inside: avoid;
+            }
+
+            .canvas-item h3 {
+                font-size: 14pt;
+            }
+
+            .canvas-item li {
+                font-size: 11pt;
+            }
+
+            .financial-section h2 {
+                font-size: 18pt;
+            }
+
+            .revenue-item {
+                font-size: 11pt;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Декоративные элементы -->
+    <div class="elemental-decoration top-left"></div>
+    <div class="elemental-decoration top-right"></div>
+    <div class="elemental-decoration bottom-left"></div>
+    <div class="elemental-decoration bottom-right"></div>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Переключить тему">
+        <span class="icon" id="theme-icon">🌙</span>
+        <span id="theme-text">Темная тема</span>
+    </button>
+
+    <div class="container"></div>
+    <div class="header">
+        <h1>Elem Game</h1>
+        <p class="subtitle">Стратегическая бизнес-модель Canvas по методологии Остервальдера</p>
+    </div>
+
+    <div class="canvas-grid">
+        <div class="canvas-item">
+            <h3><span class="icon">🤝</span>Ключевые партнёры</h3>
+            <ul>
+                <li>Symbiotic Protocol — инфраструктурные валидаторы</li>
+                <li>NFT-маркетплейсы — каналы дистрибуции цифровых активов</li>
+                <li>Блокчейн-платформы — технологическая инфраструктура</li>
+                <li>DAO-организации — стратегические альянсы сообщества</li>
+                <li>Аналитические агрегаторы — ка��алы привлечения пользователей</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">⚡</span>Ключевые виды деятельности</h3>
+            <ul>
+                <li>Разработка продукта и внедрение инноваций</li>
+                <li>Управление децентрализованной инфраструктурой</li>
+                <li>Оптимизация токеномики и игровой экономики</li>
+                <li>Стратегический маркетинг и развитие партнёрств</li>
+                <li>Community management и экосистемное развитие</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">🎯</span>Ценностные предложения</h3>
+            <ul>
+                <li>Децентрализованная игровая платформа с элементами стратегии</li>
+                <li>Градуированная система NFT-активов с механизмом прогрессии</li>
+                <li>Гибридная монетизационная модель (freemium + subscription)</li>
+                <li>Оптимизированная транзакционная архитектура без комиссий</li>
+                <li>Алгоритмическая система вознаграждений с высокой конверсией</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">🔧</span>Ключевые ресурсы</h3>
+            <ul>
+                <li>Технологическая инфраструктура и вычислительные мощности</li>
+                <li>Интеллектуальная собственность (смарт-контракты)</li>
+                <li>Децентрализованная валидаторская сеть</li>
+                <li>Высококвалифицированная техническая команда</li>
+                <li>Цифровая экосистема и пользовательская база</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">💝</span>Взаимоотношения с клиентами</h3>
+            <ul>
+                <li>Freemium-модель с базовым функционалом</li>
+                <li>Premium-подписки с расширенными возможностями</li>
+                <li>Владение цифровыми активами и их монетизация</li>
+                <li>Геймификация через соревновательные мероприятия</li>
+                <li>Самоуправляемое сообщество пользователей</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">📱</span>Каналы дистрибуции</h3>
+            <ul>
+                <li>Специализированные торговые площадки NFT</li>
+                <li>Цифровые коммуникационные платформы</li>
+                <li>Профессиональные игровые сообщества Web3</li>
+                <li>Отраслевые мероприятия и технологические конференции</li>
+                <li>Собственная торговая платформа (P2P marketplace)</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">👥</span>Сегменты клиентов</h3>
+            <ul>
+                <li>Массовый сегмент (freemium-пользователи)</li>
+                <li>Premium-сегмент (многоуровневая подписочная модель)</li>
+                <li>Инвесторы в цифровые коллекционные активы</li>
+                <li>Энтузиасты децентрализованных игровых технологий</li>
+                <li>Институциональные участники сетевой инфраструктуры</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">💰</span>Структура затрат</h3>
+            <ul>
+                <li>CAPEX: R&D, техническая разработка, UX/UI дизайн</li>
+                <li>OPEX: Инфраструктурные расходы и техническая поддержка</li>
+                <li>Customer Acquisition Cost (CAC) и маркетинговые инвестиции</li>
+                <li>Compliance и аудит безопасности смарт-контрактов</li>
+                <li>Revenue sharing с инфраструктурными партнёрами (30%)</li>
+            </ul>
+        </div>
+
+        <div class="canvas-item">
+            <h3><span class="icon">💵</span>Потоки доходов</h3>
+            <ul>
+                <li>Recurring Revenue: Многоуровневая подписочная модель ($5-20/мес)</li>
+                <li>Microtransactions: Внутриигровые улучшения активов</li>
+                <li>Asset Enhancement: Монетизация прогрессии NFT-коллекций</li>
+                <li>Transaction Fees: Комиссии с вторичного рынка (5-10%)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="financial-section">
+        <h2>Финансовая модель и Unit Economics</h2>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px; color: #86868b;">
+            Проекция доходности на базе <span class="highlight">1000 MAU</span>
+        </p>
+
+        <div class="financial-grid">
+            <div class="revenue-box">
+                <h3>Monthly Recurring Revenue (MRR)</h3>
+                <p style="color: #86868b; margin-bottom: 20px; font-size: 0.95rem;">Conversion Rate: 20% (200 paying
+                    users)</p>
+                <div class="revenue-item">
+                    <span>Tier 1: Novice (120 × $5)</span>
+                    <span><strong>$600</strong></span>
+                </div>
+                <div class="revenue-item">
+                    <span>Tier 2: Adept (60 × $10)</span>
+                    <span><strong>$600</strong></span>
+                </div>
+                <div class="revenue-item">
+                    <span>Tier 3: Archmage (20 × $20)</span>
+                    <span><strong>$400</strong></span>
+                </div>
+                <div class="revenue-item">
+                    <span>Total MRR</span>
+                    <span><strong>$1,600</strong></span>
+                </div>
+            </div>
+
+            <div class="distribution-box">
+                <h3>Revenue Distribution Model</h3>
+                <div class="revenue-item">
+                    <span>Infrastructure Partners (30%)</span>
+                    <span><strong>$480</strong></span>
+                </div>
+                <div class="revenue-item">
+                    <span>Project Revenue (70%)</span>
+                    <span><strong>$1,120</strong></span>
+                </div>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(0, 122, 255, 0.2);">
+                    <div class="revenue-item">
+                        <span>Ecosystem Development (50%)</span>
+                        <span><strong>$560</strong></span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Product R&D (30%)</span>
+                        <span><strong>$336</strong></span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Freemium Support (20%)</span>
+                        <span><strong>$224</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Elem Game — Масштабируемая Web3-платформа с диверсифицированной монетизацией и устойчивой
+            токеномикой</p>
+    </div>
+    </div>
+
+    <script>
+        // Функция переключения темы
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            // Устанавливаем новую тему
+            body.setAttribute('data-theme', newTheme);
+
+            // Обновляем иконку и текст
+            if (newTheme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Светлая тема';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Темная тема';
+            }
+
+            // Сохраняем предпочтение пользователя
+            localStorage.setItem('theme-preference', newTheme);
+        }
+
+        // Инициализация темы при загрузке страницы
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme-preference');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+
+            // Определяем тему: сохраненная > системная > светлая
+            const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+            document.body.setAttribute('data-theme', initialTheme);
+
+            // Устанавливаем правильную иконку и текст
+            if (initialTheme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Светлая тема';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Темная тема';
+            }
+        }
+
+        // Слушаем изменения системной темы
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            // Только если пользователь не установил свои предпочтения
+            if (!localStorage.getItem('theme-preference')) {
+                const newTheme = e.matches ? 'dark' : 'light';
+                document.body.setAttribute('data-theme', newTheme);
+
+                const themeIcon = document.getElementById('theme-icon');
+                const themeText = document.getElementById('theme-text');
+
+                if (newTheme === 'dark') {
+                    themeIcon.textContent = '☀️';
+                    themeText.textContent = 'Светлая тема';
+                } else {
+                    themeIcon.textContent = '🌙';
+                    themeText.textContent = 'Темная тема';
+                }
+            }
+        });
+
+        // Инициализируем тему при загрузке
+        document.addEventListener('DOMContentLoaded', initTheme);
+
+        // Добавляем плавную анимацию при переключении темы
+        document.addEventListener('DOMContentLoaded', function () {
+            // Добавляем класс для анимации после загрузки страницы
+            setTimeout(() => {
+                document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
