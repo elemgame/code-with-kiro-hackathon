@@ -12,6 +12,8 @@ import ProfileHeader from './components/ProfileHeader';
 import ProfileTab from './components/ProfileTab';
 import RulesPage from './components/RulesPage';
 import SettingsTab from './components/SettingsTab';
+import StepByStepTutorial, { BATTLE_TUTORIAL_STEPS } from './components/StepByStepTutorial';
+import TutorialTooltip, { COLLECTION_TUTORIAL_STEPS } from './components/TutorialTooltip';
 import {
     ELEMENTAL_TYPES,
     ELEMENTS,
@@ -94,6 +96,12 @@ const App: React.FC = () => {
   const [rulesPageOpen, setRulesPageOpen] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.2);
 
+  // Tutorial states
+  const [showBattleTutorial, setShowBattleTutorial] = useState(false);
+  const [showCollectionTutorial, setShowCollectionTutorial] = useState(false);
+  const [hasSeenBattleTutorial, setHasSeenBattleTutorial] = useState(false);
+  const [hasSeenCollectionTutorial, setHasSeenCollectionTutorial] = useState(false);
+
   // Load game state from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem('elementalGameState');
@@ -120,6 +128,18 @@ const App: React.FC = () => {
         // Failed to load audio settings - using defaults
       }
     }
+
+    // Load tutorial settings from localStorage
+    const savedTutorialSettings = localStorage.getItem('tutorialSettings');
+    if (savedTutorialSettings) {
+      try {
+        const settings = JSON.parse(savedTutorialSettings);
+        setHasSeenBattleTutorial(settings.hasSeenBattleTutorial || false);
+        setHasSeenCollectionTutorial(settings.hasSeenCollectionTutorial || false);
+      } catch (error) {
+        // Failed to load tutorial settings - using defaults
+      }
+    }
   }, []);
 
   // Save game state to localStorage whenever player data changes
@@ -139,6 +159,38 @@ const App: React.FC = () => {
       })
     );
   }, [musicVolume]);
+
+  // Save tutorial settings to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(
+      'tutorialSettings',
+      JSON.stringify({
+        hasSeenBattleTutorial,
+        hasSeenCollectionTutorial,
+      })
+    );
+  }, [hasSeenBattleTutorial, hasSeenCollectionTutorial]);
+
+  // Auto-show tutorial for new users
+  useEffect(() => {
+    if (activeTab === 'battle' && !hasSeenBattleTutorial && gameState.gamePhase === 'menu') {
+      const timer = setTimeout(() => {
+        setShowBattleTutorial(true);
+      }, 5000); // Show after 5 second delay (after loading screen)
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [activeTab, hasSeenBattleTutorial, gameState.gamePhase]);
+
+  useEffect(() => {
+    if (activeTab === 'collection' && !hasSeenCollectionTutorial) {
+      const timer = setTimeout(() => {
+        setShowCollectionTutorial(true);
+      }, 500); // Show after 0.5 second delay
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [activeTab, hasSeenCollectionTutorial]);
 
   // Manage modal-open class for rules page
   useEffect(() => {
@@ -321,34 +373,12 @@ const App: React.FC = () => {
       gameState.player.selectedLocation as Location
     );
 
-    // For Free location, skip elemental selection and go directly to battle animation
-    if (wager === 0) {
-      const opponentElement = opponent.element || getRandomElement();
-      const battleResult = calculateBattleResult(
-        0, // baseWager is 0 for Free location
-        gameState.player.selectedElement as Element,
-        null, // no elemental for Free battles
-        opponentElement,
-        opponent.elemental || null,
-        gameState.player.elementalCollection
-      );
-
-      setGameState(prev => ({
-        ...prev,
-        currentOpponent: opponent,
-        opponentElement,
-        initialBattleMana: prev.player.mana,
-        battleResult: battleResult.winner,
-        gamePhase: 'battleAnimation',
-      }));
-    } else {
-      // For paid locations, show elemental selection
-      setGameState(prev => ({
-        ...prev,
-        currentOpponent: opponent,
-        gamePhase: 'elementalSelection',
-      }));
-    }
+    // All locations now go through elemental selection
+    setGameState(prev => ({
+      ...prev,
+      currentOpponent: opponent,
+      gamePhase: 'elementalSelection',
+    }));
   }, [
     gameState.player.selectedLocation,
     gameState.player.selectedElement,
@@ -685,11 +715,45 @@ const App: React.FC = () => {
     });
   }, []);
 
+  // Tutorial handlers
+  const handleBattleTutorialComplete = useCallback(() => {
+    setShowBattleTutorial(false);
+    setHasSeenBattleTutorial(true);
+    // Emit event to notify BattleComponent about tutorial completion
+    window.dispatchEvent(new CustomEvent('battleTutorialCompleted'));
+  }, []);
+
+  const handleBattleTutorialSkip = useCallback(() => {
+    setShowBattleTutorial(false);
+    setHasSeenBattleTutorial(true);
+    // Emit event to notify BattleComponent about tutorial completion
+    window.dispatchEvent(new CustomEvent('battleTutorialCompleted'));
+  }, []);
+
+  const handleCollectionTutorialComplete = useCallback(() => {
+    setShowCollectionTutorial(false);
+    setHasSeenCollectionTutorial(true);
+  }, []);
+
+  const handleCollectionTutorialSkip = useCallback(() => {
+    setShowCollectionTutorial(false);
+    setHasSeenCollectionTutorial(true);
+  }, []);
+
+  const showBattleTutorialManually = useCallback(() => {
+    setShowBattleTutorial(true);
+  }, []);
+
+  const showCollectionTutorialManually = useCallback(() => {
+    setShowCollectionTutorial(true);
+  }, []);
+
   // Reset cache and restore initial game state
   const resetGameCache = useCallback(() => {
     // Clear all localStorage data
     localStorage.removeItem('elementalGameState');
     localStorage.removeItem('audioSettings');
+    localStorage.removeItem('tutorialSettings');
 
     // Reset game state to initial values
     setGameState({
@@ -704,6 +768,12 @@ const App: React.FC = () => {
     setMusicVolume(0.2);
     setMusicEnabled(false);
     setUserInteracted(false);
+
+    // Reset tutorial settings
+    setHasSeenBattleTutorial(false);
+    setHasSeenCollectionTutorial(false);
+    setShowBattleTutorial(false);
+    setShowCollectionTutorial(false);
 
     // Reset other states
     setNewAchievements([]);
@@ -816,6 +886,8 @@ const App: React.FC = () => {
                   setRulesPageOpen(true);
                 }}
                 onResetCache={resetGameCache}
+                onShowBattleTutorial={showBattleTutorialManually}
+                onShowCollectionTutorial={showCollectionTutorialManually}
               />
             )}
 
@@ -895,6 +967,22 @@ const App: React.FC = () => {
 
       {/* Navigation outside of app container */}
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
+
+              {/* Tutorial Components */}
+              <StepByStepTutorial
+                isActive={showBattleTutorial}
+                currentPhase={gameState.gamePhase}
+                steps={BATTLE_TUTORIAL_STEPS}
+                onComplete={handleBattleTutorialComplete}
+                onSkip={handleBattleTutorialSkip}
+              />
+
+              <TutorialTooltip
+                steps={COLLECTION_TUTORIAL_STEPS}
+                isActive={showCollectionTutorial}
+                onComplete={handleCollectionTutorialComplete}
+                onSkip={handleCollectionTutorialSkip}
+              />
     </>
   );
 };

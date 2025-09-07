@@ -5,6 +5,8 @@ interface SettingsTabProps {
   onMusicVolumeChange: (volume: number) => void;
   onOpenRules?: () => void;
   onResetCache: () => void;
+  onShowBattleTutorial?: () => void;
+  onShowCollectionTutorial?: () => void;
 }
 
 const SettingsTab: React.FC<SettingsTabProps> = ({
@@ -12,6 +14,8 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
   onMusicVolumeChange,
   onOpenRules,
   onResetCache,
+  onShowBattleTutorial,
+  onShowCollectionTutorial,
 }) => {
   return (
     <div className='settings-tab'>
@@ -57,6 +61,34 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
               <span className='span-text'>View Game Rules</span>
             </button>
           )}
+
+          {/* Tutorial Buttons */}
+          <div className='tutorial-section'>
+            <h3 className='tutorial-section-title'>
+              <span>🎓</span>
+              <span>Tutorials & Help</span>
+            </h3>
+
+            {onShowBattleTutorial && (
+              <button className='tutorial-button battle-tutorial' onClick={onShowBattleTutorial}>
+                <span className='tutorial-icon'>⚔️</span>
+                <div className='tutorial-content'>
+                  <span className='tutorial-title'>Battle Tutorial</span>
+                  <span className='tutorial-description'>Learn how to battle and select elementals</span>
+                </div>
+              </button>
+            )}
+
+            {onShowCollectionTutorial && (
+              <button className='tutorial-button collection-tutorial' onClick={onShowCollectionTutorial}>
+                <span className='tutorial-icon'>📦</span>
+                <div className='tutorial-content'>
+                  <span className='tutorial-title'>Collection Tutorial</span>
+                  <span className='tutorial-description'>Discover how to manage and upgrade elementals</span>
+                </div>
+              </button>
+            )}
+          </div>
 
           {/* Cache Reset */}
           <button
