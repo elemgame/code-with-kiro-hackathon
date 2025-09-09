@@ -415,7 +415,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
             aria-label='Return to location selection'
             tabIndex={0}
           >
-            ← Back
+            &lt; Back
           </button>
           <div className='battle-progress' aria-live='polite'>
             {isFreeLocation ? 'Step 2 of 2' : 'Step 2 of 3'}
@@ -595,7 +595,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
             aria-label='Return to element selection'
             tabIndex={0}
           >
-            ← Back
+            &lt; Back
           </button>
           <div className='battle-progress' aria-live='polite'>
             Step 3 of 3

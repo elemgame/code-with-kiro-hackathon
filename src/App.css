@@ -5673,7 +5673,6 @@ body.modal-open .collection-container-modern {
   );
   border-color: rgba(218, 165, 32, 0.3);
   color: var(--text-primary);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -13023,4 +13022,133 @@ body.modal-open .collection-container-modern {
     padding: 6px 12px;
     font-size: 12px;
   }
+}
+/* Stylish Back Button */
+.back-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 2.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.03)
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(218, 165, 32, 0.3);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.back-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(218, 165, 32, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.back-btn:hover::before {
+  left: 100%;
+}
+
+.back-btn:hover {
+  border-color: var(--primary-gold);
+  background: linear-gradient(
+    135deg,
+    rgba(218, 165, 32, 0.15),
+    rgba(255, 215, 0, 0.08)
+  );
+  box-shadow:
+    0 8px 24px rgba(218, 165, 32, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: var(--secondary-gold);
+}
+
+.back-btn:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+.back-btn-icon {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.back-btn:hover .back-btn-icon {
+  transform: translateX(-2px);
+}
+
+.back-btn-text {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .back-btn {
+    padding: 0.75rem 2rem;
+    font-size: var(--font-size-sm);
+    gap: 0.5rem;
+  }
+
+  .back-btn-icon {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .back-btn {
+    padding: 0.625rem 1.5rem;
+    font-size: var(--font-size-xs);
+    border-radius: 12px;
+  }
+}
+
+/* Focus state for accessibility */
+.back-btn:focus-visible {
+  outline: 2px solid var(--secondary-gold);
+  outline-offset: 2px;
+}
+
+/* Alternative compact version */
+.back-btn-compact {
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-sm);
+  border-radius: 12px;
+  gap: 0.5rem;
+}
+
+/* Alternative minimal version */
+.back-btn-minimal {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.625rem 1.125rem;
+}
+
+.back-btn-minimal:hover {
+  background: rgba(218, 165, 32, 0.1);
+  border-color: rgba(218, 165, 32, 0.4);
 }
