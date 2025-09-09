@@ -654,21 +654,15 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
               const isOnCooldown = gamePhase === 'elementalSelection'
                 ? (staticCooldownSnapshot[elemental.id] ?? false)
                 : isElementalOnCooldown(elemental);
-              // Use static cooldown data during elemental selection
-              const cooldownRemaining = gamePhase === 'elementalSelection'
-                ? 0 // Don't show dynamic cooldown during selection
-                : getElementalCooldownRemaining(elemental);
-              const cooldownText = gamePhase === 'elementalSelection'
-                ? '' // Don't show dynamic cooldown text during selection
-                : formatCooldownTime(cooldownRemaining);
+              // Show actual cooldown data during elemental selection
+              const cooldownRemaining = getElementalCooldownRemaining(elemental);
+              const cooldownText = formatCooldownTime(cooldownRemaining);
               // Don't show focus effects during normal gameplay
               const isFocused = false;
               const protection = Math.round(elementalData.protection * 100);
 
-              // Force re-render for real-time cooldown updates (only outside elemental selection)
-              if (gamePhase !== 'elementalSelection') {
-                void cooldownUpdateTrigger;
-              }
+              // Force re-render for real-time cooldown updates
+              void cooldownUpdateTrigger;
 
               return (
                 <button
@@ -769,19 +763,16 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                                 <>
                                   <div className='cooldown-time-unit'>
                                     <span className='time-value'>{hours.toString().padStart(2, '0')}</span>
-                                    <span className='time-label'>ч</span>
                                   </div>
                                   <span className='cooldown-separator'>:</span>
                                 </>
                               )}
                               <div className='cooldown-time-unit'>
                                 <span className='time-value'>{minutes.toString().padStart(2, '0')}</span>
-                                <span className='time-label'>м</span>
                               </div>
                               <span className='cooldown-separator'>:</span>
                               <div className='cooldown-time-unit'>
                                 <span className='time-value'>{seconds.toString().padStart(2, '0')}</span>
-                                <span className='time-label'>с</span>
                               </div>
                             </>
                           );
