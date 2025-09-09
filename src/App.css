@@ -924,6 +924,8 @@ body::-webkit-scrollbar {
 
 .app {
   width: 100%;
+  max-width: 765px;
+  margin: 0 auto;
   background: #18182c;
   height: 100vh;
   overflow-y: auto;
@@ -1487,11 +1489,15 @@ body::-webkit-scrollbar {
 
 /* Button Design */
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+  display: inline-flex;
+  padding: 10px 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: var(--Silver, linear-gradient(121deg, rgba(226, 223, 191, 0.20) 20.51%, rgba(255, 255, 255, 0.20) 50.38%, rgba(226, 223, 191, 0.20) 80.86%));
   border: none;
   color: #1a1a1a;
-  padding: 1rem 2rem;
-  border-radius: 16px;
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
@@ -1506,8 +1512,16 @@ body::-webkit-scrollbar {
 }
 
 .btn-primary:hover {
+  display: inline-flex;
+  padding: 10px 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: var(--Gold, linear-gradient(121deg, #D6AA48 20.51%, #FFE9B1 50.38%, #D6AA48 80.86%));
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+  transition: all 0.2s linear;
 }
 
 .btn-primary:active {
@@ -1779,17 +1793,18 @@ body.modal-open .collection-container-modern {
 /* Navigation */
 .mobile-nav {
   position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100vw !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 40px) !important;
+  max-width: calc(765px - 40px) !important;
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   padding: 0.5rem 0 0.5rem;
   z-index: 9999 !important;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-  margin: 0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .nav-container {
@@ -1851,15 +1866,11 @@ body.modal-open .collection-container-modern {
 }
 
 .nav-label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  display: none;
 }
 
 .nav-item.active .nav-label {
-  font-weight: 600;
+  display: none;
 }
 
 /* Settings Menu */
@@ -3844,16 +3855,54 @@ body.modal-open .collection-container-modern {
   color: #ff4c4c;
 }
 
-/* Ensure navigation is always at bottom on all devices */
+/* Small screens - maintain 20px margins */
+@media screen and (max-width: 480px) {
+  .mobile-nav {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 40px) !important;
+    max-width: none !important;
+    padding: 0.4rem 0 0.4rem !important;
+  }
+}
+
+/* Medium screens */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .mobile-nav {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 40px) !important;
+    max-width: calc(765px - 40px) !important;
+  }
+}
+
+/* Large screens */
+@media screen and (min-width: 769px) {
+  .mobile-nav {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: calc(765px - 40px) !important;
+    max-width: calc(765px - 40px) !important;
+  }
+}
+
+/* Very large screens */
+@media screen and (min-width: 1200px) {
+  .mobile-nav {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: calc(765px - 40px) !important;
+    max-width: calc(765px - 40px) !important;
+  }
+}
+
+/* Low height screens */
 @media screen and (max-height: 600px) {
   .mobile-nav {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    z-index: 9999 !important;
-    padding: 0.5rem 0 0.5rem !important;
+    bottom: 10px !important;
+    padding: 0.3rem 0 0.3rem !important;
   }
 }
 
@@ -3861,10 +3910,11 @@ body.modal-open .collection-container-modern {
 @supports (-webkit-touch-callout: none) {
   .mobile-nav {
     position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
+    bottom: max(20px, env(safe-area-inset-bottom)) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - max(40px, env(safe-area-inset-left) + env(safe-area-inset-right))) !important;
+    border-radius: 20px !important;
     padding: 0.5rem 0 0.5rem !important;
   }
 }
@@ -3873,17 +3923,19 @@ body.modal-open .collection-container-modern {
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .mobile-nav {
     position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 40px) !important;
+    max-width: calc(765px - 40px) !important;
+    border-radius: 20px !important;
   }
 }
 
 /* Force navigation to bottom on all browsers */
 .mobile-nav {
-  transform: translateZ(0) !important;
-  /* Force hardware acceleration */
+  transform: translateX(-50%) translateZ(0) !important;
+  /* Force hardware acceleration + centering */
 }
 
 /* Modern Profile Styles */
