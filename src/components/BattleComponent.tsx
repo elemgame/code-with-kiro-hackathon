@@ -287,8 +287,10 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                 player.mana,
                 key as Location
               );
-              const isSelected = player.selectedLocation === key;
-              const isFocused = focusedIndex === index;
+              // Don't show persistent selection, only during tutorial or on hover
+              const isSelected = false;
+              // Don't show focus effects during normal gameplay
+              const isFocused = false;
 
               return (
                 <button
@@ -454,8 +456,10 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
         <div className='element-grid' role='group' aria-label='Battle elements'>
           {elements.map(([key, element], index) => {
-            const isSelected = player.selectedElement === key;
-            const isFocused = focusedIndex === index;
+            // Don't show persistent selection, only during tutorial or on hover
+            const isSelected = false;
+            // Don't show focus effects during normal gameplay
+            const isFocused = false;
 
             return (
               <button
@@ -645,7 +649,8 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                 selectedElement,
                 elemental.rarity
               );
-              const isSelected = player.selectedElemental === elemental.rarity;
+              // Don't show persistent selection, only during tutorial or on hover
+              const isSelected = false;
               // Use static cooldown snapshot during elemental selection to prevent re-renders
               const isOnCooldown = gamePhase === 'elementalSelection'
                 ? (staticCooldownSnapshot[elemental.id] ?? false)
@@ -657,7 +662,8 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
               const cooldownText = gamePhase === 'elementalSelection'
                 ? '' // Don't show dynamic cooldown text during selection
                 : formatCooldownTime(cooldownRemaining);
-              const isFocused = focusedIndex === index;
+              // Don't show focus effects during normal gameplay
+              const isFocused = false;
               const protection = Math.round(elementalData.protection * 100);
 
               // Force re-render for real-time cooldown updates (only outside elemental selection)
@@ -668,13 +674,16 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
               return (
                 <button
                   key={elemental.id}
-                  className={`elemental-btn ${elemental.rarity} ${isSelected ? 'selected' : ''} ${isOnCooldown ? 'on-cooldown' : ''} ${isFocused ? 'focused' : ''}`}
+                  className={`elemental-card-modern ${elemental.rarity} ${isSelected ? 'selected' : ''} ${isOnCooldown ? 'on-cooldown' : ''} ${isFocused ? 'focused' : ''}`}
                   data-elemental={elemental.rarity}
                   onClick={() => {
                     // Allow clicks during tutorial even if on cooldown
                     if (!isOnCooldown || showFocusOutlines) {
                       onSelectElemental(elemental.rarity);
-                      onStartBattle();
+                      // Auto-proceed to battle after selection
+                      setTimeout(() => {
+                        onStartBattle();
+                      }, 100);
                     }
                   }}
                   onFocus={() => {
@@ -711,74 +720,76 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                         ? '2px solid var(--secondary-gold)'
                         : 'none',
                     outlineOffset: isFocused && showFocusOutlines ? '2px' : '0',
-                  }}
+                    '--rarity-color': 
+                      elemental.rarity === 'common' ? '#6b7280' :
+                      elemental.rarity === 'rare' ? '#3b82f6' :
+                      elemental.rarity === 'epic' ? '#8b5cf6' :
+                      '#f59e0b',
+                    '--rarity-glow':
+                      elemental.rarity === 'common' ? '#9ca3af' :
+                      elemental.rarity === 'rare' ? '#60a5fa' :
+                      elemental.rarity === 'epic' ? '#a78bfa' :
+                      '#fbbf24'
+                  } as React.CSSProperties}
                 >
-                  <span className='elemental-emoji' aria-hidden='true'>
-                    {elementalData.emoji}
-                  </span>
-                  <div className='elemental-info'>
-                    <div
-                      className='elemental-rarity-badge'
-                      aria-label={`${elementalData.rarity} rarity`}
-                    >
-                      {elementalData.rarity}
+                  <div className='elemental-battle-card'>
+                    <img 
+                      src={`${process.env.PUBLIC_URL}/resources/elmental/${selectedElement === 'fire' ? 'Fire' : selectedElement === 'water' ? 'Water' : 'Earth'}_${elemental.rarity === 'common' ? 'Common' : elemental.rarity === 'rare' ? 'Rare' : elemental.rarity === 'epic' ? 'Epic' : 'Immortal'}.png`}
+                      alt={elementalData.name}
+                      className='elemental-battle-image'
+                      onError={(e) => {
+                        // Fallback to emoji if image fails to load
+                        const target = e.currentTarget as HTMLImageElement;
+                        target.style.display = 'none';
+                        const placeholder = target.nextElementSibling as HTMLElement;
+                        if (placeholder) {
+                          placeholder.style.display = 'flex';
+                        }
+                      }}
+                    />
+                    <div className='elemental-battle-placeholder' style={{display: 'none'}}>
+                      {elementalData.emoji}
                     </div>
-                    <div
-                      className='elemental-level'
-                      aria-label={`Level ${elemental.level}`}
-                    >
-                      Lv.{elemental.level}
+                    <div className='elemental-battle-rarity'>
+                      {elemental.rarity.toUpperCase()}
                     </div>
-                    <div
-                      className='elemental-protection'
-                      aria-label={`${protection}% protection`}
-                    >
-                      🛡️ {protection}%
-                    </div>
-                    <div
-                      className='elemental-usage'
-                      aria-label={`Used ${elemental.timesUsed} times`}
-                    >
-                      ⚔️ {elemental.timesUsed}
-                    </div>
-
-                    {isOnCooldown && (
-                      <div className='cooldown-indicator' aria-live='polite'>
-                        <span className='cooldown-icon' aria-hidden='true'>
-                          ⏱️
-                        </span>
-                        <span
-                          className='cooldown-text'
-                          aria-label={`Cooldown remaining: ${cooldownText}`}
-                        >
-                          {cooldownText}
-                        </span>
-                        <div
-                          className='cooldown-progress-bar'
-                          role='progressbar'
-                          aria-valuenow={Math.round(
-                            (1 -
-                              cooldownRemaining /
-                              (getElementalCooldownHours(elemental.rarity) *
-                                60 *
-                                60 *
-                                1000)) *
-                            100
-                          )}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                          aria-label='Cooldown progress'
-                        >
-                          <div
-                            className='cooldown-progress-fill'
-                            style={{
-                              width: `${Math.round((1 - cooldownRemaining / (getElementalCooldownHours(elemental.rarity) * 60 * 60 * 1000)) * 100)}%`,
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-                    )}
                   </div>
+
+                  {isOnCooldown && (
+                    <div className='cooldown-overlay-modern'>
+                      <div className='cooldown-timer'>
+                        {(() => {
+                          const totalMs = cooldownRemaining;
+                          const hours = Math.floor(totalMs / (1000 * 60 * 60));
+                          const minutes = Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60));
+                          const seconds = Math.floor((totalMs % (1000 * 60)) / 1000);
+
+                          return (
+                            <>
+                              {hours > 0 && (
+                                <>
+                                  <div className='cooldown-time-unit'>
+                                    <span className='time-value'>{hours.toString().padStart(2, '0')}</span>
+                                    <span className='time-label'>ч</span>
+                                  </div>
+                                  <span className='cooldown-separator'>:</span>
+                                </>
+                              )}
+                              <div className='cooldown-time-unit'>
+                                <span className='time-value'>{minutes.toString().padStart(2, '0')}</span>
+                                <span className='time-label'>м</span>
+                              </div>
+                              <span className='cooldown-separator'>:</span>
+                              <div className='cooldown-time-unit'>
+                                <span className='time-value'>{seconds.toString().padStart(2, '0')}</span>
+                                <span className='time-label'>с</span>
+                              </div>
+                            </>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  )}
 
                   <div
                     id={`elemental-stats-${elemental.id}`}

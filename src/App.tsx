@@ -178,30 +178,8 @@ const App: React.FC = () => {
     );
   }, [hasSeenBattleTutorial, hasSeenCollectionTutorial]);
 
-  // Auto-show tutorial for new users
-  useEffect(() => {
-    if (
-      activeTab === 'battle' &&
-      !hasSeenBattleTutorial &&
-      gameState.gamePhase === 'menu'
-    ) {
-      const timer = setTimeout(() => {
-        setShowBattleTutorial(true);
-      }, 5000); // Show after 5 second delay (after loading screen)
-      return () => clearTimeout(timer);
-    }
-    return undefined;
-  }, [activeTab, hasSeenBattleTutorial, gameState.gamePhase]);
-
-  useEffect(() => {
-    if (activeTab === 'collection' && !hasSeenCollectionTutorial) {
-      const timer = setTimeout(() => {
-        setShowCollectionTutorial(true);
-      }, 500); // Show after 0.5 second delay
-      return () => clearTimeout(timer);
-    }
-    return undefined;
-  }, [activeTab, hasSeenCollectionTutorial]);
+  // Tutorials are now only shown manually via settings buttons
+  // Auto-show has been disabled to prevent repeated tutorials
 
   // Manage modal-open class for rules page
   useEffect(() => {
