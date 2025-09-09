@@ -20,7 +20,7 @@ interface BattleComponentProps {
   gameState: GameState;
   onSelectLocation: (location: Location) => void;
   onSelectElement: (element: Element) => void;
-  onSelectElemental: (elemental: ElementalRarity) => void;
+  onSelectElemental: (elemental: ElementalRarity | null) => void;
   onReturnToLocationSelection: () => void;
   onReturnToElementSelection: () => void;
   onStartMatchmaking: () => void; // Keep name for backward compatibility
@@ -643,6 +643,23 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
             role='group'
             aria-label={`${ELEMENTS[selectedElement].name} elementals`}
           >
+            {/* No Elemental Card - Always first */}
+            <button
+              className={`no-elemental-card ${player.selectedElemental === null ? 'selected' : ''}`}
+              onClick={() => {
+                onSelectElemental(null);
+                // Auto-proceed to battle after selection
+                setTimeout(() => {
+                  onStartBattle();
+                }, 100);
+              }}
+              aria-label="Fight without elemental protection"
+            >
+              <div className='no-elemental-icon'>⚔️</div>
+              <div className='no-elemental-text'>Без элементаля</div>
+              <div className='no-elemental-subtext'>Нет защиты</div>
+            </button>
+
             {ownedElementals.map((elemental, index) => {
               const elementalData = getElementalData(
                 selectedElement,
@@ -795,18 +812,34 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
             })}
           </div>
         ) : (
-          <div className='no-elementals' role='alert' aria-live='polite'>
-            <div className='no-elementals-icon' aria-hidden='true'>
-              📦
-            </div>
-            <h3>No {ELEMENTS[selectedElement].name} Elementals Available</h3>
-            <p>
-              You don&apos;t have any {ELEMENTS[selectedElement].name}{' '}
-              elementals in your collection yet.
-            </p>
-            <p>
-              💡 <strong>Tip:</strong> Win battles to collect more elementals,
-              or try a different element!
+          <div
+            className='elemental-grid'
+            role='group'
+            aria-label={`${ELEMENTS[selectedElement].name} elementals`}
+          >
+            {/* No Elemental Card - Show when no elementals available */}
+            <button
+              className={`no-elemental-card ${player.selectedElemental === null ? 'selected' : ''}`}
+              onClick={() => {
+                onSelectElemental(null);
+                // Auto-proceed to battle after selection
+                setTimeout(() => {
+                  onStartBattle();
+                }, 100);
+              }}
+              aria-label="Fight without elemental protection"
+            >
+              <div className='no-elemental-icon'>⚔️</div>
+              <div className='no-elemental-text'>Без элементаля</div>
+              <div className='no-elemental-subtext'>Нет защиты</div>
+            </button>
+          </div>
+        )}
+
+        {ownedElementals.length === 0 && (
+          <div className='no-elementals-info' role='alert' aria-live='polite'>
+            <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--font-size-sm)', marginTop: '1rem' }}>
+              💡 У вас нет {ELEMENTS[selectedElement].name} элементалей. Сражайтесь без защиты или попробуйте другой элемент!
             </p>
             <button
               className='secondary-btn'
