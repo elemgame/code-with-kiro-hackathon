@@ -4,7 +4,6 @@ import {
   LOCATIONS,
   canAffordLocation,
   formatCooldownTime,
-  getElementalCooldownHours,
   getElementalCooldownRemaining,
   getElementalData,
   isElementalOnCooldown,
@@ -720,20 +719,20 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                         ? '2px solid var(--secondary-gold)'
                         : 'none',
                     outlineOffset: isFocused && showFocusOutlines ? '2px' : '0',
-                    '--rarity-color': 
+                    '--rarity-color':
                       elemental.rarity === 'common' ? '#6b7280' :
-                      elemental.rarity === 'rare' ? '#3b82f6' :
-                      elemental.rarity === 'epic' ? '#8b5cf6' :
-                      '#f59e0b',
+                        elemental.rarity === 'rare' ? '#3b82f6' :
+                          elemental.rarity === 'epic' ? '#8b5cf6' :
+                            '#f59e0b',
                     '--rarity-glow':
                       elemental.rarity === 'common' ? '#9ca3af' :
-                      elemental.rarity === 'rare' ? '#60a5fa' :
-                      elemental.rarity === 'epic' ? '#a78bfa' :
-                      '#fbbf24'
+                        elemental.rarity === 'rare' ? '#60a5fa' :
+                          elemental.rarity === 'epic' ? '#a78bfa' :
+                            '#fbbf24'
                   } as React.CSSProperties}
                 >
                   <div className='elemental-battle-card'>
-                    <img 
+                    <img
                       src={`${process.env.PUBLIC_URL}/resources/elmental/${selectedElement === 'fire' ? 'Fire' : selectedElement === 'water' ? 'Water' : 'Earth'}_${elemental.rarity === 'common' ? 'Common' : elemental.rarity === 'rare' ? 'Rare' : elemental.rarity === 'epic' ? 'Epic' : 'Immortal'}.png`}
                       alt={elementalData.name}
                       className='elemental-battle-image'
@@ -747,7 +746,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                         }
                       }}
                     />
-                    <div className='elemental-battle-placeholder' style={{display: 'none'}}>
+                    <div className='elemental-battle-placeholder' style={{ display: 'none' }}>
                       {elementalData.emoji}
                     </div>
                     <div className='elemental-battle-rarity'>
