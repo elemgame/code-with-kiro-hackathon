@@ -270,7 +270,7 @@ const StartPage: React.FC<StartPageProps> = ({ onStartGame }) => {
       delay: 0.3,
     });
 
-    (button as HTMLElement).textContent = 'Запуск...';
+    (button as HTMLElement).textContent = 'Starting...';
     button.classList.add('start-loading-pulse');
 
     // Create particle burst effect
@@ -378,7 +378,7 @@ const StartPage: React.FC<StartPageProps> = ({ onStartGame }) => {
         data-aos='fade-right'
         data-aos-delay='300'
       >
-        Войти через соцсети
+        Login via Social Media
       </button>
 
       {/* Social Media Icons */}

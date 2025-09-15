@@ -94,8 +94,8 @@ const App: React.FC = () => {
     name: string;
     emoji: string;
   } | null>(null);
-  const [musicEnabled, setMusicEnabled] = useState(false); // Начинаем с выключенной
-  const [userInteracted, setUserInteracted] = useState(false); // Флаг пользовательского взаимодействия
+  const [musicEnabled, setMusicEnabled] = useState(false); // Start with music disabled
+  const [userInteracted, setUserInteracted] = useState(false); // User interaction flag
 
   const [rulesPageOpen, setRulesPageOpen] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.2);

@@ -11,11 +11,11 @@ const LoadingTransition: React.FC<LoadingTransitionProps> = ({
   const [currentTip, setCurrentTip] = useState(0);
 
   const tips = [
-    '🔥 Выбирайте элементы стратегически!',
-    '💎 Собирайте редких элементалей!',
-    '⚡ Изучайте слабости противников!',
-    '🎯 Развивайте своих элементалей!',
-    '💰 Управляйте маной мудро!',
+    '🔥 Choose elements strategically!',
+    '💎 Collect rare elementals!',
+    '⚡ Study opponent weaknesses!',
+    '🎯 Develop your elementals!',
+    '💰 Manage mana wisely!',
   ];
 
   useEffect(() => {
@@ -72,8 +72,8 @@ const LoadingTransition: React.FC<LoadingTransitionProps> = ({
 
       {/* Loading text */}
       <div className='loading-text'>
-        <h2>Загрузка игры...</h2>
-        <div className='loading-subtitle'>Готовьтесь к эпическим битвам!</div>
+        <h2>Loading game...</h2>
+        <div className='loading-subtitle'>Prepare for epic battles!</div>
       </div>
 
       {/* Progress bar */}

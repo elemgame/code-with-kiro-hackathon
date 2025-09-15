@@ -13,7 +13,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Список фэнтези треков (мемоизированный для оптимизации)
+  // List of fantasy tracks (memoized for optimization)
   const tracks = useMemo(
     () => [`${process.env.PUBLIC_URL}/audio/forest.ogg`],
     []
@@ -29,7 +29,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       });
 
       audioRef.current.addEventListener('ended', () => {
-        // Переключаемся на следующий трек
+        // Switch to next track
         setCurrentTrack(prev => {
           const nextTrack = (prev + 1) % tracks.length;
           return nextTrack >= 0 && nextTrack < tracks.length ? nextTrack : 0;
@@ -37,7 +37,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       });
 
       audioRef.current.addEventListener('error', _e => {
-        // Пробуем следующий трек при ошибке
+        // Try next track on error
         setCurrentTrack(prev => {
           const nextTrack = (prev + 1) % tracks.length;
           return nextTrack >= 0 && nextTrack < tracks.length ? nextTrack : 0;
@@ -68,19 +68,19 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     }
   }, [currentTrack, tracks]);
 
-  // Обновляем громкость при изменении volume
+  // Update volume when volume prop changes
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = Math.max(0, Math.min(1, volume)); // Ограничиваем значения от 0 до 1
+      audioRef.current.volume = Math.max(0, Math.min(1, volume)); // Limit values from 0 to 1
     }
   }, [volume]);
 
-  // Управляем воспроизведением
+  // Control playback
   useEffect(() => {
     if (audioRef.current && isLoaded) {
       if (isPlaying) {
         audioRef.current.play().catch(_error => {
-          // Ошибка воспроизведения - игнорируем
+          // Playback error - ignore
         });
       } else {
         audioRef.current.pause();
@@ -88,7 +88,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     }
   }, [isPlaying, isLoaded]);
 
-  return null; // Этот компонент не рендерит ничего видимого
+  return null; // This component doesn't render anything visible
 };
 
 export default AudioPlayer;

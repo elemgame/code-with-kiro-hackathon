@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elem Game - Бизнес-модель по Остервальдеру</title>
+    <title>Elem Game - Business Model</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700;800&family=SF+Pro+Text:wght@300;400;500;600&display=swap');
 
@@ -15,7 +15,7 @@
         }
 
         :root {
-            /* Светлая тема (по умолчанию) */
+            /* Light theme (default) */
             --bg-primary: #f5f5f7;
             --bg-secondary: #ffffff;
             --bg-tertiary: #f5f5f7;
@@ -28,7 +28,7 @@
         }
 
         [data-theme="dark"] {
-            /* Темная тема */
+            /* Dark theme */
             --bg-primary: #000000;
             --bg-secondary: #1c1c1e;
             --bg-tertiary: #2c2c2e;
@@ -53,7 +53,7 @@
             overflow-x: hidden;
         }
 
-        /* Фоновый элемент с элементальной тематикой */
+        /* Background element with elemental theme */
         body::before {
             content: '';
             position: fixed;
@@ -75,7 +75,7 @@
             animation: elementalFlow 20s ease-in-out infinite;
         }
 
-        /* Дополнительный слой с геометрическими элементами */
+        /* Additional layer with geometric elements */
         body::after {
             content: '';
             position: fixed;
@@ -93,7 +93,7 @@
             opacity: 0.4;
         }
 
-        /* Анимация элементального потока */
+        /* Elemental flow animation */
         @keyframes elementalFlow {
 
             0%,
@@ -118,7 +118,7 @@
             }
         }
 
-        /* Анимация геометрических элементов */
+        /* Geometric elements animation */
         @keyframes geometricFloat {
             0% {
                 transform: translateX(0) translateY(0);
@@ -129,7 +129,7 @@
             }
         }
 
-        /* Адаптация фона для темной темы */
+        /* Background adaptation for dark theme */
         [data-theme="dark"] body::before {
             background:
                 radial-gradient(circle at 20% 80%, rgba(48, 209, 88, 0.15) 0%, transparent 50%),
@@ -151,7 +151,7 @@
             opacity: 0.6;
         }
 
-        /* Кнопка переключения темы */
+        /* Theme toggle button */
         .theme-toggle {
             position: fixed;
             top: 2rem;
@@ -197,7 +197,7 @@
             box-sizing: border-box;
         }
 
-        /* Декоративные элементы в углах */
+        /* Decorative elements in corners */
         .elemental-decoration {
             position: fixed;
             z-index: -1;
@@ -246,7 +246,7 @@
             animation: pulseElement 7s ease-in-out infinite reverse;
         }
 
-        /* Анимация пульсации элементов */
+        /* Element pulsation animation */
         @keyframes pulseElement {
 
             0%,
@@ -261,7 +261,7 @@
             }
         }
 
-        /* Адаптация декоративных элементов для темной темы */
+        /* Decorative elements adaptation for dark theme */
         [data-theme="dark"] .elemental-decoration.top-left {
             background: radial-gradient(circle, rgba(48, 209, 88, 0.4) 0%, transparent 70%);
         }
@@ -494,7 +494,7 @@
             margin: 0 auto;
         }
 
-        /* Утилитарные классы для адаптивности */
+        /* Utility classes for responsiveness */
         .text-responsive {
             font-size: clamp(0.875rem, 2vw, 1rem);
         }
@@ -507,7 +507,7 @@
             padding: clamp(1rem, 3vw, 2rem);
         }
 
-        /* Улучшения для доступности */
+        /* Accessibility improvements */
         @media (prefers-reduced-motion: reduce) {
             .canvas-item {
                 transition: none;
@@ -524,7 +524,7 @@
             }
         }
 
-        /* Оптимизация для мобильных устройств */
+        /* Mobile device optimization */
         @media (max-width: 768px) {
             .container {
                 max-width: 100%;
@@ -588,7 +588,7 @@
             }
         }
 
-        /* Отключение фоновых эффектов для слабых устройств */
+        /* Disable background effects for low-end devices */
         @media (max-width: 480px) {
             body::after {
                 display: none;
@@ -600,7 +600,7 @@
             }
         }
 
-        /* Адаптация цветов для темной темы */
+        /* Color adaptation for dark theme */
         [data-theme="dark"] .canvas-item:nth-child(1) .icon {
             color: #0a84ff;
         }
@@ -766,7 +766,7 @@
             }
         }
 
-        /* Улучшенные медиа-запросы для полной адаптивности */
+        /* Enhanced media queries for full responsiveness */
         @media (max-width: 1024px) {
             .canvas-grid {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -831,7 +831,7 @@
             }
         }
 
-        /* Улучшения для больших экранов */
+        /* Improvements for large screens */
         @media (min-width: 1400px) {
             .container {
                 max-width: 1400px;
@@ -846,7 +846,7 @@
             }
         }
 
-        /* Оптимизация для планшетов в альбомной ориентации */
+        /* Optimization for tablets in landscape orientation */
         @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
             .canvas-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -857,7 +857,7 @@
             }
         }
 
-        /* Улучшения для печати */
+        /* Print improvements */
         @media print {
             body {
                 background: white !important;
@@ -906,128 +906,128 @@
 </head>
 
 <body>
-    <!-- Декоративные элементы -->
+    <!-- Decorative elements -->
     <div class="elemental-decoration top-left"></div>
     <div class="elemental-decoration top-right"></div>
     <div class="elemental-decoration bottom-left"></div>
     <div class="elemental-decoration bottom-right"></div>
 
-    <!-- Кнопка переключения темы -->
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Переключить тему">
+    <!-- Theme toggle button -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
         <span class="icon" id="theme-icon">🌙</span>
-        <span id="theme-text">Темная тема</span>
+        <span id="theme-text">Dark Theme</span>
     </button>
 
     <div class="container"></div>
     <div class="header">
         <h1>Elem Game</h1>
-        <p class="subtitle">Стратегическая бизнес-модель Canvas по методологии Остервальдера</p>
+        <p class="subtitle">Strategic Business Model Canvas using Osterwalder methodology</p>
     </div>
 
     <div class="canvas-grid">
         <div class="canvas-item">
-            <h3><span class="icon">🤝</span>Ключевые партнёры</h3>
+            <h3><span class="icon">🤝</span>Key Partners</h3>
             <ul>
-                <li>Symbiotic Protocol — инфраструктурные валидаторы</li>
-                <li>NFT-маркетплейсы — каналы дистрибуции цифровых активов</li>
-                <li>Блокчейн-платформы — технологическая инфраструктура</li>
-                <li>DAO-организации — стратегические альянсы сообщества</li>
-                <li>Аналитические агрегаторы — ка��алы привлечения пользователей</li>
+                <li>Symbiotic Protocol — infrastructure validators</li>
+                <li>NFT marketplaces — digital asset distribution channels</li>
+                <li>Blockchain platforms — technological infrastructure</li>
+                <li>DAO organizations — strategic community alliances</li>
+                <li>Analytics aggregators — user acquisition channels</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">⚡</span>Ключевые виды деятельности</h3>
+            <h3><span class="icon">⚡</span>Key Activities</h3>
             <ul>
-                <li>Разработка продукта и внедрение инноваций</li>
-                <li>Управление децентрализованной инфраструктурой</li>
-                <li>Оптимизация токеномики и игровой экономики</li>
-                <li>Стратегический маркетинг и развитие партнёрств</li>
-                <li>Community management и экосистемное развитие</li>
+                <li>Product development and innovation implementation</li>
+                <li>Decentralized infrastructure management</li>
+                <li>Tokenomics and game economy optimization</li>
+                <li>Strategic marketing and partnership development</li>
+                <li>Community management and ecosystem development</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">🎯</span>Ценностные предложения</h3>
+            <h3><span class="icon">🎯</span>Value Propositions</h3>
             <ul>
-                <li>Децентрализованная игровая платформа с элементами стратегии</li>
-                <li>Градуированная система NFT-активов с механизмом прогрессии</li>
-                <li>Гибридная монетизационная модель (freemium + subscription)</li>
-                <li>Оптимизированная транзакционная архитектура без комиссий</li>
-                <li>Алгоритмическая система вознаграждений с высокой конверсией</li>
+                <li>Decentralized gaming platform with strategic elements</li>
+                <li>Graduated NFT asset system with progression mechanics</li>
+                <li>Hybrid monetization model (freemium + subscription)</li>
+                <li>Optimized transaction architecture without fees</li>
+                <li>Algorithmic reward system with high conversion</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">🔧</span>Ключевые ресурсы</h3>
+            <h3><span class="icon">🔧</span>Key Resources</h3>
             <ul>
-                <li>Технологическая инфраструктура и вычислительные мощности</li>
-                <li>Интеллектуальная собственность (смарт-контракты)</li>
-                <li>Децентрализованная валидаторская сеть</li>
-                <li>Высококвалифицированная техническая команда</li>
-                <li>Цифровая экосистема и пользовательская база</li>
+                <li>Technological infrastructure and computing power</li>
+                <li>Intellectual property (smart contracts)</li>
+                <li>Decentralized validator network</li>
+                <li>Highly qualified technical team</li>
+                <li>Digital ecosystem and user base</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">💝</span>Взаимоотношения с клиентами</h3>
+            <h3><span class="icon">💝</span>Customer Relationships</h3>
             <ul>
-                <li>Freemium-модель с базовым функционалом</li>
-                <li>Premium-подписки с расширенными возможностями</li>
-                <li>Владение цифровыми активами и их монетизация</li>
-                <li>Геймификация через соревновательные мероприятия</li>
-                <li>Самоуправляемое сообщество пользователей</li>
+                <li>Freemium model with basic functionality</li>
+                <li>Premium subscriptions with extended features</li>
+                <li>Digital asset ownership and monetization</li>
+                <li>Gamification through competitive events</li>
+                <li>Self-governed user community</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">📱</span>Каналы дистрибуции</h3>
+            <h3><span class="icon">📱</span>Distribution Channels</h3>
             <ul>
-                <li>Специализированные торговые площадки NFT</li>
-                <li>Цифровые коммуникационные платформы</li>
-                <li>Профессиональные игровые сообщества Web3</li>
-                <li>Отраслевые мероприятия и технологические конференции</li>
-                <li>Собственная торговая платформа (P2P marketplace)</li>
+                <li>Specialized NFT trading platforms</li>
+                <li>Digital communication platforms</li>
+                <li>Professional Web3 gaming communities</li>
+                <li>Industry events and technology conferences</li>
+                <li>Proprietary trading platform (P2P marketplace)</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">👥</span>Сегменты клиентов</h3>
+            <h3><span class="icon">👥</span>Customer Segments</h3>
             <ul>
-                <li>Массовый сегмент (freemium-пользователи)</li>
-                <li>Premium-сегмент (многоуровневая подписочная модель)</li>
-                <li>Инвесторы в цифровые коллекционные активы</li>
-                <li>Энтузиасты децентрализованных игровых технологий</li>
-                <li>Институциональные участники сетевой инфраструктуры</li>
+                <li>Mass segment (freemium users)</li>
+                <li>Premium segment (multi-tier subscription model)</li>
+                <li>Digital collectible asset investors</li>
+                <li>Decentralized gaming technology enthusiasts</li>
+                <li>Institutional network infrastructure participants</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">💰</span>Структура затрат</h3>
+            <h3><span class="icon">💰</span>Cost Structure</h3>
             <ul>
-                <li>CAPEX: R&D, техническая разработка, UX/UI дизайн</li>
-                <li>OPEX: Инфраструктурные расходы и техническая поддержка</li>
-                <li>Customer Acquisition Cost (CAC) и маркетинговые инвестиции</li>
-                <li>Compliance и аудит безопасности смарт-контрактов</li>
-                <li>Revenue sharing с инфраструктурными партнёрами (30%)</li>
+                <li>CAPEX: R&D, technical development, UX/UI design</li>
+                <li>OPEX: Infrastructure costs and technical support</li>
+                <li>Customer Acquisition Cost (CAC) and marketing investments</li>
+                <li>Compliance and smart contract security audits</li>
+                <li>Revenue sharing with infrastructure partners (30%)</li>
             </ul>
         </div>
 
         <div class="canvas-item">
-            <h3><span class="icon">💵</span>Потоки доходов</h3>
+            <h3><span class="icon">💵</span>Revenue Streams</h3>
             <ul>
-                <li>Recurring Revenue: Многоуровневая подписочная модель ($5-20/мес)</li>
-                <li>Microtransactions: Внутриигровые улучшения активов</li>
-                <li>Asset Enhancement: Монетизация прогрессии NFT-коллекций</li>
-                <li>Transaction Fees: Комиссии с вторичного рынка (5-10%)</li>
+                <li>Recurring Revenue: Multi-tier subscription model ($5-20/month)</li>
+                <li>Microtransactions: In-game asset enhancements</li>
+                <li>Asset Enhancement: NFT collection progression monetization</li>
+                <li>Transaction Fees: Secondary market commissions (5-10%)</li>
             </ul>
         </div>
     </div>
 
     <div class="financial-section">
-        <h2>Финансовая модель и Unit Economics</h2>
+        <h2>Financial Model and Unit Economics</h2>
         <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px; color: #86868b;">
-            Проекция доходности на базе <span class="highlight">1000 MAU</span>
+            Revenue projection based on <span class="highlight">1000 MAU</span>
         </p>
 
         <div class="financial-grid">
@@ -1082,13 +1082,12 @@
     </div>
 
     <div class="footer">
-        <p>Elem Game — Масштабируемая Web3-платформа с диверсифицированной монетизацией и устойчивой
-            токеномикой</p>
+        <p>Elem Game — Scalable Web3 platform with diversified monetization and sustainable tokenomics</p>
     </div>
     </div>
 
     <script>
-        // Функция переключения темы
+        // Theme toggle function
         function toggleTheme() {
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
@@ -1097,47 +1096,47 @@
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-            // Устанавливаем новую тему
+            // Set new theme
             body.setAttribute('data-theme', newTheme);
 
-            // Обновляем иконку и текст
+            // Update icon and text
             if (newTheme === 'dark') {
                 themeIcon.textContent = '☀️';
-                themeText.textContent = 'Светлая тема';
+                themeText.textContent = 'Light Theme';
             } else {
                 themeIcon.textContent = '🌙';
-                themeText.textContent = 'Темная тема';
+                themeText.textContent = 'Dark Theme';
             }
 
-            // Сохраняем предпочтение пользователя
+            // Save user preference
             localStorage.setItem('theme-preference', newTheme);
         }
 
-        // Инициализация темы при загрузке страницы
+        // Theme initialization on page load
         function initTheme() {
             const savedTheme = localStorage.getItem('theme-preference');
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const themeIcon = document.getElementById('theme-icon');
             const themeText = document.getElementById('theme-text');
 
-            // Определяем тему: сохраненная > системная > светлая
+            // Determine theme: saved > system > light
             const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
 
             document.body.setAttribute('data-theme', initialTheme);
 
-            // Устанавливаем правильную иконку и текст
+            // Set correct icon and text
             if (initialTheme === 'dark') {
                 themeIcon.textContent = '☀️';
-                themeText.textContent = 'Светлая тема';
+                themeText.textContent = 'Light Theme';
             } else {
                 themeIcon.textContent = '🌙';
-                themeText.textContent = 'Темная тема';
+                themeText.textContent = 'Dark Theme';
             }
         }
 
-        // Слушаем изменения системной темы
+        // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            // Только если пользователь не установил свои предпочтения
+            // Only if user hasn't set their preferences
             if (!localStorage.getItem('theme-preference')) {
                 const newTheme = e.matches ? 'dark' : 'light';
                 document.body.setAttribute('data-theme', newTheme);
@@ -1147,20 +1146,20 @@
 
                 if (newTheme === 'dark') {
                     themeIcon.textContent = '☀️';
-                    themeText.textContent = 'Светлая тема';
+                    themeText.textContent = 'Light Theme';
                 } else {
                     themeIcon.textContent = '🌙';
-                    themeText.textContent = 'Темная тема';
+                    themeText.textContent = 'Dark Theme';
                 }
             }
         });
 
-        // Инициализируем тему при загрузке
+        // Initialize theme on load
         document.addEventListener('DOMContentLoaded', initTheme);
 
-        // Добавляем плавную анимацию при переключении темы
+        // Add smooth animation when switching themes
         document.addEventListener('DOMContentLoaded', function () {
-            // Добавляем класс для анимации после загрузки страницы
+            // Add animation class after page load
             setTimeout(() => {
                 document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
             }, 100);

@@ -656,8 +656,8 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
               aria-label="Fight without elemental protection"
             >
               <div className='no-elemental-icon'>⚔️</div>
-              <div className='no-elemental-text'>Без элементаля</div>
-              <div className='no-elemental-subtext'>Нет защиты</div>
+              <div className='no-elemental-text'>Without Elemental</div>
+              <div className='no-elemental-subtext'>No Protection</div>
             </button>
 
             {ownedElementals.map((elemental, index) => {
@@ -830,8 +830,8 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
               aria-label="Fight without elemental protection"
             >
               <div className='no-elemental-icon'>⚔️</div>
-              <div className='no-elemental-text'>Без элементаля</div>
-              <div className='no-elemental-subtext'>Нет защиты</div>
+              <div className='no-elemental-text'>Without Elemental</div>
+              <div className='no-elemental-subtext'>No Protection</div>
             </button>
           </div>
         )}
@@ -839,7 +839,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
         {ownedElementals.length === 0 && (
           <div className='no-elementals-info' role='alert' aria-live='polite'>
             <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--font-size-sm)', marginTop: '1rem' }}>
-              💡 У вас нет {ELEMENTS[selectedElement].name} элементалей. Сражайтесь без защиты или попробуйте другой элемент!
+              💡 You don't have any {ELEMENTS[selectedElement].name} elementals. Fight without protection or try another element!
             </p>
             <button
               className='secondary-btn'

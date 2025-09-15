@@ -95,5 +95,8 @@
   // Git settings
   "git.enableSmartCommit": false,
   "git.confirmSync": false,
-  "git.autofetch": true
+  "git.autofetch": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  }
 }
