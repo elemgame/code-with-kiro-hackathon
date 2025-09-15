@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,9 +97,17 @@
             font-size: 0.9rem;
         }
 
-        .status-pass { background: #4CAF50; }
-        .status-fail { background: #f44336; }
-        .status-warn { background: #FF9800; }
+        .status-pass {
+            background: #4CAF50;
+        }
+
+        .status-fail {
+            background: #f44336;
+        }
+
+        .status-warn {
+            background: #FF9800;
+        }
 
         .test-controls {
             display: grid;
@@ -195,6 +204,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -204,35 +214,35 @@
 
         <div class="test-controls">
             <a href="http://localhost:3000/code-with-kiro-hackathon" target="_blank" class="test-btn">
-                🚀 Открыть игру (Dev)
+                🚀 Open Game (Dev)
             </a>
             <a href="http://localhost:8080" target="_blank" class="test-btn secondary">
-                📦 Открыть игру (Prod)
+                📦 Open Game (Prod)
             </a>
             <button onclick="runAutomatedTests()" class="test-btn warning">
-                🤖 Запустить автотесты
+                🤖 Run Automated Tests
             </button>
             <button onclick="toggleGameFrame()" class="test-btn secondary">
-                🖼️ Встроенный просмотр
+                🖼️ Embedded View
             </button>
         </div>
 
         <div class="summary">
             <div class="summary-card">
                 <h3 id="passedCount">0</h3>
-                <p>✅ Пройдено</p>
+                <p>✅ Passed</p>
             </div>
             <div class="summary-card">
                 <h3 id="failedCount">0</h3>
-                <p>❌ Ошибки</p>
+                <p>❌ Errors</p>
             </div>
             <div class="summary-card">
                 <h3 id="warningCount">0</h3>
-                <p>⚠️ Предупреждения</p>
+                <p>⚠️ Warnings</p>
             </div>
             <div class="summary-card">
                 <h3 id="totalScore">0%</h3>
-                <p>📊 Общий балл</p>
+                <p>📊 Overall Score</p>
             </div>
         </div>
 
@@ -244,36 +254,36 @@
 
         <!-- Location Selection Tests -->
         <div class="test-section">
-            <h2>🏟️ Тестирование выбора локации</h2>
+            <h2>🏟️ Location Selection Testing</h2>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Отображение локаций</strong><br>
-                    Все локации (Free, Swamp, Village, Castle) отображаются корректно
+                    <strong>Location Display</strong><br>
+                    All locations (Free, Swamp, Village, Castle) are displayed correctly
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Визуальная индикация стоимости</strong><br>
-                    Мана-стоимость отображается для каждой локации
+                    <strong>Visual Cost Indication</strong><br>
+                    Mana cost is displayed for each location
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item warning">
                 <div class="test-description">
-                    <strong>Доступность недостаточной маны</strong><br>
-                    Локации с недостаточной маной визуально затемнены (opacity: 0.5)
+                    <strong>Insufficient Mana Availability</strong><br>
+                    Locations with insufficient mana are visually dimmed (opacity: 0.5)
                 </div>
                 <span class="test-status status-warn">⚠️ WARN</span>
             </div>
 
             <div class="test-item failed">
                 <div class="test-description">
-                    <strong>Клавиатурная навигация</strong><br>
-                    Отсутствует поддержка табуляции и Enter для выбора
+                    <strong>Keyboard Navigation</strong><br>
+                    Missing support for Tab and Enter key selection
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
@@ -281,36 +291,36 @@
 
         <!-- Element Selection Tests -->
         <div class="test-section">
-            <h2>⚔️ Тестирование выбора элемента</h2>
+            <h2>⚔️ Element Selection Testing</h2>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Отображение элементов</strong><br>
-                    Earth, Water, Fire элементы отображаются с эмодзи и названиями
+                    <strong>Element Display</strong><br>
+                    Earth, Water, Fire elements are displayed with emojis and names
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Визуальная обратная связь</strong><br>
-                    Выбранный элемент получает класс 'selected'
+                    <strong>Visual Feedback</strong><br>
+                    Selected element receives 'selected' class
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item warning">
                 <div class="test-description">
-                    <strong>Индикатор прогресса</strong><br>
-                    Показывается корректный шаг (2 из 2 для Free, 2 из 3 для платных)
+                    <strong>Progress Indicator</strong><br>
+                    Shows correct step (2 of 2 for Free, 2 of 3 for paid)
                 </div>
                 <span class="test-status status-warn">⚠️ WARN</span>
             </div>
 
             <div class="test-item failed">
                 <div class="test-description">
-                    <strong>Справочная информация</strong><br>
-                    Отсутствуют объяснения преимуществ каждого элемента
+                    <strong>Reference Information</strong><br>
+                    Missing explanations of each element's advantages
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
@@ -318,36 +328,36 @@
 
         <!-- Elemental Selection Tests -->
         <div class="test-section">
-            <h2>🌟 Тестирование выбора элементаля</h2>
+            <h2>🌟 Elemental Selection Testing</h2>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Отображение элементалей</strong><br>
-                    Карточки показывают редкость, уровень и статус кулдауна
+                    <strong>Elemental Display</strong><br>
+                    Cards show rarity, level and cooldown status
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item warning">
                 <div class="test-description">
-                    <strong>Система кулдауна</strong><br>
-                    Элементали на кулдауне блокированы с визуальной индикацией
+                    <strong>Cooldown System</strong><br>
+                    Elementals on cooldown are blocked with visual indication
                 </div>
                 <span class="test-status status-warn">⚠️ WARN</span>
             </div>
 
             <div class="test-item failed">
                 <div class="test-description">
-                    <strong>Real-time обновления</strong><br>
-                    Таймер кулдауна не обновляется автоматически
+                    <strong>Real-time Updates</strong><br>
+                    Cooldown timer doesn't update automatically
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Пустая коллекция</strong><br>
-                    Информативное сообщение при отсутствии элементалей
+                    <strong>Empty Collection</strong><br>
+                    Informative message when no elementals are available
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
@@ -355,36 +365,36 @@
 
         <!-- Collection Tests -->
         <div class="test-section">
-            <h2>📦 Тестирование коллекции</h2>
+            <h2>📦 Collection Testing</h2>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Система фильтрации</strong><br>
-                    Работают фильтры по элементам и редкости
+                    <strong>Filtering System</strong><br>
+                    Element and rarity filters work correctly
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item passed">
                 <div class="test-description">
-                    <strong>Модальное окно улучшений</strong><br>
-                    Показывает стоимость, баланс и подтверждение
+                    <strong>Enhancement Modal Window</strong><br>
+                    Shows cost, balance and confirmation
                 </div>
                 <span class="test-status status-pass">✅ PASS</span>
             </div>
 
             <div class="test-item warning">
                 <div class="test-description">
-                    <strong>Сортировка элементалей</strong><br>
-                    Сортировка по редкости работает корректно
+                    <strong>Elemental Sorting</strong><br>
+                    Sorting by rarity works correctly
                 </div>
                 <span class="test-status status-warn">⚠️ WARN</span>
             </div>
 
             <div class="test-item failed">
                 <div class="test-description">
-                    <strong>Поиск по коллекции</strong><br>
-                    Отсутствует функция поиска элементалей по имени
+                    <strong>Collection Search</strong><br>
+                    Missing search function for elementals by name
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
@@ -392,49 +402,49 @@
 
         <!-- Accessibility Tests -->
         <div class="test-section">
-            <h2>♿ Тестирование доступности</h2>
+            <h2>♿ Accessibility Testing</h2>
 
             <div class="test-item failed">
                 <div class="test-description">
                     <strong>ARIA-labels</strong><br>
-                    Отсутствуют ARIA-метки для screen readers
+                    Missing ARIA labels for screen readers
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
 
             <div class="test-item failed">
                 <div class="test-description">
-                    <strong>Клавиатурная навигация</strong><br>
-                    Нет поддержки Tab и Enter для всех интерактивных элементов
+                    <strong>Keyboard Navigation</strong><br>
+                    No Tab and Enter support for all interactive elements
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
 
             <div class="test-item warning">
                 <div class="test-description">
-                    <strong>Контрастность</strong><br>
-                    Некоторые элементы могут иметь недостаточную контрастность
+                    <strong>Contrast</strong><br>
+                    Some elements may have insufficient contrast
                 </div>
                 <span class="test-status status-warn">⚠️ WARN</span>
             </div>
 
             <div class="test-item failed">
                 <div class="test-description">
-                    <strong>Семантические HTML теги</strong><br>
-                    Недостаточное использование семантических элементов
+                    <strong>Semantic HTML Tags</strong><br>
+                    Insufficient use of semantic elements
                 </div>
                 <span class="test-status status-fail">❌ FAIL</span>
             </div>
         </div>
 
         <div class="test-notes">
-            <h3>📝 Заметки по тестированию</h3>
+            <h3>📝 Testing Notes</h3>
             <ul>
-                <li><strong>Общая оценка UX/UI:</strong> 8.5/10 - высокое качество с возможностями для улучшения</li>
-                <li><strong>Приоритет 1:</strong> Добавить поддержку доступности (ARIA, клавиатурная навигация)</li>
-                <li><strong>Приоритет 2:</strong> Реализовать real-time обновления кулдауна</li>
-                <li><strong>Приоритет 3:</strong> Добавить обучающие элементы и справочную систему</li>
-                <li><strong>Рекомендация:</strong> Провести тестирование с реальными пользователями</li>
+                <li><strong>Overall UX/UI Rating:</strong> 8.5/10 - high quality with room for improvement</li>
+                <li><strong>Priority 1:</strong> Add accessibility support (ARIA, keyboard navigation)</li>
+                <li><strong>Priority 2:</strong> Implement real-time cooldown updates</li>
+                <li><strong>Priority 3:</strong> Add tutorial elements and help system</li>
+                <li><strong>Recommendation:</strong> Conduct testing with real users</li>
             </ul>
         </div>
     </div>
@@ -457,7 +467,7 @@
         }
 
         function runAutomatedTests() {
-            alert('🤖 Автоматизированные тесты запущены!\n\nЭто симуляция - в реальности здесь бы запускались Selenium/Playwright тесты для проверки:\n• Кликабельности элементов\n• Отзывчивости интерфейса\n• Корректности навигации\n• Производительности\n\nСм. подробный отчет в ux_ui_analysis_report.md');
+            alert('🤖 Automated tests launched!\n\nThis is a simulation - in reality, Selenium/Playwright tests would run here to check:\n• Element clickability\n• Interface responsiveness\n• Navigation correctness\n• Performance\n\nSee detailed report in ux_ui_analysis_report.md');
         }
 
         function toggleGameFrame() {
@@ -469,15 +479,15 @@
             if (gameFrameVisible) {
                 frame.style.display = 'block';
                 iframe.src = 'http://localhost:3000/code-with-kiro-hackathon';
-                document.querySelector('button[onclick="toggleGameFrame()"]').textContent = '🙈 Скрыть просмотр';
+                document.querySelector('button[onclick="toggleGameFrame()"]').textContent = '🙈 Hide View';
             } else {
                 frame.style.display = 'none';
                 iframe.src = 'about:blank';
-                document.querySelector('button[onclick="toggleGameFrame()"]').textContent = '🖼️ Встроенный просмотр';
+                document.querySelector('button[onclick="toggleGameFrame()"]').textContent = '🖼️ Embedded View';
             }
         }
 
-        // Проверка доступности серверов
+        // Server availability check
         async function checkServerStatus() {
             const servers = [
                 { url: 'http://localhost:3000/code-with-kiro-hackathon', name: 'Development' },
@@ -490,21 +500,21 @@
                         mode: 'no-cors',
                         method: 'HEAD'
                     });
-                    console.log(`✅ ${server.name} server доступен`);
+                    console.log(`✅ ${server.name} server available`);
                 } catch (error) {
-                    console.log(`❌ ${server.name} server недоступен:`, error.message);
+                    console.log(`❌ ${server.name} server unavailable:`, error.message);
                 }
             }
         }
 
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialization
+        document.addEventListener('DOMContentLoaded', function () {
             updateSummary();
             checkServerStatus();
 
-            // Добавляем подсветку активных элементов
+            // Add highlighting for active elements
             document.querySelectorAll('.test-item').forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     this.style.transform = 'scale(1.02)';
                     setTimeout(() => {
                         this.style.transform = '';
@@ -514,9 +524,9 @@
         });
 
         // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.ctrlKey || e.metaKey) {
-                switch(e.key) {
+                switch (e.key) {
                     case '1':
                         e.preventDefault();
                         window.open('http://localhost:3000/code-with-kiro-hackathon', '_blank');
@@ -538,4 +548,5 @@
         });
     </script>
 </body>
+
 </html>

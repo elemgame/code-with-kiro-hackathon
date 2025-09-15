@@ -2806,7 +2806,7 @@ body.modal-open .collection-container-modern {
   transform: translateY(0);
 }
 
-/* Settings Control Button - теперь использует стандартные стили nav-item */
+/* Settings Control Button - now uses standard nav-item styles */
 
 /* Achievement Notification */
 .achievement-notification {
@@ -4803,7 +4803,7 @@ body.modal-open .collection-container-modern {
   transition: all 0.3s ease;
 }
 
-/* Цвета по редкости элементалей */
+/* Colors by elemental rarity */
 .elemental-card-compact.rarity-common {
   background: rgba(169, 169, 169, 0.15);
   border: 1px solid rgba(169, 169, 169, 0.4);
@@ -4831,7 +4831,7 @@ body.modal-open .collection-container-modern {
   text-align: center;
 }
 
-/* Цвета текста по редкости */
+/* Text colors by rarity */
 .rarity-common .elemental-protection {
   color: #a9a9a9;
 }
@@ -6206,7 +6206,7 @@ body.modal-open .collection-container-modern {
     margin-bottom: var(--spacing-sm);
   }
 
-  /* Увеличиваем эмодзи арены для маленьких экранов */
+  /* Increase arena emoji for small screens */
   .battle-icon {
     font-size: 5.5rem !important;
     margin-top: var(--spacing-lg);
@@ -6368,7 +6368,7 @@ body.modal-open .collection-container-modern {
     padding: 0.5rem;
   }
 
-  /* Уменьшенные карточки статистики для маленьких экранов */
+  /* Reduced stat cards for small screens */
   .stat-card {
     padding: 0.6rem 1rem;
     gap: 0.5rem;
@@ -6392,7 +6392,7 @@ body.modal-open .collection-container-modern {
     gap: 0.5rem;
   }
 
-  /* Адаптивные стили для списка редкостей на маленьких экранах */
+  /* Responsive styles for rarity list on small screens */
   .rarity-stats-container {
     gap: 0.5rem;
     margin-bottom: 0.75rem;
@@ -6447,7 +6447,7 @@ body.modal-open .collection-container-modern {
     padding: 0.15rem 0.3rem;
   }
 
-  /* Выравнивание эмодзи и текста в карточках статистики */
+  /* Alignment of emoji and text in stat cards */
   .stat-card {
     display: flex;
     align-items: center;
@@ -6563,7 +6563,7 @@ body.modal-open .collection-container-modern {
     font-size: 0.6rem;
   }
 
-  /* Адаптивные стили для индикатора уровня на маленьких экранах */
+  /* Responsive styles for level indicator on small screens */
   .level-indicator {
     font-size: 0.55rem;
     padding: 0.08rem 0.25rem;
@@ -6571,22 +6571,22 @@ body.modal-open .collection-container-modern {
   }
 
   .progress-bar-modern {
-    height: 36px !important; /* Уменьшаем еще на 10% (40px * 0.9 = 36px) */
+    height: 36px !important; /* Reduce by another 10% (40px * 0.9 = 36px) */
     min-height: 36px !important;
     margin-bottom: 0.3rem !important;
   }
 
-  /* Убираем стили для псевдоэлемента */
+  /* Remove styles for pseudo-element */
 
   .level-text {
     font-size: 0.6rem;
   }
 
   .progress-text {
-    display: none; /* Скрываем текст "Level Progress" */
+    display: none; /* Hide "Level Progress" text */
   }
 
-  /* Адаптивные стили для "LVL" индикатора на маленьких экранах */
+  /* Responsive styles for "LVL" indicator on small screens */
   .level-indicator {
     font-size: 0.55rem;
     padding: 0.08rem 0.25rem;
@@ -7894,11 +7894,11 @@ body.modal-open .collection-container-modern {
   padding: 0.2rem;
   margin: 0 0.2rem;
   justify-items: center;
-  justify-content: flex-start; /* Выравнивание по левой стороне */
+  justify-content: flex-start; /* Left side alignment */
 }
 
 /* Responsive Grid - Mobile First Approach */
-/* До 480 пикселей - 1 столбец */
+/* Up to 480 pixels - 1 column */
 @media (max-width: 479px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
@@ -7915,7 +7915,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов для маленьких экранов */
+  /* Responsive font sizes for small screens */
   .collectible-card .character-name-text {
     font-size: 0.7rem;
     line-height: 1.1;
@@ -7939,7 +7939,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* От 400 до 479 пикселей - 1 столбец (маленькие экраны) */
+/* From 400 to 479 pixels - 1 column (small screens) */
 @media (min-width: 400px) and (max-width: 479px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(1, 1fr);
@@ -7956,7 +7956,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов */
+  /* Responsive font sizes */
   .collectible-card .character-name-text {
     font-size: 0.65rem;
     line-height: 1.1;
@@ -7980,7 +7980,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* От 480 до 609 пикселей - 2 столбца */
+/* From 480 to 609 pixels - 2 columns */
 @media (min-width: 480px) and (max-width: 609px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -7997,7 +7997,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов */
+  /* Responsive font sizes */
   .collectible-card .character-name-text {
     font-size: 0.75rem;
     line-height: 1.1;
@@ -8021,7 +8021,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* От 610 до 700 пикселей - 2 столбца */
+/* From 610 to 700 pixels - 2 columns */
 @media (min-width: 610px) and (max-width: 700px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -8038,7 +8038,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов */
+  /* Responsive font sizes */
   .collectible-card .character-name-text {
     font-size: 0.8rem;
     line-height: 1.1;
@@ -8062,7 +8062,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* От 700 до 756 пикселей - 2 столбца (оптимизировано для средних экранов) */
+/* From 700 to 756 pixels - 2 columns (optimized for medium screens) */
 @media (min-width: 700px) and (max-width: 756px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -8079,7 +8079,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов */
+  /* Responsive font sizes */
   .collectible-card .character-name-text {
     font-size: 0.85rem;
     line-height: 1.1;
@@ -8103,7 +8103,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* От 757 до 900 пикселей - 3 столбца */
+/* From 757 to 900 pixels - 3 columns */
 @media (min-width: 757px) and (max-width: 900px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -8120,7 +8120,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов */
+  /* Responsive font sizes */
   .collectible-card .character-name-text {
     font-size: 0.8rem;
     line-height: 1.1;
@@ -8144,7 +8144,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* Начиная с 901 пикселя - 4 столбца */
+/* Starting from 901 pixels - 4 columns */
 @media (min-width: 901px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -8161,7 +8161,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Стандартные размеры шрифтов для больших экранов */
+  /* Standard font sizes for large screens */
   .collectible-card .character-name-text {
     font-size: 0.9rem;
     line-height: 1.1;
@@ -8185,7 +8185,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* Начиная с 1201 пикселя - 4 столбца (большие экраны) */
+/* Starting from 1201 pixels - 4 columns (large screens) */
 @media (min-width: 1201px) {
   .collectible-cards-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -8202,7 +8202,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Увеличенные размеры шрифтов для очень больших экранов */
+  /* Increased font sizes for very large screens */
   .collectible-card .character-name-text {
     font-size: 1rem;
     line-height: 1.1;
@@ -8243,7 +8243,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов для очень маленьких экранов */
+  /* Responsive font sizes for very small screens */
   .collectible-card .character-name-text {
     font-size: 0.6rem;
     line-height: 1.1;
@@ -8284,7 +8284,7 @@ body.modal-open .collection-container-modern {
     transform: none;
   }
 
-  /* Адаптивные размеры шрифтов для очень маленьких экранов */
+  /* Responsive font sizes for very small screens */
   .collectible-card .character-name-text {
     font-size: 0.55rem;
     line-height: 1.1;
@@ -8328,7 +8328,7 @@ body.modal-open .collection-container-modern {
   justify-content: space-between;
 }
 
-/* Базовые размеры шрифтов для карточек (будут переопределены медиа-запросами) */
+/* Base font sizes for cards (will be overridden by media queries) */
 .collectible-card .character-name-text {
   font-size: 0.8rem;
   line-height: 1.1;
@@ -8599,22 +8599,22 @@ body.modal-open .collection-container-modern {
 
 /* Hover effects - Change to rarity colors */
 .collectible-card:hover {
-  /* Убираем эффект приближения */
+  /* Remove zoom effect */
   transform: none;
-  /* Добавляем свечение в зависимости от редкости */
+  /* Add glow based on rarity */
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.4),
     0 0 25px var(--rarity-glow),
     0 0 50px var(--rarity-glow),
     0 0 75px var(--rarity-glow);
   border-color: var(--rarity-color);
-  /* Добавляем плавный переход для свечения */
+  /* Add smooth transition for glow */
   transition:
     all 0.3s ease,
     box-shadow 0.3s ease;
 }
 
-/* Специальные эффекты свечения для разных редкостей при наведении */
+/* Special glow effects for different rarities on hover */
 .collectible-card.rarity-common:hover {
   border-color: #9ca3af;
   box-shadow:
@@ -10504,10 +10504,10 @@ body.modal-open .collection-container-modern {
   font-weight: 700;
   font-size: 0.7rem;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  display: none; /* Скрываем бейдж сверху */
+  display: none; /* Hide badge on top */
 }
 
-/* Уровень возле линии прогресса - аккуратно и не заметно */
+/* Level near progress line - neat and unobtrusive */
 .level-progress-modern {
   margin-bottom: 0.75rem;
   position: relative;
@@ -10530,10 +10530,10 @@ body.modal-open .collection-container-modern {
 
 .progress-bar-modern {
   width: 100% !important;
-  height: 49px !important; /* Уменьшаем еще на 10% (54px * 0.9 = 48.6px ≈ 49px) */
+  height: 49px !important; /* Reduce by another 10% (54px * 0.9 = 48.6px ≈ 49px) */
   min-height: 49px !important;
   background: rgba(255, 255, 255, 0.1) !important;
-  border-radius: 15px !important; /* Уменьшаем скругление */
+  border-radius: 15px !important; /* Reduce border radius */
   overflow: hidden !important;
   margin-bottom: 0.4rem !important;
   position: relative !important;
@@ -10550,9 +10550,9 @@ body.modal-open .collection-container-modern {
   position: relative;
 }
 
-/* Убираем псевдоэлемент - текст будет добавляться через React */
+/* Remove pseudo-element - text will be added via React */
 
-/* Стили для динамического текста уровня */
+/* Styles for dynamic level text */
 .level-text {
   position: absolute;
   top: 50%;
@@ -10578,12 +10578,12 @@ body.modal-open .collection-container-modern {
   overflow: hidden;
 }
 
-/* Скрываем надпись "LEVEL PROGRESS" и оставляем только "LVL" */
+/* Hide "LEVEL PROGRESS" text and keep only "LVL" */
 .progress-text {
   display: none;
 }
 
-/* Стили для индикатора "LVL" возле прогресс-бара */
+/* Styles for "LVL" indicator near progress bar */
 .level-indicator {
   position: absolute;
   top: -0.2rem;
@@ -10719,7 +10719,7 @@ body.modal-open .collection-container-modern {
 }
 
 .progress-text {
-  display: none; /* Скрываем текст "Level Progress" */
+  display: none; /* Hide "Level Progress" text */
 }
 
 .elemental-actions-modern {
@@ -11086,7 +11086,7 @@ body.modal-open .collection-container-modern {
   }
 
   .progress-text {
-    display: none; /* Скрываем текст "Level Progress" */
+    display: none; /* Hide "Level Progress" text */
   }
 
   /* Battle section - even more compact */
@@ -11095,7 +11095,7 @@ body.modal-open .collection-container-modern {
     margin: var(--spacing-xs);
   }
 
-  /* Еще больше увеличиваем эмодзи арены для очень маленьких экранов */
+  /* Further increase arena emoji for very small screens */
   .battle-icon {
     font-size: 6rem !important;
     margin-top: var(--spacing-md);
@@ -11218,7 +11218,7 @@ body.modal-open .collection-container-modern {
     padding: 0.25rem;
   }
 
-  /* Еще более компактные карточки статистики для очень маленьких экранов */
+  /* Even more compact stat cards for very small screens */
   .stat-card {
     padding: 0.4rem 0.8rem;
     gap: 0.4rem;
@@ -11242,7 +11242,7 @@ body.modal-open .collection-container-modern {
     gap: 0.4rem;
   }
 
-  /* Еще более компактные стили для списка редкостей на очень маленьких экранах */
+  /* Even more compact styles for rarity list on very small screens */
   .rarity-stats-container {
     gap: 0.4rem;
     margin-bottom: 0.6rem;
@@ -11297,7 +11297,7 @@ body.modal-open .collection-container-modern {
     padding: 0.1rem 0.25rem;
   }
 
-  /* Красивый список редкостей с общим количеством */
+  /* Beautiful rarity list with total count */
   .rarity-stats-container {
     display: flex;
     flex-direction: column;
@@ -11461,7 +11461,7 @@ body.modal-open .collection-container-modern {
     font-size: 0.55rem;
   }
 
-  /* Еще более компактные стили для индикатора уровня на очень маленьких экранах */
+  /* Even more compact styles for level indicator on very small screens */
   .level-indicator {
     font-size: 0.5rem;
     padding: 0.06rem 0.2rem;
@@ -11469,22 +11469,22 @@ body.modal-open .collection-container-modern {
   }
 
   .progress-bar-modern {
-    height: 29px !important; /* Уменьшаем еще на 10% (32px * 0.9 = 28.8px ≈ 29px) */
+    height: 29px !important; /* Reduce by another 10% (32px * 0.9 = 28.8px ≈ 29px) */
     min-height: 29px !important;
     margin-bottom: 0.25rem !important;
   }
 
-  /* Убираем стили для псевдоэлемента */
+  /* Remove styles for pseudo-element */
 
   .level-text {
     font-size: 0.55rem;
   }
 
   .progress-text {
-    display: none; /* Скрываем текст "Level Progress" */
+    display: none; /* Hide "Level Progress" text */
   }
 
-  /* Еще более компактные стили для "LVL" индикатора на очень маленьких экранах */
+  /* Even more compact styles for "LVL" indicator on very small screens */
   .level-indicator {
     font-size: 0.5rem;
     padding: 0.06rem 0.2rem;
@@ -12055,7 +12055,7 @@ body.modal-open .collection-container-modern {
   }
 }
 
-/* Динамический текст уровня добавляется через React компонент */
+/* Dynamic level text is added via React component */
 
 /* Game Overview Styles */
 .game-overview {
