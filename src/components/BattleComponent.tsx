@@ -886,7 +886,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                 marginTop: '1rem',
               }}
             >
-              💡 You don't have any {ELEMENTS[selectedElement].name} elementals.
+              💡 You don&apos;t have any {ELEMENTS[selectedElement].name} elementals.
               Fight without protection or try another element!
             </p>
             <button
@@ -919,10 +919,10 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       {!['menu', 'elementSelection', 'elementalSelection', 'result'].includes(
         gamePhase
       ) && (
-        <div style={{ textAlign: 'center', color: 'var(--error)' }}>
-          Unknown game phase: {gamePhase}
-        </div>
-      )}
+          <div style={{ textAlign: 'center', color: 'var(--error)' }}>
+            Unknown game phase: {gamePhase}
+          </div>
+        )}
 
       {/* Modals */}
     </>
