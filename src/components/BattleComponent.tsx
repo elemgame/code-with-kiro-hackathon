@@ -44,7 +44,9 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
   const [cooldownUpdateTrigger, setCooldownUpdateTrigger] = useState(0);
   const [showFocusOutlines, setShowFocusOutlines] = useState<boolean>(true);
-  const [staticCooldownSnapshot, setStaticCooldownSnapshot] = useState<{ [key: string]: boolean }>({});
+  const [staticCooldownSnapshot, setStaticCooldownSnapshot] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   // Real-time cooldown updates - only when NOT in elemental selection phase
   useEffect(() => {
@@ -76,7 +78,11 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       // Clear snapshot when leaving elemental selection phase
       setStaticCooldownSnapshot({});
     }
-  }, [gamePhase, player.selectedElement, player.elementalCollection.elementals]);
+  }, [
+    gamePhase,
+    player.selectedElement,
+    player.elementalCollection.elementals,
+  ]);
 
   // Check tutorial completion status
   useEffect(() => {
@@ -130,7 +136,11 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
   // Notify tutorial when elemental selection is ready
   useEffect(() => {
-    if (gamePhase === 'elementalSelection' && showFocusOutlines && player.selectedElement) {
+    if (
+      gamePhase === 'elementalSelection' &&
+      showFocusOutlines &&
+      player.selectedElement
+    ) {
       const ownedElementals = Object.values(
         player.elementalCollection.elementals
       ).filter(e => e.isOwned && e.element === player.selectedElement);
@@ -149,7 +159,12 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
     }
     // Always return cleanup function or undefined
     return undefined;
-  }, [gamePhase, showFocusOutlines, player.selectedElement, player.elementalCollection.elementals]);
+  }, [
+    gamePhase,
+    showFocusOutlines,
+    player.selectedElement,
+    player.elementalCollection.elementals,
+  ]);
 
   // Keyboard navigation handler
   const handleKeyDown = useCallback(
@@ -653,7 +668,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                   onStartBattle();
                 }, 100);
               }}
-              aria-label="Fight without elemental protection"
+              aria-label='Fight without elemental protection'
             >
               <div className='no-elemental-icon'>⚔️</div>
               <div className='no-elemental-text'>Without Elemental</div>
@@ -668,11 +683,13 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
               // Don't show persistent selection, only during tutorial or on hover
               const isSelected = false;
               // Use static cooldown snapshot during elemental selection to prevent re-renders
-              const isOnCooldown = gamePhase === 'elementalSelection'
-                ? (staticCooldownSnapshot[elemental.id] ?? false)
-                : isElementalOnCooldown(elemental);
+              const isOnCooldown =
+                gamePhase === 'elementalSelection'
+                  ? (staticCooldownSnapshot[elemental.id] ?? false)
+                  : isElementalOnCooldown(elemental);
               // Show actual cooldown data during elemental selection
-              const cooldownRemaining = getElementalCooldownRemaining(elemental);
+              const cooldownRemaining =
+                getElementalCooldownRemaining(elemental);
               const cooldownText = formatCooldownTime(cooldownRemaining);
               // Don't show focus effects during normal gameplay
               const isFocused = false;
@@ -718,46 +735,59 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                     .trim()
                     .replace(/\s+/g, ' ')}
                   aria-describedby={`elemental-stats-${elemental.id}`}
-                  style={{
-                    cursor: isOnCooldown ? 'not-allowed' : 'pointer',
-                    transform:
-                      isFocused && showFocusOutlines
-                        ? 'scale(1.05)'
-                        : 'scale(1)',
-                    transition: 'all 0.2s ease',
-                    outline:
-                      isFocused && showFocusOutlines
-                        ? '2px solid var(--secondary-gold)'
-                        : 'none',
-                    outlineOffset: isFocused && showFocusOutlines ? '2px' : '0',
-                    '--rarity-color':
-                      elemental.rarity === 'common' ? '#6b7280' :
-                        elemental.rarity === 'rare' ? '#3b82f6' :
-                          elemental.rarity === 'epic' ? '#8b5cf6' :
-                            '#f59e0b',
-                    '--rarity-glow':
-                      elemental.rarity === 'common' ? '#9ca3af' :
-                        elemental.rarity === 'rare' ? '#60a5fa' :
-                          elemental.rarity === 'epic' ? '#a78bfa' :
-                            '#fbbf24'
-                  } as React.CSSProperties}
+                  style={
+                    {
+                      cursor: isOnCooldown ? 'not-allowed' : 'pointer',
+                      transform:
+                        isFocused && showFocusOutlines
+                          ? 'scale(1.05)'
+                          : 'scale(1)',
+                      transition: 'all 0.2s ease',
+                      outline:
+                        isFocused && showFocusOutlines
+                          ? '2px solid var(--secondary-gold)'
+                          : 'none',
+                      outlineOffset:
+                        isFocused && showFocusOutlines ? '2px' : '0',
+                      '--rarity-color':
+                        elemental.rarity === 'common'
+                          ? '#6b7280'
+                          : elemental.rarity === 'rare'
+                            ? '#3b82f6'
+                            : elemental.rarity === 'epic'
+                              ? '#8b5cf6'
+                              : '#f59e0b',
+                      '--rarity-glow':
+                        elemental.rarity === 'common'
+                          ? '#9ca3af'
+                          : elemental.rarity === 'rare'
+                            ? '#60a5fa'
+                            : elemental.rarity === 'epic'
+                              ? '#a78bfa'
+                              : '#fbbf24',
+                    } as React.CSSProperties
+                  }
                 >
                   <div className='elemental-battle-card'>
                     <img
                       src={`${process.env.PUBLIC_URL}/resources/elmental/${selectedElement === 'fire' ? 'Fire' : selectedElement === 'water' ? 'Water' : 'Earth'}_${elemental.rarity === 'common' ? 'Common' : elemental.rarity === 'rare' ? 'Rare' : elemental.rarity === 'epic' ? 'Epic' : 'Immortal'}.png`}
                       alt={elementalData.name}
                       className='elemental-battle-image'
-                      onError={(e) => {
+                      onError={e => {
                         // Fallback to emoji if image fails to load
                         const target = e.currentTarget as HTMLImageElement;
                         target.style.display = 'none';
-                        const placeholder = target.nextElementSibling as HTMLElement;
+                        const placeholder =
+                          target.nextElementSibling as HTMLElement;
                         if (placeholder) {
                           placeholder.style.display = 'flex';
                         }
                       }}
                     />
-                    <div className='elemental-battle-placeholder' style={{ display: 'none' }}>
+                    <div
+                      className='elemental-battle-placeholder'
+                      style={{ display: 'none' }}
+                    >
                       {elementalData.emoji}
                     </div>
                     <div className='elemental-battle-rarity'>
@@ -771,25 +801,35 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                         {(() => {
                           const totalMs = cooldownRemaining;
                           const hours = Math.floor(totalMs / (1000 * 60 * 60));
-                          const minutes = Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60));
-                          const seconds = Math.floor((totalMs % (1000 * 60)) / 1000);
+                          const minutes = Math.floor(
+                            (totalMs % (1000 * 60 * 60)) / (1000 * 60)
+                          );
+                          const seconds = Math.floor(
+                            (totalMs % (1000 * 60)) / 1000
+                          );
 
                           return (
                             <>
                               {hours > 0 && (
                                 <>
                                   <div className='cooldown-time-unit'>
-                                    <span className='time-value'>{hours.toString().padStart(2, '0')}</span>
+                                    <span className='time-value'>
+                                      {hours.toString().padStart(2, '0')}
+                                    </span>
                                   </div>
                                   <span className='cooldown-separator'>:</span>
                                 </>
                               )}
                               <div className='cooldown-time-unit'>
-                                <span className='time-value'>{minutes.toString().padStart(2, '0')}</span>
+                                <span className='time-value'>
+                                  {minutes.toString().padStart(2, '0')}
+                                </span>
                               </div>
                               <span className='cooldown-separator'>:</span>
                               <div className='cooldown-time-unit'>
-                                <span className='time-value'>{seconds.toString().padStart(2, '0')}</span>
+                                <span className='time-value'>
+                                  {seconds.toString().padStart(2, '0')}
+                                </span>
                               </div>
                             </>
                           );
@@ -827,7 +867,7 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
                   onStartBattle();
                 }, 100);
               }}
-              aria-label="Fight without elemental protection"
+              aria-label='Fight without elemental protection'
             >
               <div className='no-elemental-icon'>⚔️</div>
               <div className='no-elemental-text'>Without Elemental</div>
@@ -838,8 +878,16 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
 
         {ownedElementals.length === 0 && (
           <div className='no-elementals-info' role='alert' aria-live='polite'>
-            <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--font-size-sm)', marginTop: '1rem' }}>
-              💡 You don't have any {ELEMENTS[selectedElement].name} elementals. Fight without protection or try another element!
+            <p
+              style={{
+                textAlign: 'center',
+                color: 'var(--text-muted)',
+                fontSize: 'var(--font-size-sm)',
+                marginTop: '1rem',
+              }}
+            >
+              💡 You don't have any {ELEMENTS[selectedElement].name} elementals.
+              Fight without protection or try another element!
             </p>
             <button
               className='secondary-btn'
@@ -871,10 +919,10 @@ const BattleComponent: React.FC<BattleComponentProps> = ({
       {!['menu', 'elementSelection', 'elementalSelection', 'result'].includes(
         gamePhase
       ) && (
-          <div style={{ textAlign: 'center', color: 'var(--error)' }}>
-            Unknown game phase: {gamePhase}
-          </div>
-        )}
+        <div style={{ textAlign: 'center', color: 'var(--error)' }}>
+          Unknown game phase: {gamePhase}
+        </div>
+      )}
 
       {/* Modals */}
     </>

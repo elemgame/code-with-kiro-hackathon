@@ -350,7 +350,8 @@ const App: React.FC = () => {
     const wager = LOCATIONS[gameState.player.selectedLocation].mana;
     if (gameState.player.mana < wager) {
       alert(
-        `Not enough mana! You need ${wager} mana to play in ${LOCATIONS[gameState.player.selectedLocation].name
+        `Not enough mana! You need ${wager} mana to play in ${
+          LOCATIONS[gameState.player.selectedLocation].name
         }, but you only have ${gameState.player.mana}.`
       );
       return;

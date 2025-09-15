@@ -36,7 +36,7 @@
     "format:fix": "prettier --write 'src/**/*.{ts,tsx,js,jsx,css,md,json}'",
     "type-check": "tsc --noEmit",
     "quality": "npm run type-check && npm run lint && npm run format",
-    "quality:fix": "npm run lint:fix && npm run format:fix",
+    "fix": "npm run lint:fix && npm run format:fix",
     "release": "gh-pages --nojekyll --branch release --dist build",
     "start": "react-scripts start",
     "build": "react-scripts build",

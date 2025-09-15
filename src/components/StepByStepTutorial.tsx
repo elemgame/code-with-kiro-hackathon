@@ -147,21 +147,30 @@ const StepByStepTutorial: React.FC<StepByStepTutorialProps> = ({
           return; // Grid not ready yet, will retry
         }
 
-        const elementalButtons = document.querySelectorAll('.elemental-grid .elemental-btn:not([disabled])');
+        const elementalButtons = document.querySelectorAll(
+          '.elemental-grid .elemental-btn:not([disabled])'
+        );
         element = elementalButtons[0] as HTMLElement;
 
         // If no non-disabled elementals, fall back to first elemental (tutorial will enable it)
         if (!element) {
-          element = document.querySelector('.elemental-grid .elemental-btn') as HTMLElement;
+          element = document.querySelector(
+            '.elemental-grid .elemental-btn'
+          ) as HTMLElement;
         }
 
         // Additional check: make sure the element is actually visible and has content
-        if (element && (element.offsetWidth === 0 || element.offsetHeight === 0)) {
+        if (
+          element &&
+          (element.offsetWidth === 0 || element.offsetHeight === 0)
+        ) {
           element = null; // Element not fully rendered yet
           return;
         }
       } else {
-        element = document.querySelector(currentStep.targetSelector) as HTMLElement;
+        element = document.querySelector(
+          currentStep.targetSelector
+        ) as HTMLElement;
       }
 
       if (element) {
@@ -226,8 +235,13 @@ const StepByStepTutorial: React.FC<StepByStepTutorialProps> = ({
       const handleElementalReady = () => {
         // Retry finding target when elemental selection is ready
         setTimeout(() => {
-          const element = document.querySelector('.elemental-grid .elemental-btn:not([disabled])') as HTMLElement ||
-            document.querySelector('.elemental-grid .elemental-btn') as HTMLElement;
+          const element =
+            (document.querySelector(
+              '.elemental-grid .elemental-btn:not([disabled])'
+            ) as HTMLElement) ||
+            (document.querySelector(
+              '.elemental-grid .elemental-btn'
+            ) as HTMLElement);
 
           if (element) {
             document.body.classList.add('tutorial-active');
@@ -243,7 +257,11 @@ const StepByStepTutorial: React.FC<StepByStepTutorialProps> = ({
       };
 
       window.addEventListener('elementalSelectionReady', handleElementalReady);
-      return () => window.removeEventListener('elementalSelectionReady', handleElementalReady);
+      return () =>
+        window.removeEventListener(
+          'elementalSelectionReady',
+          handleElementalReady
+        );
     }
     // Always return cleanup function or undefined
     return undefined;

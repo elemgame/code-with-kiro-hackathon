@@ -14,7 +14,8 @@ The application will run on `http://localhost:3000`
 ## Build Commands
 
 ```bash
-npm test        # Run test suite
+npm run fix     # Fix linting
+npm run quality # Run test suite
 npm run build   # Create production build
 npm run release # Deploy to GitHub Pages
 ```
